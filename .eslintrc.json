@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "@wooden-script/eslint-config/node",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vitest-globals/recommended"
+  ],
+  "env": {
+    "vitest-globals/env": true
+  }
+}
