@@ -4,6 +4,40 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:vitest-globals/recommended"
   ],
+  "rules": {
+    "no-new": "off",
+    "no-useless-constructor": "off",
+    "accessor-pairs": [
+      "error",
+      {
+        "setWithoutGet": false
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 120,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "trailingComma": "all",
+        "arrowParens": "always",
+        "semi": false,
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "caughtErrors": "all",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ]
+  },
   "env": {
     "vitest-globals/env": true
   }

@@ -1,0 +1,68 @@
+import type { TDataTechnologies } from '@/services/content-data/technologies'
+
+export const technologies = {
+  web: {
+    id: 'web',
+    name: 'Web',
+    banner: '/img/children/01.jpg',
+    usage: 0,
+    color: '#00ca38',
+    typing: 'Web',
+  },
+  html: {
+    id: 'html',
+    name: 'HTML5',
+    banner: '/img/children/02.jpg',
+    usage: 28,
+    color: '#fc5c2f',
+    typing: 'Front-end',
+  },
+  'react-js': {
+    id: 'react',
+    name: 'ReactJs',
+    banner: '/img/children/03.jpg',
+    usage: 15,
+    color: '#00c7f8',
+    typing: 'ReactJs',
+  },
+  javascript: {
+    id: 'javascript',
+    name: 'Javascript',
+    banner: '/img/children/04.jpg',
+    usage: 15,
+    color: '#f7de1e',
+    typing: 'Javascript',
+  },
+  typescript: {
+    id: 'typescript',
+    name: 'TypeScript',
+    banner: '/img/children/05.jpg',
+    usage: 10,
+    color: '#264ce4',
+    typing: 'TypeScript',
+  },
+  'next-js': {
+    id: 'next',
+    name: 'Next.js',
+    banner: '/img/children/06.jpg',
+    usage: 12,
+    color: '#7b7b7b',
+    typing: 'NextJs',
+  },
+  'node-js': {
+    id: 'node',
+    name: 'NodeJs',
+    banner: '/img/children/07.jpg',
+    usage: 18,
+    color: '#5dad4c',
+    typing: 'NodeJs',
+  },
+  css: {
+    id: 'css',
+    name: 'CSS3',
+    banner: '/img/children/08.jpg',
+    usage: 17,
+    color: '#4099e6',
+    typing: 'CSS3',
+  },
+} satisfies TDataTechnologies
