@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 
 import { Awards } from './sessions/awards'
+import { Brands } from './sessions/brands'
 import { Movie } from './sessions/movie'
 import { Presentation } from './sessions/presentation'
 
@@ -21,7 +22,7 @@ export function About() {
           <Movie />
           <Awards />
           {/* <Languages /> */}
-          {/* <Brands /> */}
+          <Brands />
         </div>
       </div>
     </>
