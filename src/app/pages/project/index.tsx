@@ -4,7 +4,6 @@ export function Project() {
   return (
     <>
       <Helmet title="Project" />
-
       <div className="relative">Project</div>
     </>
   )

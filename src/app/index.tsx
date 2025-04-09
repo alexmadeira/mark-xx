@@ -10,10 +10,7 @@ import { router } from './routes'
 export function App() {
   return (
     <HelmetProvider>
-      <Helmet
-        titleTemplate="%s | Alex Madeira"
-        defaultTitle="Alex Madeira | Desenvolvedor Web"
-      />
+      <Helmet titleTemplate="%s | Alex Madeira" defaultTitle="Alex Madeira | Desenvolvedor Web" />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>

@@ -4,12 +4,10 @@ import {
   useOutlet,
 } from 'react-router-dom'
 
+import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'framer-motion'
 
 // import { getRouteProps } from '_UTL/getter'
-
-// import { Footer } from '~/components/Footer'
-// import { Header } from '~/components/Header'
 
 export function BaseLayout() {
   // const { pathname } = useLocation()
@@ -26,7 +24,7 @@ export function BaseLayout() {
       // style={{ background }}
       className="relative flex min-h-screen flex-col antialiased"
     >
-      {/* <Header /> */}
+      <Header />
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
         // initial={{ opacity: 0 }}

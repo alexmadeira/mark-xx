@@ -6,13 +6,13 @@ export function Banner() {
   const current = useHeroBanner((st) => st.data.current)
 
   return (
-    <div className="group absolute left-0 top-0 h-full w-full">
+    <div className="group absolute top-0 left-0 h-full w-full">
       <AnimatePresence>
         <motion.img
           alt={current.name}
           key={current.id}
           src={current.banner}
-          className="absolute left-0 top-0 h-full w-full object-cover object-top"
+          className="absolute top-0 left-0 h-full w-full object-cover object-top"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -23,7 +23,7 @@ export function Banner() {
       </AnimatePresence>
       <div
         style={{ background: current.color }}
-        className="absolute left-0 top-0 h-full w-full opacity-75 transition duration-500"
+        className="absolute top-0 left-0 h-full w-full opacity-75 transition duration-500"
       />
     </div>
   )

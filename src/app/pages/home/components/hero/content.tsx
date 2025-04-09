@@ -1,9 +1,9 @@
 export function Content() {
   return (
     <div className="relative z-1 mt-auto">
-      <div className="flex h-full w-full flex-1 flex-col items-start justify-between gap-4 pb-[clamp(1.25rem,_3vw,_2.5rem)] px-[clamp(1.25rem,_5vw,_5rem)] md:flex-row md:items-center">
+      <div className="flex h-full w-full flex-1 flex-col items-start justify-between gap-4 px-[clamp(1.25rem,_5vw,_5rem)] pb-[clamp(1.25rem,_3vw,_2.5rem)] md:flex-row md:items-center">
         <div className="flex flex-1">
-          <p className="text-[clamp(0.875rem,_2vw,_2.25rem)] font-light leading-[clamp(1.25rem,_2vw,_2.5rem)]">
+          <p className="text-[clamp(0.875rem,_2vw,_2.25rem)] leading-[clamp(1.25rem,_2vw,_2.5rem)] font-light">
             Projetos de 2010 a 2023. Explore meu portfólio, conheça mais sobre meu perfil ou envie um e-mail.
           </p>
         </div>
