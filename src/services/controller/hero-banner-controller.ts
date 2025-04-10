@@ -10,12 +10,12 @@ import { useHeroBanner } from '_STR/useHeroBanner'
 export class HeroBannerController implements IHeroBanner {
   private readonly _actions = useHeroBanner.getState().actions
 
-  constructor(private readonly _props: THeroBannerProps) {
-    this.init()
+  protected constructor(private readonly _props: THeroBannerProps) {
+    this._actions.setCurrent(technologies[this._props.start])
   }
 
-  private init() {
-    this._actions.setCurrent(technologies[this._props.start])
+  public static create(props: THeroBannerProps) {
+    return new HeroBannerController(props)
   }
 
   public setTechnology(technologyKey: TETechnologyKey) {

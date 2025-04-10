@@ -9,12 +9,18 @@ import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'framer-motion'
 
+import { routeController } from '_SRV/controller'
+
 // import { getRouteProps } from '_UTL/getter'
 
 export function BaseLayout() {
-  const { pathname } = useLocation()
+  const RouteController = routeController()
 
+  const { pathname } = useLocation()
   const element = useOutlet()
+
+  RouteController.setRoute(pathname)
+
   // const props = getRouteProps(pathname)
 
   // const background = props?.color ? props.color[100] : 'transparent'
