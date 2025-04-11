@@ -10,6 +10,9 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <BaseLayout />,
-    children: RouteController.routesObject,
+    children: RouteController.routesObject.map((Route) => ({
+      ...Route,
+      element: <Route.component />,
+    })),
   },
 ])

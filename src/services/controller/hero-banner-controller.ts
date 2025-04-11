@@ -1,5 +1,5 @@
 import { TETechnologyKey } from '@/enums/technology'
-import { IHeroBanner, THeroBannerProps, ZHeroBannerTypingSpeed } from '@/services/controller/hero-banner-controller'
+import { THeroBannerProps, ZHeroBannerTypingSpeed } from '@/services/controller/hero-banner-controller'
 
 import _ from 'lodash'
 
@@ -7,7 +7,7 @@ import { technologies } from '_SRV/content-data/technologies'
 
 import { useHeroBanner } from '_STR/useHeroBanner'
 
-export class HeroBannerController implements IHeroBanner {
+export class HeroBannerController {
   private readonly _actions = useHeroBanner.getState().actions
 
   protected constructor(private readonly _props: THeroBannerProps) {

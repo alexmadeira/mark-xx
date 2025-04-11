@@ -1,11 +1,11 @@
 import { ZDataGlobalRoute } from '@/services/content-data/global'
-import { IRoute, TRouteProps } from '@/services/controller/route'
+import { TRouteProps } from '@/services/controller/route'
 
 import _ from 'lodash'
 
 import { useRoute } from '_STR/useRoute'
 
-export class RouteController implements IRoute {
+export class RouteController {
   private readonly _actions = useRoute.getState().actions
 
   protected constructor(private readonly _props: TRouteProps) {
@@ -35,7 +35,7 @@ export class RouteController implements IRoute {
   public get routesObject() {
     return useRoute.getState().data.routes.map((route) => ({
       path: route.path,
-      element: this.pages[route.code](),
+      component: this.pages[route.code],
     }))
   }
 }

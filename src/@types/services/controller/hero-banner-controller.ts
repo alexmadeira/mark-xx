@@ -14,16 +14,9 @@ export const ZHeroBannerProps = z.object({
   deletionSpeed: z.coerce.number().positive(),
 })
 
-export const ZHeroBanner = z.object({
-  typingSequence: z.array(z.union([z.string(), z.number(), z.function().returns(z.void())])),
-  speed: ZHeroBannerTypingSpeed,
-  deletionSpeed: ZHeroBannerTypingSpeed,
-})
-
 //
 //
 //
 //
 
 export type THeroBannerProps = z.infer<typeof ZHeroBannerProps>
-export type IHeroBanner = z.infer<typeof ZHeroBanner>

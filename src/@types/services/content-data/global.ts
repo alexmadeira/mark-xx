@@ -5,18 +5,12 @@ import { ZEGlobalColos, ZEGlobalRouteCode } from '@/enums/global'
 import { z } from 'zod'
 
 export const ZDataGlobalRoute = z.object({
-  path: z.string().default('/'),
-  code: ZEGlobalRouteCode.default('home'),
+  path: z.string(),
+  code: ZEGlobalRouteCode,
   color: z.object({
-    name: ZEGlobalColos.default('white'),
-    hex: z
-      .string()
-      .regex(/^#[0-9A-F]{6}$/i)
-      .default('#FFFFFF'),
-    twVar: z
-      .string()
-      .regex(/^--color-.+$/)
-      .default('--color-white'),
+    name: ZEGlobalColos,
+    hex: z.string().regex(/^#[0-9A-F]{6}$/i),
+    twVar: z.string().regex(/^--color-.+$/),
   }),
 })
 

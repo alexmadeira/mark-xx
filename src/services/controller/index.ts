@@ -1,12 +1,11 @@
-import type { IHeroBanner } from '@/services/controller/hero-banner-controller'
-import type { IRoute } from '@/services/controller/route'
-
-import { defaultHeroBannerProps, defaultRouteProps } from './_defaults'
+import { defaultHeroBannerProps, defaultRouteProps, defaultScrollProps } from './_defaults'
 import { HeroBannerController } from './hero-banner-controller'
 import { RouteController } from './route-controller'
+import { ScrollController } from './scroll-controller'
 
-let controllerHeroBanner: IHeroBanner
-let controllerRoute: IRoute
+let controllerHeroBanner: HeroBannerController
+let controllerRoute: RouteController
+let controllerScroll: ScrollController
 
 export function heroBannerController() {
   if (controllerHeroBanner) return controllerHeroBanner
@@ -18,4 +17,10 @@ export function routeController() {
   if (controllerRoute) return controllerRoute
 
   return (controllerRoute = RouteController.create(defaultRouteProps))
+}
+
+export function scrollController() {
+  if (controllerScroll) return controllerScroll
+
+  return (controllerScroll = ScrollController.create(defaultScrollProps))
 }
