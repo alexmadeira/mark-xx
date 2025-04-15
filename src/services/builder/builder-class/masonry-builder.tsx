@@ -1,7 +1,9 @@
 import type { TMasonryGridContent, TMasonryGridItem, TMasonryProps } from '@/services/builder/masonry'
 
+import { HTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
 
+import { Slot } from '@radix-ui/react-slot'
 import _ from 'lodash'
 import potpack from 'potpack'
 import { twMerge } from 'tailwind-merge'
@@ -118,11 +120,11 @@ export class MasonryBuilder {
     )
   }
 
-  private gridWithoutArea() {
+  private gridWithoutArea(props: HTMLAttributes<HTMLHeadingElement>) {
     return (
       <div
         key={this.name}
-        className="grid h-full w-full flex-1 grid-flow-row-dense auto-rows-[calc(100vw/6)] grid-cols-3 gap-4 p-4 md:grid-cols-4 xl:grid-cols-6"
+        className="group/masonry-grid grid h-full w-full flex-1 grid-flow-row-dense auto-rows-[calc(100vw/6)] grid-cols-3 gap-4 p-4 md:grid-cols-4 xl:grid-cols-6"
       >
         {this.contents.map((item, i) => {
           const someSize = this.someSize()
@@ -130,13 +132,9 @@ export class MasonryBuilder {
             <Link
               key={`masonry-item-${i}`}
               to={item?.link || '#'}
-              className={twMerge(
-                'flex w-full flex-1 items-center justify-center p-3',
-                someSize.className,
-                item?.className,
-              )}
+              className={twMerge('group/masonry-item', someSize.className)}
             >
-              <img src={item?.src} className="h-full w-full object-contain" />
+              <Slot {...props} {...item} className={twMerge(item.className, props.className)} />
             </Link>
           )
         })}
@@ -144,8 +142,24 @@ export class MasonryBuilder {
     )
   }
 
-  public render() {
+  public render(props: HTMLAttributes<HTMLHeadingElement>) {
     if (this.area) return this.gridWithLimitedArea()
-    return this.gridWithoutArea()
+    return this.gridWithoutArea(props)
   }
 }
+
+//   {/* <Link
+//     key={`masonry-item-${i}`}
+//     to={item?.link || '#'}
+//     className={twMerge(
+//       'group/item relative flex w-full flex-1 items-center justify-center overflow-hidden p-3',
+//       someSize.className,
+//       item?.className,
+//     )}
+//   >
+//     <img
+//       src={item?.src}
+//       className="h-full w-full object-contain transition-all duration-[3s] group-hover/grid:blur-[0.1rem] group-hover/grid:grayscale group-hover/item:scale-110 group-hover/item:blur-none group-hover/item:grayscale-0"
+//     />
+//   </Link>
+// </Slot>

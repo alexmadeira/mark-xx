@@ -19,7 +19,7 @@ export const ZMasonryProps = z.object({
   fill: ZMasonryGridItem,
   sizes: z.array(ZMasonryGridItem),
   random: z.boolean(),
-  contents: z.array(ZMasonryGridContent),
+  contents: z.array(z.record(z.string(), z.unknown())),
   required: ZMasonryGridItem,
 })
 

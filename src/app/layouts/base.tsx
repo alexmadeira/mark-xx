@@ -9,12 +9,14 @@ import { AboutParticles } from '_SRV/builder/particle'
 import { routeController, scrollController } from '_SRV/controller'
 
 export function BaseLayout() {
-  scrollController()
+  const ScrollController = scrollController()
   const RouteController = routeController()
+
   const { pathname } = useLocation()
   const element = useOutlet()
 
   RouteController.setRoute(pathname)
+  ScrollController.scrollTo(0, { immediate: true })
 
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
@@ -33,7 +35,7 @@ export function BaseLayout() {
         </motion.div>
       </AnimatePresence>
       <div className="fixed top-0 left-0 z-1 min-h-full w-full">
-        <div className="bg-mark-200/40 absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
+        <div className="bg-mark absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
         <AboutParticles.canvas className="pointer-events-none absolute top-0 left-0 z-0 h-full w-full" />
       </div>
     </div>

@@ -118,251 +118,258 @@ export const configProjectsMasonry = {
       className: 'bg-black',
       src: '/img/temp/projects/chilli.png',
       link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
     },
     {
-      src: '/img/temp/projects/mizuno-banner.png',
       className: 'bg-white',
       link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
     },
-    {
-      className: 'bg-teal-400',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-yellow-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-purple-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-green-600',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-red-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-fuchsia-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-zinc-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-indigo-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-black',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-white',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-teal-400',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-yellow-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-purple-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-green-600',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-red-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-fuchsia-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-zinc-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-indigo-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-black',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-white',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-teal-400',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-yellow-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-purple-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-green-600',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-red-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-fuchsia-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-zinc-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-indigo-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-black',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-white',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-teal-400',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-yellow-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-purple-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-green-600',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-red-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-fuchsia-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-zinc-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-indigo-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-black',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-white',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-teal-400',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-yellow-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-purple-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-green-600',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-red-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-fuchsia-500',
-      link: '/project/mizuno-br',
-    },
-    {
-      className: 'bg-zinc-500',
-      src: '/img/temp/projects/chilli.png',
-      link: '/project/chilli-beans',
-    },
-    {
-      src: '/img/temp/projects/mizuno-banner.png',
-      className: 'bg-indigo-500',
-      link: '/project/mizuno-br',
-    },
+    // {
+    //   className: 'bg-teal-400',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-yellow-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-purple-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-green-600',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-red-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-fuchsia-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-zinc-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-indigo-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-black',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-white',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-teal-400',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-yellow-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-purple-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-green-600',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-red-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-fuchsia-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-zinc-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-indigo-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-black',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-white',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-teal-400',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-yellow-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-purple-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-green-600',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-red-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-fuchsia-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-zinc-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-indigo-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-black',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-white',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-teal-400',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-yellow-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-purple-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-green-600',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-red-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-fuchsia-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-zinc-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-indigo-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-black',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-white',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-teal-400',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-yellow-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-purple-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-green-600',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-red-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-fuchsia-500',
+    //   link: '/project/mizuno-br',
+    // },
+    // {
+    //   className: 'bg-zinc-500',
+    //   src: '/img/temp/projects/chilli.png',
+    //   link: '/project/chilli-beans',
+    // },
+    // {
+    //   src: '/img/temp/projects/mizuno-banner.png',
+    //   className: 'bg-indigo-500',
+    //   link: '/project/mizuno-br',
+    // },
   ],
 } satisfies TMasonryProps
