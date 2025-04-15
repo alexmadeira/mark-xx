@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-import { AboutParticles } from '_SRV/builder/particle'
-
+// import { AboutParticles } from '_SRV/builder/particle'
 import { Awards } from './sessions/awards'
 import { Brands } from './sessions/brands'
 import { Movie } from './sessions/movie'
@@ -11,7 +10,7 @@ export function About() {
   return (
     <>
       <Helmet title="About" />
-      <div className="relative z-5 w-full pt-[100px]">
+      <div className="w-full pt-[100px]">
         <div className="my-[clamp(1rem,_4vw,_5rem)] w-full">
           <div className="mx-auto flex w-full flex-col gap-[clamp(0.5rem,_2vw,_2.5rem)] px-[clamp(1.25rem,_5vw,_5rem)]">
             <h1 className="text-black-900 w-full text-[clamp(3rem,_12vw,_8rem)] leading-none tracking-widest">
@@ -25,10 +24,6 @@ export function About() {
           <Awards />
           <Brands />
         </div>
-      </div>
-      <div className="fixed top-0 left-0 z-1 min-h-full w-full">
-        <div className="bg-mark-200/40 absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
-        <AboutParticles.canvas className="pointer-events-none absolute top-0 left-0 z-0 h-full w-full" />
       </div>
     </>
   )
