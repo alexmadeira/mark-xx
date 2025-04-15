@@ -1,22 +1,31 @@
-import type { TMasonryCreateProps, TMasonryGridItem, TMasonryProps } from '@/services/builder/masonry'
+import type { TMasonryGridContent, TMasonryGridItem, TMasonryProps } from '@/services/builder/masonry'
+
+import { Link } from 'react-router-dom'
 
 import _ from 'lodash'
 import potpack from 'potpack'
+import { twMerge } from 'tailwind-merge'
 
 export class MasonryBuilder {
   private _grid: TMasonryGridItem[] = []
+  private _gridContents: TMasonryGridContent[] = []
   private _noRequiredGrid: TMasonryGridItem[] = []
   private _fillItensGrid: TMasonryGridItem[] = []
-  private _maxArea: number = 0
 
-  protected constructor(private readonly _props: TMasonryProps) {}
+  protected constructor(private readonly _props: TMasonryProps) {
+    this.init()
+    this.render = this.render.bind(this)
+  }
 
-  static create(props: TMasonryCreateProps) {
-    return new MasonryBuilder({
-      fill: { ...props.fill, id: `${props.fill.w}x${props.fill.h}` },
-      required: { ...props.required, id: `${props.required.w}x${props.required.h}` },
-      sizes: props.sizes.map((item) => ({ ...item, id: `${item.w}x${item.h}` })),
-    })
+  static create(props: TMasonryProps) {
+    return new MasonryBuilder(props)
+  }
+
+  private init() {
+    this.calculateNoRequiredGrid()
+    this.calculateFillGrid()
+    this.calculateGrid()
+    this.calculateContents()
   }
 
   private get fillItem() {
@@ -31,28 +40,31 @@ export class MasonryBuilder {
     return this._props.sizes
   }
 
+  private get area() {
+    return this._props.area
+  }
+
+  private get contents() {
+    return this._props.contents
+  }
+
   private calculateNoRequiredGrid() {
     this._noRequiredGrid = []
 
-    let i = 1
     let area = this.requiredItem.area
 
-    while (area < this._maxArea * 0.7) {
+    while (area < this.area * 0.7) {
       const item = _.sample(this.sizes)
       if (!item) throw new Error('No available item')
 
-      this._noRequiredGrid.push({ ...item, id: `${item.id}-${i}` })
+      this._noRequiredGrid.push(item)
       area += item.area
-      i++
     }
   }
 
   private calculateFillGrid() {
     const dataArea = _.sumBy([this.requiredItem, ...this._noRequiredGrid], 'area')
-    this._fillItensGrid = _.fill(Array(Math.max(this._maxArea - dataArea, 0)), this.fillItem).map((item, i) => ({
-      ...item,
-      id: `${item.id}-${i}`,
-    }))
+    this._fillItensGrid = _.fill(Array(Math.max(this.area - dataArea, 0)), this.fillItem)
   }
 
   private calculateGrid() {
@@ -60,17 +72,25 @@ export class MasonryBuilder {
     potpack(this._grid)
   }
 
-  public get grid() {
-    return this._grid
+  private calculateContents() {
+    this._gridContents = _.sampleSize(this.contents, this._grid.length)
   }
 
-  public createGrid(area: number) {
-    this._maxArea = area
-
-    this.calculateNoRequiredGrid()
-    this.calculateFillGrid()
-    this.calculateGrid()
-
-    return this._grid
+  public render() {
+    return this._grid.map((item, i) => {
+      return (
+        <Link
+          key={`masonry-item-${i}`}
+          to={this._gridContents[i].link || '#'}
+          className={twMerge(
+            'flex w-full flex-1 items-center justify-center p-3',
+            item.className,
+            this._gridContents[i].className,
+          )}
+        >
+          <img src={this._gridContents[i].src} className="h-full w-full object-contain" />
+        </Link>
+      )
+    })
   }
 }

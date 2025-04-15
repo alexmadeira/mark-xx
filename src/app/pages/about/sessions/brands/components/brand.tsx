@@ -1,7 +1,7 @@
 import type { TBrandsBrandProps } from '@/props/pages/about/brands'
-import type { Variants } from 'framer-motion'
+import type { Variants } from 'motion/react'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export function Brand({ index }: TBrandsBrandProps) {
   const brandVariants: Variants = {

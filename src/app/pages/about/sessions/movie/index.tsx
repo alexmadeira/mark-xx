@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { useVideo } from 'react-use'
 
-import { useInView } from 'framer-motion'
+import { useInView } from 'motion/react'
 
 export const Movie = memo(() => {
   const [video, _, controls, videoRef] = useVideo(

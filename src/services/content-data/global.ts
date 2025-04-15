@@ -39,7 +39,7 @@ export const dataGlobalRoutes = [
     },
   },
   {
-    path: '/project/drogasil',
+    path: '/project/mizuno-br',
     code: 'project',
     color: {
       name: 'mark',
@@ -48,7 +48,7 @@ export const dataGlobalRoutes = [
     },
   },
   {
-    path: '/project/jeep/compass',
+    path: '/project/chilli-beans',
     code: 'project',
     color: {
       name: 'mark',

@@ -3,7 +3,7 @@ import { useLocation, useOutlet } from 'react-router-dom'
 
 import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 
 import { AboutParticles } from '_SRV/builder/particle'
 import { routeController, scrollController } from '_SRV/controller'
@@ -11,17 +11,16 @@ import { routeController, scrollController } from '_SRV/controller'
 export function BaseLayout() {
   const ScrollController = scrollController()
   const RouteController = routeController()
-
   const { pathname } = useLocation()
   const element = useOutlet()
 
   RouteController.setRoute(pathname)
-  ScrollController.scrollTo(0, { duration: 0.5 })
+  ScrollController.scrollTo(0, { immediate: true })
 
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
       <Header />
-      <AnimatePresence mode="sync" initial={false}>
+      <AnimatePresence mode="sync" initial={false} onExitComplete={console.log}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

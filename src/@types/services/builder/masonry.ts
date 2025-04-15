@@ -1,23 +1,24 @@
 import { z } from 'zod'
 
 export const ZMasonryGridItem = z.object({
-  id: z.string(),
   w: z.number(),
   h: z.number(),
   area: z.number(),
   className: z.string(),
 })
 
-export const ZMasonryProps = z.object({
-  fill: ZMasonryGridItem,
-  sizes: z.array(ZMasonryGridItem),
-  required: ZMasonryGridItem,
+export const ZMasonryGridContent = z.object({
+  src: z.string(),
+  link: z.string().optional(),
+  className: z.string().optional(),
 })
 
-export const ZMasonryCreateProps = z.object({
-  fill: ZMasonryGridItem.partial({ id: true }),
-  required: ZMasonryGridItem.partial({ id: true }),
-  sizes: z.array(ZMasonryGridItem.partial({ id: true })),
+export const ZMasonryProps = z.object({
+  area: z.number(),
+  fill: ZMasonryGridItem,
+  sizes: z.array(ZMasonryGridItem),
+  contents: z.array(ZMasonryGridContent),
+  required: ZMasonryGridItem,
 })
 
 //
@@ -25,5 +26,5 @@ export const ZMasonryCreateProps = z.object({
 //
 
 export type TMasonryGridItem = z.infer<typeof ZMasonryGridItem>
+export type TMasonryGridContent = z.infer<typeof ZMasonryGridContent>
 export type TMasonryProps = z.infer<typeof ZMasonryProps>
-export type TMasonryCreateProps = z.infer<typeof ZMasonryCreateProps>

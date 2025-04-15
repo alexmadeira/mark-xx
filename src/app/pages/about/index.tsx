@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async'
 
-// import { AboutParticles } from '_SRV/builder/particle'
 import { Awards } from './sessions/awards'
 import { Brands } from './sessions/brands'
 import { Movie } from './sessions/movie'

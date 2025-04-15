@@ -45,6 +45,14 @@ export class ScrollController {
     this._props.lenis.start()
   }
 
+  public resize() {
+    this._props.lenis.resize()
+  }
+
+  public fromStart() {
+    this._props.lenis.scrollTo(0, { immediate: true })
+  }
+
   public scrollTo(target: TScrollTarget, options?: TScrollScrollToOption) {
     this._props.lenis.scrollTo(target, options)
   }
