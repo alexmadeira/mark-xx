@@ -8,7 +8,7 @@ import { Presentation } from './sessions/presentation'
 export function About() {
   return (
     <>
-      <Helmet title="About" />
+      <Helmet title="Sobre" />
       <div className="w-full pt-[100px]">
         <div className="my-[clamp(1rem,_4vw,_5rem)] w-full">
           <div className="mx-auto flex w-full flex-col gap-[clamp(0.5rem,_2vw,_2.5rem)] px-[clamp(1.25rem,_5vw,_5rem)]">

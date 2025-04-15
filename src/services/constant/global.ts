@@ -1,4 +1,4 @@
-export const GLOBAL_ROUTE_CODES = ['home', 'about', 'project'] as const
+export const GLOBAL_ROUTE_CODES = ['home', 'about', 'projects', 'project'] as const
 export const GLOBAL_COLORS = [
   // custom colors
   'mark',

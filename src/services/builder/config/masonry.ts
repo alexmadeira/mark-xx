@@ -2,6 +2,7 @@ import type { TMasonryProps } from '@/services/builder/masonry'
 
 export const configHomeMasonry = {
   area: 20,
+  random: true,
   fill: {
     className: 'col-span-3 row-span-3 md:col-span-1 md:row-span-1',
     w: 1,

@@ -3,11 +3,13 @@ import { TDataGlobalPages, TDataGlobalRoutes } from '@/services/content-data/glo
 import { About } from '_APP/pages/about'
 import { Home } from '_APP/pages/home'
 import { Project } from '_APP/pages/project'
+import { Projects } from '_APP/pages/projects'
 
 export const dataGlobalPages = {
   home: Home,
   about: About,
   project: Project,
+  projects: Projects,
 } satisfies TDataGlobalPages
 
 export const dataGlobalRoutes = [
@@ -30,8 +32,8 @@ export const dataGlobalRoutes = [
     },
   },
   {
-    path: '/project',
-    code: 'project',
+    path: '/projects',
+    code: 'projects',
     color: {
       name: 'mark',
       hex: '#c9ddee',

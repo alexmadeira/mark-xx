@@ -15,6 +15,7 @@ export const ZMasonryGridContent = z.object({
 
 export const ZMasonryProps = z.object({
   area: z.number(),
+  random: z.boolean(),
   fill: ZMasonryGridItem,
   sizes: z.array(ZMasonryGridItem),
   contents: z.array(ZMasonryGridContent),

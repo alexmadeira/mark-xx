@@ -44,6 +44,10 @@ export class MasonryBuilder {
     return this._props.area
   }
 
+  private get random() {
+    return this._props.random
+  }
+
   private get contents() {
     return this._props.contents
   }
@@ -73,7 +77,9 @@ export class MasonryBuilder {
   }
 
   private calculateContents() {
-    this._gridContents = _.sampleSize(this.contents, this._grid.length)
+    this._gridContents = this.random
+      ? _.sampleSize(this.contents, this._grid.length)
+      : _.take(this.contents, this._grid.length)
   }
 
   public render() {
