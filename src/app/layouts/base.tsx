@@ -9,18 +9,17 @@ import { AboutParticles } from '_SRV/builder/particle'
 import { routeController, scrollController } from '_SRV/controller'
 
 export function BaseLayout() {
-  const ScrollController = scrollController()
+  scrollController()
   const RouteController = routeController()
   const { pathname } = useLocation()
   const element = useOutlet()
 
   RouteController.setRoute(pathname)
-  ScrollController.scrollTo(0, { immediate: true })
 
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
       <Header />
-      <AnimatePresence mode="sync" initial={false} onExitComplete={console.log}>
+      <AnimatePresence mode="sync" initial={false}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

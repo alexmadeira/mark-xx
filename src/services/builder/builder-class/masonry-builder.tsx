@@ -13,7 +13,7 @@ export class MasonryBuilder {
   private _fillItensGrid: TMasonryGridItem[] = []
 
   protected constructor(private readonly _props: TMasonryProps) {
-    this.init()
+    this.buildAreaGrid()
     this.render = this.render.bind(this)
   }
 
@@ -21,11 +21,17 @@ export class MasonryBuilder {
     return new MasonryBuilder(props)
   }
 
-  private init() {
+  private buildAreaGrid() {
+    if (!this.area) return
+
     this.calculateNoRequiredGrid()
     this.calculateFillGrid()
     this.calculateGrid()
     this.calculateContents()
+  }
+
+  private get name() {
+    return this._props.name
   }
 
   private get fillItem() {
@@ -52,9 +58,14 @@ export class MasonryBuilder {
     return this._props.contents
   }
 
-  private calculateNoRequiredGrid() {
-    this._noRequiredGrid = []
+  private someSize() {
+    return _.sample([this.fillItem, ...this.sizes])
+  }
 
+  private calculateNoRequiredGrid() {
+    if (!this.area) throw new Error('Area not provided')
+
+    this._noRequiredGrid = []
     let area = this.requiredItem.area
 
     while (area < this.area * 0.7) {
@@ -67,6 +78,8 @@ export class MasonryBuilder {
   }
 
   private calculateFillGrid() {
+    if (!this.area) throw new Error('Area not provided')
+
     const dataArea = _.sumBy([this.requiredItem, ...this._noRequiredGrid], 'area')
     this._fillItensGrid = _.fill(Array(Math.max(this.area - dataArea, 0)), this.fillItem)
   }
@@ -82,21 +95,57 @@ export class MasonryBuilder {
       : _.take(this.contents, this._grid.length)
   }
 
+  private gridWithLimitedArea() {
+    return (
+      <div
+        key={this.name}
+        className="grid h-full w-full flex-1 grid-flow-row-dense auto-rows-[calc(100vw/6)] grid-cols-3 gap-4 p-4 md:grid-cols-4 xl:grid-cols-5"
+      >
+        {this._grid.map((item, i) => (
+          <Link
+            key={`masonry-item-${i}`}
+            to={this._gridContents[i]?.link || '#'}
+            className={twMerge(
+              'flex w-full flex-1 items-center justify-center p-3',
+              item.className,
+              this._gridContents[i]?.className,
+            )}
+          >
+            <img src={this._gridContents[i]?.src} className="h-full w-full object-contain" />
+          </Link>
+        ))}
+      </div>
+    )
+  }
+
+  private gridWithoutArea() {
+    return (
+      <div
+        key={this.name}
+        className="grid h-full w-full flex-1 grid-flow-row-dense auto-rows-[calc(100vw/6)] grid-cols-3 gap-4 p-4 md:grid-cols-4 xl:grid-cols-6"
+      >
+        {this.contents.map((item, i) => {
+          const someSize = this.someSize()
+          return (
+            <Link
+              key={`masonry-item-${i}`}
+              to={item?.link || '#'}
+              className={twMerge(
+                'flex w-full flex-1 items-center justify-center p-3',
+                someSize.className,
+                item?.className,
+              )}
+            >
+              <img src={item?.src} className="h-full w-full object-contain" />
+            </Link>
+          )
+        })}
+      </div>
+    )
+  }
+
   public render() {
-    return this._grid.map((item, i) => {
-      return (
-        <Link
-          key={`masonry-item-${i}`}
-          to={this._gridContents[i].link || '#'}
-          className={twMerge(
-            'flex w-full flex-1 items-center justify-center p-3',
-            item.className,
-            this._gridContents[i].className,
-          )}
-        >
-          <img src={this._gridContents[i].src} className="h-full w-full object-contain" />
-        </Link>
-      )
-    })
+    if (this.area) return this.gridWithLimitedArea()
+    return this.gridWithoutArea()
   }
 }

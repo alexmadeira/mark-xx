@@ -14,10 +14,11 @@ export const ZMasonryGridContent = z.object({
 })
 
 export const ZMasonryProps = z.object({
-  area: z.number(),
-  random: z.boolean(),
+  name: z.string(),
+  area: z.number().optional(),
   fill: ZMasonryGridItem,
   sizes: z.array(ZMasonryGridItem),
+  random: z.boolean(),
   contents: z.array(ZMasonryGridContent),
   required: ZMasonryGridItem,
 })

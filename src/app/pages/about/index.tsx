@@ -1,11 +1,16 @@
 import { Helmet } from 'react-helmet-async'
 
+import { scrollController } from '_SRV/controller'
+
 import { Awards } from './sessions/awards'
 import { Brands } from './sessions/brands'
 import { Movie } from './sessions/movie'
 import { Presentation } from './sessions/presentation'
 
 export function About() {
+  const ScrollController = scrollController()
+  ScrollController.scrollTo(0, { immediate: true })
+
   return (
     <>
       <Helmet title="Sobre" />
