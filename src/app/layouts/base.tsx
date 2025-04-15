@@ -9,12 +9,14 @@ import { AboutParticles } from '_SRV/builder/particle'
 import { routeController, scrollController } from '_SRV/controller'
 
 export function BaseLayout() {
-  scrollController()
+  const ScrollController = scrollController()
   const RouteController = routeController()
+
   const { pathname } = useLocation()
   const element = useOutlet()
 
   RouteController.setRoute(pathname)
+  ScrollController.scrollTo(0, { immediate: true })
 
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
