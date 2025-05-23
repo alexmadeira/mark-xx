@@ -1,8 +1,12 @@
-import type {
-  TMasonryAvaliableSizes,
-  TMasonryContent,
-  TMasonryGridItem,
-  TMasonryProps,
+import {
+  TMasonryAvaliableGridSizes,
+  type TMasonryContent,
+  type TMasonryCurrentArea,
+  type TMasonryGridSize,
+  type TMasonryProps,
+  ZMasonryAvaliableGridSizes,
+  ZMasonryCurrentArea,
+  ZMasonryProps,
 } from '@/services/builder/masonry'
 
 import { HTMLAttributes } from 'react'
@@ -16,16 +20,20 @@ import { twMerge } from 'tailwind-merge'
 import { DataList } from './utils/data-list'
 
 export class MasonryBuilder {
-  private _currentArea = 0
+  private readonly _props: TMasonryProps
+  private readonly _currentArea: TMasonryCurrentArea
+  private readonly _avaliableGridSizes: TMasonryAvaliableGridSizes
 
-  private readonly _grid = new DataList<TMasonryGridItem>()
+  private readonly _grid = new DataList<TMasonryGridSize>()
   private readonly _gridContents = new DataList<TMasonryContent>()
-  private readonly _fillItensGrid = new DataList<TMasonryGridItem>()
-  private readonly _noRequiredGrid = new DataList<TMasonryGridItem>()
+  private readonly _fillItensGrid = new DataList<TMasonryGridSize>()
+  private readonly _noRequiredGrid = new DataList<TMasonryGridSize>()
 
-  private readonly _avaliableSizes: TMasonryAvaliableSizes = {}
+  protected constructor(props: TMasonryProps) {
+    this._props = ZMasonryProps.parse(props)
+    this._currentArea = ZMasonryCurrentArea.parse({ maxArea: props.area })
+    this._avaliableGridSizes = ZMasonryAvaliableGridSizes.parse({})
 
-  protected constructor(private readonly _props: TMasonryProps) {
     this.setup()
     this.buildAreaGrid()
 
@@ -37,71 +45,77 @@ export class MasonryBuilder {
   }
 
   private setup() {
-    this._currentArea = this.requiredArea
-
     this.setAvaliableSizes()
   }
 
   private buildAreaGrid() {
-    if (!this.area) return
+    // if (!this.area) return
 
+    this.calculateRequiredGrid()
     this.calculateNoRequiredGrid()
-    this.calculateFillGrid()
     this.calculateGrid()
     this.calculateContents()
   }
 
   private setAvaliableSizes() {
     const fillItemKey = `${this.fillItem.w}x${this.fillItem.h}`
-    this._avaliableSizes[fillItemKey] = this.fillItem
+    this._avaliableGridSizes[fillItemKey] = this.fillItem
     this._props.sizes.forEach((item) => {
       const key = `${item.w}x${item.h}`
-      this._avaliableSizes[key] = item
+      this._avaliableGridSizes[key] = item
     })
   }
 
-  private someAvaliableSize() {
-    const key = _.sample(Object.keys(this._avaliableSizes))
-    if (!key) return this.fillItem
-
-    const size = this._avaliableSizes[key]
-    this.avaliableSizeUsed(key)
-
-    return size
+  private get someAvaliableSize() {
+    const key = _.sample(Object.keys(this._avaliableGridSizes))
+    return this.takeAvaliableSize(key)
   }
 
-  private avaliableSizeUsed(key: string) {
-    if (!this._avaliableSizes[key].limit) return
-    if (this._avaliableSizes[key].limit - 1 <= 0) {
-      delete this._avaliableSizes[key]
-      return
-    }
+  private takeAvaliableSize(key?: string) {
+    if (!key) return this.fillItem
+    if (this._avaliableGridSizes[key].limit === 0) return this.fillItem
+    if (!this._avaliableGridSizes[key].limit) return this._avaliableGridSizes[key]
 
-    this._avaliableSizes[key].limit--
+    this._avaliableGridSizes[key].limit--
+
+    return this._avaliableGridSizes[key]
+  }
+
+  private get isFilled() {
+    if (this.area) return _.gte(this.currentArea.size, this.area)
+    return _.gte(this.currentArea.items, this.contents.length)
+  }
+
+  private fitSize(size: TMasonryGridSize) {
+    if (!this.area) return size
+
+    const totalArea = this.currentArea.size + size.h * size.w
+    const fitttedSize = _.lte(totalArea, this.area) ? size : this.fillItem
+
+    return fitttedSize
+  }
+
+  private someAvailableSizeFitted() {
+    const avaliableSize = this.someAvaliableSize
+    return this.fitSize(avaliableSize)
+  }
+
+  private calculateRequiredGrid() {
+    if (!this.requiredItem) return
+
+    this.currentArea.items += 1
+    this.currentArea.size += this.requiredItem.h * this.requiredItem.w
   }
 
   private calculateNoRequiredGrid() {
-    if (!this.area) throw new Error('Area not provided')
-
     this._noRequiredGrid.clear()
+    while (!this.isFilled) {
+      const newSize = this.someAvailableSizeFitted()
 
-    while (this._currentArea < this.area) {
-      const someItem = this.someAvaliableSize()
-      const someArea = someItem.h * someItem.w
-      const item = this._currentArea + someArea < this.area ? someItem : this.fillItem
-
-      this._noRequiredGrid.add(item)
-      this._currentArea += item.h * item.w
+      this._noRequiredGrid.add(newSize)
+      this.currentArea.size += newSize.h * newSize.w
+      this.currentArea.items += 1
     }
-  }
-
-  private calculateFillGrid() {
-    if (!this.area) throw new Error('Area not provided')
-
-    const dataArea = _.sum([this.requiredArea, this.noRequiredArea])
-    const fillItens = _.fill(Array(Math.max(this.area - dataArea, 0)), this.fillItem)
-
-    this._fillItensGrid.add(...fillItens)
   }
 
   private calculateGrid() {
@@ -111,8 +125,8 @@ export class MasonryBuilder {
 
   private calculateContents() {
     const contentList = this.random
-      ? _.sampleSize(this.contents, this._grid.size)
-      : _.take(this.contents, this._grid.size)
+      ? _.sampleSize(this.contents, this._grid.length)
+      : _.take(this.contents, this._grid.length)
 
     this._gridContents.set(contentList)
   }
@@ -132,30 +146,8 @@ export class MasonryBuilder {
               to={this._gridContents[i]?.link || '#'}
               className={twMerge('group/masonry-item relative aspect-square sm:aspect-auto', item.className)}
             >
+              {/* {item.h * item.w} */}
               <Slot {...props} {...content} className={twMerge(content.className, props.className)} />
-            </Link>
-          )
-        })}
-      </div>
-    )
-  }
-
-  private gridWithoutArea(props: HTMLAttributes<HTMLHeadingElement>) {
-    return (
-      <div
-        key={this.name}
-        className="group/masonry-grid grid h-full w-full flex-1 grid-flow-row-dense gap-4 p-4 sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12"
-      >
-        {this.contents.map((item, i) => {
-          const someSize = this.someAvaliableSize()
-
-          return (
-            <Link
-              key={`masonry-item-${i}`}
-              to={item?.link || '#'}
-              className={twMerge('group/masonry-item', someSize.className)}
-            >
-              <Slot {...props} {...item} className={twMerge(item.className, props.className)} />
             </Link>
           )
         })}
@@ -175,12 +167,13 @@ export class MasonryBuilder {
     return this._props.required
   }
 
-  private get noRequiredItems() {
-    return this._noRequiredGrid
+  private get currentArea() {
+    return this._currentArea
   }
 
-  private get noRequiredArea() {
-    return _.sumBy(this.noRequiredItems, (item) => item.h * item.w)
+  private set currentArea(props: Omit<TMasonryCurrentArea, 'maxArea'>) {
+    this._currentArea.size = props.size ?? this._currentArea.size
+    this._currentArea.items = props.items ?? this._currentArea.items
   }
 
   private get area() {
@@ -195,21 +188,8 @@ export class MasonryBuilder {
     return this._props.contents
   }
 
-  private get requiredArea() {
-    return _.chain(this._props.required)
-      .at(['h', 'w'])
-      .reduce((acc, v) => {
-        if (_.isNumber(v) && v > 0) {
-          if (!acc) return v
-          return acc * v
-        }
-        return acc
-      }, 0)
-      .value()
-  }
-
   public render(props: HTMLAttributes<HTMLHeadingElement>) {
     if (this.area) return this.gridWithLimitedArea(props)
-    return this.gridWithoutArea(props)
+    return this.gridWithLimitedArea(props)
   }
 }

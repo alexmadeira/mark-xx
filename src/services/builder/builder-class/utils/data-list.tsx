@@ -41,8 +41,4 @@ export class DataList<T> extends Array<T> {
 
     return this as Omit<DataList<T>, 'clear' | 'set'>
   }
-
-  public get size() {
-    return this.length
-  }
 }
