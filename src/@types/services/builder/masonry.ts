@@ -1,16 +1,25 @@
 import { z } from 'zod'
 
+export const ZMasonryGridItemLimit = z.number()
+
 export const ZMasonryGridItem = z.object({
   w: z.number(),
   h: z.number(),
-  area: z.number(),
-  className: z.string(),
+  className: z.string().optional(),
+  limit: ZMasonryGridItemLimit.optional(),
 })
 
-export const ZMasonryGridContent = z.object({
-  src: z.string(),
-  link: z.string().optional(),
+export const ZMasonryAvaliableSizes = z.record(z.string(), ZMasonryGridItem)
+
+export const ZMasonryContent = z.object({
   className: z.string().optional(),
+  link: z.string().optional(),
+  image: z
+    .object({
+      src: z.string(),
+      alt: z.string(),
+    })
+    .optional(),
 })
 
 export const ZMasonryProps = z.object({
@@ -19,8 +28,8 @@ export const ZMasonryProps = z.object({
   fill: ZMasonryGridItem,
   sizes: z.array(ZMasonryGridItem),
   random: z.boolean(),
-  contents: z.array(z.record(z.string(), z.unknown())),
-  required: ZMasonryGridItem,
+  contents: z.array(ZMasonryContent),
+  required: ZMasonryGridItem.optional(),
 })
 
 //
@@ -28,5 +37,6 @@ export const ZMasonryProps = z.object({
 //
 
 export type TMasonryGridItem = z.infer<typeof ZMasonryGridItem>
-export type TMasonryGridContent = z.infer<typeof ZMasonryGridContent>
+export type TMasonryAvaliableSizes = z.infer<typeof ZMasonryAvaliableSizes>
+export type TMasonryContent = z.infer<typeof ZMasonryContent>
 export type TMasonryProps = z.infer<typeof ZMasonryProps>
