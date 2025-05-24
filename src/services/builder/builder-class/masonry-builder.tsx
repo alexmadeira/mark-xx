@@ -1,33 +1,148 @@
-import type { TMasonryGridContent, TMasonryGridItem, TMasonryProps } from '@/services/builder/masonry'
+import type {
+  TMasonryAvaliableGridSizes,
+  TMasonryContent,
+  TMasonryContentWrapperProps,
+  TMasonryCurrentArea,
+  TMasonryGridSize,
+  TMasonryProps,
+  TMasonryRenderProps,
+} from '@/services/builder/masonry'
+
+import { ZMasonryAvaliableGridSizes, ZMasonryCurrentArea, ZMasonryProps } from '@/services/builder/masonry'
 
 import { Link } from 'react-router-dom'
 
+import { Slot } from '@radix-ui/react-slot'
 import _ from 'lodash'
 import potpack from 'potpack'
 import { twMerge } from 'tailwind-merge'
 
-export class MasonryBuilder {
-  private _grid: TMasonryGridItem[] = []
-  private _gridContents: TMasonryGridContent[] = []
-  private _noRequiredGrid: TMasonryGridItem[] = []
-  private _fillItensGrid: TMasonryGridItem[] = []
+import { DataList } from './utils/data-list'
 
-  protected constructor(private readonly _props: TMasonryProps) {
-    this.buildAreaGrid()
+export class MasonryBuilder {
+  private readonly _props: TMasonryProps
+  private readonly _currentArea: TMasonryCurrentArea
+  private readonly _avaliableGridSizes: TMasonryAvaliableGridSizes
+
+  private readonly _gridSizes = new DataList<TMasonryGridSize>()
+  private readonly _gridContents = new DataList<TMasonryContent>()
+  private readonly _fillItensGrid = new DataList<TMasonryGridSize>()
+  private readonly _noRequiredGrid = new DataList<TMasonryGridSize>()
+
+  protected constructor(props: TMasonryProps) {
+    this._props = ZMasonryProps.parse(props)
+    this._currentArea = ZMasonryCurrentArea.parse({ maxArea: props.area })
+    this._avaliableGridSizes = ZMasonryAvaliableGridSizes.parse({})
+
     this.render = this.render.bind(this)
+
+    this.setup()
   }
 
   static create(props: TMasonryProps) {
     return new MasonryBuilder(props)
   }
 
-  private buildAreaGrid() {
-    if (!this.area) return
+  private setup() {
+    this.buildAvaliableSizes()
+    this.buildRequiredGrid()
+    this.buildNoRequiredGrid()
+    this.buildGrid()
+    this.buildContents()
+  }
 
-    this.calculateNoRequiredGrid()
-    this.calculateFillGrid()
-    this.calculateGrid()
-    this.calculateContents()
+  private buildAvaliableSizes() {
+    const fillItemKey = `${this.fillItem.w}x${this.fillItem.h}`
+    this._avaliableGridSizes[fillItemKey] = this.fillItem
+    this._props.sizes.forEach((item) => {
+      const key = `${item.w}x${item.h}`
+      this._avaliableGridSizes[key] = item
+    })
+  }
+
+  private buildRequiredGrid() {
+    if (!this.requiredItem) return
+
+    this.currentArea.items += 1
+    this.currentArea.size += this.requiredItem.h * this.requiredItem.w
+  }
+
+  private buildNoRequiredGrid() {
+    this._noRequiredGrid.clear()
+    while (!this.isFilled) {
+      const newSize = this.someAvailableSizeFitted
+
+      this._noRequiredGrid.add(newSize)
+      this.currentArea.size += newSize.h * newSize.w
+      this.currentArea.items += 1
+    }
+  }
+
+  private buildGrid() {
+    this.gridSizes.set(this.requiredItem)
+    this.gridSizes.add(this._noRequiredGrid, this._fillItensGrid)
+
+    potpack(this.gridSizes)
+  }
+
+  private buildContents() {
+    const contentList = this.random
+      ? _.sampleSize(this.contents, this.gridSizes.length)
+      : _.take(this.contents, this.gridSizes.length)
+
+    this.gridContents.set(contentList)
+  }
+
+  private takeAvaliableSize(key?: string) {
+    if (!key) return this.fillItem
+    if (this._avaliableGridSizes[key].limit === 0) return this.fillItem
+    if (!this._avaliableGridSizes[key].limit) return this._avaliableGridSizes[key]
+
+    this._avaliableGridSizes[key].limit--
+
+    return this._avaliableGridSizes[key]
+  }
+
+  private fitSize(size: TMasonryGridSize) {
+    if (!this.area) return size
+
+    const totalArea = this.currentArea.size + size.h * size.w
+    const fitttedSize = _.lte(totalArea, this.area) ? size : this.fillItem
+
+    return fitttedSize
+  }
+
+  private contentWrapper({ to, key, ...rest }: TMasonryContentWrapperProps) {
+    const Wrapper = to ? Link : 'div'
+
+    return (
+      <Wrapper
+        {...rest}
+        key={key}
+        to={to || '#'}
+        className={twMerge('group/masonry-item relative aspect-square sm:aspect-auto', rest.className)}
+      />
+    )
+  }
+
+  private set currentArea(props: Omit<TMasonryCurrentArea, 'maxArea'>) {
+    this._currentArea.size = props.size ?? this._currentArea.size
+    this._currentArea.items = props.items ?? this._currentArea.items
+  }
+
+  private get isFilled() {
+    if (this.area) return _.gte(this.currentArea.size, this.area)
+    return _.gte(this.currentArea.items, this.contents.length)
+  }
+
+  private get someAvaliableSize() {
+    const key = _.sample(Object.keys(this._avaliableGridSizes))
+    return this.takeAvaliableSize(key)
+  }
+
+  private get someAvailableSizeFitted() {
+    const avaliableSize = this.someAvaliableSize
+    return this.fitSize(avaliableSize)
   }
 
   private get name() {
@@ -38,12 +153,20 @@ export class MasonryBuilder {
     return this._props.fill
   }
 
+  private get gridSizes() {
+    return this._gridSizes
+  }
+
+  private get gridContents() {
+    return this._gridContents
+  }
+
   private get requiredItem() {
     return this._props.required
   }
 
-  private get sizes() {
-    return this._props.sizes
+  private get currentArea() {
+    return this._currentArea
   }
 
   private get area() {
@@ -58,94 +181,27 @@ export class MasonryBuilder {
     return this._props.contents
   }
 
-  private someSize() {
-    return _.sample([this.fillItem, ...this.sizes])
-  }
-
-  private calculateNoRequiredGrid() {
-    if (!this.area) throw new Error('Area not provided')
-
-    this._noRequiredGrid = []
-    let area = this.requiredItem.area
-
-    while (area < this.area * 0.7) {
-      const item = _.sample(this.sizes)
-      if (!item) throw new Error('No available item')
-
-      this._noRequiredGrid.push(item)
-      area += item.area
-    }
-  }
-
-  private calculateFillGrid() {
-    if (!this.area) throw new Error('Area not provided')
-
-    const dataArea = _.sumBy([this.requiredItem, ...this._noRequiredGrid], 'area')
-    this._fillItensGrid = _.fill(Array(Math.max(this.area - dataArea, 0)), this.fillItem)
-  }
-
-  private calculateGrid() {
-    this._grid = [this.requiredItem, ...this._noRequiredGrid, ...this._fillItensGrid]
-    potpack(this._grid)
-  }
-
-  private calculateContents() {
-    this._gridContents = this.random
-      ? _.sampleSize(this.contents, this._grid.length)
-      : _.take(this.contents, this._grid.length)
-  }
-
-  private gridWithLimitedArea() {
+  public render(props: TMasonryRenderProps) {
     return (
       <div
         key={this.name}
-        className="grid h-full w-full flex-1 grid-flow-row-dense auto-rows-[calc(100vw/6)] grid-cols-3 gap-4 p-4 md:grid-cols-4 xl:grid-cols-5"
+        className="grid h-full w-full flex-1 grid-flow-row-dense gap-4 p-4 sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12"
       >
-        {this._grid.map((item, i) => (
-          <Link
-            key={`masonry-item-${i}`}
-            to={this._gridContents[i]?.link || '#'}
-            className={twMerge(
-              'flex w-full flex-1 items-center justify-center p-3',
-              item.className,
-              this._gridContents[i]?.className,
-            )}
-          >
-            <img src={this._gridContents[i]?.src} className="h-full w-full object-contain" />
-          </Link>
-        ))}
-      </div>
-    )
-  }
-
-  private gridWithoutArea() {
-    return (
-      <div
-        key={this.name}
-        className="grid h-full w-full flex-1 grid-flow-row-dense auto-rows-[calc(100vw/6)] grid-cols-3 gap-4 p-4 md:grid-cols-4 xl:grid-cols-6"
-      >
-        {this.contents.map((item, i) => {
-          const someSize = this.someSize()
-          return (
-            <Link
-              key={`masonry-item-${i}`}
-              to={item?.link || '#'}
-              className={twMerge(
-                'flex w-full flex-1 items-center justify-center p-3',
-                someSize.className,
-                item?.className,
-              )}
-            >
-              <img src={item?.src} className="h-full w-full object-contain" />
-            </Link>
-          )
+        {this.gridSizes.map((size, i) => {
+          return this.contentWrapper({
+            key: `masonry-item-${i}`,
+            to: this.gridContents[i].link,
+            className: size.className,
+            children: (
+              <Slot
+                {...props}
+                {...this.gridContents[i]}
+                className={twMerge(this.gridContents[i].className, props.className)}
+              />
+            ),
+          })
         })}
       </div>
     )
-  }
-
-  public render() {
-    if (this.area) return this.gridWithLimitedArea()
-    return this.gridWithoutArea()
   }
 }

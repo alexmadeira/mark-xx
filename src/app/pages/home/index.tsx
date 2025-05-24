@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import { HomeMasonry } from '_SRV/builder/masonry'
 
+import { ProjectDetails } from './components/project-details'
 import { Hero } from './sessions/hero'
 
 export function Home() {
@@ -11,7 +12,9 @@ export function Home() {
     <>
       <Helmet title="Home" />
       <Hero />
-      <HomeMasonry.render />
+      <HomeMasonry.render>
+        <ProjectDetails />
+      </HomeMasonry.render>
     </>
   )
 }
