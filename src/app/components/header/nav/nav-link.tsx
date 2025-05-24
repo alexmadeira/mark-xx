@@ -9,7 +9,7 @@ export function NavLink({ className, ...rest }: TNavLinkProps) {
     <Link
       {...rest}
       className={twMerge(
-        'rounded-full bg-white px-[clamp(1rem,_2vw,_1.75rem)] py-[clamp(0.25rem,_1vw,_0.5rem)] text-[clamp(0.875rem,_2vw,_1.125rem)] leading-[clamp(1.25rem,_2vw,_1.75rem)] text-black transition duration-200 hover:scale-110 hover:bg-black hover:text-white hover:shadow-md active:scale-95 active:duration-100',
+        'rounded-full bg-white px-[clamp(1rem,2vw,1.75rem)] py-[clamp(0.25rem,1vw,0.5rem)] text-[clamp(0.875rem,2vw,1.125rem)] leading-[clamp(1.25rem,2vw,1.75rem)] text-black transition duration-200 hover:scale-110 hover:bg-black hover:text-white hover:shadow-md active:scale-95 active:duration-100',
         className,
       )}
     />

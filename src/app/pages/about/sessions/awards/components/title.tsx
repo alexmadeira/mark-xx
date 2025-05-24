@@ -24,7 +24,7 @@ export function Title({ children }: TAwardsTitleProps) {
       variants={awardTitleVariants}
       viewport={{ margin: '0% 0% -15% 0%' }}
       style={{ y: '100%', opacity: 0 }}
-      className="mx-auto text-[clamp(1.5rem,_3vw,_2.75rem)] leading-[clamp(2rem,_1.8vw,_2.5rem)] text-black sm:mr-0"
+      className="mx-auto text-[clamp(1.5rem,3vw,2.75rem)] leading-[clamp(2rem,1.8vw,2.5rem)] text-black sm:mr-0"
     >
       {children}
     </motion.h2>
