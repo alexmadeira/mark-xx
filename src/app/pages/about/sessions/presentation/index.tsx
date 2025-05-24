@@ -7,7 +7,7 @@ export function Presentation() {
         </h2>
 
         <div className="flex flex-col gap-20 lg:col-span-12 xl:col-span-9 2xl:col-span-9">
-          <div className="flex flex-col gap-[clamp(1rem,_2vw,_2rem)] text-[clamp(1rem,_2vw,_1.5rem)] leading-[clamp(1.5rem,_3vw,_2rem)] font-light">
+          <div className="flex flex-col gap-[clamp(1rem,2vw,2rem)] text-[clamp(1rem,2vw,1.5rem)] leading-[clamp(1.5rem,3vw,2rem)] font-light">
             <p>
               Ingressei na área de programação em 2009, após realizar trabalhos como freelancer. No início da carreira,
               atuei como Desenvolvedor Web em uma época em que os termos front-end e back-end ainda não eram comuns.
@@ -27,10 +27,7 @@ export function Presentation() {
             </p>
           </div>
           <div className="hidden flex-col gap-8 sm:flex">
-            <a
-              href="#"
-              className="text-[clamp(1.75rem,_2vw,_1.875rem)] leading-[clamp(1.875rem,_2vw,_2.25rem)] underline"
-            >
+            <a href="#" className="text-[clamp(1.75rem,2vw,1.875rem)] leading-[clamp(1.875rem,2vw,2.25rem)] underline">
               alex.c.madeira@gmail.com
             </a>
           </div>

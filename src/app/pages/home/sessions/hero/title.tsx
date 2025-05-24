@@ -6,12 +6,12 @@ export function Title() {
   const CHeroBanner = heroBannerController()
 
   return (
-    <div className="relative z-1 mt-[clamp(1rem,_4vw,_5rem)] w-full flex-1">
-      <div className="mx-auto flex w-full flex-1 flex-col gap-0 px-[clamp(1.25rem,_5vw,_5rem)]">
-        <h1 className="text-[clamp(2.25rem,_7vw,_12rem)] leading-[clamp(2.5rem,_7vw,_8rem)] tracking-wider">
+    <div className="relative z-1 mt-[clamp(1rem,4vw,5rem)] w-full flex-1">
+      <div className="mx-auto flex w-full flex-1 flex-col gap-0 px-[clamp(1.25rem,5vw,5rem)]">
+        <h1 className="text-[clamp(2.25rem,7vw,12rem)] leading-[clamp(2.5rem,7vw,8rem)] tracking-wider">
           Alex Madeira
         </h1>
-        <h2 className="text-[clamp(1.125rem,_5vw,_6rem)] leading-[clamp(1.75rem,_5vw,_1)] font-light text-nowrap">
+        <h2 className="text-[clamp(1.125rem,5vw,6rem)] leading-[clamp(1.75rem,5vw,1)] font-light text-nowrap">
           Desenvolvedor{' '}
           <TypeAnimation
             cursor

@@ -10,9 +10,9 @@ export function About() {
     <>
       <Helmet title="Sobre" />
       <div className="w-full pt-[100px]">
-        <div className="my-[clamp(1rem,_4vw,_5rem)] w-full">
+        <div className="my-[clamp(1rem,4vw,5rem)] w-full">
           <div className="px-x-container mx-auto flex w-full flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
-            <h1 className="text-black-900 w-full text-[clamp(3rem,_12vw,_8rem)] leading-none tracking-widest">
+            <h1 className="text-black-900 w-full text-[clamp(3rem,12vw,8rem)] leading-none tracking-widest">
               Alex Madeira
             </h1>
           </div>
