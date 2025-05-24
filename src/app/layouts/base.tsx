@@ -11,6 +11,7 @@ import { routeController, scrollController } from '_SRV/controller'
 export function BaseLayout() {
   const ScrollController = scrollController()
   const RouteController = routeController()
+
   const { pathname } = useLocation()
   const element = useOutlet()
 
@@ -20,7 +21,7 @@ export function BaseLayout() {
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
       <Header />
-      <AnimatePresence mode="sync" initial={false} onExitComplete={console.log}>
+      <AnimatePresence mode="sync" initial={false}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -34,7 +35,7 @@ export function BaseLayout() {
         </motion.div>
       </AnimatePresence>
       <div className="fixed top-0 left-0 z-1 min-h-full w-full">
-        <div className="bg-mark-200/40 absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
+        <div className="bg-mark absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
         <AboutParticles.canvas className="pointer-events-none absolute top-0 left-0 z-0 h-full w-full" />
       </div>
     </div>

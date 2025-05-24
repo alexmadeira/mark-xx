@@ -28,7 +28,7 @@ export const dataGlobalRoutes = [
     color: {
       name: 'white',
       hex: '#ffffff',
-      twVar: '--color-white',
+      twVar: '--color-mark-200',
     },
   },
   {
