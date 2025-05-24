@@ -1,3 +1,6 @@
+import type { HTMLAttributes } from 'react'
+import type { To } from 'react-router-dom'
+
 import { z } from 'zod'
 
 export const ZMasonryCurrentArea = z.object({
@@ -26,6 +29,16 @@ export const ZMasonryContent = z.object({
     .optional(),
 })
 
+export const ZMasonryContentWrapperProps = z.intersection(
+  z.custom<HTMLAttributes<HTMLElement>>(),
+  z.object({
+    key: z.string(),
+    to: z.custom<To>().optional(),
+  }),
+)
+
+export const ZMasonryRenderProps = z.custom<HTMLAttributes<HTMLHeadingElement>>()
+
 export const ZMasonryProps = z.object({
   name: z.string(),
   area: z.number().optional(),
@@ -44,4 +57,8 @@ export type TMasonryCurrentArea = z.infer<typeof ZMasonryCurrentArea>
 export type TMasonryGridSize = z.infer<typeof ZMasonryGridSize>
 export type TMasonryAvaliableGridSizes = z.infer<typeof ZMasonryAvaliableGridSizes>
 export type TMasonryContent = z.infer<typeof ZMasonryContent>
+
+export type TMasonryContentWrapperProps = z.infer<typeof ZMasonryContentWrapperProps>
+export type TMasonryRenderProps = z.infer<typeof ZMasonryRenderProps>
+
 export type TMasonryProps = z.infer<typeof ZMasonryProps>
