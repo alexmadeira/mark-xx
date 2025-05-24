@@ -6,11 +6,9 @@ export function Header() {
 
   return (
     <div className="w-full pt-[100px]">
-      <div className="my-[clamp(1rem,_4vw,_5rem)] w-full">
+      <div className="my-[clamp(1rem,4vw,5rem)] w-full">
         <div className="px-x-container mx-auto flex w-full flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
-          <h1 className="text-black-900 w-full text-[clamp(3rem,_12vw,_8rem)] leading-none tracking-widest">
-            Projetos
-          </h1>
+          <h1 className="text-black-900 w-full text-[clamp(3rem,12vw,8rem)] leading-none tracking-widest">Projetos</h1>
         </div>
       </div>
       <div className="flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]">
@@ -21,7 +19,7 @@ export function Header() {
             </h2>
 
             <div className="flex flex-col gap-20 lg:col-span-12 xl:col-span-9 2xl:col-span-9">
-              <div className="flex flex-col gap-[clamp(1rem,_2vw,_2rem)] text-[clamp(1rem,_2vw,_1.5rem)] leading-[clamp(1.5rem,_3vw,_2rem)] font-light">
+              <div className="flex flex-col gap-[clamp(1rem,2vw,2rem)] text-[clamp(1rem,2vw,1.5rem)] leading-[clamp(1.5rem,3vw,2rem)] font-light">
                 <p>
                   Ingressei na área de programação em 2009, após realizar trabalhos como freelancer. No início da
                   carreira, atuei como Desenvolvedor Web em uma época em que os termos front-end e back-end ainda não
