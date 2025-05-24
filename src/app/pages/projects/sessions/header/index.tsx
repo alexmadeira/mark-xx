@@ -7,7 +7,7 @@ export function Header() {
   return (
     <div className="w-full pt-[100px]">
       <div className="my-[clamp(1rem,_4vw,_5rem)] w-full">
-        <div className="mx-auto flex w-full flex-col gap-[clamp(0.5rem,_2vw,_2.5rem)] px-[clamp(1.25rem,_5vw,_5rem)]">
+        <div className="px-x-container mx-auto flex w-full flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
           <h1 className="text-black-900 w-full text-[clamp(3rem,_12vw,_8rem)] leading-none tracking-widest">
             Projetos
           </h1>

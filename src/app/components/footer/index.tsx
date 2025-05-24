@@ -2,9 +2,9 @@ import { dayJS } from '_SRV/lib/day-js'
 
 export function Footer() {
   return (
-    <footer className="relative z-10 mt-auto flex w-full flex-col items-center px-10 py-10 md:pt-24 md:pb-10">
-      <div className="w-full pt-10">
-        <div className="mx-auto flex w-full flex-col items-center gap-[clamp(0.5rem,_2vw,_2.5rem)] px-[clamp(1.25rem,_5vw,_5rem)] md:flex-row md:items-end">
+    <footer className="relative z-10 mt-auto flex w-full flex-col items-center py-4 md:py-[calc(1.25rem+var(--spacing-safe-area-bottom))] lg:py-10">
+      <div className="w-full">
+        <div className="px-x-container mx-auto flex w-full flex-col items-center md:flex-row md:items-end md:gap-[clamp(0.5rem,2vw,2.5rem)]">
           <ul className="flex flex-1 gap-6 md:gap-10 lg:gap-14">
             <li>
               <a
