@@ -29,7 +29,7 @@ export function Award({ children, className, ...rest }: TAwardsAwardProps) {
         variants={awardVariants}
         viewport={{ margin: '0% 0% -15% 0%' }}
         style={{ x: '100%', opacity: 0 }}
-        className="relative flex items-center gap-4 py-[clamp(1rem,_2vw,_2rem)] pr-4 text-[clamp(1rem,_3vw,_1.25rem)] leading-[clamp(1.5rem,_3vw,_1.75rem)] sm:ml-auto"
+        className="relative flex items-center gap-4 py-[clamp(1rem,2vw,2rem)] pr-4 text-[clamp(1rem,3vw,1.25rem)] leading-[clamp(1.5rem,3vw,1.75rem)] sm:ml-auto"
       >
         <Medal
           weight="fill"

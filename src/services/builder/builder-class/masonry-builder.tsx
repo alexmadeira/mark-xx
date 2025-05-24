@@ -112,7 +112,7 @@ export class MasonryBuilder {
     return fitttedSize
   }
 
-  private contentWrapper({ to, key, ...rest }: TMasonryContentWrapperProps) {
+  private contentWrapper({ to, key, size, ...rest }: TMasonryContentWrapperProps) {
     const Wrapper = to ? Link : 'div'
 
     return (
@@ -120,6 +120,7 @@ export class MasonryBuilder {
         {...rest}
         key={key}
         to={to || '#'}
+        data-size={`${size.w}x${size.h}`}
         className={twMerge('group/masonry-item relative aspect-square sm:aspect-auto', rest.className)}
       />
     )
@@ -185,10 +186,11 @@ export class MasonryBuilder {
     return (
       <div
         key={this.name}
-        className="grid h-full w-full flex-1 grid-flow-row-dense gap-4 p-4 sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12"
+        className="group/masonry grid h-full w-full flex-1 grid-flow-row-dense gap-4 p-4 sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12"
       >
         {this.gridSizes.map((size, i) => {
           return this.contentWrapper({
+            size,
             key: `masonry-item-${i}`,
             to: this.gridContents[i].link,
             className: size.className,

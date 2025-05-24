@@ -1,8 +1,9 @@
 import { Helmet } from 'react-helmet-async'
 
+import { ProjectDetails } from '_APP/components/project/project-details'
+
 import { ProjectsMasonry } from '_SRV/builder/masonry'
 
-import { ProjectDetails } from './components/project-details'
 import { Header } from './sessions/header'
 
 export function Projects() {

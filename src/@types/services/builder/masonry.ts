@@ -12,6 +12,7 @@ export const ZMasonryCurrentArea = z.object({
 export const ZMasonryGridSize = z.object({
   w: z.number(),
   h: z.number(),
+  details: z.boolean().optional(),
   className: z.string().optional(),
   limit: z.number().optional(),
 })
@@ -34,6 +35,7 @@ export const ZMasonryContentWrapperProps = z.intersection(
   z.object({
     key: z.string(),
     to: z.custom<To>().optional(),
+    size: ZMasonryGridSize,
   }),
 )
 
