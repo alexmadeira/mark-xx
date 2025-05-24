@@ -4,6 +4,8 @@ import { BaseLayout } from '_LAY/base'
 
 import { routeController } from '_SRV/controller'
 
+import { PageWrapper } from './layouts/page-wrapper'
+
 const RouteController = routeController()
 
 export const router = createBrowserRouter([
@@ -12,7 +14,11 @@ export const router = createBrowserRouter([
     element: <BaseLayout />,
     children: RouteController.routesObject.map((Route) => ({
       ...Route,
-      element: <Route.component />,
+      element: (
+        <PageWrapper>
+          <Route.component />
+        </PageWrapper>
+      ),
     })),
   },
 ])
