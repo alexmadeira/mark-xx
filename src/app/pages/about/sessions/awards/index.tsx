@@ -4,7 +4,7 @@ import { Title } from './components/title'
 export function Awards() {
   return (
     <div className="w-full overflow-x-hidden">
-      <div className="mx-auto flex max-w-[2000px] flex-col gap-[clamp(0.5rem,_2vw,_2.5rem)] px-5">
+      <div className="px-x-container mx-auto flex max-w-[2000px] flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
         <Title>Prêmios/ Reconhecimento</Title>
         <ul className="flex flex-col font-light">
           <Award>
