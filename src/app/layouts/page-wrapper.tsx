@@ -2,15 +2,15 @@ import { TPageWrapperProps } from '@/props/layouts/page-wrapper'
 
 import { useEffect } from 'react'
 
-import { scrollController } from '_SRV/controller'
+import { scrollingController } from '_SRV/controller'
 
 export function PageWrapper({ children }: TPageWrapperProps) {
-  const ScrollController = scrollController()
+  const ScrollingController = scrollingController()
 
-  ScrollController.scrollTo(0, { immediate: true })
+  ScrollingController.scrollTo(0, { immediate: true })
 
   useEffect(() => {
-    ScrollController.resize()
+    ScrollingController.resize()
   }, [])
 
   return children
