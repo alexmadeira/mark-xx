@@ -1,12 +1,24 @@
 import { TProjectDetailsProps, ZProjectDetailsProps } from '@/props/pages/projects/project-details'
 
+import { useEffect, useRef } from 'react'
+
 import { twMerge } from 'tailwind-merge'
 
+import { overlapController } from '_SRV/controller'
+
 export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
-  const { image, ...props } = ZProjectDetailsProps.parse(data)
+  const detailRef = useRef<HTMLDivElement>(null)
+  const overlapLogo = overlapController('logo')
+
+  const { image, option, ...props } = ZProjectDetailsProps.parse(data)
+
+  useEffect(() => {
+    overlapLogo.addElement(detailRef.current, option)
+  }, [detailRef.current])
 
   return (
     <div
+      ref={detailRef}
       className={twMerge(
         'relative flex h-full w-full flex-1 items-center justify-center overflow-hidden p-3',
         props.className,
@@ -15,9 +27,6 @@ export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
       <div className="h-full w-full overflow-clip">
         <img
           {...image}
-          style={{
-            transformOrigin: 'top',
-          }}
           className={twMerge(
             'h-full w-full object-contain transition-all duration-[2s] group-hover/masonry-item:scale-120 group-hover/masonry-item:blur-[0.5rem] group-hover/masonry-item:duration-[8s]',
             image.className,

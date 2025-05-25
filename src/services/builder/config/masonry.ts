@@ -39,6 +39,7 @@ export const configHomeMasonry = {
   contents: [
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -47,6 +48,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -55,6 +57,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -63,6 +66,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -71,6 +75,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -79,6 +84,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -87,6 +93,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -95,6 +102,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -103,6 +111,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -111,6 +120,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -119,6 +129,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -127,6 +138,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -135,6 +147,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -143,6 +156,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -151,6 +165,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -159,6 +174,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -167,6 +183,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -175,6 +192,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -183,6 +201,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -191,6 +210,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -199,6 +219,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -207,6 +228,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -215,6 +237,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -223,6 +246,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -231,6 +255,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -239,6 +264,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -247,6 +273,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -255,6 +282,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -263,6 +291,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -271,6 +300,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -279,6 +309,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -287,6 +318,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -295,6 +327,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -303,6 +336,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -311,6 +345,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -319,6 +354,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -327,6 +363,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -335,6 +372,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -343,6 +381,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -351,6 +390,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -359,6 +399,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -367,6 +408,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -375,6 +417,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -383,6 +426,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -391,6 +435,7 @@ export const configHomeMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -437,6 +482,7 @@ export const configProjectsMasonry = {
   contents: [
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -445,6 +491,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -453,6 +500,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -461,6 +509,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -469,6 +518,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -477,6 +527,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -485,6 +536,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -493,6 +545,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -501,6 +554,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -509,6 +563,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -517,6 +572,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -525,6 +581,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -533,6 +590,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -541,6 +599,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -549,6 +608,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -557,6 +617,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -565,6 +626,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -573,6 +635,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -581,6 +644,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -589,6 +653,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -597,6 +662,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -605,6 +671,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -613,6 +680,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -621,6 +689,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -629,6 +698,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -637,6 +707,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -645,6 +716,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -653,6 +725,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -661,6 +734,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -669,6 +743,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -677,6 +752,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -685,6 +761,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -693,6 +770,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -701,6 +779,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -709,6 +788,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -717,6 +797,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -725,6 +806,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -733,6 +815,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -741,6 +824,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -749,6 +833,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -757,6 +842,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -765,6 +851,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -773,6 +860,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
@@ -781,6 +869,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-black',
+      option: '#FFFFFF',
       link: '/project/chilli-beans',
       image: {
         src: '/img/temp/projects/chilli.png',
@@ -789,6 +878,7 @@ export const configProjectsMasonry = {
     },
     {
       className: 'bg-white',
+      option: '#000000',
       link: '/project/mizuno-br',
       image: {
         src: '/img/temp/projects/mizuno-banner.png',
