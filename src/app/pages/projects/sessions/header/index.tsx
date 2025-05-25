@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-import { overlapController, scrollController } from '_SRV/controller'
+import { overlapController, scrollingController } from '_SRV/controller'
 
 export function Header() {
-  const ScrollController = scrollController()
+  const ScrollController = scrollingController()
   ScrollController.scrollTo(0, { immediate: true })
 
   const overlapLogo = overlapController('logo')

@@ -1,4 +1,4 @@
-import type { ScrollController } from '_SRV/controller/scroll-controller'
+import type { ScrollingController } from '_SRV/controller/scrolling-controller'
 
 import { z } from 'zod'
 
@@ -10,7 +10,7 @@ export const ZOverlapAddElementProps = z.tuple([ZOverlapHTMLElement, z.string()]
 
 export const ZOverlapProps = z.object({
   name: z.string(),
-  scrolling: z.custom<ScrollController>(),
+  scrolling: z.custom<ScrollingController>(),
 })
 
 //

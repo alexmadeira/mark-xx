@@ -27,7 +27,6 @@ export function Header() {
     useElement.getState().actions.setBlock('header', props)
   }, [props])
 
-  console.log('overlapLogo', overlapLogo)
   return (
     <div ref={headerRef} className="fixed top-0 left-0 z-10 w-full">
       <div className="w-full pt-10">

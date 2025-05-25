@@ -6,10 +6,10 @@ import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { AboutParticles } from '_SRV/builder/particle'
-import { routeController, scrollController } from '_SRV/controller'
+import { routeController, scrollingController } from '_SRV/controller'
 
 export function BaseLayout() {
-  const ScrollController = scrollController()
+  const ScrollController = scrollingController()
   const RouteController = routeController()
 
   const { pathname } = useLocation()

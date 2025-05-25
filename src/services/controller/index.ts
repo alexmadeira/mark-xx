@@ -1,12 +1,12 @@
-import { defaultHeroBannerProps, defaultRouteProps, defaultScrollProps } from './_defaults'
+import { defaultHeroBannerProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
 import { HeroBannerController } from './hero-banner-controller'
 import { OverlapController } from './overlap-controller'
 import { RouteController } from './route-controller'
-import { ScrollController } from './scroll-controller'
+import { ScrollingController } from './scrolling-controller'
 
 let controllerHeroBanner: HeroBannerController
 let controllerRoute: RouteController
-let controllerScroll: ScrollController
+let controllerScrolling: ScrollingController
 
 const controllerOverlap: Record<string, OverlapController> = {}
 
@@ -22,14 +22,14 @@ export function routeController() {
   return (controllerRoute = RouteController.create(defaultRouteProps))
 }
 
-export function scrollController() {
-  if (controllerScroll) return controllerScroll
+export function scrollingController() {
+  if (controllerScrolling) return controllerScrolling
 
-  return (controllerScroll = ScrollController.create(defaultScrollProps))
+  return (controllerScrolling = ScrollingController.create(defaultScrollingProps))
 }
 
 export function overlapController(name: string) {
   if (controllerOverlap[name]) return controllerOverlap[name]
 
-  return (controllerOverlap[name] = new OverlapController({ name, scrolling: scrollController() }))
+  return (controllerOverlap[name] = new OverlapController({ name, scrolling: scrollingController() }))
 }

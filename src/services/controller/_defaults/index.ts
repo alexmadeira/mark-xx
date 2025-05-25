@@ -4,4 +4,4 @@
 
 export * from './hero-banner'
 export * from './route'
-export * from './scroll'
+export * from './scrolling'
