@@ -1,4 +1,5 @@
-import { defaultHeroBannerProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
+import { defaultHeroBannerProps, defaultLogoColorProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
+import { ColorController } from './color-controller'
 import { HeroBannerController } from './hero-banner-controller'
 import { OverlapController } from './overlap-controller'
 import { RouteController } from './route-controller'
@@ -9,6 +10,7 @@ let controllerRoute: RouteController
 let controllerScrolling: ScrollingController
 
 const controllerOverlap: Record<string, OverlapController> = {}
+const controllersColor: Record<string, ColorController> = {}
 
 export function heroBannerController() {
   if (controllerHeroBanner) return controllerHeroBanner
@@ -32,4 +34,11 @@ export function overlapController(name: string) {
   if (controllerOverlap[name]) return controllerOverlap[name]
 
   return (controllerOverlap[name] = new OverlapController({ name, scrolling: scrollingController() }))
+}
+
+export function logoColorController() {
+  if (!controllersColor.logo) {
+    controllersColor.logo = ColorController.create(defaultLogoColorProps)
+  }
+  return controllersColor.logo
 }

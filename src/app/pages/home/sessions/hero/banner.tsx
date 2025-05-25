@@ -1,12 +1,23 @@
+import { useEffect, useRef } from 'react'
+
 import { AnimatePresence, motion } from 'motion/react'
+
+import { overlapController } from '_SRV/controller'
 
 import { useHeroBanner } from '_STR/useHeroBanner'
 
 export function Banner() {
   const current = useHeroBanner((st) => st.data.current)
 
+  const heroRef = useRef<HTMLDivElement>(null)
+  const overlapLogo = overlapController('logo')
+
+  useEffect(() => {
+    overlapLogo.addElement(heroRef.current, current.color).update()
+  }, [heroRef.current, current.color])
+
   return (
-    <div className="group absolute top-0 left-0 h-full w-full">
+    <div ref={heroRef} className="group absolute top-0 left-0 h-full w-full">
       <AnimatePresence>
         <motion.img
           alt={current.name}

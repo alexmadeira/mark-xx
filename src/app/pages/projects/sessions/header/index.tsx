@@ -12,8 +12,8 @@ export function Header() {
   const subTitleRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
-    overlapLogo.addElement(titleRef.current, '#FFFFFF')
-    overlapLogo.addElement(subTitleRef.current, '#FFFFFF')
+    overlapLogo.addElement(titleRef.current, '#000000')
+    overlapLogo.addElement(subTitleRef.current, '#000000')
   }, [subTitleRef.current])
 
   return (

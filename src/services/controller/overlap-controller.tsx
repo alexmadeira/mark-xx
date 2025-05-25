@@ -65,9 +65,11 @@ export class OverlapController {
   }
 
   public addElement(...[element, option]: TOverlapAddElementProps) {
-    if (!element) return
+    if (!element) return this
 
     this.elementList.set(element, option)
+
+    return this as Pick<OverlapController, 'update'>
   }
 
   public get target() {

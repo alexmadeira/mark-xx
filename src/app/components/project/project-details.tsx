@@ -10,10 +10,10 @@ export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   const detailRef = useRef<HTMLDivElement>(null)
   const overlapLogo = overlapController('logo')
 
-  const { image, option, ...props } = ZProjectDetailsProps.parse(data)
+  const { image, color, ...props } = ZProjectDetailsProps.parse(data)
 
   useEffect(() => {
-    overlapLogo.addElement(detailRef.current, option)
+    overlapLogo.addElement(detailRef.current, color)
   }, [detailRef.current])
 
   return (
