@@ -6,6 +6,7 @@ export const ZProjectDetailsProps = z.intersection(
   z.custom<HTMLAttributes<HTMLDivElement>>(),
   z.object({
     image: z.custom<HTMLAttributes<HTMLImageElement>>(),
+    option: z.string(),
   }),
 )
 

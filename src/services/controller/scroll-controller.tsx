@@ -14,7 +14,7 @@ export class ScrollController {
 
   protected constructor(private readonly _props: TScrollProps) {
     this._actions.setDetails(this._props.lenis)
-    this._props.lenis.on('scroll', this.setDetails.bind(this))
+    this.ev.on('scroll', this.setDetails.bind(this))
   }
 
   public static create(props: TScrollCreateProps) {
@@ -57,7 +57,7 @@ export class ScrollController {
     this._props.lenis.scrollTo(target, options)
   }
 
-  public get scroll() {
+  public get ev() {
     return this._props.lenis
   }
 }

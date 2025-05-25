@@ -22,6 +22,7 @@ export const ZMasonryAvaliableGridSizes = z.record(z.string(), ZMasonryGridSize)
 export const ZMasonryContent = z.object({
   className: z.string().optional(),
   link: z.string().optional(),
+  option: z.string(),
   image: z
     .object({
       src: z.string(),
