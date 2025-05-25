@@ -1,24 +1,24 @@
 import type {
-  TScrollCreateProps,
-  TScrollProps,
-  TScrollScrollToOption,
-  TScrollTarget,
-} from '@/services/controller/scroll'
+  TScrollingCreateProps,
+  TScrollingProps,
+  TScrollingTarget,
+  TScrollingToOption,
+} from '@/services/controller/scrolling'
 
 import Lenis from 'lenis'
 
-import { useScroll } from '_STR/useScroll'
+import { useScrolling } from '_STR/useScrolling'
 
-export class ScrollController {
-  private readonly _actions = useScroll.getState().actions
+export class ScrollingController {
+  private readonly _actions = useScrolling.getState().actions
 
-  protected constructor(private readonly _props: TScrollProps) {
+  protected constructor(private readonly _props: TScrollingProps) {
     this._actions.setDetails(this._props.lenis)
-    this._props.lenis.on('scroll', this.setDetails.bind(this))
+    this.ev.on('scroll', this.setDetails.bind(this))
   }
 
-  public static create(props: TScrollCreateProps) {
-    return new ScrollController({
+  public static create(props: TScrollingCreateProps) {
+    return new ScrollingController({
       lenis: new Lenis(props),
     })
   }
@@ -53,11 +53,11 @@ export class ScrollController {
     this._props.lenis.scrollTo(0, { immediate: true })
   }
 
-  public scrollTo(target: TScrollTarget, options?: TScrollScrollToOption) {
+  public scrollTo(target: TScrollingTarget, options?: TScrollingToOption) {
     this._props.lenis.scrollTo(target, options)
   }
 
-  public get scroll() {
+  public get ev() {
     return this._props.lenis
   }
 }

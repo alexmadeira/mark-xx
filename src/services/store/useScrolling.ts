@@ -1,12 +1,12 @@
-import type { TStoreScroll } from '@/services/store/scroll'
+import type { TStoreScrolling } from '@/services/store/scrolling'
 
 import { produce } from 'immer'
 import { create } from 'zustand'
 
-import { scrollDefaultData } from './_defaults/scroll'
+import { scrollingDefaultData } from './_defaults/scrolling'
 
-export const useScroll = create<TStoreScroll>((set) => ({
-  data: scrollDefaultData,
+export const useScrolling = create<TStoreScrolling>((set) => ({
+  data: scrollingDefaultData,
   actions: {
     setDetails: (details) =>
       set((state) =>
