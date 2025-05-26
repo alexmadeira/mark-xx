@@ -8,7 +8,7 @@ import type {
 
 import { ZColorProps } from '@/services/controller/color'
 
-import { contrast, isValidColor } from 'colorizr'
+import { contrast, isValidColor, opacify } from 'colorizr'
 import _ from 'lodash'
 
 import { Css } from '_SRV/utils/css'
@@ -69,9 +69,9 @@ export class ColorController {
     const foregroundColor = this.betterContrast(color)
 
     cssVars[`--${name}-color`] = color
-    cssVars[`--${name}-shadow-color`] = foregroundColor.color
+    cssVars[`--${name}-shadow-color`] = opacify(foregroundColor.color, 0.3)
     cssVars[`--${name}-foreground-color`] = foregroundColor.color
-    cssVars[`--${name}-foreground-shadow-color`] = color
+    cssVars[`--${name}-foreground-shadow-color`] = opacify(color, 0.3)
 
     return cssVars
   }
@@ -88,7 +88,7 @@ export class ColorController {
   public betterContrast(color?: TColor, name?: string | null, level: number = 0) {
     const result: TColorsBetterContrastResult = {
       color: this.default,
-      cssVars: this.makeCssVars(this.default, name),
+      ...this.makeCssVars(this.default, name),
     }
 
     if (!color) return result
@@ -98,7 +98,7 @@ export class ColorController {
     const contrastIndex = Math.min(level, this.totalColors - 1)
 
     result.color = contrasts[contrastIndex]
-    result.cssVars = this.makeCssVars(result.color, name)
+    Object.assign(result, this.makeCssVars(result.color, name))
 
     return result
   }

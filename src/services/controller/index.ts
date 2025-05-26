@@ -5,6 +5,7 @@ import {
   defaultNavigationColorProps,
   defaultRouteProps,
   defaultScrollingProps,
+  defaultTextColorProps,
 } from './_defaults'
 import { ColorController } from './color-controller'
 import { HeroBannerController } from './hero-banner-controller'
@@ -62,4 +63,11 @@ export function navigationColorController() {
     controllersColor.navigation = ColorController.create(defaultNavigationColorProps)
   }
   return controllersColor.navigation
+}
+
+export function textColorController() {
+  if (!controllersColor.text) {
+    controllersColor.text = ColorController.create(defaultTextColorProps)
+  }
+  return controllersColor.text
 }
