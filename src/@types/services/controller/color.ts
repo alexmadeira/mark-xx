@@ -8,6 +8,12 @@ export const ZColors = z.object({
   light: ZColor,
   variations: z.array(ZColor),
 })
+export const ZColorCssVars = z.record(z.string(), z.string())
+
+export const ZColorsBetterContrastResult = z.object({
+  color: ZColor,
+  cssVars: ZColorCssVars,
+})
 
 export const ZColorProps = z.object({
   default: ZEColorDefaultKey.default('dark'),
@@ -23,5 +29,8 @@ export const ZColorProps = z.object({
 
 export type TColor = z.infer<typeof ZColor>
 export type TColors = z.infer<typeof ZColors>
+export type TColorCssVars = z.infer<typeof ZColorCssVars>
+
+export type TColorsBetterContrastResult = z.infer<typeof ZColorsBetterContrastResult>
 
 export type TColorProps = z.infer<typeof ZColorProps>

@@ -8,16 +8,12 @@ import { overlapController } from '_SRV/controller'
 
 export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   const detailRef = useRef<HTMLDivElement>(null)
-  const overlapLogo = overlapController('logo')
-  const overlapNavigationAbout = overlapController('navigation:about')
-  const overlapNavigationProjects = overlapController('navigation:projects')
+  const overlapLogo = overlapController()
 
   const { image, color, ...props } = ZProjectDetailsProps.parse(data)
 
   useEffect(() => {
     overlapLogo.addElement(detailRef.current, color)
-    overlapNavigationAbout.addElement(detailRef.current, color)
-    overlapNavigationProjects.addElement(detailRef.current, color)
   }, [detailRef.current])
 
   return (

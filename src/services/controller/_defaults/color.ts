@@ -10,5 +10,11 @@ export const defaultLogoColorProps = {
 export const defaultNavigationColorProps = {
   dark: '#000000',
   light: '#FFFFFF',
+  default: 'dark',
+} satisfies TColorProps
+
+export const defaultHeroColorProps = {
+  dark: '#000000',
+  light: '#FFFFFF',
   default: 'light',
 } satisfies TColorProps
