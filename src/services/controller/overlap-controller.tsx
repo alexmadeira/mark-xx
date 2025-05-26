@@ -58,6 +58,10 @@ export class OverlapController {
     this.checkCollision()
   }
 
+  public reset() {
+    this.actions.setCollision(this.name, null)
+  }
+
   public setTarget(...[target]: TOverlapSetTargetProps) {
     if (!target) return
 
