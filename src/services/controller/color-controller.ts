@@ -84,7 +84,7 @@ export class ColorController {
     if (!color) return this.default
     const contrasts = this.checkContrasts(color)
 
-    return _.sample(_.slice(contrasts, 0, limit || 1))
+    return _.sample(_.slice(contrasts, 0, limit)) || this.default
   }
 
   public get default() {
