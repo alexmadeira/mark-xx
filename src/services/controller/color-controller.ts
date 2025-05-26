@@ -1,9 +1,9 @@
-import type { TColor, TColorData, TColorProps, TColors } from '@/services/controller/color'
+import type { TColor, TColorProps, TColors } from '@/services/controller/color'
 
-import { ZColorData, ZColorHex, ZColorProps, ZColorRGB } from '@/services/controller/color'
+import { ZColorProps } from '@/services/controller/color'
 
 import _ from 'lodash'
-import { getContrast, rgba } from 'polished'
+import { getContrast, parseToRgb, rgbToColorString } from 'polished'
 
 export class ColorController {
   private _colors: TColors | null = null
@@ -16,30 +16,12 @@ export class ColorController {
     return new ColorController(ZColorProps.parse(props))
   }
 
-  private parseColor(props: TColorData | TColor) {
-    const colorData = ZColorData.parse(_.concat(props, 1).slice(0, 2))
-
-    return this.hexColor(colorData) || this.rgbColor(colorData)
-  }
-
-  private hexColor([color, alpha]: TColorData) {
-    const { data } = ZColorHex.safeParse(color)
-
-    if (!data) return ''
-    return rgba(data, alpha)
-  }
-
-  private rgbColor([color, alpha]: TColorData) {
-    const { data } = ZColorRGB.safeParse(color)
-
-    if (!data) return ''
-    const rgbColor = data.split(',').map((c) => parseInt(c.trim(), 10))
-
-    return rgba(rgbColor[0], rgbColor[1], rgbColor[2], alpha)
+  private parseColor(props: TColor) {
+    return rgbToColorString(parseToRgb(props))
   }
 
   private prepareColors() {
-    const variationList = this._props.variations
+    const variationList = this._props.variations || []
 
     const dark = this.parseColor(this._props.dark)
     const light = this.parseColor(this._props.light)
