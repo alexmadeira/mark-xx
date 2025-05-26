@@ -5,11 +5,10 @@ import { z } from 'zod'
 export const ZOverlapHTMLElement = z.custom<HTMLElement>().nullish()
 export const ZOverlapElementOption = z.string()
 
-export const ZOverlapSetTargetProps = z.tuple([ZOverlapHTMLElement])
+export const ZOverlapSetTargetProps = z.tuple([z.string(), ZOverlapHTMLElement])
 export const ZOverlapAddElementProps = z.tuple([ZOverlapHTMLElement, z.string()])
 
 export const ZOverlapProps = z.object({
-  name: z.string(),
   scrolling: z.custom<ScrollingController>(),
 })
 

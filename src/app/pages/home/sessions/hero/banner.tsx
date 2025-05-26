@@ -10,7 +10,7 @@ export function Banner() {
   const current = useHeroBanner((st) => st.data.current)
 
   const heroRef = useRef<HTMLDivElement>(null)
-  const overlapLogo = overlapController('logo')
+  const overlapLogo = overlapController()
 
   useEffect(() => {
     overlapLogo.addElement(heroRef.current, current.color).update()

@@ -1,4 +1,10 @@
-import type { TColor, TColorProps, TColors } from '@/services/controller/color'
+import type {
+  TColor,
+  TColorCssVars,
+  TColorProps,
+  TColors,
+  TColorsBetterContrastResult,
+} from '@/services/controller/color'
 
 import { ZColorProps } from '@/services/controller/color'
 
@@ -6,6 +12,8 @@ import _ from 'lodash'
 import { getContrast, parseToRgb, rgbToColorString } from 'polished'
 
 export class ColorController {
+  private totalColors: number = 0
+
   private _colors: TColors | null = null
 
   protected constructor(private readonly _props: TColorProps) {
@@ -16,8 +24,8 @@ export class ColorController {
     return new ColorController(ZColorProps.parse(props))
   }
 
-  private parseColor(props: TColor) {
-    return rgbToColorString(parseToRgb(props))
+  private parseColor(color: TColor) {
+    return rgbToColorString(parseToRgb(color))
   }
 
   private prepareColors() {
@@ -27,12 +35,12 @@ export class ColorController {
     const light = this.parseColor(this._props.light)
     const variations = variationList.map(this.parseColor.bind(this))
 
+    this.totalColors = 2 + variations.length - 1
+
     return { dark, light, variations }
   }
 
-  private checkContrasts(color: TColor) {
-    const baseColor = this.parseColor(color)
-
+  private checkContrasts(baseColor: TColor) {
     const contrasts = {} as Record<string, number>
 
     contrasts[this.colors.dark] = getContrast(baseColor, this.colors.dark)
@@ -46,6 +54,20 @@ export class ColorController {
       .map(([key]) => key)
   }
 
+  private makeCssVars(color: TColor, name?: string | null) {
+    if (!name) return {}
+    const cssVars: TColorCssVars = {}
+
+    const foregroundColor = this.betterContrast(color)
+
+    cssVars[`--${name}-color`] = color
+    cssVars[`--${name}-shadow-color`] = foregroundColor.color
+    cssVars[`--${name}-foreground-color`] = foregroundColor.color
+    cssVars[`--${name}-foreground-shadow-color`] = color
+
+    return cssVars
+  }
+
   private get colors() {
     if (!this._colors) throw new Error('Colors not initialized')
     return this._colors
@@ -55,18 +77,26 @@ export class ColorController {
     return this._props.default
   }
 
-  public betterContrast(color?: TColor) {
-    if (!color) return this.default
+  public betterContrast(color?: TColor, name?: string | null, level: number = 0) {
+    const result: TColorsBetterContrastResult = {
+      color: this.default,
+      cssVars: this.makeCssVars(this.default, name),
+    }
 
-    const [better] = this.checkContrasts(color)
-    return better
+    if (!color) return result
+
+    const rgbColor = this.parseColor(color)
+    const contrasts = this.checkContrasts(rgbColor)
+    const contrastIndex = Math.min(level, this.totalColors - 1)
+
+    result.color = contrasts[contrastIndex]
+    result.cssVars = this.makeCssVars(result.color, name)
+
+    return result
   }
 
-  public randomBetterContrast(color?: TColor, limit: number = 3) {
-    if (!color) return this.default
-    const contrasts = this.checkContrasts(color)
-
-    return _.sample(_.slice(contrasts, 0, limit)) || this.default
+  public randomBetterContrast(color?: TColor, name?: string | null, limit: number = 3) {
+    return this.betterContrast(color, name, _.random(limit))
   }
 
   public get default() {
