@@ -17,10 +17,9 @@ import _ from 'lodash'
 import potpack from 'potpack'
 import { twMerge } from 'tailwind-merge'
 
-import { DataList } from './utils/data-list'
+import { DataList } from '_SRV/utils/data-list'
 
 export class MasonryBuilder {
-  private readonly _props: TMasonryProps
   private readonly _currentArea: TMasonryCurrentArea
   private readonly _avaliableGridSizes: TMasonryAvaliableGridSizes
 
@@ -29,9 +28,8 @@ export class MasonryBuilder {
   private readonly _fillItensGrid = new DataList<TMasonryGridSize>()
   private readonly _noRequiredGrid = new DataList<TMasonryGridSize>()
 
-  protected constructor(props: TMasonryProps) {
-    this._props = ZMasonryProps.parse(props)
-    this._currentArea = ZMasonryCurrentArea.parse({ maxArea: props.area })
+  protected constructor(private readonly _props: TMasonryProps) {
+    this._currentArea = ZMasonryCurrentArea.parse({ maxArea: _props.area })
     this._avaliableGridSizes = ZMasonryAvaliableGridSizes.parse({})
 
     this.render = this.render.bind(this)
@@ -40,7 +38,7 @@ export class MasonryBuilder {
   }
 
   static create(props: TMasonryProps) {
-    return new MasonryBuilder(props)
+    return new MasonryBuilder(ZMasonryProps.parse(props))
   }
 
   private setup() {

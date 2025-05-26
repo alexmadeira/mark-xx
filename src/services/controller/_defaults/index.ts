@@ -5,3 +5,4 @@
 export * from './hero-banner'
 export * from './route'
 export * from './scrolling'
+export * from './color'

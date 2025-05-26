@@ -14,7 +14,7 @@
 
   --spacing-x-container: clamp(
     max(var(--spacing-safe-area-x), 1.25rem),
-    5vw,
-    5rem
+    7.6vw,
+    8rem
   );
 }
