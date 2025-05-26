@@ -34,7 +34,7 @@ export function Logo() {
         }}
       >
         <LogoSVG
-          color={CLLogoColor.randomBetterContrast(overlapLogo, 4)}
+          color={CLLogoColor.betterContrast(overlapLogo)}
           className="w-[clamp(3.5rem,10vw,10rem)] transition-colors duration-250"
         />
       </motion.div>

@@ -1,7 +1,7 @@
 export function Presentation() {
   return (
     <div className="w-full">
-      <div className="mx-auto grid w-full grid-cols-1 flex-col gap-5 px-[clamp(1.25rem,5vw,5rem)] md:gap-10 lg:grid-cols-12">
+      <div className="px-x-container mx-auto grid w-full grid-cols-1 flex-col gap-5 md:gap-10 lg:grid-cols-12">
         <h2 className="text-black-900 text-[clamp(1.5rem,3.5vw,2.25rem)] leading-[clamp(2rem,4vw,3rem)] font-normal lg:col-span-12 xl:col-span-3 2xl:col-span-3">
           Transformando ideias em códigos, e códigos em produtos digitais.
         </h2>

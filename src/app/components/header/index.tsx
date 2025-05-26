@@ -4,7 +4,7 @@ import { useMeasure } from 'react-use'
 import { useElement } from '_STR/useElement'
 
 import { Logo } from './components/logo'
-import { Nav } from './nav'
+import { Nav } from './components/nav'
 
 export function Header() {
   const [headerRef, props] = useMeasure<HTMLDivElement>()

@@ -1,4 +1,10 @@
-import { defaultHeroBannerProps, defaultLogoColorProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
+import {
+  defaultHeroBannerProps,
+  defaultLogoColorProps,
+  defaultNavigationColorProps,
+  defaultRouteProps,
+  defaultScrollingProps,
+} from './_defaults'
 import { ColorController } from './color-controller'
 import { HeroBannerController } from './hero-banner-controller'
 import { OverlapController } from './overlap-controller'
@@ -41,4 +47,10 @@ export function logoColorController() {
     controllersColor.logo = ColorController.create(defaultLogoColorProps)
   }
   return controllersColor.logo
+}
+export function navigationColorController() {
+  if (!controllersColor.navigation) {
+    controllersColor.navigation = ColorController.create(defaultNavigationColorProps)
+  }
+  return controllersColor.navigation
 }
