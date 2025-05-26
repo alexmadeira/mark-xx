@@ -12,4 +12,3 @@ export function Nav() {
     </nav>
   )
 }
-// <nav className="ml-auto flex items-center justify-center gap-30">
