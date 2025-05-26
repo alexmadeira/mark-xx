@@ -181,12 +181,13 @@ export class MasonryBuilder {
   }
 
   public render(props: TMasonryRenderProps) {
+    const avalibleGridSizes = this.gridSizes.slice(0, this.gridContents.length)
     return (
       <div
         key={this.name}
         className="group/masonry grid h-full w-full flex-1 grid-flow-row-dense gap-4 p-4 sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12"
       >
-        {this.gridSizes.map((size, i) => {
+        {avalibleGridSizes.map((size, i) => {
           return this.contentWrapper({
             size,
             key: `masonry-item-${i}`,

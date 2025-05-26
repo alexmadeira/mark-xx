@@ -10,10 +10,11 @@ export const ZColors = z.object({
 })
 export const ZColorCssVars = z.record(z.string(), z.string())
 
-export const ZColorsBetterContrastResult = z.object({
-  color: ZColor,
-  cssVars: ZColorCssVars,
-})
+export const ZColorsBetterContrastResult = z
+  .object({
+    color: ZColor,
+  })
+  .and(z.record(z.string()))
 
 export const ZColorProps = z.object({
   default: ZEColorDefaultKey.default('dark'),

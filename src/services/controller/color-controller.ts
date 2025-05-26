@@ -8,8 +8,10 @@ import type {
 
 import { ZColorProps } from '@/services/controller/color'
 
+import { contrast, isValidColor, opacify } from 'colorizr'
 import _ from 'lodash'
-import { getContrast, parseToRgb, rgbToColorString } from 'polished'
+
+import { Css } from '_SRV/utils/css'
 
 export class ColorController {
   private totalColors: number = 0
@@ -24,8 +26,14 @@ export class ColorController {
     return new ColorController(ZColorProps.parse(props))
   }
 
-  private parseColor(color: TColor) {
-    return rgbToColorString(parseToRgb(color))
+  private parseColor(raw: TColor) {
+    if (!isValidColor(raw)) {
+      const colorValue = Css.findCorVar(raw)
+      if (!isValidColor(colorValue)) throw new Error(`Invalid color: ${raw}`)
+      return colorValue
+    }
+
+    return raw
   }
 
   private prepareColors() {
@@ -43,10 +51,10 @@ export class ColorController {
   private checkContrasts(baseColor: TColor) {
     const contrasts = {} as Record<string, number>
 
-    contrasts[this.colors.dark] = getContrast(baseColor, this.colors.dark)
-    contrasts[this.colors.light] = getContrast(this.colors.light, baseColor)
+    contrasts[this.colors.dark] = contrast(baseColor, this.colors.dark)
+    contrasts[this.colors.light] = contrast(this.colors.light, baseColor)
     this.colors.variations.forEach((color) => {
-      contrasts[color] = getContrast(baseColor, color)
+      contrasts[color] = contrast(baseColor, color)
     })
 
     return Object.entries(contrasts)
@@ -61,9 +69,9 @@ export class ColorController {
     const foregroundColor = this.betterContrast(color)
 
     cssVars[`--${name}-color`] = color
-    cssVars[`--${name}-shadow-color`] = foregroundColor.color
+    cssVars[`--${name}-shadow-color`] = opacify(foregroundColor.color, 0.3)
     cssVars[`--${name}-foreground-color`] = foregroundColor.color
-    cssVars[`--${name}-foreground-shadow-color`] = color
+    cssVars[`--${name}-foreground-shadow-color`] = opacify(color, 0.3)
 
     return cssVars
   }
@@ -80,7 +88,7 @@ export class ColorController {
   public betterContrast(color?: TColor, name?: string | null, level: number = 0) {
     const result: TColorsBetterContrastResult = {
       color: this.default,
-      cssVars: this.makeCssVars(this.default, name),
+      ...this.makeCssVars(this.default, name),
     }
 
     if (!color) return result
@@ -90,7 +98,7 @@ export class ColorController {
     const contrastIndex = Math.min(level, this.totalColors - 1)
 
     result.color = contrasts[contrastIndex]
-    result.cssVars = this.makeCssVars(result.color, name)
+    Object.assign(result, this.makeCssVars(result.color, name))
 
     return result
   }
