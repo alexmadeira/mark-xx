@@ -55,6 +55,348 @@ export const configHomeMasonry = {
         alt: 'Mizuno Banner',
       },
     },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
+    {
+      className: 'bg-black',
+      color: '#000000',
+      link: '/project/chilli-beans',
+      image: {
+        src: '/img/temp/projects/chilli.png',
+        alt: 'Chilli Beans',
+      },
+    },
+    {
+      className: 'bg-white',
+      color: '#FFFFFF',
+      link: '/project/mizuno-br',
+      image: {
+        src: '/img/temp/projects/mizuno-banner.png',
+        alt: 'Mizuno Banner',
+      },
+    },
   ],
 } satisfies TMasonryProps
 
