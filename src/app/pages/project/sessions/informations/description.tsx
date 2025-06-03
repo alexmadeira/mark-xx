@@ -33,38 +33,43 @@ export function Description() {
           </Balancer>
         </p>
       </div>
-      <div className="flex flex-col gap-2">
-        <h2 className="text-[clamp(1.25rem,1.85vw,3.25rem)] leading-[calc(1.75/1.25),2vw,2.25)] font-medium">
-          A Solução
-        </h2>
-        <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
-          <Balancer>
-            Pelo projeto ter sido criado por um grande fazendeiro, conseguimos abrir portas significativas em um mercado
-            pouco receptivo. Fomos então de porta em porta, de grandes, médios e pequenos produtos, de profissonais do
-            agro e estudantes de agronomia, para enfim tanginiblizarmos como conectar todos esses stakeholders em um
-            único lugar.
-          </Balancer>
-        </p>
-        <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
-          <Balancer>
-            Disponível em Android e IOS. Foi utilizado React Native para o desenvolvimento do aplicativo, trazendo
-            velocidade no desenvolvimento e custos mais acessíveis para o momento inicial da empresa.
-          </Balancer>
-        </p>
-        <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
-          <Balancer>
-            O backend conta com uma poderosa arquitetura inspirada no Instagram e Tiktok que mescla micro serviços para
-            a Rede Social utilizando Node.js e um monolito escrito em Nest.js.
-          </Balancer>
-        </p>
-        <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
-          <Balancer>
-            A arquitetura conta com 9 serviços isolados para processamento de conteúdos em imagem, texto e vídeo além de
-            uma integração realtime para Chats privados ou em grupo, entregando assim o valor da conexão e networking
-            entre os integrantes do ecossistema.
-          </Balancer>
-        </p>
-      </div>
+      {Array(10)
+        .fill('')
+        .map(() => (
+          <div className="flex flex-col gap-2">
+            <h2 className="text-[clamp(1.25rem,1.85vw,3.25rem)] leading-[calc(1.75/1.25),2vw,2.25)] font-medium">
+              A Solução
+            </h2>
+            <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
+              <Balancer>
+                Pelo projeto ter sido criado por um grande fazendeiro, conseguimos abrir portas significativas em um
+                mercado pouco receptivo. Fomos então de porta em porta, de grandes, médios e pequenos produtos, de
+                profissonais do agro e estudantes de agronomia, para enfim tanginiblizarmos como conectar todos esses
+                stakeholders em um único lugar.
+              </Balancer>
+            </p>
+            <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
+              <Balancer>
+                Disponível em Android e IOS. Foi utilizado React Native para o desenvolvimento do aplicativo, trazendo
+                velocidade no desenvolvimento e custos mais acessíveis para o momento inicial da empresa.
+              </Balancer>
+            </p>
+            <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
+              <Balancer>
+                O backend conta com uma poderosa arquitetura inspirada no Instagram e Tiktok que mescla micro serviços
+                para a Rede Social utilizando Node.js e um monolito escrito em Nest.js.
+              </Balancer>
+            </p>
+            <p className="text-[clamp(0.875rem,1vw,1.5rem)] leading-[calc(1.25/0.875),2vw,calc(2/1.5)] font-light">
+              <Balancer>
+                A arquitetura conta com 9 serviços isolados para processamento de conteúdos em imagem, texto e vídeo
+                além de uma integração realtime para Chats privados ou em grupo, entregando assim o valor da conexão e
+                networking entre os integrantes do ecossistema.
+              </Balancer>
+            </p>
+          </div>
+        ))}
+
       <div className="flex flex-col gap-2">
         <h2 className="text-[clamp(1.25rem,1.85vw,3.25rem)] leading-[calc(1.75/1.25),2vw,2.25)] font-medium">
           Resultados e Impacto
