@@ -5,7 +5,7 @@ import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { AboutParticles } from '_SRV/builder/particle'
+// import { AboutParticles } from '_SRV/builder/particle'
 import { routeController, scrollingController } from '_SRV/controller'
 
 export function BaseLayout() {
@@ -34,10 +34,10 @@ export function BaseLayout() {
           <Footer />
         </motion.div>
       </AnimatePresence>
-      <div className="fixed top-0 left-0 z-1 min-h-full w-full">
+      {/* <div className="fixed top-0 left-0 z-1 min-h-full w-full">
         <div className="bg-mark absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
         <AboutParticles.canvas className="pointer-events-none absolute top-0 left-0 z-0 h-full w-full" />
-      </div>
+      </div> */}
     </div>
   )
 }
