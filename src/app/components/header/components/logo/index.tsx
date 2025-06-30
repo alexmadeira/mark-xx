@@ -19,7 +19,7 @@ export function Logo() {
   }, [logoRef.current])
 
   return (
-    <Link to="/" ref={logoRef}>
+    <Link to="/" ref={logoRef} className="pointer-events-auto">
       <div>
         <LogoSVG
           style={{ ...CLLogoColor.betterContrast(overlapLogo) }}
@@ -29,3 +29,4 @@ export function Logo() {
     </Link>
   )
 }
+// })
