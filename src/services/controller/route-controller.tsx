@@ -24,6 +24,13 @@ export class RouteController {
     this._actions.setCurrent(route)
   }
 
+  public getRouteColor(path: string) {
+    const foundedRoute = _.find(useRoute.getState().data.routes, { path })
+    const route = ZDataGlobalRoute.parse(foundedRoute)
+
+    return route
+  }
+
   public get pages() {
     return this._props.pages
   }

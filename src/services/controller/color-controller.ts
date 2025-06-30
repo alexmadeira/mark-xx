@@ -81,24 +81,15 @@ export class ColorController {
     return this._colors
   }
 
-  private get defaultColorKey() {
-    return this._props.default
-  }
-
   public betterContrast(color?: TColor, name?: string | null, level: number = 0) {
-    const result: TColorsBetterContrastResult = {
-      color: this.default,
-      ...this.makeCssVars(this.default, name),
-    }
-
-    if (!color) return result
-
-    const rgbColor = this.parseColor(color)
+    const rgbColor = this.parseColor(color || this.default)
     const contrasts = this.checkContrasts(rgbColor)
     const contrastIndex = Math.min(level, this.totalColors - 1)
 
-    result.color = contrasts[contrastIndex]
-    Object.assign(result, this.makeCssVars(result.color, name))
+    const result: TColorsBetterContrastResult = {
+      color: contrasts[contrastIndex],
+      ...this.makeCssVars(contrasts[contrastIndex], name),
+    }
 
     return result
   }
@@ -107,7 +98,11 @@ export class ColorController {
     return this.betterContrast(color, name, _.random(limit))
   }
 
+  public set default(color: TColor) {
+    this._props.default = color
+  }
+
   public get default() {
-    return this.colors[this.defaultColorKey]
+    return this.parseColor(this._props.default)
   }
 }
