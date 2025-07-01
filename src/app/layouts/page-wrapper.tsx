@@ -8,8 +8,11 @@ export function PageWrapper({ children }: TPageWrapperProps) {
   const ScrollingController = scrollingController()
 
   useEffect(() => {
-    ScrollingController.scrollTo(0, { immediate: true })
-    ScrollingController.resize()
+    ScrollingController.scrollTo(0, { force: true, immediate: true })
+    setTimeout(() => {
+      ScrollingController.resize()
+      console.log('PageWrapper mounted')
+    }, 500)
   }, [])
 
   return children
