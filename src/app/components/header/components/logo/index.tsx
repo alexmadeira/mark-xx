@@ -23,10 +23,9 @@ export function Logo() {
       <div>
         <LogoSVG
           style={{ ...CLLogoColor.betterContrast(overlapLogo) }}
-          className="w-[clamp(3.5rem,6vw,9rem)] transition-colors duration-250"
+          className="w-[clamp(3.5rem,6vw,9rem)] transition-colors duration-500"
         />
       </div>
     </Link>
   )
 }
-// })

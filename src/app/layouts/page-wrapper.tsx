@@ -11,7 +11,6 @@ export function PageWrapper({ children }: TPageWrapperProps) {
     ScrollingController.scrollTo(0, { force: true, immediate: true })
     setTimeout(() => {
       ScrollingController.resize()
-      console.log('PageWrapper mounted')
     }, 500)
   }, [])
 
