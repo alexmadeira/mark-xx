@@ -35,8 +35,8 @@ export function Description() {
       </div>
       {Array(10)
         .fill('')
-        .map(() => (
-          <div className="flex flex-col gap-2">
+        .map((_item, i) => (
+          <div className="flex flex-col gap-2" key={`key-${i}`}>
             <h2 className="text-[clamp(1.25rem,1.85vw,3.25rem)] leading-[calc(1.75/1.25),2vw,2.25)] font-medium">
               A Solução
             </h2>

@@ -3,4 +3,5 @@
 @import "./tokens/font.css";
 @import "./tokens/colors.css";
 @import "./tokens/spacing.css";
+@import "./tokens/animation.css";
 @import "./tokens/breakpoint.css";
