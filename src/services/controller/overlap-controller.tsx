@@ -42,6 +42,7 @@ export class OverlapController {
 
         if (isOverlapping) collisionOptions = options
       }
+
       this.actions.setCollision(name, collisionOptions)
     }
   }
