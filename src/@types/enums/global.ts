@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { GLOBAL_COLORS, GLOBAL_ROUTE_CODES } from '_SRV/constant/global'
 

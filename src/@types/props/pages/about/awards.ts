@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZAwardsTitleProps = z.intersection(z.custom<HTMLAttributes<HTMLHeadingElement>>(), z.object({}))
 export const ZAwardsAwardProps = z.intersection(z.custom<HTMLAttributes<HTMLSpanElement>>(), z.object({}))

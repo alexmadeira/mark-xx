@@ -1,7 +1,7 @@
 import type Lenis from 'lenis'
 import type { LenisOptions, ScrollToOptions } from 'lenis'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZScrollingTarget = z.union([z.number(), z.string(), z.custom<HTMLElement>()])
 
