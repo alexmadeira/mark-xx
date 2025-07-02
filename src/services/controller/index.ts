@@ -1,6 +1,6 @@
 import {
-  defaultHeroBannerProps,
   defaultHeroColorProps,
+  defaultHeroProps,
   defaultLogoColorProps,
   defaultNavigationColorProps,
   defaultRouteProps,
@@ -8,40 +8,45 @@ import {
   defaultTextColorProps,
 } from './_defaults'
 import { ColorController } from './color-controller'
-import { HeroBannerController } from './hero-banner-controller'
+import { HeroController } from './hero-controller'
 import { OverlapController } from './overlap-controller'
 import { RouteController } from './route-controller'
 import { ScrollingController } from './scrolling-controller'
 
-let controllerHeroBanner: HeroBannerController
+let controllerHero: HeroController
 let controllerRoute: RouteController
 let controllerScrolling: ScrollingController
 let controllerOverlap: OverlapController
 
 const controllersColor: Record<string, ColorController> = {}
 
-export function heroBannerController() {
-  if (controllerHeroBanner) return controllerHeroBanner
+export function heroController() {
+  if (controllerHero) return controllerHero
 
-  return (controllerHeroBanner = HeroBannerController.create(defaultHeroBannerProps))
+  controllerHero = HeroController.create(defaultHeroProps)
+
+  return controllerHero
 }
 
 export function routeController() {
   if (controllerRoute) return controllerRoute
 
-  return (controllerRoute = RouteController.create(defaultRouteProps))
+  controllerRoute = RouteController.create(defaultRouteProps)
+  return controllerRoute
 }
 
 export function scrollingController() {
   if (controllerScrolling) return controllerScrolling
 
-  return (controllerScrolling = ScrollingController.create(defaultScrollingProps))
+  controllerScrolling = ScrollingController.create(defaultScrollingProps)
+  return controllerScrolling
 }
 
 export function overlapController() {
   if (controllerOverlap) return controllerOverlap
 
-  return (controllerOverlap = OverlapController.create({ scrolling: scrollingController() }))
+  controllerOverlap = OverlapController.create({ scrolling: scrollingController() })
+  return controllerOverlap
 }
 
 export function logoColorController() {

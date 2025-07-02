@@ -45,7 +45,7 @@ export const dataGlobalRoutes = [
     code: 'project',
     color: {
       name: 'mark',
-      hex: '#c9ddee',
+      hex: '#ffffff',
       twVar: '--color-mark-100',
     },
   },
@@ -54,8 +54,8 @@ export const dataGlobalRoutes = [
     code: 'project',
     color: {
       name: 'mark',
-      hex: '#c9ddee',
-      twVar: '--color-node-100',
+      hex: '#000000',
+      twVar: '--color-black',
     },
   },
 ] satisfies TDataGlobalRoutes

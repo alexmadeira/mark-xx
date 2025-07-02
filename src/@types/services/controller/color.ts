@@ -1,5 +1,3 @@
-import { ZEColorDefaultKey } from '@/enums/controller/color'
-
 import { z } from 'zod'
 
 export const ZColor = z.string()
@@ -17,7 +15,7 @@ export const ZColorsBetterContrastResult = z
   .and(z.record(z.string()))
 
 export const ZColorProps = z.object({
-  default: ZEColorDefaultKey.default('dark'),
+  default: ZColor.default('#000000'),
   dark: ZColor.default('#000000'),
   light: ZColor.default('#FFFFFF'),
   variations: z.array(z.string()).optional(),
