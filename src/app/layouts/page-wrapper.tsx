@@ -1,4 +1,4 @@
-import { TPageWrapperProps } from '@/props/layouts/page-wrapper'
+import type { TPageWrapperProps } from '@/props/layouts/page-wrapper'
 
 import { useEffect } from 'react'
 

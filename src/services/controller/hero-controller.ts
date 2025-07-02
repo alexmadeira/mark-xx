@@ -1,7 +1,6 @@
+import type { TDataTechnologies } from '@/services/content-data/technologies'
 import type { THeroProps, THeroTypeContent, THeroTypingSequence } from '@/services/controller/hero-controller'
-
-import { TDataTechnologies } from '@/services/content-data/technologies'
-import { Nullish } from '@/utils/nullish'
+import type { Nullish } from '@/utils/nullish'
 
 import _ from 'lodash'
 
