@@ -8,7 +8,7 @@ export const ZScrollingTarget = z.union([z.number(), z.string(), z.custom<HTMLEl
 export const ZScrollingToOption = z.custom<ScrollToOptions>()
 
 export const ZScrollingProps = z.object({ lenis: z.custom<Lenis>() })
-export const ZScrollingCreateProps = z.intersection(z.custom<LenisOptions>(), z.object({}))
+export const ZScrollingCreateProps = z.custom<LenisOptions>()
 
 //
 //

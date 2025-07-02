@@ -7,18 +7,23 @@ import type {
 
 import { ZOverlapProps } from '@/services/controller/overlap'
 
+import _ from 'lodash'
+
 import { useOverlap } from '_STR/useOverlap'
 
 export class OverlapController {
   private readonly _props: TOverlapProps
 
+  public readonly update: () => void
   private readonly actions = useOverlap.getState().actions
-  private readonly elementList = new Map<HTMLElement, TOverlapElementOption>()
+
   private readonly targetMap = new Map<string, HTMLElement>()
+  private readonly elementList = new Map<HTMLElement, TOverlapElementOption>()
 
   protected constructor(props: TOverlapProps) {
     this._props = ZOverlapProps.parse(props)
 
+    this.update = _.debounce(this.checkCollision.bind(this), 50)
     this._props.scrolling.ev.on('scroll', this.checkCollision.bind(this))
   }
 
@@ -45,10 +50,6 @@ export class OverlapController {
 
       this.actions.setCollision(name, collisionOptions)
     }
-  }
-
-  public update() {
-    this.checkCollision()
   }
 
   public reset() {
