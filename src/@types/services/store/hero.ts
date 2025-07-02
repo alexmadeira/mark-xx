@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZStoreHeroCurrentProps = z.object({
   id: z.string(),
@@ -17,7 +17,7 @@ export const ZStoreHeroData = z.object({
 })
 
 export const ZStoreHeroActions = z.object({
-  setCurrent: z.function(z.tuple([z.string(), ZStoreHeroCurrentProps])).returns(z.void()),
+  setCurrent: z.custom<(content: string, props: z.infer<typeof ZStoreHeroCurrentProps>) => void>(),
 })
 
 export const ZStoreHero = z.object({

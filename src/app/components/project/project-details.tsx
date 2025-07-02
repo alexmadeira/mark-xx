@@ -1,4 +1,6 @@
-import { TProjectDetailsProps, ZProjectDetailsProps } from '@/props/pages/projects/project-details'
+import type { TProjectDetailsProps } from '@/props/pages/projects/project-details'
+
+import { ZProjectDetailsProps } from '@/props/pages/projects/project-details'
 
 import { useEffect, useRef } from 'react'
 

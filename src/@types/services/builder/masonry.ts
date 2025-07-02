@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'react'
 import type { To } from 'react-router-dom'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZMasonryCurrentArea = z.object({
   size: z.number().default(0),

@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { ZDataGlobalRoute, ZDataGlobalRoutes } from '../content-data/global'
 
@@ -8,8 +8,8 @@ export const ZStoreRouteData = z.object({
 })
 
 export const ZStoreRouteActions = z.object({
-  setRoutes: z.function(z.tuple([ZDataGlobalRoutes])).returns(z.void()),
-  setCurrent: z.function(z.tuple([ZDataGlobalRoute])).returns(z.void()),
+  setRoutes: z.custom<(routes: z.infer<typeof ZDataGlobalRoutes>) => void>(),
+  setCurrent: z.custom<(route: z.infer<typeof ZDataGlobalRoute>) => void>(),
 })
 
 export const ZStoreRoute = z.object({

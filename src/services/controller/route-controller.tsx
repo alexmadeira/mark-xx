@@ -1,5 +1,6 @@
+import type { TRouteProps } from '@/services/controller/route'
+
 import { ZDataGlobalRoute } from '@/services/content-data/global'
-import { TRouteProps } from '@/services/controller/route'
 
 import _ from 'lodash'
 

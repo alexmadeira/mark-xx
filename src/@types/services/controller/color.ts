@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZColor = z.string()
 export const ZColors = z.object({
@@ -12,7 +12,7 @@ export const ZColorsBetterContrastResult = z
   .object({
     color: ZColor,
   })
-  .and(z.record(z.string()))
+  .and(z.record(z.string(), z.string()))
 
 export const ZColorProps = z.object({
   default: ZColor.default('#000000'),
