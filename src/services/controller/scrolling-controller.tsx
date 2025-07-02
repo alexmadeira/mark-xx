@@ -45,6 +45,13 @@ export class ScrollingController {
     this._props.lenis.start()
   }
 
+  public restart() {
+    this.stop()
+    this.start()
+    window.scrollTo(0, 0)
+    this.resize()
+  }
+
   public resize() {
     this._props.lenis.resize()
   }
