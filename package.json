@@ -12,6 +12,7 @@
     "test:unit:watch": "dotenvx run -f .env -f .env.test --overload -- vitest --dir ./src/__tests__/unit/",
     "lint:check": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
+    "type-check": "tsc -b",
     "lint-staged": "lint-staged"
   },
   "engines": {
