@@ -1,6 +1,6 @@
 import type { Scrolling } from 'lenis'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZStoreScrollingDetails = z.object({
   limit: z.number(),
@@ -19,7 +19,7 @@ export const ZStoreScrollingData = z.object({
 })
 
 export const ZStoreScrollingActions = z.object({
-  setDetails: z.function(z.tuple([ZStoreScrollingDetails])).returns(z.void()),
+  setDetails: z.custom<(details: z.infer<typeof ZStoreScrollingDetails>) => void>(),
 })
 
 export const ZStoreScrolling = z.object({
