@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 
 import { ZEGlobalColos, ZEGlobalRouteCode } from '@/enums/global'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZDataMotionVariant = z.custom<Variant>()
 export const ZDataMotionVariants = z.object({
@@ -31,9 +31,7 @@ export const ZDataGlobalRoute = z.object({
 
 export const ZDataGlobalRoutes = z.array(ZDataGlobalRoute)
 
-export const ZDataGlobalPages = z
-  .record(ZEGlobalRouteCode, z.function().returns(z.custom<ReactNode | null>()))
-  .refine((obj): obj is Required<typeof obj> => ZEGlobalRouteCode.options.every((key) => obj[key] !== null))
+export const ZDataGlobalPages = z.record(ZEGlobalRouteCode, z.custom<() => ReactNode>())
 
 //
 //

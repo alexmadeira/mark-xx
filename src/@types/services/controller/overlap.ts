@@ -1,6 +1,6 @@
 import type { ScrollingController } from '_SRV/controller/scrolling-controller'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZOverlapHTMLElement = z.custom<HTMLElement>().nullish()
 export const ZOverlapElementOption = z.string()

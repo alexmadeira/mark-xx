@@ -1,4 +1,4 @@
-import { TScrollingCreateProps } from '@/services/controller/scrolling'
+import type { TScrollingCreateProps } from '@/services/controller/scrolling'
 
 export const defaultScrollingProps = {
   duration: 3,

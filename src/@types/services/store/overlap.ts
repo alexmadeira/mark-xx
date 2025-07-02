@@ -1,4 +1,6 @@
-import { z } from 'zod'
+import type { Nullish } from '@/utils/nullish'
+
+import { z } from 'zod/v4'
 
 export const ZStoreOverlapCollision = z.record(z.string(), z.string().optional())
 
@@ -7,7 +9,7 @@ export const ZStoreOverlapData = z.object({
 })
 
 export const ZStoreOverlapActions = z.object({
-  setCollision: z.function(z.tuple([z.string(), z.string().nullish()])).returns(z.void()),
+  setCollision: z.custom<(target: string, props: Nullish<string>) => void>(),
 })
 
 export const ZStoreOverlap = z.object({

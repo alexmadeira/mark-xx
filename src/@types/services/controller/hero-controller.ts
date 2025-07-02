@@ -1,6 +1,6 @@
 import { ZETechnologyKey } from '@/enums/technology'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 import { ZDataHero } from '../content-data/hero'
 

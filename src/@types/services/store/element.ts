@@ -2,11 +2,11 @@ import type { UseMeasureRect } from 'react-use/lib/useMeasure'
 
 import { ZEBlock } from '@/enums/element'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const ZStoreElementData = z.record(ZEBlock, z.custom<UseMeasureRect>())
 export const ZStoreElementActions = z.object({
-  setBlock: z.function().args(ZEBlock, z.custom<Partial<UseMeasureRect>>()).returns(z.void()),
+  setBlock: z.custom<(name: z.infer<typeof ZEBlock>, props: UseMeasureRect) => void>(),
 })
 
 export const ZStoreElement = z.object({

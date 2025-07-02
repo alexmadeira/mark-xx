@@ -6,10 +6,17 @@ import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
 // import { AboutParticles } from '_SRV/builder/particle'
-import { logoColorController, navigationColorController, routeController, textColorController } from '_SRV/controller'
+import {
+  logoColorController,
+  navigationColorController,
+  overlapController,
+  routeController,
+  textColorController,
+} from '_SRV/controller'
 
 export function BaseLayout() {
   const CLRoute = routeController()
+  const CLOverlap = overlapController()
   const CLLogoColor = logoColorController()
   const CLTextColor = textColorController()
 
@@ -28,18 +35,19 @@ export function BaseLayout() {
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
       <AnimatePresence mode="sync" initial={false}>
+        <Header />
         <motion.div
           key={pathname}
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, type: 'easeInOut' }}
+          transition={{ duration: 0.5 }}
           style={{
             ...CLTextColor.betterContrast(CLRoute.getRouteColor(pathname).color.twVar),
           }}
+          onAnimationComplete={CLOverlap.update}
           className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col"
         >
-          <Header />
           {element && cloneElement(element)}
           <Footer />
         </motion.div>

@@ -1,4 +1,4 @@
-import { TDataGlobalPages, TDataGlobalRoutes } from '@/services/content-data/global'
+import type { TDataGlobalPages, TDataGlobalRoutes } from '@/services/content-data/global'
 
 import { About } from '_APP/pages/about'
 import { Home } from '_APP/pages/home'
