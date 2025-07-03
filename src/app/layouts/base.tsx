@@ -6,21 +6,14 @@ import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
 // import { AboutParticles } from '_SRV/builder/particle'
-import {
-  logoColorController,
-  navigationColorController,
-  overlapController,
-  routeController,
-  textColorController,
-} from '_SRV/controller'
+import { colorController, overlapController, routeController } from '_SRV/controller'
 
 export function BaseLayout() {
   const CLRoute = routeController()
   const CLOverlap = overlapController()
-  const CLLogoColor = logoColorController()
-  const CLTextColor = textColorController()
-
-  const CLNavigationColor = navigationColorController()
+  const CLLogoColor = colorController('logo')
+  const CLTextColor = colorController('text')
+  const CLNavigationColor = colorController('navigation')
 
   const { pathname } = useLocation()
   const element = useOutlet()

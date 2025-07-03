@@ -6,12 +6,12 @@ import { useEffect, useRef } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 
-import { overlapController, textColorController } from '_SRV/controller'
+import { colorController, overlapController } from '_SRV/controller'
 
 export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   const detailRef = useRef<HTMLDivElement>(null)
   const overlapLogo = overlapController()
-  const CLTextColor = textColorController()
+  const CLTextColor = colorController('text')
 
   const { image, color, ...props } = ZProjectDetailsProps.parse(data)
 
