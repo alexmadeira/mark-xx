@@ -1,13 +1,5 @@
 import { defaultElementProps } from './_defaults/element'
-import {
-  defaultHeroColorProps,
-  defaultHeroProps,
-  defaultLogoColorProps,
-  defaultNavigationColorProps,
-  defaultRouteProps,
-  defaultScrollingProps,
-  defaultTextColorProps,
-} from './_defaults'
+import { defaultColorProps, defaultHeroProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
 import { ColorController } from './color-controller'
 import { ElementController } from './element-controller'
 import { HeroController } from './hero-controller'
@@ -59,30 +51,9 @@ export function elementController(element: keyof typeof defaultElementProps) {
   return controllersElement[element]
 }
 
-export function logoColorController() {
-  if (!controllersColor.logo) {
-    controllersColor.logo = ColorController.create(defaultLogoColorProps)
+export function colorController(color: keyof typeof defaultColorProps) {
+  if (!controllersColor[color]) {
+    controllersColor[color] = ColorController.create(defaultColorProps[color])
   }
-  return controllersColor.logo
-}
-
-export function heroColorController() {
-  if (!controllersColor.hero) {
-    controllersColor.hero = ColorController.create(defaultHeroColorProps)
-  }
-  return controllersColor.hero
-}
-
-export function navigationColorController() {
-  if (!controllersColor.navigation) {
-    controllersColor.navigation = ColorController.create(defaultNavigationColorProps)
-  }
-  return controllersColor.navigation
-}
-
-export function textColorController() {
-  if (!controllersColor.text) {
-    controllersColor.text = ColorController.create(defaultTextColorProps)
-  }
-  return controllersColor.text
+  return controllersColor[color]
 }

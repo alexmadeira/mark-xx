@@ -1,12 +1,12 @@
 import { memo } from 'react'
 
-import { heroColorController } from '_SRV/controller'
+import { colorController } from '_SRV/controller'
 
 import { useElement } from '_STR/useElement'
 import { useHero } from '_STR/useHero'
 
 export const Title = memo(() => {
-  const CLHeroColor = heroColorController()
+  const CLHeroColor = colorController('hero')
   const current = useHero((st) => st.data.current)
   const headerMeasure = useElement((st) => st.data.header.measure)
 

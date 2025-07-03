@@ -1,10 +1,10 @@
-import { heroColorController } from '_SRV/controller'
+import { colorController } from '_SRV/controller'
 
 import { useHero } from '_STR/useHero'
 
 export function Content() {
   const heroBackground = useHero((st) => st.data.current.color)
-  const CLHeroColor = heroColorController()
+  const CLHeroColor = colorController('hero')
 
   return (
     <div className="relative z-1 mt-auto w-full pb-[clamp(1rem,3vw,5rem)]">
