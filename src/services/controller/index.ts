@@ -1,3 +1,4 @@
+import { defaultElementProps } from './_defaults/element'
 import {
   defaultHeroColorProps,
   defaultHeroProps,
@@ -8,6 +9,7 @@ import {
   defaultTextColorProps,
 } from './_defaults'
 import { ColorController } from './color-controller'
+import { ElementController } from './element-controller'
 import { HeroController } from './hero-controller'
 import { OverlapController } from './overlap-controller'
 import { RouteController } from './route-controller'
@@ -19,6 +21,7 @@ let controllerScrolling: ScrollingController
 let controllerOverlap: OverlapController
 
 const controllersColor: Record<string, ColorController> = {}
+const controllersElement: Record<string, ElementController> = {}
 
 export function heroController() {
   if (controllerHero) return controllerHero
@@ -47,6 +50,13 @@ export function overlapController() {
 
   controllerOverlap = OverlapController.create({ scrolling: scrollingController() })
   return controllerOverlap
+}
+
+export function elementController(element: keyof typeof defaultElementProps) {
+  if (!controllersElement[element]) {
+    controllersElement[element] = ElementController.create(defaultElementProps[element])
+  }
+  return controllersElement[element]
 }
 
 export function logoColorController() {

@@ -17,7 +17,7 @@ export class HeroController {
   private _typingWaitTimeout: Nullish<NodeJS.Timeout> = null
   private _typingSequence: THeroTypingSequence = []
 
-  constructor(private readonly _props: THeroProps) {
+  protected constructor(private readonly _props: THeroProps) {
     this.setup()
   }
 
