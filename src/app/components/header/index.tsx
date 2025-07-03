@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
 import { useMeasure } from 'react-use'
 
-import { useElement } from '_STR/useElement'
+import { elementController } from '_SRV/controller'
 
 import { Logo } from './components/logo'
 import { Nav } from './components/nav'
 
 export function Header() {
+  const CLElementHeader = elementController('header')
   const [headerRef, props] = useMeasure<HTMLDivElement>()
 
   useEffect(() => {
-    useElement.getState().actions.setBlock('header', props)
+    CLElementHeader.measure = props
   }, [props])
 
   return (

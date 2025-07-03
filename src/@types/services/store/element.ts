@@ -1,12 +1,15 @@
-import type { UseMeasureRect } from 'react-use/lib/useMeasure'
-
-import { ZEBlock } from '@/enums/element'
+import { ZDataElement, ZDataElementMeasure } from '@/services/content-data/element'
 
 import { z } from 'zod/v4'
 
-export const ZStoreElementData = z.record(ZEBlock, z.custom<UseMeasureRect>())
+export const ZStoreElementProps = ZDataElement
+export const ZStoreElementDataMeasure = ZDataElementMeasure.partial()
+
+export const ZStoreElementData = z.record(z.string(), ZStoreElementProps)
+
 export const ZStoreElementActions = z.object({
-  setBlock: z.custom<(name: z.infer<typeof ZEBlock>, props: UseMeasureRect) => void>(),
+  addElement: z.custom<(name: string) => void>(),
+  setMeasure: z.custom<(name: string, props: z.infer<typeof ZStoreElementDataMeasure>) => void>(),
 })
 
 export const ZStoreElement = z.object({
@@ -19,6 +22,8 @@ export const ZStoreElement = z.object({
 //
 //
 
+export type TStoreElementProps = z.infer<typeof ZStoreElementProps>
+export type TStoreElementDataMeasure = z.infer<typeof ZStoreElementDataMeasure>
 export type TStoreElementData = z.infer<typeof ZStoreElementData>
 export type TStoreElementActions = z.infer<typeof ZStoreElementActions>
 export type TStoreElement = z.infer<typeof ZStoreElement>
