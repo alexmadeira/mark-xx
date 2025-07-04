@@ -23,7 +23,8 @@ export function Banner() {
         <motion.img
           style={{ opacity, scale }}
           src="/img/temp/projects/chilli.png"
-          className="h-full w-full object-cover"
+          // src="/img/temp/projects/mizuno-banner.png"
+          className="h-full w-full object-cover lg:object-top"
         />
       </div>
     </div>

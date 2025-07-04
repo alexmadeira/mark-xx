@@ -44,18 +44,24 @@ export const dataGlobalRoutes = [
     path: '/project/mizuno-br',
     code: 'project',
     color: {
-      name: 'mark',
+      name: 'white',
       hex: '#ffffff',
-      twVar: '--color-mark-100',
+      twVar: '--color-white',
+    },
+    header: {
+      className: 'bg-gradient-to-b from-white from-50% to-transparent to-100%',
     },
   },
   {
     path: '/project/chilli-beans',
     code: 'project',
     color: {
-      name: 'mark',
+      name: 'black',
       hex: '#000000',
       twVar: '--color-black',
+    },
+    header: {
+      className: 'bg-gradient-to-b from-black from-50% to-transparent to-100%',
     },
   },
 ] satisfies TDataGlobalRoutes
