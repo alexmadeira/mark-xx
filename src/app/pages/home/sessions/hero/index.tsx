@@ -1,21 +1,20 @@
-import { heroController } from '_SRV/controller'
+import { colorController } from '_SRV/controller'
 
-import { useElement } from '_STR/useElement'
+import { useHero } from '_STR/useHero'
 
 import { Banner } from './banner'
 import { Content } from './content'
 import { Title } from './title'
 
 export function Hero() {
-  const CLHero = heroController()
-  const header = useElement((st) => st.data.header)
+  const CLHeroColor = colorController('hero')
 
-  CLHero.start()
+  const content = useHero((st) => st.data.current.content)
 
   return (
     <div
-      className="relative flex h-[85vh] max-h-[80vw] min-h-[400px] flex-col items-center"
-      style={{ paddingTop: `${header.height}px` }}
+      style={{ ...CLHeroColor.betterContrast(content.color) }}
+      className="relative flex h-[85vh] max-h-[80vw] min-h-[400px] flex-col items-center pt-[var(--header-measure-height)]"
     >
       <Title />
       <Content />

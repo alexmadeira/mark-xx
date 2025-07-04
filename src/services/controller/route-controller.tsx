@@ -7,10 +7,10 @@ import _ from 'lodash'
 import { useRoute } from '_STR/useRoute'
 
 export class RouteController {
-  private readonly _actions = useRoute.getState().actions
+  private readonly routeActions = useRoute.getState().actions
 
   protected constructor(private readonly _props: TRouteProps) {
-    this._actions.setRoutes(this._props.routes)
+    this.setRoute = this.setRoute.bind(this)
   }
 
   public static create(props: TRouteProps) {
@@ -18,15 +18,15 @@ export class RouteController {
   }
 
   public setRoute(path: string) {
-    const foundedRoute = _.find(useRoute.getState().data.routes, { path })
+    const foundedRoute = _.find(this.routes, { path })
     const route = ZDataGlobalRoute.parse(foundedRoute)
 
     document.documentElement.style.setProperty('background', `var(${route.color.twVar})`)
-    this._actions.setCurrent(route)
+    this.routeActions.setCurrent(route.code)
   }
 
   public getRouteColor(path: string) {
-    const foundedRoute = _.find(useRoute.getState().data.routes, { path })
+    const foundedRoute = _.find(this.routes, { path })
     const route = ZDataGlobalRoute.parse(foundedRoute)
 
     return route
@@ -41,7 +41,7 @@ export class RouteController {
   }
 
   public get routesObject() {
-    return useRoute.getState().data.routes.map((route) => ({
+    return this.routes.map((route) => ({
       path: route.path,
       component: this.pages[route.code],
     }))

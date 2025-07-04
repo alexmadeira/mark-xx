@@ -11,10 +11,10 @@ export const useOverlap = create<TStoreOverlap>((set) => ({
     setCollision: (target, option) =>
       set((state) =>
         produce(state, (draft) => {
-          if (!option) {
-            delete draft.data.collision[target]
-            return
-          }
+          // if (!option) {
+          //   delete draft.data.collision[target]
+          //   return
+          // }
           draft.data.collision[target] = option
         }),
       ),

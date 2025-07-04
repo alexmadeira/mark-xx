@@ -16,7 +16,7 @@ export const ZHeroTypeContent = z
     name: z.string(),
     color: z.string(),
     banner: z.string(),
-    content: z.string(),
+    type: z.string(),
   })
   .and(ZHeroTypeContentMeta)
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { twMerge } from 'tailwind-merge'
 
-import { navigationColorController, overlapController } from '_SRV/controller'
+import { colorController, overlapController } from '_SRV/controller'
 
 import { useOverlap } from '_STR/useOverlap'
 
@@ -13,7 +13,7 @@ export function NavLink({ className, ...rest }: TNavLinkProps) {
   const name = `navigation:${rest['data-name']}`
 
   const CLOverlap = overlapController()
-  const CLNavigationColor = navigationColorController()
+  const CLNavigationColor = colorController('navigation')
 
   const navigationRef = useRef<HTMLAnchorElement>(null)
   const overlapNavigation = useOverlap((st) => st.data.collision[name])

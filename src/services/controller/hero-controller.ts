@@ -17,7 +17,7 @@ export class HeroController {
   private _typingWaitTimeout: Nullish<NodeJS.Timeout> = null
   private _typingSequence: THeroTypingSequence = []
 
-  constructor(private readonly _props: THeroProps) {
+  protected constructor(private readonly _props: THeroProps) {
     this.setup()
   }
 
@@ -34,9 +34,9 @@ export class HeroController {
       {
         id: tech?.id || key,
         name: tech?.name || tech?.typing || key,
+        type: tech?.typing || tech?.name || key,
         color: tech?.color || 'none',
         banner: tech?.banner || '',
-        content: tech?.typing || tech?.name || key,
         ...this.typingMeta,
       },
     ])
@@ -47,8 +47,8 @@ export class HeroController {
 
     this._typingInterval = setInterval(() => {
       this._typingLetter++
-      this.heroActions.setCurrent(this.current.content.slice(0, this._typingLetter), this.current)
-      if (this._typingLetter >= this.current.content.length) {
+      this.heroActions.setCurrent(this.current.type.slice(0, this._typingLetter), this.current)
+      if (this._typingLetter >= this.current.type.length) {
         this.clearTimer()
         this._typingWaitTimeout = setTimeout(() => this.erase(), this.current.waitTime)
       }
@@ -60,7 +60,7 @@ export class HeroController {
 
     this._typingInterval = setInterval(() => {
       this._typingLetter--
-      this.heroActions.setCurrent(this.current.content.slice(0, this._typingLetter), this.current)
+      this.heroActions.setCurrent(this.current.type.slice(0, this._typingLetter), this.current)
 
       if (this._typingLetter <= 0) {
         this.clearTimer()
