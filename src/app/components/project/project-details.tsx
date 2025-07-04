@@ -10,13 +10,13 @@ import { colorController, overlapController } from '_SRV/controller'
 
 export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   const detailRef = useRef<HTMLDivElement>(null)
-  const overlapLogo = overlapController()
+  const CLOverlap = overlapController()
   const CLTextColor = colorController('text')
 
   const { image, color, ...props } = ZProjectDetailsProps.parse(data)
 
   useEffect(() => {
-    overlapLogo.addElement(detailRef.current, color)
+    CLOverlap.addElement(detailRef.current, color)
   }, [detailRef.current])
 
   return (

@@ -6,7 +6,7 @@ import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
 // import { AboutParticles } from '_SRV/builder/particle'
-import { colorController, heroController, routeController } from '_SRV/controller'
+import { colorController, elementController, heroController, routeController } from '_SRV/controller'
 
 export function BaseLayout() {
   const CLHero = heroController()
@@ -15,21 +15,25 @@ export function BaseLayout() {
   const CLLogoColor = colorController('logo')
   const CLTextColor = colorController('text')
   const CLNavigationColor = colorController('navigation')
+  const CLHeaderElement = elementController('header')
 
   const { pathname } = useLocation()
   const element = useOutlet()
 
   CLHero.start()
+  CLRoute.setRoute(pathname)
 
   useEffect(() => {
-    CLRoute.setRoute(pathname)
-    CLLogoColor.default = CLRoute.getRouteColor(pathname).color.twVar
-    CLNavigationColor.default = CLRoute.getRouteColor(pathname).color.twVar
+    const route = CLRoute.getCurrent()
+
+    CLLogoColor.default = route.color.twVar
+    CLNavigationColor.default = route.color.twVar
+
+    CLHeaderElement.setClassName(route.header?.className)
   }, [pathname])
 
   return (
     <div className="relative flex min-h-screen flex-col antialiased">
-      <Header />
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={pathname}
@@ -38,14 +42,11 @@ export function BaseLayout() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           style={{
-            ...CLTextColor.betterContrast(CLRoute.getRouteColor(pathname).color.twVar),
+            ...CLTextColor.betterContrast(CLRoute.getRoute(pathname).color.twVar),
           }}
-          // onAnimationStart={() => CLRoute.transitionStart()}
-          // onAnimationComplete={() => {
-          //   CLRoute.transitionComplete()
-          // }}
           className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col"
         >
+          <Header />
           {element && cloneElement(element)}
           <Footer />
         </motion.div>

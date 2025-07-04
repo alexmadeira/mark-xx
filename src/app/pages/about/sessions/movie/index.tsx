@@ -1,9 +1,14 @@
-import { memo } from 'react'
+// import { memo } from 'react'
+import { useEffect } from 'react'
 import { useVideo } from 'react-use'
 
 import { useInView } from 'motion/react'
 
-export const Movie = memo(() => {
+import { overlapController } from '_SRV/controller'
+
+export function Movie() {
+  const CLOverlap = overlapController()
+
   const [video, _, controls, videoRef] = useVideo(
     <video
       autoPlay
@@ -15,16 +20,18 @@ export const Movie = memo(() => {
     />,
   )
   const inViewVideo = useInView(videoRef, { margin: '50px 0px' })
-  if (videoRef.current) {
+
+  useEffect(() => {
     if (inViewVideo) controls.play()
     if (!inViewVideo) controls.pause()
-  }
+
+    CLOverlap.addElement(videoRef.current, '--color-black')
+  }, [videoRef.current, inViewVideo])
+
   return (
     <div className="3xl:h-[50vh] relative mt-32 h-[40vh] min-h-[300px] w-full">
       <div className="absolute top-0 left-0 z-1 h-full w-full bg-zinc-800/70" />
       {video}
     </div>
   )
-})
-
-Movie.displayName = 'Movie'
+}

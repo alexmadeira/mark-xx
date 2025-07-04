@@ -5,6 +5,7 @@ import type {
   TElementMeasure,
   TElementProps,
 } from '@/services/controller/element'
+import type { Nullish } from '@/utils/nullish'
 
 import { ZElementClassName, ZElementMeasure, ZElementOptions } from '@/services/controller/element'
 
@@ -69,9 +70,8 @@ export class ElementController {
     this.updateCssVars()
   }
 
-  public set className(className: TElementClassName) {
-    console.log(className)
-    this.elementActions.setClassName(this.name, className)
+  public setClassName(className: Nullish<TElementClassName>) {
+    this.elementActions.setClassName(this.name, className || '')
   }
 
   public get name() {
