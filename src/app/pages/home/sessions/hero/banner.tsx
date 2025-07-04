@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 
+import _ from 'lodash'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { heroController, overlapController } from '_SRV/controller'
@@ -11,28 +12,28 @@ export function Banner() {
   const overlapLogo = overlapController()
 
   const heroRef = useRef<HTMLDivElement>(null)
-  const current = useHero((st) => st.data.current)
+  const content = useHero((st) => st.data.current.content)
 
   useEffect(() => {
-    overlapLogo.addElement(heroRef.current, current.color).update()
-  }, [heroRef.current, current.color])
+    overlapLogo.addElement(heroRef.current, content.color)
+  }, [content.color])
 
   return (
     <div ref={heroRef} className="group absolute top-0 left-0 h-full w-full overflow-clip">
       <AnimatePresence mode="sync">
         <motion.img
-          key={current.id}
-          alt={current.name}
-          src={current.banner}
+          key={content.id}
+          alt={content.name}
+          src={content.banner}
           className="absolute top-0 left-0 h-full w-full object-cover object-top"
           {...CLHero.settings.banner}
         />
       </AnimatePresence>
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
-          key={current.color}
+          key={content.color}
           {...CLHero.settings.bannerOverlay}
-          style={{ background: current.color }}
+          style={{ background: content.color }}
           className="absolute top-0 left-0 h-full w-full"
         />
       </AnimatePresence>

@@ -1,6 +1,12 @@
-import type { TElement, TElementCssVars, TElementMeasure, TElementProps } from '@/services/controller/element'
+import type {
+  TElement,
+  TElementClassName,
+  TElementCssVars,
+  TElementMeasure,
+  TElementProps,
+} from '@/services/controller/element'
 
-import { ZElementMeasure, ZElementOptions } from '@/services/controller/element'
+import { ZElementClassName, ZElementMeasure, ZElementOptions } from '@/services/controller/element'
 
 import _ from 'lodash'
 
@@ -18,10 +24,12 @@ export class ElementController {
   static create(props: TElementProps) {
     const settings = ZElementOptions.parse(_.get(props, 'options', {}))
     const measure = ZElementMeasure.parse(_.get(props, 'measure', {}))
+    const className = ZElementClassName.parse(_.get(props, 'className', ''))
 
     return new ElementController({
       ...props,
       measure,
+      className,
       settings: {
         cssVars: {
           name: _.get(settings, 'cssVars.name', props.name),
@@ -61,6 +69,11 @@ export class ElementController {
     this.updateCssVars()
   }
 
+  public set className(className: TElementClassName) {
+    console.log(className)
+    this.elementActions.setClassName(this.name, className)
+  }
+
   public get name() {
     return this._props.name
   }
@@ -71,5 +84,9 @@ export class ElementController {
 
   public get settings() {
     return this._props.settings
+  }
+
+  public get cssVars() {
+    return this.elementCssVars
   }
 }

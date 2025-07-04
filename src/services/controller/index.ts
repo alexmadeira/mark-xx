@@ -40,7 +40,7 @@ export function scrollingController() {
 export function overlapController() {
   if (controllerOverlap) return controllerOverlap
 
-  controllerOverlap = OverlapController.create({ scrolling: scrollingController() })
+  controllerOverlap = OverlapController.create()
   return controllerOverlap
 }
 

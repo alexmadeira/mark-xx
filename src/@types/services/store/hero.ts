@@ -5,19 +5,19 @@ export const ZStoreHeroCurrentProps = z.object({
   name: z.string(),
   color: z.string(),
   banner: z.string(),
+  type: z.string(),
 })
-export const ZStoreHeroCurrent = z
-  .object({
-    content: z.string(),
-  })
-  .and(ZStoreHeroCurrentProps)
+export const ZStoreHeroCurrent = z.object({
+  typing: z.string(),
+  content: ZStoreHeroCurrentProps,
+})
 
 export const ZStoreHeroData = z.object({
   current: ZStoreHeroCurrent,
 })
 
 export const ZStoreHeroActions = z.object({
-  setCurrent: z.custom<(content: string, props: z.infer<typeof ZStoreHeroCurrentProps>) => void>(),
+  setCurrent: z.custom<(typing: string, content: z.infer<typeof ZStoreHeroCurrentProps>) => void>(),
 })
 
 export const ZStoreHero = z.object({

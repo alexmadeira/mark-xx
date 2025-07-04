@@ -5,4 +5,5 @@ export const elementDefaultData = {} satisfies TStoreElementData
 export const elementDefaultProps = {
   measure: {},
   cssVars: {},
+  className: '',
 } satisfies TStoreElementProps
