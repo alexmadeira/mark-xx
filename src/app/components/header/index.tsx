@@ -20,8 +20,14 @@ export function Header() {
   }, [props])
 
   return (
-    <div ref={headerRef} className={twMerge('pointer-events-none fixed top-0 left-0 z-10 w-full', headerClassName)}>
-      <div className="w-full pt-[clamp(calc(var(--spacing)_*_6),3vw,calc(var(--spacing)_*_10))]">
+    <div ref={headerRef} className="pointer-events-none fixed top-0 left-0 z-10 w-full">
+      <div
+        className={twMerge(
+          'h-full w-full pt-[clamp(calc(var(--spacing)_*_6),3vw,calc(var(--spacing)_*_10))]',
+          'pb-[clamp(calc(var(--spacing)_*_6),6vw,calc(var(--spacing)_*_20))]',
+          headerClassName,
+        )}
+      >
         <div className="px-x-container mx-auto flex w-full flex-row items-center gap-[clamp(0.5rem,2vw,2.5rem)]">
           <Logo />
           <Nav />

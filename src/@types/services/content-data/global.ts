@@ -19,14 +19,21 @@ export const ZDataMotion = z.object({
   animate: z.string().default('animate'),
 })
 
+export const ZDataGlobalRouteColor = z.object({
+  name: ZEGlobalColos,
+  hex: z.string().regex(/^#[0-9A-F]{6}$/i),
+  twVar: z.string().regex(/^--color-.+$/),
+})
+
+export const ZDataGlobalRouteHeader = z.object({
+  className: z.string().optional(),
+})
+
 export const ZDataGlobalRoute = z.object({
   path: z.string(),
   code: ZEGlobalRouteCode,
-  color: z.object({
-    name: ZEGlobalColos,
-    hex: z.string().regex(/^#[0-9A-F]{6}$/i),
-    twVar: z.string().regex(/^--color-.+$/),
-  }),
+  color: ZDataGlobalRouteColor,
+  header: ZDataGlobalRouteHeader.optional(),
 })
 
 export const ZDataGlobalRoutes = z.array(ZDataGlobalRoute)

@@ -8,10 +8,10 @@ import { routeDefaultData } from './_defaults/route'
 export const useRoute = create<TStoreRoute>((set) => ({
   data: routeDefaultData,
   actions: {
-    setCurrent: (route) =>
+    setCurrent: (path) =>
       set((state) =>
         produce(state, (draft) => {
-          draft.data.current = route
+          draft.data.current = path
         }),
       ),
   },
