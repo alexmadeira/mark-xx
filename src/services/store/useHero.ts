@@ -8,11 +8,11 @@ import { heroDefaultData } from './_defaults/hero'
 export const useHero = create<TStoreHero>((set) => ({
   data: heroDefaultData,
   actions: {
-    setCurrent: (content, props) =>
+    setCurrent: (typing, content) =>
       set((state) =>
         produce(state, (draft) => {
-          if (state.data.current.id !== props.id) Object.assign(draft.data.current, props)
-          if (state.data.current.content !== content) draft.data.current.content = content
+          if (state.data.current.typing !== typing) draft.data.current.typing = typing
+          if (state.data.current.content.id !== content.id) Object.assign(draft.data.current.content, content)
         }),
       ),
   },

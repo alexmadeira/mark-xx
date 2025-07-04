@@ -1,39 +1,36 @@
 import type {
   TOverlapAddElementProps,
   TOverlapElementOption,
-  TOverlapProps,
   TOverlapSetTargetProps,
 } from '@/services/controller/overlap'
-
-import { ZOverlapProps } from '@/services/controller/overlap'
 
 import _ from 'lodash'
 
 import { useOverlap } from '_STR/useOverlap'
 
 export class OverlapController {
-  private readonly _props: TOverlapProps
-
-  public readonly update: () => void
   private readonly actions = useOverlap.getState().actions
 
   private readonly targetMap = new Map<string, HTMLElement>()
   private readonly elementList = new Map<HTMLElement, TOverlapElementOption>()
 
-  protected constructor(props: TOverlapProps) {
-    this._props = ZOverlapProps.parse(props)
+  protected constructor() {
+    this.reset = this.reset.bind(this)
+    this.setTarget = this.setTarget.bind(this)
+    this.addElement = this.addElement.bind(this)
+    this.removeTarget = this.removeTarget.bind(this)
+    this.removeElement = this.removeElement.bind(this)
 
-    this.update = _.debounce(this.checkCollision.bind(this), 50)
-    this._props.scrolling.ev.on('scroll', this.checkCollision.bind(this))
+    requestAnimationFrame(this.checkCollision.bind(this))
   }
 
-  public static create(props: TOverlapProps) {
-    return new OverlapController(props)
+  public static create() {
+    return new OverlapController()
   }
 
   private checkCollision() {
     for (const [name, target] of this.targetMap.entries()) {
-      let collisionOptions
+      let collisionOptions = null
 
       for (const [element, options] of this.elementList.entries()) {
         const elementRect = element.getBoundingClientRect()
@@ -50,6 +47,7 @@ export class OverlapController {
 
       this.actions.setCollision(name, collisionOptions)
     }
+    requestAnimationFrame(this.checkCollision.bind(this))
   }
 
   public reset() {
@@ -71,7 +69,6 @@ export class OverlapController {
   public addElement(...[element, option]: TOverlapAddElementProps) {
     if (!element) return this
     this.elementList.set(element, option)
-    return this as Pick<OverlapController, 'update'>
   }
 
   public removeElement(element: HTMLElement) {

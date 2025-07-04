@@ -22,7 +22,7 @@ export function Banner() {
       <div className="relative h-full w-full overflow-hidden">
         <motion.img
           style={{ opacity, scale }}
-          src="/img/temp/projects/mizuno-banner.png"
+          src="/img/temp/projects/chilli.png"
           className="h-full w-full object-cover"
         />
       </div>

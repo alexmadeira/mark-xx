@@ -21,5 +21,11 @@ export const useElement = create<TStoreElement>((set) => ({
           Object.assign(draft.data[name].measure, measure)
         }),
       ),
+    setClassName: (name, className) =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data[name].className = className
+        }),
+      ),
   },
 }))

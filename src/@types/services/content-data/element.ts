@@ -10,10 +10,13 @@ export const ZDataElementMeasure = z.object({
   bottom: z.number().optional(),
   height: z.number().optional(),
 })
+export const ZDataElementClassName = z.string()
 export const ZDataElementCssVars = z.record(z.string(), z.string())
+
 export const ZDataElement = z.object({
   measure: ZDataElementMeasure,
   cssVars: ZDataElementCssVars,
+  className: ZDataElementClassName,
 })
 
 //
