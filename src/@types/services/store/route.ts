@@ -1,13 +1,11 @@
-import { ZEGlobalRouteCode } from '@/enums/global'
-
 import { z } from 'zod/v4'
 
 export const ZStoreRouteData = z.object({
-  current: ZEGlobalRouteCode.optional(),
+  current: z.string().optional(),
 })
 
 export const ZStoreRouteActions = z.object({
-  setCurrent: z.custom<(code: z.infer<typeof ZEGlobalRouteCode>) => void>(),
+  setCurrent: z.custom<(path: string) => void>(),
 })
 
 export const ZStoreRoute = z.object({

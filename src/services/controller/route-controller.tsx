@@ -22,14 +22,15 @@ export class RouteController {
     const route = ZDataGlobalRoute.parse(foundedRoute)
 
     document.documentElement.style.setProperty('background', `var(${route.color.twVar})`)
-    this.routeActions.setCurrent(route.code)
+    this.routeActions.setCurrent(route.path)
   }
 
-  public getRouteColor(path: string) {
-    const foundedRoute = _.find(this.routes, { path })
-    const route = ZDataGlobalRoute.parse(foundedRoute)
+  public getRoute(path: string) {
+    return ZDataGlobalRoute.parse(_.find(this.routes, { path }))
+  }
 
-    return route
+  public getCurrent() {
+    return ZDataGlobalRoute.parse(_.find(this.routes, { path: useRoute.getState().data.current }))
   }
 
   public get pages() {
