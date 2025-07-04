@@ -5,6 +5,7 @@ import type {
   TColors,
   TColorsBetterContrastResult,
 } from '@/services/controller/color'
+import type { Nullish } from '@/utils/nullish'
 
 import { ZColorProps } from '@/services/controller/color'
 
@@ -81,7 +82,7 @@ export class ColorController {
     return this._colors
   }
 
-  public betterContrast(color?: TColor, name?: string | null, level: number = 0) {
+  public betterContrast(color?: Nullish<TColor>, name?: string | null, level: number = 0) {
     const rgbColor = this.parseColor(color || this.default)
     const contrasts = this.checkContrasts(rgbColor)
     const contrastIndex = Math.min(level, this.totalColors - 1)

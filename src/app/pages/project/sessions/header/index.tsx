@@ -18,6 +18,8 @@ export function Header() {
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.5], [2, 1.5, 1])
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1])
 
+  //   const CLElementHeader = elementController('header')
+  // CLElementHeader.className = 'bg-black text-white'
   return (
     <div ref={targetRef} className="relative mt-[100vh] flex w-full flex-col gap-[clamp(0.5rem,1vw,2rem)]">
       <motion.h1

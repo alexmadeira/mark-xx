@@ -1,17 +1,7 @@
-import { heroColorController } from '_SRV/controller'
-
-import { useHero } from '_STR/useHero'
-
 export function Content() {
-  const heroBackground = useHero((st) => st.data.current.color)
-  const CLHeroColor = heroColorController()
-
   return (
     <div className="relative z-1 mt-auto w-full pb-[clamp(1rem,3vw,5rem)]">
-      <div
-        style={{ ...CLHeroColor.betterContrast(heroBackground) }}
-        className="px-x-container flex h-full w-full flex-1 flex-col items-start justify-between gap-4 pb-[clamp(1.25rem,3vw,2.5rem)] md:flex-row md:items-center"
-      >
+      <div className="px-x-container flex h-full w-full flex-1 flex-col items-start justify-between gap-4 pb-[clamp(1.25rem,3vw,2.5rem)] md:flex-row md:items-center">
         <div className="flex flex-1">
           <p className="text-[clamp(0.875rem,2vw,2.25rem)] leading-[clamp(1.25rem,2vw,2.5rem)] font-light transition-colors duration-200">
             Projetos de 2010 a 2023. Explore meu portfólio, conheça mais sobre meu perfil ou envie um e-mail.

@@ -1,13 +1,7 @@
-import {
-  defaultHeroColorProps,
-  defaultHeroProps,
-  defaultLogoColorProps,
-  defaultNavigationColorProps,
-  defaultRouteProps,
-  defaultScrollingProps,
-  defaultTextColorProps,
-} from './_defaults'
+import { defaultElementProps } from './_defaults/element'
+import { defaultColorProps, defaultHeroProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
 import { ColorController } from './color-controller'
+import { ElementController } from './element-controller'
 import { HeroController } from './hero-controller'
 import { OverlapController } from './overlap-controller'
 import { RouteController } from './route-controller'
@@ -19,6 +13,7 @@ let controllerScrolling: ScrollingController
 let controllerOverlap: OverlapController
 
 const controllersColor: Record<string, ColorController> = {}
+const controllersElement: Record<string, ElementController> = {}
 
 export function heroController() {
   if (controllerHero) return controllerHero
@@ -45,34 +40,20 @@ export function scrollingController() {
 export function overlapController() {
   if (controllerOverlap) return controllerOverlap
 
-  controllerOverlap = OverlapController.create({ scrolling: scrollingController() })
+  controllerOverlap = OverlapController.create()
   return controllerOverlap
 }
 
-export function logoColorController() {
-  if (!controllersColor.logo) {
-    controllersColor.logo = ColorController.create(defaultLogoColorProps)
+export function elementController(element: keyof typeof defaultElementProps) {
+  if (!controllersElement[element]) {
+    controllersElement[element] = ElementController.create(defaultElementProps[element])
   }
-  return controllersColor.logo
+  return controllersElement[element]
 }
 
-export function heroColorController() {
-  if (!controllersColor.hero) {
-    controllersColor.hero = ColorController.create(defaultHeroColorProps)
+export function colorController(color: keyof typeof defaultColorProps) {
+  if (!controllersColor[color]) {
+    controllersColor[color] = ColorController.create(defaultColorProps[color])
   }
-  return controllersColor.hero
-}
-
-export function navigationColorController() {
-  if (!controllersColor.navigation) {
-    controllersColor.navigation = ColorController.create(defaultNavigationColorProps)
-  }
-  return controllersColor.navigation
-}
-
-export function textColorController() {
-  if (!controllersColor.text) {
-    controllersColor.text = ColorController.create(defaultTextColorProps)
-  }
-  return controllersColor.text
+  return controllersColor[color]
 }

@@ -2,7 +2,7 @@ import type { Nullish } from '@/utils/nullish'
 
 import { z } from 'zod/v4'
 
-export const ZStoreOverlapCollision = z.record(z.string(), z.string().optional())
+export const ZStoreOverlapCollision = z.record(z.string(), z.string().nullish())
 
 export const ZStoreOverlapData = z.object({
   collision: ZStoreOverlapCollision,
