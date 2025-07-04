@@ -1,4 +1,3 @@
-// import { memo } from 'react'
 import { useEffect } from 'react'
 import { useVideo } from 'react-use'
 
