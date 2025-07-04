@@ -18,7 +18,7 @@ export const dataGlobalRoutes = [
     code: 'home',
     color: {
       name: 'white',
-      hex: '#00ffff',
+      hex: '#ffffff',
       twVar: '--color-white',
     },
   },
@@ -26,30 +26,30 @@ export const dataGlobalRoutes = [
     path: '/about',
     code: 'about',
     color: {
-      name: 'white',
-      hex: '#ffffff',
-      twVar: '--color-mark-200',
+      name: 'mark',
+      hex: '#e9f1f8',
+      twVar: '--color-mark-100',
     },
   },
   {
     path: '/projects',
     code: 'projects',
     color: {
-      name: 'mark',
-      hex: '#c9ddee',
-      twVar: '--color-mark-100',
+      name: 'zinc',
+      hex: '#f5f4f4',
+      twVar: '--color-zinc-100',
     },
   },
   {
     path: '/project/mizuno-br',
     code: 'project',
     color: {
-      name: 'white',
+      name: 'blue',
       hex: '#ffffff',
-      twVar: '--color-white',
+      twVar: '--color-blue-100',
     },
     header: {
-      className: 'bg-gradient-to-b from-white from-50% to-transparent to-100%',
+      className: 'bg-gradient-to-b from-blue-100 from-50% to-transparent to-100%',
     },
   },
   {

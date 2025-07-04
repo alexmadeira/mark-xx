@@ -16,10 +16,7 @@ import { z } from 'zod/v4'
 export const ZParticleValue = z.union([z.number(), z.object({ max: z.number(), min: z.number() })])
 export const ZParticleAutoPushMode = z.union([ZEParticleAutoPushMode, z.number()])
 
-export const ZParticleCanvasProps = z.intersection(
-  z.custom<Omit<HTMLAttributes<HTMLDivElement>, 'children'>>(),
-  z.object({}),
-)
+export const ZParticleCanvasProps = z.custom<Omit<HTMLAttributes<HTMLDivElement>, 'children'>>()
 
 export const ZParticleCollisions = z.object({
   absorb: z.number().optional(),

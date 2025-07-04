@@ -1,7 +1,7 @@
 import type { TAwardsAwardProps } from '@/props/pages/about/awards'
 import type { Variants } from 'motion/react'
 
-import { AwardIcon } from 'lucide-react'
+import { Trophy } from 'lucide-react'
 import { motion } from 'motion/react'
 import { twMerge } from 'tailwind-merge'
 
@@ -30,7 +30,7 @@ export function Award({ children, className, ...rest }: TAwardsAwardProps) {
         style={{ x: '100%', opacity: 0 }}
         className="relative flex items-center gap-4 py-[clamp(1rem,2vw,2rem)] pr-4 text-[clamp(1rem,3vw,1.25rem)] leading-[clamp(1.5rem,3vw,1.75rem)] sm:ml-auto"
       >
-        <AwardIcon className="h-[clamp(1.75rem,_2.7vw,_2.5rem)] w-[clamp(1.75rem,_2.7vw,_2.5rem)] text-yellow-500" />
+        <Trophy className="h-[clamp(1.75rem,_2.7vw,_2.5rem)] w-[clamp(1.75rem,_2.7vw,_2.5rem)] text-yellow-500" />
         <span {...rest} className={twMerge('flex-1', className)}>
           {children}
         </span>
