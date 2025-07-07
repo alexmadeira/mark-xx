@@ -5,7 +5,6 @@ import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { AboutParticles } from '_SRV/builder/particle'
 import { colorController, elementController, heroController, routeController } from '_SRV/controller'
 
 export function BaseLayout() {
@@ -13,8 +12,8 @@ export function BaseLayout() {
   const CLRoute = routeController()
   const CLLogoColor = colorController('logo')
   const CLTextColor = colorController('text')
-  const CLNavigationColor = colorController('navigation')
   const CLHeaderElement = elementController('header')
+  const CLNavigationColor = colorController('navigation')
 
   const { pathname } = useLocation()
   const element = useOutlet()
@@ -50,10 +49,6 @@ export function BaseLayout() {
           <Footer />
         </motion.div>
       </AnimatePresence>
-      <div className="fixed top-0 left-0 z-1 min-h-full w-full">
-        <div className="bg-mark absolute top-0 left-0 z-1 h-full w-full backdrop-blur-3xl" />
-        <AboutParticles.canvas className="pointer-events-none absolute top-0 left-0 z-0 h-full w-full" />
-      </div>
     </div>
   )
 }

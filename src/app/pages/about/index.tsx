@@ -7,6 +7,8 @@ import { Movie } from './sessions/movie'
 import { Presentation } from './sessions/presentation'
 
 export function About() {
+  // const Particles = particles('about')
+
   return (
     <>
       <Helmet title="Sobre" />
