@@ -1,11 +1,10 @@
 import { ParticlesBuilder } from './builder-class/particle-builder'
-import { configAboutParticles } from './config/particles'
+import { configParticles } from './config/particles'
 
 const buildersParticles: Record<string, ParticlesBuilder> = {}
-
-export const AboutParticles = (() => {
-  if (!buildersParticles.about) {
-    buildersParticles.about = ParticlesBuilder.create(configAboutParticles)
+export function particles(particles: keyof typeof configParticles) {
+  if (!buildersParticles[particles]) {
+    buildersParticles[particles] = ParticlesBuilder.create(configParticles[particles])
   }
-  return buildersParticles.about
-})()
+  return buildersParticles[particles]
+}

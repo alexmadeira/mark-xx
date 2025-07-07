@@ -1,11 +1,12 @@
 import { Award } from './components/award'
-import { Title } from './components/title'
 
 export function Awards() {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full">
       <div className="px-x-container mx-auto flex max-w-[2000px] flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
-        <Title>Prêmios/ Reconhecimento</Title>
+        <h2 className="mx-auto w-full text-center text-[clamp(1.5rem,3vw,2.75rem)] leading-[clamp(2rem,1.8vw,2.5rem)] text-black">
+          Prêmios/ Reconhecimento
+        </h2>
         <ul className="flex flex-col font-light">
           <Award>
             <strong>Best UI Desing:</strong> Prêmio de melhor Interface de Usuário

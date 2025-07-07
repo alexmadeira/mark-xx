@@ -9,5 +9,20 @@
     }
   }
 
+  @keyframes shake {
+    0%,
+    50%,
+    100% {
+      rotate: 0deg;
+    }
+    25% {
+      rotate: -12deg;
+    }
+    75% {
+      rotate: 12deg;
+    }
+  }
+
   --animate-blink: blink 1s step-start infinite;
+  --animate-shake: shake 1s infinite;
 }
