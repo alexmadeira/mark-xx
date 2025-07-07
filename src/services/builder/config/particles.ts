@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import { technologies } from '_SRV/content-data/technologies'
 
-export const configAboutParticles = {
+const configAboutParticles = {
   id: 'about',
   fullScreen: false,
   autoPlay: true,
@@ -65,3 +65,7 @@ export const configAboutParticles = {
     },
   },
 } satisfies TParticleProps
+
+export const configParticles = {
+  about: configAboutParticles,
+}
