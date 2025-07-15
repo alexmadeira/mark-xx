@@ -5,10 +5,10 @@ import { useEffect } from 'react'
 import { scrollingController } from '_SRV/controller'
 
 export function PageWrapper({ children }: TPageWrapperProps) {
-  const ScrollingController = scrollingController()
+  const CLScrolling = scrollingController()
 
   useEffect(() => {
-    ScrollingController.restart()
+    CLScrolling.restart()
   }, [])
 
   return children
