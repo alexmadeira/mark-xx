@@ -64,6 +64,10 @@ export class ScrollingController {
     this._props.lenis.scrollTo(target, options)
   }
 
+  public get lenis() {
+    return this._props.lenis
+  }
+
   public get ev() {
     return this._props.lenis
   }
