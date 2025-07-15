@@ -1,5 +1,5 @@
 import { MasonryBuilder } from './builder-class/masonry-builder'
-import { configHomeMasonry, configProjectsMasonry } from './config/masonry'
+import { configHomeMasonry, configProjectMasonry, configProjectsMasonry } from './config/masonry'
 
 const buildersMasonry: Record<string, MasonryBuilder> = {}
 
@@ -15,4 +15,10 @@ export const ProjectsMasonry = (() => {
     buildersMasonry.projects = MasonryBuilder.create(configProjectsMasonry)
   }
   return buildersMasonry.projects
+})()
+export const ProjectMasonry = (() => {
+  if (!buildersMasonry.project) {
+    buildersMasonry.project = MasonryBuilder.create(configProjectMasonry)
+  }
+  return buildersMasonry.project
 })()

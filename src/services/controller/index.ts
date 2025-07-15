@@ -44,16 +44,16 @@ export function overlapController() {
   return controllerOverlap
 }
 
-export function elementController(element: keyof typeof defaultElementProps) {
-  if (!controllersElement[element]) {
-    controllersElement[element] = ElementController.create(defaultElementProps[element])
-  }
-  return controllersElement[element]
-}
-
 export function colorController(color: keyof typeof defaultColorProps) {
   if (!controllersColor[color]) {
     controllersColor[color] = ColorController.create(defaultColorProps[color])
   }
   return controllersColor[color]
+}
+
+export function elementController(element: keyof typeof defaultElementProps) {
+  if (!controllersElement[element]) {
+    controllersElement[element] = ElementController.create(defaultElementProps[element])
+  }
+  return controllersElement[element]
 }
