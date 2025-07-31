@@ -1,0 +1,20 @@
+import type { PersistedClient, Persister } from '@tanstack/react-query-persist-client'
+
+import { z } from 'zod/v4'
+
+export const ZPersistData = z.custom<PersistedClient>()
+export const ZPersisterProps = z.object({
+  storageKey: z.string(),
+})
+
+export const ZPersister = z.custom<Persister>()
+
+//
+//
+//
+//
+
+export type TPersistData = z.infer<typeof ZPersistData>
+export type TPersisterProps = z.infer<typeof ZPersisterProps>
+
+export interface IPersister extends z.infer<typeof ZPersister> {}
