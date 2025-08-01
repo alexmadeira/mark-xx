@@ -1,5 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 
+import { useRequester } from '_STR/useRequester'
+
 import { env } from '~/env'
 
 import { IDBPersister } from './persister/idb-persister'
@@ -16,6 +18,9 @@ export const queryClient = new QueryClient({
   },
 })
 
-export const persister = Persister.create({
-  storageKey: env.VITE_STORAGE_KEY,
-})
+export const persister = Persister.create(
+  {
+    storageKey: env.VITE_STORAGE_KEY,
+  },
+  useRequester.getState().actions,
+)

@@ -1,28 +1,31 @@
-import type { IPersister, TPersistData, TPersisterProps } from '@/services/lib/react-query/persister'
+import type { TPersistData, TPersisterProps, TPersistEvents } from '@/services/lib/react-query/persister'
 
-export class LocalStoragePersister implements IPersister {
-  protected constructor(private readonly _props: TPersisterProps) {}
+import { Persister } from './persister'
 
-  static create(props: TPersisterProps) {
-    return new LocalStoragePersister(props)
+export class LocalStoragePersister extends Persister {
+  static create(props: TPersisterProps, events: Partial<TPersistEvents> = {}) {
+    return new LocalStoragePersister(props, events)
   }
 
   public async persistClient(client: TPersistData) {
+    this.updateClientStatus('persisting')
     window.localStorage.setItem(this.storageKey, JSON.stringify(client))
+    this.updateClientStatus('persisted')
   }
 
   public async restoreClient() {
+    this.updateCacheStatus('restoring')
     const data = window.localStorage.getItem(this.storageKey)
-    if (!data) return
 
-    return JSON.parse(data) as TPersistData
+    if (data) {
+      this.updateCacheStatus('restored')
+      return JSON.parse(data) as TPersistData
+    }
+
+    this.updateCacheStatus('restored')
   }
 
   public async removeClient() {
     window.localStorage.removeItem(this.storageKey)
-  }
-
-  public get storageKey() {
-    return this._props.storageKey
   }
 }

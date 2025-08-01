@@ -1,27 +1,37 @@
-import type { IPersister, TPersistData, TPersisterProps } from '@/services/lib/react-query/persister'
+import type { TPersistData, TPersisterProps, TPersistEvents } from '@/services/lib/react-query/persister'
 
 import { del, get, set } from 'idb-keyval'
 
-export class IDBPersister implements IPersister {
-  protected constructor(private readonly _props: TPersisterProps) {}
+import { Persister } from './persister'
 
-  static create(props: TPersisterProps) {
-    return new IDBPersister(props)
+export class IDBPersister extends Persister {
+  static create(props: TPersisterProps, events: Partial<TPersistEvents> = {}) {
+    return new IDBPersister(props, events)
   }
 
   public async persistClient(data: TPersistData) {
-    await set(this.storageKey, data)
+    try {
+      this.updateClientStatus('persisting')
+      await set(this.storageKey, data)
+      this.updateClientStatus('persisted')
+    } catch (_err) {
+      this.updateClientStatus('error')
+    }
   }
 
   public async restoreClient() {
-    return await get<TPersistData>(this.storageKey)
+    try {
+      this.updateCacheStatus('restoring')
+      const result = await get<TPersistData>(this.storageKey)
+
+      this.updateCacheStatus('restored')
+      return result
+    } catch (_err) {
+      this.updateCacheStatus('error')
+    }
   }
 
   public async removeClient() {
     await del(this.storageKey)
-  }
-
-  public get storageKey() {
-    return this._props.storageKey
   }
 }

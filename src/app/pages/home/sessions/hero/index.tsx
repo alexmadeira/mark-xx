@@ -19,9 +19,9 @@ export function Hero() {
 
       console.log('Tecnologies fetched:', res)
     }
-    setTimeout(() => {
-      fetchTecnologies()
-    }, 1000)
+    // setTimeout(() => {
+    fetchTecnologies()
+    // }, 1000)
   }, [])
   const content = useHero((st) => st.data.current.content)
 
