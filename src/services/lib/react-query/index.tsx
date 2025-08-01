@@ -5,9 +5,8 @@ import { env } from '~/env'
 import { IDBPersister } from './persister/idb-persister'
 import { LocalStoragePersister } from './persister/local-storage-persister'
 
-const Persister = env.MODE === 'development' ? LocalStoragePersister : IDBPersister
+const Persister = env.MODE !== 'development' ? LocalStoragePersister : IDBPersister
 
-console.log(env)
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
