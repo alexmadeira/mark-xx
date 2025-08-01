@@ -1,16 +1,21 @@
+import type { requesterPaths } from '_CFG/requester/paths'
+
+import { markXXPaths } from '_CFG/requester/paths/mark-xx'
+
 import { queryClient } from '_SRV/lib'
 
 import { ApiRequester } from './api-requester'
 
-const apiRequesters: Record<string, ApiRequester> = {}
+const apiRequesters: Record<string, ApiRequester<typeof requesterPaths>> = {}
 
-export function notionApi() {
-  if (apiRequesters.notion) return apiRequesters.notion
+export function veronica(): ApiRequester<typeof markXXPaths> {
+  if (apiRequesters.veronica) return apiRequesters.veronica
 
-  apiRequesters.notion = ApiRequester.create({
-    host: 'https://api.notion.com/v1',
+  apiRequesters.veronica = ApiRequester.create({
+    host: 'http://localhost:3000/api/',
+    paths: markXXPaths,
     queryClient,
   })
 
-  return apiRequesters.notion
+  return apiRequesters.veronica
 }

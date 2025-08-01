@@ -2,24 +2,25 @@ import type {
   TApiRequesterFetchProps,
   TApiRequesterInstance,
   TApiRequesterMutateProps,
+  TApiRequesterPathInferSchema,
+  TApiRequesterPaths,
   TApiRequesterProps,
   TApiRequesterQueryProps,
 } from '@/services/api/api-requester'
 import type { Nullish } from '@/utils/nullish'
 
 import axios, { AxiosError } from 'axios'
+import _ from 'lodash'
 import qs from 'qs'
 
-import { queryClient } from '_SRV/lib/react-query'
-
-export class ApiRequester {
+export class ApiRequester<TPaths extends TApiRequesterPaths> {
   private api: Nullish<TApiRequesterInstance>
 
-  protected constructor(private readonly _props: TApiRequesterProps) {
+  protected constructor(private readonly _props: TApiRequesterProps<TPaths>) {
     this.setup()
   }
 
-  static create(props: TApiRequesterProps) {
+  static create<T extends TApiRequesterPaths>(props: TApiRequesterProps<T>) {
     return new ApiRequester(props)
   }
 
@@ -29,43 +30,57 @@ export class ApiRequester {
     })
   }
 
-  private async fetch({ path, body, params, signal }: TApiRequesterFetchProps) {
+  private async fetch<TResponse = unknown>({ req, body, params, signal }: TApiRequesterFetchProps) {
     if (!this.api) throw new Error('API instance is not initialized')
 
-    const queryString = params ? '?' + qs.stringify(params) : ''
+    const queryString = params ? `?${qs.stringify(params)}` : ''
 
-    const requestPath = path + queryString
+    const requestPath = `${req.path}${queryString}`
     const requestBody = { ...body }
 
-    return await this.api.post(requestPath, requestBody, { signal })
+    const response = await this.api[req.method]<TResponse>(requestPath, requestBody, { signal })
+
+    return response.data
   }
 
-  public async mutate(...[path, body, params]: TApiRequesterMutateProps) {
+  private get host() {
+    return this._props.host
+  }
+
+  private get queryClient() {
+    return this._props.queryClient
+  }
+
+  private get paths() {
+    return this._props.paths
+  }
+
+  public async mutate<K extends keyof TPaths>(request: K, ...[body, params]: TApiRequesterMutateProps) {
     try {
-      const response = await this.fetch({ path, body, params })
-      return response.data
+      return await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({
+        req: this.paths[request],
+        body,
+        params,
+      })
     } catch (err) {
       const error = err as AxiosError
       console.error('API Mutate Error:', error.response?.data)
     }
   }
 
-  public async query(...[queryKey, path, body, params]: TApiRequesterQueryProps) {
+  public async query<K extends keyof TPaths>(request: K, ...[queryKey, body, params]: TApiRequesterQueryProps) {
     try {
-      const response = await queryClient.fetchQuery({
-        queryKey: [queryKey],
-        queryFn: async ({ signal }) => await this.fetch({ path, body, params, signal }),
-        // ...req.options,
+      const result = await this.queryClient.ensureQueryData({
+        ...this.paths[request],
+        queryKey: _.castArray(queryKey),
+        queryFn: async ({ signal }) =>
+          await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({ req: this.paths[request], body, params, signal }),
       })
 
-      return response.data
+      return result
     } catch (err) {
       const error = err as AxiosError
-      console.error('API Query Error:', error.response?.data)
+      console.error('API Mutate Error:', error.response?.data)
     }
-  }
-
-  public get host() {
-    return this._props.host
   }
 }
