@@ -13,6 +13,8 @@ import axios, { AxiosError } from 'axios'
 import _ from 'lodash'
 import qs from 'qs'
 
+import { useRequester } from '_STR/useRequester'
+
 export class ApiRequester<TPaths extends TApiRequesterPaths> {
   private api: Nullish<TApiRequesterInstance>
 
@@ -56,6 +58,8 @@ export class ApiRequester<TPaths extends TApiRequesterPaths> {
   }
 
   public async mutate<K extends keyof TPaths>(request: K, ...[body, params]: TApiRequesterMutateProps) {
+    await useRequester.waitFor('cache.restoreStatus', 'restored')
+
     try {
       return await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({
         req: this.paths[request],
@@ -69,6 +73,8 @@ export class ApiRequester<TPaths extends TApiRequesterPaths> {
   }
 
   public async query<K extends keyof TPaths>(request: K, ...[queryKey, body, params]: TApiRequesterQueryProps) {
+    await useRequester.waitFor('cache.restoreStatus', 'restored')
+
     try {
       const result = await this.queryClient.ensureQueryData({
         ...this.paths[request],
