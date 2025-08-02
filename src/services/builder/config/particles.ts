@@ -2,8 +2,6 @@ import type { TParticleProps } from '@/services/builder/particle'
 
 import _ from 'lodash'
 
-import { technologies } from '_SRV/content-data/technologies'
-
 const configAboutParticles = {
   id: 'about',
   fullScreen: false,
@@ -18,7 +16,7 @@ const configAboutParticles = {
     shape: {
       type: 'circle',
     },
-    colors: _.map(technologies, 'color'),
+    // colors: _.map(technologies, 'color'),
     number: {
       value: 3,
       density: true,

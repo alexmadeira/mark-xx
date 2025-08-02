@@ -1,5 +1,3 @@
-import type { TDataTechnologies } from '@/services/content-data/technologies'
-
 import { UsageDetail } from './usage-detail'
 
 export function LanguageUsage() {
@@ -11,7 +9,7 @@ export function LanguageUsage() {
     javascript: { id: 'javascript', name: 'Javascript', banner: '/img/children/04.jpg', usage: 13, color: '#f7de1e' },
     html: { id: 'html', name: 'HTML5', banner: '/img/children/05.jpg', usage: 8, color: '#fc5c2f' },
     'node-js': { id: 'node-js', name: 'NodeJs', banner: '/img/children/05.jpg', usage: 3, color: '#5dad4c' },
-  } as TDataTechnologies
+  }
 
   return (
     <ul className="flex w-full flex-wrap">

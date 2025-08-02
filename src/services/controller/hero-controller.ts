@@ -1,10 +1,9 @@
-import type { TDataTechnologies } from '@/services/content-data/technologies'
-import type { THeroProps, THeroTypeContent, THeroTypingSequence } from '@/services/controller/hero-controller'
+import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
+import type { ApiRequester } from '_SRV/api/api-requester'
+import type { THeroProps, THeroTypeContent } from '@/services/controller/hero-controller'
 import type { Nullish } from '@/utils/nullish'
 
 import _ from 'lodash'
-
-import { technologies } from '_SRV/content-data/technologies'
 
 import { useHero } from '_STR/useHero'
 
@@ -15,31 +14,41 @@ export class HeroController {
   private _typingLetter: number = 0
   private _typingInterval: Nullish<NodeJS.Timeout> = null
   private _typingWaitTimeout: Nullish<NodeJS.Timeout> = null
-  private _typingSequence: THeroTypingSequence = []
+  private _typingSequence: THeroTypeContent[] = []
 
-  protected constructor(private readonly _props: THeroProps) {
+  protected constructor(
+    private readonly _props: THeroProps,
+    private readonly _api: ApiRequester<typeof markXXPaths>,
+  ) {
     this.setup()
   }
 
-  public static create(props: THeroProps) {
-    return new HeroController(props)
+  public static create(props: THeroProps, api: ApiRequester<typeof markXXPaths>) {
+    return new HeroController(props, api)
   }
 
-  private setup() {
-    this.buildTypingSequence()
+  private async setup() {
+    await this.buildTypingSequence()
+    this.start()
   }
 
-  private buildTypingSequence() {
-    this._typingSequence = _.flatMap<TDataTechnologies, THeroTypeContent>(technologies, (tech, key) => [
-      {
-        id: tech?.id || key,
-        name: tech?.name || tech?.typing || key,
-        type: tech?.typing || tech?.name || key,
-        color: tech?.color || 'none',
-        banner: tech?.banner || '',
+  private async buildTypingSequence() {
+    try {
+      this.heroActions.setStatus('loading')
+      const technologies = await this._api.query('mark-xx:tecnologies', 'mark-xx:tecnologies')
+      if (!technologies) return
+
+      this._typingSequence = technologies.map((tech) => ({
+        ...tech,
         ...this.typingMeta,
-      },
-    ])
+      }))
+      setTimeout(() => {
+        this.heroActions.setStatus('loaded')
+      }, 5000)
+    } catch (error) {
+      this.heroActions.setStatus('error')
+      console.error('Error fetching hero banners:', error)
+    }
   }
 
   private write() {
@@ -50,6 +59,7 @@ export class HeroController {
       this.heroActions.setCurrent(this.current.type.slice(0, this._typingLetter), this.current)
       if (this._typingLetter >= this.current.type.length) {
         this.clearTimer()
+
         this._typingWaitTimeout = setTimeout(() => this.erase(), this.current.waitTime)
       }
     }, this.current.writingSpeed)
