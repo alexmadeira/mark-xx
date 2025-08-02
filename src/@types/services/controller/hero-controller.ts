@@ -1,5 +1,3 @@
-import { ZETechnologyKey } from '@/enums/technology'
-
 import { z } from 'zod/v4'
 
 import { ZDataHero } from '../content-data/hero'
@@ -20,11 +18,8 @@ export const ZHeroTypeContent = z
   })
   .and(ZHeroTypeContentMeta)
 
-export const ZHeroTypingSequence = z.array(ZHeroTypeContent)
-
 export const ZHeroProps = z.object({
   settings: ZDataHero,
-  start: ZETechnologyKey,
   delay: z.coerce.number().positive(),
   speed: z.coerce.number().positive(),
   deletionSpeed: z.coerce.number().positive(),
@@ -37,6 +32,5 @@ export const ZHeroProps = z.object({
 
 export type THeroTypeContentMeta = z.infer<typeof ZHeroTypeContentMeta>
 export type THeroTypeContent = z.infer<typeof ZHeroTypeContent>
-export type THeroTypingSequence = z.infer<typeof ZHeroTypingSequence>
 
 export type THeroProps = z.infer<typeof ZHeroProps>

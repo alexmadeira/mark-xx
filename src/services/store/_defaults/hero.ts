@@ -1,15 +1,19 @@
 import type { TStoreHeroData } from '@/services/store/hero'
 
-import { technologies } from '_SRV/content-data/technologies'
-
 export const heroDefaultData = {
+  status: {
+    current: 'idle',
+    loaded: false,
+    loading: false,
+    error: false,
+  },
   current: {
     content: {
-      id: technologies.web.id,
-      name: technologies.web.name,
-      color: technologies.web.color,
-      banner: technologies.web.banner,
-      type: technologies.web.typing,
+      id: 'not-set',
+      name: '',
+      color: '',
+      banner: '',
+      type: '',
     },
     typing: '',
   },

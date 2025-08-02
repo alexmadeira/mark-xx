@@ -9,7 +9,7 @@ import type {
 } from '@/services/api/api-requester'
 import type { Nullish } from '@/utils/nullish'
 
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import _ from 'lodash'
 import qs from 'qs'
 
@@ -60,33 +60,23 @@ export class ApiRequester<TPaths extends TApiRequesterPaths> {
   public async mutate<K extends keyof TPaths>(request: K, ...[body, params]: TApiRequesterMutateProps) {
     await useRequester.waitFor('cache.restoreStatus', 'restored')
 
-    try {
-      return await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({
-        req: this.paths[request],
-        body,
-        params,
-      })
-    } catch (err) {
-      const error = err as AxiosError
-      console.error('API Mutate Error:', error.response?.data)
-    }
+    return await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({
+      req: this.paths[request],
+      body,
+      params,
+    })
   }
 
   public async query<K extends keyof TPaths>(request: K, ...[queryKey, body, params]: TApiRequesterQueryProps) {
     await useRequester.waitFor('cache.restoreStatus', 'restored')
 
-    try {
-      const result = await this.queryClient.ensureQueryData({
-        ...this.paths[request],
-        queryKey: _.castArray(queryKey),
-        queryFn: async ({ signal }) =>
-          await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({ req: this.paths[request], body, params, signal }),
-      })
+    const result = await this.queryClient.ensureQueryData({
+      ...this.paths[request],
+      queryKey: _.castArray(queryKey),
+      queryFn: async ({ signal }) =>
+        await this.fetch<TApiRequesterPathInferSchema<TPaths, K>>({ req: this.paths[request], body, params, signal }),
+    })
 
-      return result
-    } catch (err) {
-      const error = err as AxiosError
-      console.error('API Mutate Error:', error.response?.data)
-    }
+    return result
   }
 }

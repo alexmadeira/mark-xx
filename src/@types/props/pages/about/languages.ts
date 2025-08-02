@@ -1,16 +1,14 @@
 import type { HTMLAttributes } from 'react'
 
-import { ZDataTechnology } from '@/services/content-data/technologies'
-
 import { z } from 'zod/v4'
 
 export const ZLanguagesTitleProps = z.custom<HTMLAttributes<HTMLHeadingElement>>()
 
 export const ZLanguagesBarProps = z.object({
-  techology: ZDataTechnology,
+  techology: z.unknown(),
 })
 export const ZLanguagesUsageDetailProps = z.object({
-  techology: ZDataTechnology,
+  techology: z.unknown(),
 })
 
 //
