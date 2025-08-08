@@ -1,0 +1,46 @@
+import type { TProjectDetailsProps } from '@/props/pages/projects/project-details'
+
+import { ZProjectDetailsProps } from '@/props/pages/projects/project-details'
+
+import { useEffect, useRef } from 'react'
+
+import { twMerge } from 'tailwind-merge'
+
+import { colorController, overlapController } from '_SRV/controller'
+
+import { ProjectDetailsDescription } from './project-details-description'
+import { ProjectDetailsImage } from './project-details-image'
+import { ProjectDetailsName } from './project-details-name'
+import { ProjectDetailsTag } from './project-details-tags'
+
+export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
+  const props = ZProjectDetailsProps.parse(data)
+
+  const detailsRef = useRef<HTMLDivElement>(null)
+  const CLOverlap = overlapController()
+  const CLTextColor = colorController('text')
+
+  useEffect(() => {
+    CLOverlap.addElement(detailsRef.current, props.color)
+  }, [detailsRef.current])
+
+  return (
+    <div
+      ref={detailsRef}
+      className={twMerge(
+        'relative flex h-full w-full flex-1 items-center justify-center overflow-hidden',
+        props.className,
+      )}
+    >
+      <ProjectDetailsImage {...props} />
+      <div
+        style={CLTextColor.betterContrast(props.color, 'project-details')}
+        className="absolute bottom-0 left-0 z-1 flex flex-col gap-[clamp(0.5rem,0.75vw,1.25rem)] px-[clamp(1rem,1.5vw,2.5rem)] pb-[clamp(0.7rem,1.5vw,2.5rem)]"
+      >
+        <ProjectDetailsName {...props} />
+        <ProjectDetailsTag {...props} />
+        <ProjectDetailsDescription {...props} />
+      </div>
+    </div>
+  )
+}
