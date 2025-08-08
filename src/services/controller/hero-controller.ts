@@ -17,8 +17,8 @@ export class HeroController {
   private _typingSequence: THeroTypeContent[] = []
 
   protected constructor(
-    private readonly _props: THeroProps,
-    private readonly _api: ApiRequester<typeof markXXPaths>,
+    private readonly props: THeroProps,
+    private readonly api: ApiRequester<typeof markXXPaths>,
   ) {
     this.setup()
   }
@@ -35,16 +35,14 @@ export class HeroController {
   private async buildTypingSequence() {
     try {
       this.heroActions.setStatus('loading')
-      const technologies = await this._api.query('mark-xx:tecnologies', 'mark-xx:tecnologies')
+      const technologies = await this.api.query('mark-xx:tecnologies', 'mark-xx:tecnologies')
       if (!technologies) return
 
       this._typingSequence = technologies.map((tech) => ({
         ...tech,
         ...this.typingMeta,
       }))
-      setTimeout(() => {
-        this.heroActions.setStatus('loaded')
-      }, 5000)
+      this.heroActions.setStatus('loaded')
     } catch (error) {
       this.heroActions.setStatus('error')
       console.error('Error fetching hero banners:', error)
@@ -101,19 +99,19 @@ export class HeroController {
   }
 
   public get speed() {
-    return this._props.speed
+    return this.props.speed
   }
 
   public get deletionSpeed() {
-    return this._props.deletionSpeed
+    return this.props.deletionSpeed
   }
 
   public get delay() {
-    return this._props.delay
+    return this.props.delay
   }
 
   public get settings() {
-    return this._props.settings
+    return this.props.settings
   }
 
   public get typingMeta() {

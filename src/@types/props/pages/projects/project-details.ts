@@ -1,14 +1,9 @@
-import type { HTMLAttributes } from 'react'
+import { ZSchemaProject } from '@/services/schema/project'
 
 import { z } from 'zod/v4'
 
-export const ZProjectDetailsProps = z.intersection(
-  z.custom<HTMLAttributes<HTMLDivElement>>(),
-  z.object({
-    image: z.custom<HTMLAttributes<HTMLImageElement>>(),
-    color: z.string(),
-  }),
-)
+export const ZProjectDetailsProps = z.intersection(ZSchemaProject, z.object({ className: z.string().optional() }))
+export const ZProjectDetailsContentProps = ZSchemaProject
 
 //
 //
@@ -16,3 +11,4 @@ export const ZProjectDetailsProps = z.intersection(
 //
 
 export type TProjectDetailsProps = z.infer<typeof ZProjectDetailsProps>
+export type TProjectDetailsContentProps = z.infer<typeof ZProjectDetailsContentProps>
