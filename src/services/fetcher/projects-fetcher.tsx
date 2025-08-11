@@ -13,11 +13,12 @@ export class ProjectsFetcher {
     return new ProjectsFetcher(api)
   }
 
-  public async fetch(name: string) {
+  public async fetch(name: string, cb?: () => void) {
     const projects = await this.api.query('mark-xx:projects', ['mark-xx:projects', name])
 
     this.projectsActions.setList(name, projects)
 
+    if (cb) cb()
     return projects
   }
 }
