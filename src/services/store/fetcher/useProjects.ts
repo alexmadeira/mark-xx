@@ -12,10 +12,7 @@ export const useProjects = create<TStoreProjects>((set) => ({
     setList: (name, projects) =>
       set((state) =>
         produce(state, (draft) => {
-          // if (!draft.data.list[name]) draft.data.list[name] = []
-
           draft.data.list[name] = projects
-          // _.set(draft.data.list, [name], projects)
         }),
       ),
   },
