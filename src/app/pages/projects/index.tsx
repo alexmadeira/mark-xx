@@ -4,7 +4,7 @@ import { ProjectDetails } from '_APP/components/project/project-details'
 
 import { masonry } from '_SRV/builder/masonry'
 import { scrollingController } from '_SRV/controller'
-import { projectsFetcher } from '_SRV/fetcher'
+import { pageFetcher, projectsFetcher } from '_SRV/fetcher'
 import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
 import { useProjects } from '_STR/fetcher/useProjects'
@@ -15,8 +15,10 @@ export function Projects() {
   const ProjectsMasonry = masonry('projects')
   const CLScrolling = scrollingController()
 
+  const FPage = pageFetcher()
   const FProjects = projectsFetcher()
 
+  FPage.fetch('projects')
   FProjects.fetch('projects', { callback: CLScrolling.resize })
 
   const projects = useProjects((st) => st.data.list.projects)

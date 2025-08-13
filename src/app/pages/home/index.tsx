@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import { masonry } from '_SRV/builder/masonry'
 import { scrollingController } from '_SRV/controller'
-import { projectsFetcher } from '_SRV/fetcher'
+import { pageFetcher, projectsFetcher } from '_SRV/fetcher'
 import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
 import { useProjects } from '_STR/fetcher/useProjects'
@@ -15,9 +15,13 @@ import { Hero } from './sessions/hero'
 export function Home() {
   const HomeMasonry = masonry('home')
   const CLScrolling = scrollingController()
-  const Projects = projectsFetcher()
 
-  Projects.fetch('home-projects', {
+  const FPage = pageFetcher()
+  const FProjects = projectsFetcher()
+
+  FPage.fetch('home')
+
+  FProjects.fetch('home-projects', {
     callback: CLScrolling.resize,
     filter: {
       highlight: true,
