@@ -1,12 +1,16 @@
+import type { TEMasonrySize } from '@/enums/masonry'
 import type {
   TMasonryAvaliableGridSizes,
   TMasonryContent,
   TMasonryContentWrapperProps,
   TMasonryCurrentArea,
-  TMasonryGridSize,
+  TMasonryFitSizeProps,
   TMasonryProps,
   TMasonryRenderProps,
+  TMasonrySetContentsProps,
+  TMasonrySizeProps,
 } from '@/services/builder/masonry'
+import type { TMasonryGridSize } from '@/services/builder/masonry/masonry-size'
 
 import { Link } from 'react-router-dom'
 
@@ -20,7 +24,7 @@ import { DataList } from '_SRV/utils/data-list'
 export class MasonryBuilder {
   private contents: TMasonryContent[] = []
   private currentArea: TMasonryCurrentArea = { maxArea: 0, items: 0, size: 0 }
-  private avaliableGridSizes: TMasonryAvaliableGridSizes = {}
+  private avaliableGridSizes: TMasonryAvaliableGridSizes = {} as TMasonryAvaliableGridSizes
 
   private readonly grid = new DataList<TMasonryGridSize>()
   private readonly gridContents = new DataList<TMasonryContent>()
@@ -43,9 +47,15 @@ export class MasonryBuilder {
   }
 
   private buildPrepare() {
+    this.gridReset()
+    this.avaliableGridSizes = {} as TMasonryAvaliableGridSizes
+  }
+
+  private gridReset() {
     this.grid.clear()
     this.gridContents.clear()
-    this.avaliableGridSizes = {}
+    this.currentArea.size = 0
+    this.currentArea.items = 0
   }
 
   private buildGrid() {
@@ -58,9 +68,9 @@ export class MasonryBuilder {
   }
 
   private buildAvaliableSizes() {
-    _.set(this.avaliableGridSizes, this.size(this.fill).key, this.fill)
-
-    this.sizes.forEach((item) => _.set(this.avaliableGridSizes, this.size(item).key, item))
+    this.sizes.forEach((item) => {
+      _.set(this.avaliableGridSizes, this.size(item).key, _.cloneDeep(item))
+    })
   }
 
   private buildGridItems() {
@@ -75,55 +85,110 @@ export class MasonryBuilder {
 
       this.currentArea.items++
       this.currentArea.size += this.size(someSize).area
-
-      this.grid.add(someSize)
+      this.decreaseLimit(this.size(someSize).key)
+      this.grid.add(_.cloneDeep(someSize))
     }
     potpack(this.grid)
   }
 
-  private buildGridContents(customContents?: TMasonryContent[]) {
-    const contents = customContents || this.contents
-
-    if (!this.random) return this.gridContents.set(contents)
-    return this.gridContents.set(_.shuffle(contents))
+  private buildGridContents() {
+    if (!this.random) return this.gridContents.set(this.contents)
+    return this.gridContents.set(_.shuffle(this.contents))
   }
 
   private isFilled() {
-    if (this.maxArea) return _.gte(this.currentArea.size, this.maxArea)
+    if (this.maxArea) {
+      return _.gte(this.currentArea.size, this.maxArea)
+    }
     return _.gte(this.currentArea.items, this.contents.length)
   }
 
-  private takeAvaliableSize(key?: string) {
-    if (!key) return this.fill
-    if (!this.avaliableGridSizes[key].limit) return this.avaliableGridSizes[key]
+  private checkAvaliableSize(key: string) {
+    const avaliableGridSizeKey = key as TEMasonrySize
 
-    const result = this.avaliableGridSizes[key]
+    if (!this.avaliableGridSizes[avaliableGridSizeKey]) return true
+    if (_.isUndefined(this.avaliableGridSizes[avaliableGridSizeKey].limit)) return true
+    if (this.avaliableGridSizes[avaliableGridSizeKey].limit <= 0) return false
 
-    this.avaliableGridSizes[key].limit--
-    if (this.avaliableGridSizes[key].limit === 0) delete this.avaliableGridSizes[key]
+    return true
+  }
 
-    return result
+  private takeAvaliableSize(key: string) {
+    const avaliableGridSizeKey = key as TEMasonrySize
+
+    if (!this.checkAvaliableSize(avaliableGridSizeKey)) return this.fill
+    if (!this.avaliableGridSizes[avaliableGridSizeKey]) return this.fill
+
+    return this.avaliableGridSizes[avaliableGridSizeKey]
   }
 
   private someAvailableSize() {
-    const someSize = this.takeAvaliableSize(_.sample(_.keys(this.avaliableGridSizes)))
+    const someKey = _.sample(_.keys(this.avaliableGridSizes))
 
-    return this.fitSize(someSize)
+    if (!someKey) return this.fill
+
+    const avaliableSize = this.takeAvaliableSize(someKey)
+    if (!this.fitSize(avaliableSize)) return this.fill
+
+    return avaliableSize
   }
 
-  private size(size: TMasonryGridSize) {
+  private size(size: TMasonrySizeProps) {
     return {
       key: `${size.w}x${size.h}`,
       area: size.h * size.w,
     }
   }
 
-  private fitSize(size: TMasonryGridSize) {
-    if (!this.maxArea) return size
+  private fitSize(size: TMasonryFitSizeProps) {
+    if (!this.maxArea) return true
 
     const probableTotalArea = this.currentArea.size + size.h * size.w
+    if (_.lte(probableTotalArea, this.maxArea)) return true
 
-    return _.lte(probableTotalArea, this.maxArea) ? size : this.fill
+    return false
+  }
+
+  private decreaseLimit(key: string) {
+    const avaliableGridSizeKey = key as TEMasonrySize
+
+    if (!this.avaliableGridSizes[avaliableGridSizeKey]) return
+    if (!this.avaliableGridSizes[avaliableGridSizeKey].limit) return
+    if (this.avaliableGridSizes[avaliableGridSizeKey].limit > 1) {
+      return this.avaliableGridSizes[avaliableGridSizeKey].limit--
+    }
+    delete this.avaliableGridSizes[avaliableGridSizeKey]
+  }
+
+  private get maxArea() {
+    return this._props.area || 0
+  }
+
+  private get name() {
+    return this._props.name
+  }
+
+  private get fill() {
+    return this._props.fill
+  }
+
+  private get sizes() {
+    return _.cloneDeep(this._props.sizes)
+  }
+
+  private get required() {
+    return this._props.required
+  }
+
+  private get random() {
+    return this._props.random
+  }
+
+  private setContents(contents: TMasonrySetContentsProps) {
+    if (!contents) return
+
+    this.contents = contents
+    this.build()
   }
 
   private contentWrapper(props: TMasonryContentWrapperProps) {
@@ -140,32 +205,8 @@ export class MasonryBuilder {
     )
   }
 
-  private get maxArea() {
-    return this._props.area || 0
-  }
-
-  private get name() {
-    return this._props.name
-  }
-
-  private get fill() {
-    return this._props.fill
-  }
-
-  private get sizes() {
-    return this._props.sizes
-  }
-
-  private get required() {
-    return this._props.required
-  }
-
-  private get random() {
-    return this._props.random
-  }
-
   public render({ contents, ...props }: TMasonryRenderProps) {
-    this.buildGridContents(contents)
+    this.setContents(contents)
 
     return (
       <div

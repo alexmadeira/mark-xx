@@ -30,23 +30,22 @@ export const ZApiRequesterQueryData = z.object({
 })
 
 export const ZApiRequesterData = z.union([ZApiRequesterMutateData, ZApiRequesterQueryData])
+export const ZApiRequesterBody = z.record(z.string(), z.union([z.string(), z.number(), z.boolean()]))
+export const ZApiRequesterParams = z.record(z.string(), z.union([z.string(), z.number(), z.boolean()]))
 
 export const ZApiRequesterFetchProps = z.object({
   req: ZApiRequesterFetchData,
-  body: z.record(z.string(), z.string()).optional(),
-  params: z.record(z.string(), z.string()).optional(),
+  body: ZApiRequesterBody.optional(),
+  params: ZApiRequesterParams.optional(),
   signal: z.custom<AbortSignal>().optional(),
 })
 
-export const ZApiRequesterMutateProps = z.tuple([
-  z.record(z.string(), z.string()).optional(),
-  z.record(z.string(), z.string()).optional(),
-])
+export const ZApiRequesterMutateProps = z.tuple([ZApiRequesterBody.optional(), ZApiRequesterParams.optional()])
 
 export const ZApiRequesterQueryProps = z.tuple([
   z.union([z.string(), z.array(z.string())]),
-  z.record(z.string(), z.string()).optional(),
-  z.record(z.string(), z.string()).optional(),
+  ZApiRequesterBody.optional(),
+  ZApiRequesterParams.optional(),
 ])
 
 export const ZApiRequesterHost = z.url()
@@ -71,6 +70,8 @@ export type TApiRequesterFetchData = z.infer<typeof ZApiRequesterFetchData>
 export type TApiRequesterMutateData = z.infer<typeof ZApiRequesterMutateData>
 export type TApiRequesterQueryData = z.infer<typeof ZApiRequesterQueryData>
 export type TApiRequesterData = z.infer<typeof ZApiRequesterData>
+export type TApiRequesterBody = z.infer<typeof ZApiRequesterBody>
+export type TApiRequesterParams = z.infer<typeof ZApiRequesterParams>
 export type TApiRequesterFetchProps = z.infer<typeof ZApiRequesterFetchProps>
 export type TApiRequesterMutateProps = z.infer<typeof ZApiRequesterMutateProps>
 export type TApiRequesterQueryProps = z.infer<typeof ZApiRequesterQueryProps>
