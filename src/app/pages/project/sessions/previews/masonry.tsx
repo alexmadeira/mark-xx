@@ -1,13 +1,13 @@
-import { ProjectDetails } from '_APP/components/project/project-details'
+// import { ProjectDetails } from '_APP/components/project/project-details'
 
-import { ProjectMasonry } from '_SRV/builder/masonry'
+// import { ProjectMasonry } from '_SRV/builder/masonry'
 
 export function Masonry() {
   return (
     <div className="px-x-container w-full">
-      <ProjectMasonry.render>
+      {/* <ProjectMasonry.render>
         <ProjectDetails />
-      </ProjectMasonry.render>
+      </ProjectMasonry.render> */}
     </div>
   )
 }

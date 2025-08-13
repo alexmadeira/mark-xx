@@ -1,23 +1,20 @@
 import type { HTMLAttributes } from 'react'
 
+import { ZEMasonrySize } from '@/enums/masonry'
+
 import { z } from 'zod/v4'
+
+import { ZMasonryGridSize } from './masonry-size'
+
+export const ZMasonryContentMeta = z.record(z.string(), z.unknown())
+export const ZMasonryGridSizeList = z.array(ZMasonryGridSize)
+export const ZMasonryAvaliableGridSizes = z.record(ZEMasonrySize, ZMasonryGridSize)
 
 export const ZMasonryCurrentArea = z.object({
   size: z.number().default(0),
   items: z.number().default(0),
   maxArea: z.number().default(0),
 })
-
-export const ZMasonryGridSize = z.object({
-  w: z.number(),
-  h: z.number(),
-  limit: z.number().optional(),
-  className: z.string().optional(),
-})
-
-export const ZMasonryAvaliableGridSizes = z.record(z.string(), ZMasonryGridSize)
-
-export const ZMasonryContentMeta = z.record(z.string(), z.unknown())
 
 export const ZMasonryContent = z.object({
   link: z.string().optional(),
@@ -26,6 +23,9 @@ export const ZMasonryContent = z.object({
   className: z.string().optional(),
 })
 
+export const ZMasonrySizeProps = ZMasonryGridSize
+export const ZMasonryFitSizeProps = ZMasonryGridSize
+export const ZMasonrySetContentsProps = z.array(ZMasonryContent).optional()
 export const ZMasonryContentWrapperProps = z.intersection(
   z.custom<HTMLAttributes<HTMLElement>>(),
   z.object({
@@ -34,7 +34,6 @@ export const ZMasonryContentWrapperProps = z.intersection(
     ...ZMasonryGridSize.shape,
   }),
 )
-
 export const ZMasonryRenderProps = z.intersection(
   z.custom<HTMLAttributes<HTMLHeadingElement>>(),
   z.object({
@@ -45,7 +44,7 @@ export const ZMasonryRenderProps = z.intersection(
 export const ZMasonryProps = z.object({
   name: z.string(),
   fill: ZMasonryGridSize,
-  sizes: z.array(ZMasonryGridSize),
+  sizes: ZMasonryGridSizeList,
   area: z.number().optional(),
   random: z.boolean().optional(),
   required: ZMasonryGridSize.optional(),
@@ -56,7 +55,7 @@ export const ZMasonryProps = z.object({
 //
 
 export type TMasonryCurrentArea = z.infer<typeof ZMasonryCurrentArea>
-export type TMasonryGridSize = z.infer<typeof ZMasonryGridSize>
+export type TMasonryGridSizeList = z.infer<typeof ZMasonryGridSizeList>
 export type TMasonryAvaliableGridSizes = z.infer<typeof ZMasonryAvaliableGridSizes>
 export type TMasonryContentMeta = z.infer<typeof ZMasonryContentMeta>
 export type TMasonryContent<TMeta extends TMasonryContentMeta = TMasonryContentMeta> = z.infer<
@@ -65,6 +64,9 @@ export type TMasonryContent<TMeta extends TMasonryContentMeta = TMasonryContentM
   metaData?: TMeta
 }
 
+export type TMasonrySizeProps = z.infer<typeof ZMasonrySizeProps>
+export type TMasonryFitSizeProps = z.infer<typeof ZMasonryFitSizeProps>
+export type TMasonrySetContentsProps = z.infer<typeof ZMasonrySetContentsProps>
 export type TMasonryContentWrapperProps = z.infer<typeof ZMasonryContentWrapperProps>
 export type TMasonryRenderProps = z.infer<typeof ZMasonryRenderProps>
 

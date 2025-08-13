@@ -1,4 +1,5 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
+import type { TProjectsFetcherProps } from '@/services/fetcher/projects'
 
 import { ApiRequester } from '_SRV/api/api-requester'
 
@@ -13,12 +14,17 @@ export class ProjectsFetcher {
     return new ProjectsFetcher(api)
   }
 
-  public async fetch(name: string, cb?: () => void) {
-    const projects = await this.api.query('mark-xx:projects', ['mark-xx:projects', name])
+  public async fetch(name: string, options: TProjectsFetcherProps) {
+    const projects = await this.api.query(
+      'mark-xx:projects',
+      ['mark-xx:projects', name, JSON.stringify(options.filter)],
+      {},
+      options.filter,
+    )
 
     this.projectsActions.setList(name, projects)
 
-    if (cb) cb()
+    if (options.callback) options.callback()
     return projects
   }
 }
