@@ -24,7 +24,12 @@ const configProjectsMasonry = {
   random: false,
   fill: MasonrySize.gridSize('2x2'),
   required: MasonrySize.gridSize('8x8'),
-  sizes: [MasonrySize.gridSize('4x4', 1), MasonrySize.gridSize('4x2'), MasonrySize.gridSize('2x4')],
+  sizes: [
+    MasonrySize.gridSize('4x4', 1),
+    MasonrySize.gridSize('2x2'),
+    MasonrySize.gridSize('4x2'),
+    MasonrySize.gridSize('2x4'),
+  ],
 }
 
 const configProjectMasonry = {
