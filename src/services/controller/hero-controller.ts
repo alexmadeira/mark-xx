@@ -35,7 +35,7 @@ export class HeroController {
   private async buildTypingSequence() {
     try {
       this.heroActions.setStatus('loading')
-      const technologies = await this.api.query('mark-xx:tecnologies', 'mark-xx:tecnologies')
+      const technologies = await this.api.query('mark-xx:technologies', 'mark-xx:tecnologies')
       if (!technologies) return
 
       this._typingSequence = technologies.map((tech) => ({

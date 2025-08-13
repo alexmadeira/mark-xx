@@ -4,7 +4,7 @@ import { produce } from 'immer'
 import _ from 'lodash'
 import { create } from 'zustand'
 
-import { projectsDefaultData } from './_defaults/scrolling'
+import { projectsDefaultData } from './_defaults/project'
 
 export const useProjects = create<TStoreProjects>((set) => ({
   data: projectsDefaultData,

@@ -1,12 +1,14 @@
 import { memo } from 'react'
 
 import { useElement } from '_STR/useElement'
+import { useFetcherPages } from '_STR/useFetcherPages'
 import { useHero } from '_STR/useHero'
 
 export const Title = memo(() => {
   const typing = useHero((st) => st.data.current.typing)
   const isLoaded = useHero((st) => st.data.status.loaded)
   const headerMeasure = useElement((st) => st.data.header.measure)
+  const pageProperties = useFetcherPages((st) => st.data.home.properties)
 
   const isVisible = !!isLoaded && !!headerMeasure.height
 
@@ -17,7 +19,7 @@ export const Title = memo(() => {
     >
       <div className="px-x-container mx-auto flex w-full flex-1 flex-col gap-0">
         <h1 className="text-[clamp(2.25rem,7vw,12rem)] leading-[clamp(2.5rem,7vw,8rem)] tracking-wider transition-colors duration-200">
-          Alex Madeira
+          {pageProperties?.name}
         </h1>
         <h2 className="flex items-center text-[clamp(1.125rem,5vw,6rem)] leading-[clamp(1.75rem,5vw,1)] font-light text-nowrap transition-colors duration-200">
           Desenvolvedor {typing}

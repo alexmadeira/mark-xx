@@ -23,7 +23,7 @@ export const ZSchemaProject = z.object({
   timeline: ZSchemaProjectTimeline,
   technologies: z.array(ZSchemaProjectTechnology),
   createdAt: z.coerce.date(),
-  // lastEdited: z.coerce.date(),
+  lastEdited: z.coerce.date(),
 })
 
 //
