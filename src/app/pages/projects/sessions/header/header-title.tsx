@@ -1,10 +1,7 @@
 import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function HeaderTitle() {
-  const pageProperties = useFetcherPages((st) => st.data.projects.properties)
-  const pageStatus = useFetcherPages((st) => st.data.projects.status)
-
-  if (pageStatus !== 'loaded') return null
+  const pageProperties = useFetcherPages((st) => st.data.projects?.properties)
 
   return (
     <div className="my-[clamp(1rem,4vw,5rem)] w-full">

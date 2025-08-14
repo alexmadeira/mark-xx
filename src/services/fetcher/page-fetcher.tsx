@@ -15,8 +15,8 @@ export class PageFetcher {
   }
 
   public async fetch(slug: string, options: TPagesFetcherProps = {}) {
-    this.pagesActions.createPage(slug)
     try {
+      this.pagesActions.createPage(slug)
       this.pagesActions.setPageStatus(slug, 'loading')
       const pageData = await this.api.query('mark-xx:page', ['mark-xx:page', slug], {}, { slug })
 

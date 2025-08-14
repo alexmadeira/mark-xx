@@ -8,7 +8,7 @@ export const Title = memo(() => {
   const typing = useHero((st) => st.data.current.typing)
   const isLoaded = useHero((st) => st.data.status.loaded)
   const headerMeasure = useElement((st) => st.data.header.measure)
-  const pageProperties = useFetcherPages((st) => st.data.home.properties)
+  const pageProperties = useFetcherPages((st) => st.data.home?.properties)
 
   const isVisible = !!isLoaded && !!headerMeasure.height
 

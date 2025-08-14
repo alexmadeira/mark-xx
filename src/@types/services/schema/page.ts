@@ -17,6 +17,7 @@ export const ZSchemaPageProperties = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
+  property1: z.string(),
   createdAt: z.coerce.date(),
   lastEdited: z.coerce.date(),
 })

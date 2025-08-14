@@ -4,17 +4,13 @@ import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function Content() {
   const preseter = contentPreseter('home')
-  const pageContent = useFetcherPages((st) => st.data.home.content)
+  const pageContent = useFetcherPages((st) => st.data.home?.content)
 
   const [description] = preseter.contentHtml(pageContent)
   return (
     <div className="relative z-1 mt-auto w-full pb-[clamp(1rem,3vw,5rem)]">
       <div className="px-x-container flex h-full w-full flex-1 flex-col items-start justify-between gap-4 pb-[clamp(1.25rem,3vw,2.5rem)] md:flex-row md:items-center">
-        <div className="flex flex-1" dangerouslySetInnerHTML={{ __html: description }}>
-          {/* <p className="text-[clamp(0.875rem,2vw,2.25rem)] leading-[clamp(1.25rem,2vw,2.5rem)] font-light transition-colors duration-200">
-            Projetos de 2010 a 2023. Explore meu portfólio, conheça mais sobre meu perfil ou envie um e-mail.
-          </p> */}
-        </div>
+        <div className="flex flex-1" dangerouslySetInnerHTML={{ __html: description }} />
         <div className="relative z-1 flex flex-1 flex-col items-start gap-1 md:items-end">
           <a
             href="#"
