@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { ProjectDetails } from '_APP/components/project/project-details'
@@ -19,16 +20,18 @@ export function Home() {
   const FPage = pageFetcher()
   const FProjects = projectsFetcher()
 
-  FPage.fetch('home')
-
-  FProjects.fetch('home-projects', {
-    callback: CLScrolling.resize,
-    filter: {
-      highlight: true,
-    },
-  })
+  useEffect(() => {
+    FPage.fetch('home')
+    FProjects.fetch('home-projects', {
+      callback: CLScrolling.resize,
+      filter: {
+        highlight: true,
+      },
+    })
+  }, [])
 
   const projects = useProjects((st) => st.data.list['home-projects'])
+
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 
   return (

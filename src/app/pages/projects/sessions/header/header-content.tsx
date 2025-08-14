@@ -4,7 +4,7 @@ import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function HeaderContent() {
   const preseter = contentPreseter('projects')
-  const pageContent = useFetcherPages((st) => st.data.projects.content)
+  const pageContent = useFetcherPages((st) => st.data.projects?.content)
 
   const [title, ...content] = preseter.contentHtml(pageContent)
 

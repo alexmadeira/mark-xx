@@ -15,7 +15,7 @@ export const useFetcherPages = create<TStoreFetcherPages>((set) => ({
           if (state.data[name]) return
 
           _.set(draft.data, [name], fetcherPagesDefaultPageContant)
-          draft.data[name].status = 'idle'
+          _.set(draft.data, [name, 'status'], 'idle')
         }),
       ),
     setPageStatus: (name, status) =>
