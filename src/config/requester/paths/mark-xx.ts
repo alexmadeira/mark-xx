@@ -1,5 +1,6 @@
 import type { TApiRequesterPaths } from '@/services/api/api-requester'
 
+import { ZSchemaAward } from '@/services/schema/award'
 import { ZSchemaPage } from '@/services/schema/page'
 import { ZSchemaProject } from '@/services/schema/project'
 import { ZSchemaTecnology } from '@/services/schema/tecnology'
@@ -21,5 +22,10 @@ export const markXXPaths = {
     method: 'get',
     path: '/mark-xx/page',
     schema: ZSchemaPage,
+  },
+  'mark-xx:awards': {
+    method: 'get',
+    path: '/mark-xx/awards',
+    schema: z.array(ZSchemaAward),
   },
 } as const satisfies TApiRequesterPaths

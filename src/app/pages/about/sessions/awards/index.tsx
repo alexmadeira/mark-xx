@@ -1,6 +1,9 @@
+import { useFetcherAwards } from '_STR/useFetcherAwards'
+
 import { Award } from './components/award'
 
 export function Awards() {
+  const awards = useFetcherAwards((st) => st.data.list)
   return (
     <div className="w-full">
       <div className="px-x-container mx-auto flex max-w-[2000px] flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
@@ -8,15 +11,11 @@ export function Awards() {
           Prêmios/ Reconhecimento
         </h2>
         <ul className="flex flex-col font-light">
-          <Award>
-            <strong>Best UI Desing:</strong> Prêmio de melhor Interface de Usuário
-          </Award>
-          <Award>
-            <strong>Best UX Desing:</strong> Prêmio de melhor Experiência de Usuário
-          </Award>
-          <Award>
-            <strong>Innovation:</strong> Prêmio de Site Inovador
-          </Award>
+          {awards.map((award) => (
+            <Award key={award.id}>
+              <strong>{award.name}:</strong> {award.description}
+            </Award>
+          ))}
         </ul>
       </div>
     </div>
