@@ -9,7 +9,7 @@ import { scrollingController } from '_SRV/controller'
 import { pageFetcher, projectsFetcher } from '_SRV/fetcher'
 import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
-import { useProjects } from '_STR/fetcher/useProjects'
+import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 import { Hero } from './sessions/hero'
 
@@ -30,7 +30,7 @@ export function Home() {
     })
   }, [])
 
-  const projects = useProjects((st) => st.data.list['home-projects'])
+  const projects = useFetcherProjects((st) => st.data.list['home-projects'])
 
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 

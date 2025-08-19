@@ -6,11 +6,11 @@ import { useHero } from '_STR/useHero'
 
 export const Title = memo(() => {
   const typing = useHero((st) => st.data.current.typing)
-  const isLoaded = useHero((st) => st.data.status.loaded)
+  const status = useHero((st) => st.data.status)
   const headerMeasure = useElement((st) => st.data.header.measure)
   const pageProperties = useFetcherPages((st) => st.data.home?.properties)
 
-  const isVisible = !!isLoaded && !!headerMeasure.height
+  const isVisible = status === 'loaded' && !!headerMeasure.height
 
   return (
     <div

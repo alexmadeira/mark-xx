@@ -3,10 +3,10 @@ import type { TProjectsFetcherProps } from '@/services/fetcher/projects'
 
 import { ApiRequester } from '_SRV/api/api-requester'
 
-import { useProjects } from '_STR/fetcher/useProjects'
+import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export class ProjectsFetcher {
-  private readonly projectsActions = useProjects.getState().actions
+  private readonly projectsActions = useFetcherProjects.getState().actions
 
   protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 

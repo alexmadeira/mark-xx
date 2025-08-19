@@ -1,13 +1,13 @@
-import type { TStoreProjects } from '@/services/store/fetcher/projects'
+import type { TStoreFetcherProjects } from '@/services/store/fetcher-projects'
 
 import { produce } from 'immer'
 import _ from 'lodash'
 import { create } from 'zustand'
 
-import { projectsDefaultData } from './_defaults/project'
+import { fetcherProjectsDefaultData } from './_defaults/fetcher-project'
 
-export const useProjects = create<TStoreProjects>((set) => ({
-  data: projectsDefaultData,
+export const useFetcherProjects = create<TStoreFetcherProjects>((set) => ({
+  data: fetcherProjectsDefaultData,
   actions: {
     setList: (name, projects) =>
       set((state) =>
