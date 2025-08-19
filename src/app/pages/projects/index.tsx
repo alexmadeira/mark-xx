@@ -8,7 +8,7 @@ import { scrollingController } from '_SRV/controller'
 import { pageFetcher, projectsFetcher } from '_SRV/fetcher'
 import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
-import { useProjects } from '_STR/fetcher/useProjects'
+import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 import { Header } from './sessions/header'
 
@@ -19,7 +19,7 @@ export function Projects() {
   const FPage = pageFetcher()
   const FProjects = projectsFetcher()
 
-  const projects = useProjects((st) => st.data.list.projects)
+  const projects = useFetcherProjects((st) => st.data.list.projects)
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 
   useEffect(() => {
