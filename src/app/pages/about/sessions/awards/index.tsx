@@ -4,6 +4,7 @@ import { Award } from './components/award'
 
 export function Awards() {
   const awards = useFetcherAwards((st) => st.data.list)
+
   return (
     <div className="w-full">
       <div className="px-x-container mx-auto flex max-w-[2000px] flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">

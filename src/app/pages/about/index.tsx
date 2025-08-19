@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-import { awardsFetcher, pageFetcher } from '_SRV/fetcher'
+import { awardsFetcher, pageFetcher, usageLanguagesFetcher } from '_SRV/fetcher'
 
 import { Awards } from './sessions/awards'
 import { Brands } from './sessions/brands'
@@ -12,10 +12,12 @@ import { Header } from './header'
 export function About() {
   const FPage = pageFetcher()
   const FAwards = awardsFetcher()
+  const FUsageLanguages = usageLanguagesFetcher()
   // const Particles = particles('about')
 
   FPage.fetch('about')
-  FAwards.fetch('awards')
+  FAwards.fetch('about:awards')
+  FUsageLanguages.fetch('about:usage-languages')
 
   return (
     <>
