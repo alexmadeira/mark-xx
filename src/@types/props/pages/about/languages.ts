@@ -1,14 +1,16 @@
 import type { HTMLAttributes } from 'react'
 
+import { ZSchemaUsageLanguage } from '@/services/schema/usage-language'
+
 import { z } from 'zod/v4'
 
 export const ZLanguagesTitleProps = z.custom<HTMLAttributes<HTMLHeadingElement>>()
 
 export const ZLanguagesBarProps = z.object({
-  techology: z.unknown(),
+  ...ZSchemaUsageLanguage.shape,
 })
 export const ZLanguagesUsageDetailProps = z.object({
-  techology: z.unknown(),
+  ...ZSchemaUsageLanguage.shape,
 })
 
 //
