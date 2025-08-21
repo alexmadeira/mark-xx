@@ -5,10 +5,9 @@ import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { colorController, elementController, heroController, routeController } from '_SRV/controller'
+import { colorController, elementController, routeController } from '_SRV/controller'
 
 export function BaseLayout() {
-  heroController()
   const CLRoute = routeController()
   const CLLogoColor = colorController('logo')
   const CLTextColor = colorController('text')

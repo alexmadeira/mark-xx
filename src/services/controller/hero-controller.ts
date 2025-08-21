@@ -1,132 +1,88 @@
-import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { ApiRequester } from '_SRV/api/api-requester'
-import type { THeroProps, THeroTypeContent } from '@/services/controller/hero-controller'
-import type { Nullish } from '@/utils/nullish'
+import type { THeroControll, THeroProps, THeroTimeout } from '@/services/controller/hero-controller'
 
 import _ from 'lodash'
 
+import { timer } from '_SRV/utils/timer'
+
+import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 import { useHero } from '_STR/useHero'
 
 export class HeroController {
+  private readonly controll: THeroControll
   private readonly heroActions = useHero.getState().actions
 
-  private _typingIndex: number = 0
-  private _typingLetter: number = 0
-  private _typingInterval: Nullish<NodeJS.Timeout> = null
-  private _typingWaitTimeout: Nullish<NodeJS.Timeout> = null
-  private _typingSequence: THeroTypeContent[] = []
+  private typingInterval: THeroTimeout
+  private typingWaitTimeout: THeroTimeout
 
-  protected constructor(
-    private readonly props: THeroProps,
-    private readonly api: ApiRequester<typeof markXXPaths>,
-  ) {
-    this.setup()
+  protected constructor(private readonly _props: THeroProps) {
+    _.bindAll(this, ['write', 'erase', 'start', 'stop'])
+
+    this.controll = { hero: 0, letter: 0 }
   }
 
-  public static create(props: THeroProps, api: ApiRequester<typeof markXXPaths>) {
-    return new HeroController(props, api)
+  public static create(props: THeroProps) {
+    return new HeroController(props)
   }
 
-  private async setup() {
-    await this.buildTypingSequence()
-    this.start()
-  }
-
-  private async buildTypingSequence() {
-    try {
-      this.heroActions.setStatus('loading')
-      const technologies = await this.api.query('mark-xx:technologies', 'mark-xx:tecnologies')
-      if (!technologies) return
-
-      this._typingSequence = technologies.map((tech) => ({
-        ...tech,
-        ...this.typingMeta,
-      }))
-      this.heroActions.setStatus('loaded')
-    } catch (error) {
-      this.heroActions.setStatus('error')
-      console.error('Error fetching hero banners:', error)
-    }
+  private next() {
+    this.controll.hero = (this.controll.hero + 1) % this.heroContent.length
+    this.heroActions.setCurrent(this.currentHero)
+    this.write()
   }
 
   private write() {
     this.clearTimer()
 
-    this._typingInterval = setInterval(() => {
-      this._typingLetter++
-      this.heroActions.setCurrent(this.current.type.slice(0, this._typingLetter), this.current)
-      if (this._typingLetter >= this.current.type.length) {
+    this.typingInterval = timer.interval(() => {
+      this.controll.letter++
+      this.heroActions.setTyping(this.currentHero.type.slice(0, this.controll.letter))
+      if (this.controll.letter >= this.currentHero.type.length) {
         this.clearTimer()
-
-        this._typingWaitTimeout = setTimeout(() => this.erase(), this.current.waitTime)
+        this.typingWaitTimeout = timer.delay(this.erase, this.settings.delay)
       }
-    }, this.current.writingSpeed)
+    }, this.settings.speed)
   }
 
   private erase() {
     this.clearTimer()
 
-    this._typingInterval = setInterval(() => {
-      this._typingLetter--
-      this.heroActions.setCurrent(this.current.type.slice(0, this._typingLetter), this.current)
-
-      if (this._typingLetter <= 0) {
+    this.typingInterval = timer.interval(() => {
+      this.controll.letter--
+      this.heroActions.setTyping(this.currentHero.type.slice(0, this.controll.letter))
+      if (this.controll.letter <= 0) {
         this.clearTimer()
-        this._typingIndex = (this._typingIndex + 1) % this.typingSequence.length
-        this.write()
+        this.next()
       }
-    }, this.current.eraseSpeed)
+    }, this.settings.deletionSpeed)
   }
 
   private clearTimer() {
-    if (this._typingWaitTimeout) {
-      clearTimeout(this._typingWaitTimeout)
-      this._typingWaitTimeout = null
-    }
+    if (this.typingWaitTimeout) this.typingWaitTimeout.cancel()
+    if (this.typingInterval) this.typingInterval.cancel()
+  }
 
-    if (this._typingInterval) {
-      clearInterval(this._typingInterval)
-      this._typingInterval = null
+  private get settings() {
+    return {
+      delay: this._props.delay,
+      speed: this._props.speed,
+      deletionSpeed: this._props.deletionSpeed,
     }
   }
 
+  private get heroContent() {
+    return useFetcherTechnologies.getState().data.list
+  }
+
+  private get currentHero() {
+    return this.heroContent[this.controll.hero]
+  }
+
   public start() {
+    this.heroActions.setCurrent(this.currentHero)
     this.write()
   }
 
   public stop() {
     this.clearTimer()
-  }
-
-  public get speed() {
-    return this.props.speed
-  }
-
-  public get deletionSpeed() {
-    return this.props.deletionSpeed
-  }
-
-  public get delay() {
-    return this.props.delay
-  }
-
-  public get settings() {
-    return this.props.settings
-  }
-
-  public get typingMeta() {
-    return {
-      waitTime: this.delay,
-      eraseSpeed: this.deletionSpeed,
-      writingSpeed: this.speed,
-    }
-  }
-
-  public get typingSequence() {
-    return this._typingSequence
-  }
-
-  public get current() {
-    return this.typingSequence[this._typingIndex]
   }
 }

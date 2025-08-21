@@ -1,28 +1,25 @@
+import type { TTimer } from '../utils/timer'
+
 import { z } from 'zod/v4'
 
-import { ZDataHero } from '../content-data/hero'
+import { ZSchemaTechnology } from '../schema/technology'
 
-export const ZHeroTypeContentMeta = z.object({
-  waitTime: z.number(),
-  eraseSpeed: z.number(),
-  writingSpeed: z.number(),
+export const ZHeroTimeout = z.custom<TTimer>().nullish()
+export const ZHeroControll = z.object({
+  hero: z.number(),
+  letter: z.number(),
 })
 
-export const ZHeroTypeContent = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    color: z.string(),
-    banner: z.string(),
-    type: z.string(),
-  })
-  .and(ZHeroTypeContentMeta)
+export const ZHeroSettings = z.object({
+  delay: z.number(),
+  speed: z.number(),
+  deletionSpeed: z.number(),
+})
+
+export const ZHeroContent = ZSchemaTechnology
 
 export const ZHeroProps = z.object({
-  settings: ZDataHero,
-  delay: z.coerce.number().positive(),
-  speed: z.coerce.number().positive(),
-  deletionSpeed: z.coerce.number().positive(),
+  ...ZHeroSettings.shape,
 })
 
 //
@@ -30,7 +27,9 @@ export const ZHeroProps = z.object({
 //
 //
 
-export type THeroTypeContentMeta = z.infer<typeof ZHeroTypeContentMeta>
-export type THeroTypeContent = z.infer<typeof ZHeroTypeContent>
+export type THeroTimeout = z.infer<typeof ZHeroTimeout>
+export type THeroControll = z.infer<typeof ZHeroControll>
+
+export type THeroContent = z.infer<typeof ZHeroContent>
 
 export type THeroProps = z.infer<typeof ZHeroProps>
