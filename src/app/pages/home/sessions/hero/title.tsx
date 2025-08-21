@@ -1,20 +1,16 @@
 import { memo } from 'react'
 
-import { useElement } from '_STR/useElement'
 import { useFetcherPages } from '_STR/useFetcherPages'
 import { useHero } from '_STR/useHero'
 
 export const Title = memo(() => {
   const typing = useHero((st) => st.data.current.typing)
   const status = useHero((st) => st.data.status)
-  const headerMeasure = useElement((st) => st.data.header.measure)
   const pageProperties = useFetcherPages((st) => st.data.home?.properties)
-
-  const isVisible = status === 'loaded' && !!headerMeasure.height
 
   return (
     <div
-      style={{ opacity: isVisible ? 1 : 0 }}
+      style={{ opacity: status === 'loaded' ? 1 : 0 }}
       className="relative z-1 mt-[clamp(1rem,4.5vw,8rem)] w-full flex-1 transition-opacity duration-2000"
     >
       <div className="px-x-container mx-auto flex w-full flex-1 flex-col gap-0">

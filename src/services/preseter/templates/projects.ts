@@ -1,9 +1,6 @@
 import type { TContentPreseterTemplates } from '@/services/preseter/content'
 
 export const projectsTemplates = {
-  heading_2: `
-  <h2 class="text-black-900 text-[clamp(1.5rem,3.5vw,2.25rem)] leading-[clamp(2rem,4vw,3rem)] font-normal">{{text}}</h2>
-  `.trim(),
   paragraph: `
   <p>{{text}}</p>
   `.trim(),
