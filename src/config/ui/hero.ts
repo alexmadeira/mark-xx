@@ -1,8 +1,8 @@
-import type { TDataMotionVariants } from '@/services/content-data/global'
+import type { TUIMotionVariants } from '@/config/ui/global'
 
-import { ZDataHero } from '@/services/content-data/hero'
+import { ZUIHero } from '@/config/ui/hero'
 
-const bannerVariants: TDataMotionVariants = {
+const bannerVariants: TUIMotionVariants = {
   exit: { opacity: 0, transition: { duration: 2 } },
   initial: { opacity: 0, scale: 1, transition: { duration: 4 } },
   animate: {
@@ -15,7 +15,7 @@ const bannerVariants: TDataMotionVariants = {
   },
 }
 
-const bannerOverlayVariants: TDataMotionVariants = {
+const bannerOverlayVariants: TUIMotionVariants = {
   exit: { opacity: 0, transition: { duration: 2 } },
   initial: { opacity: 0, transition: { duration: 2 } },
   animate: {
@@ -28,7 +28,7 @@ const bannerOverlayVariants: TDataMotionVariants = {
 //
 //
 
-export const dataHero = ZDataHero.parse({
+export const uiConfigHero = ZUIHero.parse({
   banner: { variants: bannerVariants },
   bannerOverlay: { variants: bannerOverlayVariants },
 })

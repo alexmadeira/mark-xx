@@ -3,7 +3,7 @@ import type { TApiRequesterPaths } from '@/services/api/api-requester'
 import { ZSchemaAward } from '@/services/schema/award'
 import { ZSchemaPage } from '@/services/schema/page'
 import { ZSchemaProject } from '@/services/schema/project'
-import { ZSchemaTecnology } from '@/services/schema/tecnology'
+import { ZSchemaTechnology } from '@/services/schema/technology'
 import { ZSchemaUsageLanguage } from '@/services/schema/usage-language'
 
 import z from 'zod'
@@ -12,7 +12,7 @@ export const markXXPaths = {
   'mark-xx:technologies': {
     method: 'get',
     path: '/mark-xx/technologies',
-    schema: z.array(ZSchemaTecnology),
+    schema: z.array(ZSchemaTechnology),
   },
   'mark-xx:projects': {
     method: 'get',
