@@ -14,6 +14,7 @@ const bannerVariants: TDataMotionVariants = {
     },
   },
 }
+
 const bannerOverlayVariants: TDataMotionVariants = {
   exit: { opacity: 0, transition: { duration: 2 } },
   initial: { opacity: 0, transition: { duration: 2 } },

@@ -1,3 +1,5 @@
+import { veronica } from '_SRV/api'
+
 import { defaultElementProps } from './_defaults/element'
 import { defaultColorProps, defaultHeroProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
 import { ColorController } from './color-controller'
@@ -18,7 +20,7 @@ const controllersElement: Record<string, ElementController> = {}
 export function heroController() {
   if (controllerHero) return controllerHero
 
-  controllerHero = HeroController.create(defaultHeroProps)
+  controllerHero = HeroController.create(defaultHeroProps, veronica())
 
   return controllerHero
 }

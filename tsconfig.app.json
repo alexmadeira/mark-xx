@@ -28,6 +28,7 @@
       "_UTL/*": ["./src/services/util/*"],
       "_STR/*": ["./src/services/store/*"],
       "_SRV/*": ["./src/services/*"],
+      "_CFG/*": ["./src/config/*"],
       "~/*": ["./src/*"]
     }
   },

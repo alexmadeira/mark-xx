@@ -12,11 +12,9 @@ export class DataList<T> extends Array<T> {
     return !!(data instanceof DataList)
   }
 
-  public add(...args: (T | DataList<T>)[]) {
-    args.forEach((data) => {
-      if (this.isDataList(data)) this.push(...data)
-      if (!this.isDataList(data)) this.push(..._.concat([], data))
-    })
+  public add(data: T | T[] | DataList<T>) {
+    if (this.isDataList(data)) this.push(...data)
+    if (!this.isDataList(data)) this.push(..._.castArray(data))
 
     return this as Omit<DataList<T>, 'set'>
   }
@@ -37,7 +35,7 @@ export class DataList<T> extends Array<T> {
   }
 
   public clear() {
-    this.slice(0)
+    this.length = 0
 
     return this as Omit<DataList<T>, 'clear' | 'set'>
   }

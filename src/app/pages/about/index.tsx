@@ -1,25 +1,28 @@
 import { Helmet } from 'react-helmet-async'
 
+import { awardsFetcher, pageFetcher, usageLanguagesFetcher } from '_SRV/fetcher'
+
 import { Awards } from './sessions/awards'
 import { Brands } from './sessions/brands'
 import { Languages } from './sessions/languages'
 import { Movie } from './sessions/movie'
 import { Presentation } from './sessions/presentation'
+import { Header } from './header'
 
 export function About() {
-  // const Particles = particles('about')
+  const FPage = pageFetcher()
+  const FAwards = awardsFetcher()
+  const FUsageLanguages = usageLanguagesFetcher()
+
+  FPage.fetch('about')
+  FAwards.fetch('about:awards')
+  FUsageLanguages.fetch('about:usage-languages')
 
   return (
     <>
       <Helmet title="Sobre" />
       <div className="w-full pt-[100px]">
-        <div className="my-[clamp(1rem,4vw,5rem)] w-full">
-          <div className="px-x-container mx-auto flex w-full flex-col gap-[clamp(0.5rem,2vw,2.5rem)]">
-            <h1 className="text-black-900 w-full text-[clamp(3rem,12vw,8rem)] leading-none tracking-widest">
-              Alex Madeira
-            </h1>
-          </div>
-        </div>
+        <Header />
         <div className="flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]">
           <Presentation />
           <Movie />
