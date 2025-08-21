@@ -1,22 +1,16 @@
-import type { TDataTechnologies } from '@/services/content-data/technologies'
+import _ from 'lodash'
+
+import { useFetcherUsageLanguages } from '_STR/useFetcherUsageLanguages'
 
 import { Bar } from './bar'
 
 export function LanguageBars() {
-  const languages = {
-    'react-js': { id: 'react-js', name: 'ReactJs', banner: '/img/children/03.jpg', usage: 25, color: '#00c7f8' },
-    typescript: { id: 'typescript', name: 'TypeScript', banner: '/img/children/05.jpg', usage: 22, color: '#264ce4' },
-    'next-js': { id: 'next-js', name: 'Next.js', banner: '/img/children/05.jpg', usage: 18, color: '#7b7b7b' },
-    css: { id: 'css', name: 'CSS3', banner: '/img/children/05.jpg', usage: 16, color: '#4099e6' },
-    javascript: { id: 'javascript', name: 'Javascript', banner: '/img/children/04.jpg', usage: 13, color: '#f7de1e' },
-    html: { id: 'html', name: 'HTML5', banner: '/img/children/05.jpg', usage: 8, color: '#fc5c2f' },
-    'node-js': { id: 'node-js', name: 'NodeJs', banner: '/img/children/05.jpg', usage: 3, color: '#5dad4c' },
-  } as TDataTechnologies
+  const usageLanguages = useFetcherUsageLanguages((st) => st.data.list)
 
   return (
     <ul className="flex h-4 w-full">
-      {Object.entries(languages).map(([key, techology]) => (
-        <Bar key={key} techology={techology} />
+      {usageLanguages.map((techology) => (
+        <Bar key={techology.name} {...techology} />
       ))}
     </ul>
   )

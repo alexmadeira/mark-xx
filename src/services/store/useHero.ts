@@ -8,6 +8,12 @@ import { heroDefaultData } from './_defaults/hero'
 export const useHero = create<TStoreHero>((set) => ({
   data: heroDefaultData,
   actions: {
+    setStatus: (status) =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data.status = status
+        }),
+      ),
     setCurrent: (typing, content) =>
       set((state) =>
         produce(state, (draft) => {

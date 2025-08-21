@@ -6,6 +6,7 @@ import type {
 } from '@/services/controller/scrolling'
 
 import Lenis from 'lenis'
+import _ from 'lodash'
 
 import { useScrolling } from '_STR/useScrolling'
 
@@ -15,6 +16,8 @@ export class ScrollingController {
   protected constructor(private readonly _props: TScrollingProps) {
     this._actions.setDetails(this._props.lenis)
     this.ev.on('scroll', this.setDetails.bind(this))
+
+    _.bindAll(this, ['stop', 'start', 'restart', 'resize', 'fromStart', 'scrollTo'])
   }
 
   public static create(props: TScrollingCreateProps) {

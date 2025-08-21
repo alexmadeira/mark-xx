@@ -7,5 +7,6 @@ export const alias = {
   _PAG: path.resolve(__dirname, './src/app/pages'),
   _STR: path.resolve(__dirname, './src/services/store'),
   _SRV: path.resolve(__dirname, './src/services'),
+  _CFG: path.resolve(__dirname, './src/config'),
   '~': path.resolve(__dirname, './src'),
 }

@@ -1,3 +1,5 @@
+import { ZEFetcherStatus } from '@/enums/fetcher'
+
 import { z } from 'zod/v4'
 
 export const ZStoreHeroCurrentProps = z.object({
@@ -7,16 +9,19 @@ export const ZStoreHeroCurrentProps = z.object({
   banner: z.string(),
   type: z.string(),
 })
+
 export const ZStoreHeroCurrent = z.object({
   typing: z.string(),
   content: ZStoreHeroCurrentProps,
 })
 
 export const ZStoreHeroData = z.object({
+  status: ZEFetcherStatus,
   current: ZStoreHeroCurrent,
 })
 
 export const ZStoreHeroActions = z.object({
+  setStatus: z.custom<(status: z.infer<typeof ZEFetcherStatus>) => void>(),
   setCurrent: z.custom<(typing: string, content: z.infer<typeof ZStoreHeroCurrentProps>) => void>(),
 })
 

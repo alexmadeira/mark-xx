@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { colorController, elementController, heroController, routeController } from '_SRV/controller'
 
 export function BaseLayout() {
-  const CLHero = heroController()
+  heroController()
   const CLRoute = routeController()
   const CLLogoColor = colorController('logo')
   const CLTextColor = colorController('text')
@@ -18,7 +18,6 @@ export function BaseLayout() {
   const { pathname } = useLocation()
   const element = useOutlet()
 
-  CLHero.start()
   CLRoute.setRoute(pathname)
 
   useEffect(() => {
