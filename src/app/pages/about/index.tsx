@@ -13,7 +13,6 @@ export function About() {
   const FPage = pageFetcher()
   const FAwards = awardsFetcher()
   const FUsageLanguages = usageLanguagesFetcher()
-  // const Particles = particles('about')
 
   FPage.fetch('about')
   FAwards.fetch('about:awards')
