@@ -1,23 +1,8 @@
-import type { Variant } from 'motion/react'
 import type { ReactNode } from 'react'
 
 import { ZEGlobalColos, ZEGlobalRouteCode } from '@/enums/global'
 
 import { z } from 'zod/v4'
-
-export const ZDataMotionVariant = z.custom<Variant>()
-export const ZDataMotionVariants = z.object({
-  initial: ZDataMotionVariant,
-  animate: ZDataMotionVariant,
-  exit: ZDataMotionVariant,
-})
-
-export const ZDataMotion = z.object({
-  variants: ZDataMotionVariants,
-  exit: z.string().default('exit'),
-  initial: z.string().default('initial'),
-  animate: z.string().default('animate'),
-})
 
 export const ZDataGlobalRouteColor = z.object({
   name: ZEGlobalColos,
@@ -44,10 +29,6 @@ export const ZDataGlobalPages = z.record(ZEGlobalRouteCode, z.custom<() => React
 //
 //
 //
-
-export type TDataMotionVariant = z.infer<typeof ZDataMotionVariant>
-export type TDataMotionVariants = z.infer<typeof ZDataMotionVariants>
-export type TDataMotion = z.infer<typeof ZDataMotion>
 
 export type TDataGlobalRoute = z.infer<typeof ZDataGlobalRoute>
 export type TDataGlobalRoutes = z.infer<typeof ZDataGlobalRoutes>
