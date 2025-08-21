@@ -1,10 +1,10 @@
-import { ZDataElement, ZDataElementClassName, ZDataElementMeasure } from '@/services/content-data/element'
+import { ZUIElement, ZUIElementClassName, ZUIElementMeasure } from '@/config/ui/element'
 
 import { z } from 'zod/v4'
 
-export const ZStoreElementProps = ZDataElement
-export const ZStoreElementDataMeasure = ZDataElementMeasure
-export const ZStoreElementDataClassName = ZDataElementClassName
+export const ZStoreElementProps = ZUIElement
+export const ZStoreElementDataMeasure = ZUIElementMeasure
+export const ZStoreElementDataClassName = ZUIElementClassName
 
 export const ZStoreElementData = z.record(z.string(), ZStoreElementProps)
 

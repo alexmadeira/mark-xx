@@ -1,10 +1,10 @@
-import { ZDataElementClassName, ZDataElementCssVars, ZDataElementMeasure } from '@/services/content-data/element'
+import { ZUIElementClassName, ZUIElementCssVars, ZUIElementMeasure } from '@/config/ui/element'
 
 import { z } from 'zod/v4'
 
-export const ZElementCssVars = ZDataElementCssVars
-export const ZElementMeasure = ZDataElementMeasure
-export const ZElementClassName = ZDataElementClassName
+export const ZElementCssVars = ZUIElementCssVars
+export const ZElementMeasure = ZUIElementMeasure
+export const ZElementClassName = ZUIElementClassName
 
 export const ZElementCssVarsSettings = z.object({
   name: z.string(),

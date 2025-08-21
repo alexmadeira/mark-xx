@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-export const ZSchemaTecnology = z.object({
+export const ZSchemaTechnology = z.object({
   id: z.string(),
   name: z.string(),
   color: z.string(),
@@ -15,4 +15,4 @@ export const ZSchemaTecnology = z.object({
 //
 //
 
-export type TSchemaTecnology = z.infer<typeof ZSchemaTecnology>
+export type TSchemaTechnology = z.infer<typeof ZSchemaTechnology>
