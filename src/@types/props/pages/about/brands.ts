@@ -2,7 +2,13 @@ import type { HTMLAttributes } from 'react'
 
 import { z } from 'zod/v4'
 
-export const ZBrandsBrandProps = z.custom<HTMLAttributes<HTMLHeadingElement>>()
+export const ZBrandsBrandProps = z.intersection(
+  z.custom<HTMLAttributes<HTMLDivElement>>(),
+  z.object({
+    logo: z.url(),
+    name: z.string(),
+  }),
+)
 
 //
 //

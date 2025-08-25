@@ -1,6 +1,7 @@
 import { veronica } from '_SRV/api'
 
 import { AwardsFetcher } from './awards-fetcher'
+import { BrandsFetcher } from './brands-fetcher'
 import { PageFetcher } from './page-fetcher'
 import { ProjectsFetcher } from './projects-fetcher'
 import { TechnologiesFetcher } from './technologies-fetcher'
@@ -8,6 +9,7 @@ import { UsageLanguagesFetcher } from './usage-languages-fetcher'
 
 let fetcherPage: PageFetcher
 let fetcherAwards: AwardsFetcher
+let fetcherBrands: BrandsFetcher
 let fetcherProjects: ProjectsFetcher
 let fetcherTechnologies: TechnologiesFetcher
 let fetcherUsageLanguages: UsageLanguagesFetcher
@@ -24,7 +26,12 @@ export function awardsFetcher() {
   fetcherAwards = AwardsFetcher.create(veronica())
   return fetcherAwards
 }
+export function brandsFetcher() {
+  if (fetcherBrands) return fetcherBrands
 
+  fetcherBrands = BrandsFetcher.create(veronica())
+  return fetcherBrands
+}
 export function technologiesFetcher() {
   if (fetcherTechnologies) return fetcherTechnologies
 
