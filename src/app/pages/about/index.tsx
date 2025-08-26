@@ -23,15 +23,13 @@ export function About() {
   return (
     <>
       <Helmet title="Sobre" />
-      <div className="w-full pt-[100px]">
-        <Header />
-        <div className="flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]">
-          <Presentation />
-          <Movie />
-          <Awards />
-          <Languages />
-          <Brands />
-        </div>
+      <Header />
+      <div className="flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]">
+        <Presentation />
+        <Movie />
+        <Awards />
+        <Languages />
+        <Brands />
       </div>
     </>
   )

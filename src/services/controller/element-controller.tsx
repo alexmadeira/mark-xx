@@ -56,6 +56,13 @@ export class ElementController {
     })
   }
 
+  public setMeasure(measure: Partial<TElementMeasure>) {
+    if (_.every(measure, (value) => !value)) return
+
+    this.elementActions.setMeasure(this.name, measure)
+    this.updateCssVars()
+  }
+
   public updateCssVars() {
     this.buildCssVars()
     if (this.settings.cssVars.global) {
@@ -63,11 +70,6 @@ export class ElementController {
         document.documentElement.style.setProperty(key, value)
       })
     }
-  }
-
-  public set measure(measure: Partial<TElementMeasure>) {
-    this.elementActions.setMeasure(this.name, measure)
-    this.updateCssVars()
   }
 
   public setClassName(className: Nullish<TElementClassName>) {

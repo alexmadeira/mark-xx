@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 import { uiConfigHero } from '_CFG/ui/hero'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, motion, usePresence } from 'motion/react'
 
 import { overlapController } from '_SRV/controller'
 
@@ -9,14 +9,19 @@ import { useHero } from '_STR/useHero'
 
 export function Banner() {
   const overlapLogo = overlapController()
+  const [isPresent, safeToRemove] = usePresence()
 
   const heroRef = useRef<HTMLDivElement>(null)
   const content = useHero((st) => st.data.current)
 
   useEffect(() => {
     if (!content) return
-    overlapLogo.addElement(heroRef.current, content.color)
-  }, [content?.color])
+
+    if (isPresent) overlapLogo.addElement(heroRef.current, content.color)
+    if (!isPresent) overlapLogo.removeElement(heroRef.current)
+
+    if (safeToRemove) safeToRemove()
+  }, [content, isPresent])
 
   return (
     <div ref={heroRef} className="group absolute top-0 left-0 h-full w-full overflow-clip">
