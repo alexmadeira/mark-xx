@@ -10,7 +10,7 @@ export const ZStoreHeroCurrentProps = z.object({
 
 export const ZStoreHeroData = z.object({
   current: ZStoreHeroCurrentProps.nullish(),
-  typing: z.string(),
+  typing: z.string().nullish(),
 })
 
 export const ZStoreHeroActions = z.object({
