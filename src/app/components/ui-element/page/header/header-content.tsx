@@ -1,0 +1,39 @@
+import type { TPageHeaderContentProps } from '@/props/components/ui-element/page/header'
+
+import { contentPreseter } from '_SRV/preseter'
+
+import { useFetcherPages } from '_STR/useFetcherPages'
+
+import { useHeader } from './header-context'
+
+export function HeaderContent(props: TPageHeaderContentProps) {
+  const context = useHeader()
+  const pageName = context.page || props.page
+
+  if (!pageName) throw new Error('prop page is required to HeaderContent')
+
+  const page = useFetcherPages((st) => st.data[pageName])
+  const preseter = contentPreseter(pageName)
+
+  const content = preseter.contentHtml(page?.content)
+
+  return (
+    <div className="flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]">
+      <div className="w-full">
+        <div className="px-x-container mx-auto grid w-full grid-cols-1 flex-col gap-5 md:gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-12 xl:col-span-3 2xl:col-span-3">
+            <h2 className="text-black-900 text-[clamp(1.5rem,3.5vw,2.25rem)] leading-[clamp(2rem,4vw,3rem)] font-normal">
+              {page?.properties?.subTitle}
+            </h2>
+          </div>
+          <div className="flex flex-col gap-20 lg:col-span-12 xl:col-span-9 2xl:col-span-9">
+            <div
+              className="flex flex-col gap-[clamp(1rem,2vw,2rem)] text-[clamp(1rem,2vw,1.5rem)] leading-[clamp(1.5rem,3vw,2rem)] font-light"
+              dangerouslySetInnerHTML={{ __html: content.join('') }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

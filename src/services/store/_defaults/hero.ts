@@ -1,6 +1,6 @@
 import type { TStoreHeroData } from '@/services/store/hero'
 
 export const heroDefaultData = {
-  typing: '',
+  typing: null,
   current: null,
 } satisfies TStoreHeroData

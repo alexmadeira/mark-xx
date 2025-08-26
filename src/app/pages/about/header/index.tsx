@@ -1,9 +1,10 @@
-import { HeaderTitle } from './header-title'
+import { PageHeader } from '_APP/components/ui-element/page/header'
 
 export function Header() {
   return (
-    <div className="w-full pt-[var(--header-measure-height)]">
-      <HeaderTitle />
-    </div>
+    <PageHeader.Root page="about">
+      <PageHeader.Title />
+      <PageHeader.Content />
+    </PageHeader.Root>
   )
 }
