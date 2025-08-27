@@ -20,6 +20,9 @@ export function Home() {
   const FPage = pageFetcher()
   const FProjects = projectsFetcher()
 
+  const projects = useFetcherProjects((st) => st.data.list['home-projects'])
+  const masonryProjects = projects?.map(ProjectMapper.toMasonry)
+
   useEffect(() => {
     FPage.fetch('home')
     FProjects.fetch('home-projects', {
@@ -29,9 +32,6 @@ export function Home() {
       },
     })
   }, [])
-
-  const projects = useFetcherProjects((st) => st.data.list['home-projects'])
-  const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 
   return (
     <>

@@ -3,8 +3,9 @@ import type { HelmetProps } from 'react-helmet-async'
 
 import { z } from 'zod/v4'
 
+export const ZHelmetProps = z.custom<HelmetProps>()
 export const ZHelmetProviderProps = z.intersection(
-  z.custom<HelmetProps>(),
+  ZHelmetProps,
   z.object({
     children: z.custom<ReactNode>(),
   }),
@@ -14,4 +15,5 @@ export const ZHelmetProviderProps = z.intersection(
 //
 //
 
+export type THelmetProps = z.infer<typeof ZHelmetProps>
 export type THelmetProviderProps = z.infer<typeof ZHelmetProviderProps>

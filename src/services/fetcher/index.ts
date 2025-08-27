@@ -3,11 +3,13 @@ import { veronica } from '_SRV/api'
 import { AwardsFetcher } from './awards-fetcher'
 import { BrandsFetcher } from './brands-fetcher'
 import { PageFetcher } from './page-fetcher'
+import { ProjectFetcher } from './project-fetcher'
 import { ProjectsFetcher } from './projects-fetcher'
 import { TechnologiesFetcher } from './technologies-fetcher'
 import { UsageLanguagesFetcher } from './usage-languages-fetcher'
 
 let fetcherPage: PageFetcher
+let fetcherProject: ProjectFetcher
 let fetcherAwards: AwardsFetcher
 let fetcherBrands: BrandsFetcher
 let fetcherProjects: ProjectsFetcher
@@ -20,6 +22,13 @@ export function projectsFetcher() {
   fetcherProjects = ProjectsFetcher.create(veronica())
   return fetcherProjects
 }
+export function projectFetcher() {
+  if (fetcherProject) return fetcherProject
+
+  fetcherProject = ProjectFetcher.create(veronica())
+  return fetcherProject
+}
+
 export function awardsFetcher() {
   if (fetcherAwards) return fetcherAwards
 

@@ -33,12 +33,4 @@ export const routePaths = [
       twVar: '--color-blue-100',
     },
   },
-  {
-    pathname: '/project/chilli-beans',
-    type: 'project',
-    color: {
-      hex: '#000000',
-      twVar: '--color-black',
-    },
-  },
 ] satisfies TRoutePath[]

@@ -2,4 +2,5 @@ import type { TStoreFetcherProjectsData } from '@/services/store/fetcher-project
 
 export const fetcherProjectsDefaultData = {
   list: {},
+  pages: {},
 } satisfies TStoreFetcherProjectsData
