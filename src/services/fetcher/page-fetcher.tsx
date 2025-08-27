@@ -1,5 +1,5 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { TPagesFetcherProps } from '@/services/fetcher/pages'
+import type { TPageFetcherProps } from '@/services/fetcher/page'
 
 import { ApiRequester } from '_SRV/api/api-requester'
 
@@ -14,7 +14,7 @@ export class PageFetcher {
     return new PageFetcher(api)
   }
 
-  public async fetch(slug: string, options: TPagesFetcherProps = {}) {
+  public async fetch(slug: string, options: TPageFetcherProps = {}) {
     try {
       this.pagesActions.createPage(slug)
       this.pagesActions.setPageStatus(slug, 'loading')
