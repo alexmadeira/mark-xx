@@ -1,15 +1,14 @@
-import { useParams } from 'react-router-dom'
-
+import { routeController } from '_SRV/controller'
 import { contentPreseter } from '_SRV/preseter'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export function Description() {
-  const { slug } = useParams()
-  if (!slug) throw new Error('Project slug is required')
+  const CLRoute = routeController()
+
   const preseter = contentPreseter('project')
 
-  const page = useFetcherProjects((st) => st.data.pages[slug])
+  const page = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug])
 
   const content = preseter.contentHtml(page?.content)
 

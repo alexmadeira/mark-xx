@@ -1,4 +1,4 @@
-import type { TRouteProps } from '@/services/controller/route'
+import type { TRoutePathname, TRouteProps } from '@/services/controller/route'
 
 import _ from 'lodash'
 
@@ -15,22 +15,43 @@ export class RouteController {
     return new RouteController(props)
   }
 
-  public setRoute(pathname: string) {
-    const route = this.getRoute(pathname)
+  public setRoute(pathname: TRoutePathname) {
+    const { route, params } = this.getRoute(pathname)
 
     if (route) document.documentElement.style.setProperty('background', `var(${route.color.twVar})`)
     if (!route) document.documentElement.style.setProperty('background', 'none')
 
     this.routeActions.setCurrent(pathname)
+    this.routeActions.setParams(params)
   }
 
   public getRoute(pathname: string) {
     for (const route of this.paths) {
-      const regexPath = route.pathname.replace(/:[^/]+/g, '([^/]+)').replace(/\//g, '\\/')
+      const paramNames: string[] = []
+      const regexPath = route.pathname
+        .replace(/:([^/]+)/g, (_, paramName) => {
+          paramNames.push(paramName)
+          return '([^/]+)'
+        })
+        .replace(/\//g, '\\/')
 
       const regex = new RegExp(`^${regexPath}$`)
-      if (regex.test(pathname)) return route
+      const match = pathname.match(regex)
+      if (match) {
+        const params = paramNames.reduce(
+          (acc, name, idx) => {
+            acc[name] = match[idx + 1]
+            return acc
+          },
+          {} as Record<string, string>,
+        )
+        return {
+          route,
+          params,
+        }
+      }
     }
+
     throw new Error(`Route not found: ${pathname}`)
   }
 
@@ -42,11 +63,15 @@ export class RouteController {
     return this._props.paths
   }
 
+  public get params() {
+    return useRoute.getState().data.params
+  }
+
   public get currentRoute() {
     const current = useRoute.getState().data.current
     if (!current) throw new Error('No current route set')
 
-    return this.getRoute(current)
+    return this.getRoute(current).route
   }
 
   public get routesObject() {
