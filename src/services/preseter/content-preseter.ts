@@ -27,6 +27,8 @@ export class ContentPreseter {
   }
 
   private get templates() {
+    if (!this._props.templates) throw new Error('Templates not found in ContentPreseter')
+
     return this._props.templates
   }
 

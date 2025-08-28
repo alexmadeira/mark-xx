@@ -6,12 +6,12 @@ export function Content() {
   const preseter = contentPreseter('home')
   const pageContent = useFetcherPages((st) => st.data.home?.content)
 
-  const [description] = preseter.contentHtml(pageContent)
+  const content = preseter.contentHtml(pageContent)
 
   return (
     <div className="relative z-1 mt-auto w-full pb-[clamp(1rem,3vw,5rem)]">
       <div className="px-x-container flex h-full w-full flex-1 flex-col items-start justify-between gap-4 pb-[clamp(1.25rem,3vw,2.5rem)] md:flex-row md:items-center">
-        <div className="flex flex-2" dangerouslySetInnerHTML={{ __html: description }} />
+        <div className="flex flex-2" dangerouslySetInnerHTML={{ __html: content.join('') }} />
         <div className="relative z-1 flex flex-1 flex-col items-start gap-1 md:items-end">
           <a
             href="#"

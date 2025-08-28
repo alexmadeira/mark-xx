@@ -1,5 +1,7 @@
 import { z } from 'zod/v4'
 
+import { ZSchemaPageBlock } from './page'
+
 export const ZSchemaProjectTag = z.object({ id: z.string(), name: z.string() })
 export const ZSchemaProjectDate = z.object({ start: z.coerce.date() })
 export const ZSchemaProjectTimeline = z.object({ start: z.coerce.date(), end: z.coerce.date() })
@@ -26,6 +28,10 @@ export const ZSchemaProject = z.object({
   lastEdited: z.coerce.date(),
 })
 
+export const ZSchemaProjectPage = z.object({
+  content: z.array(ZSchemaPageBlock),
+  properties: ZSchemaProject,
+})
 //
 //
 //
@@ -36,3 +42,4 @@ export type TSchemaProjectDate = z.infer<typeof ZSchemaProjectDate>
 export type TSchemaProjectTimeline = z.infer<typeof ZSchemaProjectTimeline>
 export type TSchemaProjectTechnology = z.infer<typeof ZSchemaProjectTechnology>
 export type TSchemaProject = z.infer<typeof ZSchemaProject>
+export type TSchemaProjectPage = z.infer<typeof ZSchemaProjectPage>

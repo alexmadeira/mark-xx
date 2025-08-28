@@ -1,6 +1,4 @@
-import type { TRouteProps } from '@/services/controller/route'
-
-import { ZDataGlobalRoute } from '@/services/content-data/global'
+import type { TRoutePathname, TRouteProps } from '@/services/controller/route'
 
 import _ from 'lodash'
 
@@ -13,38 +11,73 @@ export class RouteController {
     this.setRoute = this.setRoute.bind(this)
   }
 
-  public static create(props: TRouteProps) {
+  static create(props: TRouteProps) {
     return new RouteController(props)
   }
 
-  public setRoute(path: string) {
-    const foundedRoute = _.find(this.routes, { path })
-    const route = ZDataGlobalRoute.parse(foundedRoute)
+  public setRoute(pathname: TRoutePathname) {
+    const { route, params } = this.getRoute(pathname)
 
-    document.documentElement.style.setProperty('background', `var(${route.color.twVar})`)
-    this.routeActions.setCurrent(route.path)
+    if (route) document.documentElement.style.setProperty('background', `var(${route.color.twVar})`)
+    if (!route) document.documentElement.style.setProperty('background', 'none')
+
+    this.routeActions.setCurrent(pathname)
+    this.routeActions.setParams(params)
   }
 
-  public getRoute(path: string) {
-    return ZDataGlobalRoute.parse(_.find(this.routes, { path }))
-  }
+  public getRoute(pathname: string) {
+    for (const route of this.paths) {
+      const paramNames: string[] = []
+      const regexPath = route.pathname
+        .replace(/:([^/]+)/g, (_, paramName) => {
+          paramNames.push(paramName)
+          return '([^/]+)'
+        })
+        .replace(/\//g, '\\/')
 
-  public getCurrent() {
-    return ZDataGlobalRoute.parse(_.find(this.routes, { path: useRoute.getState().data.current }))
+      const regex = new RegExp(`^${regexPath}$`)
+      const match = pathname.match(regex)
+      if (match) {
+        const params = paramNames.reduce(
+          (acc, name, idx) => {
+            acc[name] = match[idx + 1]
+            return acc
+          },
+          {} as Record<string, string>,
+        )
+        return {
+          route,
+          params,
+        }
+      }
+    }
+
+    throw new Error(`Route not found: ${pathname}`)
   }
 
   public get pages() {
     return this._props.pages
   }
 
-  public get routes() {
-    return this._props.routes
+  public get paths() {
+    return this._props.paths
+  }
+
+  public get params() {
+    return useRoute.getState().data.params
+  }
+
+  public get currentRoute() {
+    const current = useRoute.getState().data.current
+    if (!current) throw new Error('No current route set')
+
+    return this.getRoute(current).route
   }
 
   public get routesObject() {
-    return this.routes.map((route) => ({
-      path: route.path,
-      component: this.pages[route.code],
+    return this.paths.map((route) => ({
+      path: route.pathname,
+      component: this.pages[route.type],
     }))
   }
 }

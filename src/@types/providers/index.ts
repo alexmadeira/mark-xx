@@ -2,13 +2,13 @@ import type { ReactNode } from 'react'
 
 import { z } from 'zod/v4'
 
-import { ZHelmetProviderProps } from './helmet'
-import { ZQueryClientProviderProps } from './query-client'
+import { ZHelmetProps } from './helmet'
+import { ZQueryClientProps } from './query-client'
 
 export const ZProviderProps = z.object({
   children: z.custom<ReactNode>(),
-  queryClientProps: ZQueryClientProviderProps.optional(),
-  helmetProps: ZHelmetProviderProps.optional(),
+  queryClientProps: ZQueryClientProps.optional(),
+  helmetProps: ZHelmetProps.optional(),
 })
 //
 //

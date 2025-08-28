@@ -1,6 +1,7 @@
 import type {
   TOverlapAddElementProps,
   TOverlapElementOption,
+  TOverlapHTMLElement,
   TOverlapSetTargetProps,
 } from '@/services/controller/overlap'
 
@@ -71,7 +72,8 @@ export class OverlapController {
     this.elementList.set(element, option)
   }
 
-  public removeElement(element: HTMLElement) {
+  public removeElement(element: TOverlapHTMLElement) {
+    if (!element) return
     this.elementList.delete(element)
   }
 
