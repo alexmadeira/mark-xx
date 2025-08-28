@@ -1,19 +1,18 @@
 import { useRef } from 'react'
-import { useParams } from 'react-router-dom'
 
 import { Building2, CalendarDays } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'motion/react'
 
+import { routeController } from '_SRV/controller'
 import { dayJS } from '_SRV/lib'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export function Header() {
-  const { slug } = useParams()
-  if (!slug) throw new Error('Project slug is required')
+  const CLRoute = routeController()
 
   const targetRef = useRef<HTMLDivElement>(null)
-  const project = useFetcherProjects((st) => st.data.pages[slug]?.properties)
+  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug]?.properties)
 
   const { scrollYProgress } = useScroll({
     target: targetRef,

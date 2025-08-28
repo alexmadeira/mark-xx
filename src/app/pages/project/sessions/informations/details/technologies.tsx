@@ -1,12 +1,11 @@
-import { useParams } from 'react-router-dom'
+import { routeController } from '_SRV/controller'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export function Technologies() {
-  const { slug } = useParams()
-  if (!slug) throw new Error('Project slug is required')
+  const CLRoute = routeController()
 
-  const project = useFetcherProjects((st) => st.data.pages[slug]?.properties)
+  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug]?.properties)
 
   return (
     <div className="w-full rounded-lg border-[clamp(1px,0.2vw,3px)] border-current p-[clamp(1rem,2vw,2.5rem)]">

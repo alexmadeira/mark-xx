@@ -1,14 +1,12 @@
-import { useParams } from 'react-router-dom'
-
+import { routeController } from '_SRV/controller'
 import { dayJS } from '_SRV/lib'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export function ProjectDetails() {
-  const { slug } = useParams()
-  if (!slug) throw new Error('Project slug is required')
+  const CLRoute = routeController()
 
-  const project = useFetcherProjects((st) => st.data.pages[slug]?.properties)
+  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug]?.properties)
 
   const journeyStart = dayJS(project?.timeline.start).format('YYYY')
   const journeyEnd = dayJS(project?.timeline.end).format('YYYY')

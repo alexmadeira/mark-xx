@@ -14,5 +14,11 @@ export const useRoute = create<TStoreRoute>((set) => ({
           draft.data.current = path
         }),
       ),
+    setParams: (params) =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data.params = params
+        }),
+      ),
   },
 }))
