@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useMeasure } from 'react-use'
 
+import _ from 'lodash'
 import { twMerge } from 'tailwind-merge'
 
 import { elementController } from '_SRV/controller'
@@ -16,7 +17,7 @@ export function Header() {
   const headerClassName = useElement((st) => st.data.header.className)
 
   useEffect(() => {
-    CLElementHeader.measure = props
+    CLElementHeader.setMeasure(props)
   }, [props])
 
   return (

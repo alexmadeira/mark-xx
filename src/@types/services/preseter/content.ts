@@ -9,7 +9,7 @@ export const ZContentPreseterBuildBlockProps = ZSchemaPageBlock
 export const ZContentPreseterRenderProps = z.array(ZSchemaPageBlock)
 
 export const ZContentPreseterProps = z.object({
-  templates: ZContentPreseterTemplates,
+  templates: ZContentPreseterTemplates.optional(),
 })
 
 //

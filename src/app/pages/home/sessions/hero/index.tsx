@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import { PageHeader } from '_APP/components/ui-element/page/header'
+
 import { colorController, heroController } from '_SRV/controller'
 import { technologiesFetcher } from '_SRV/fetcher'
 
@@ -24,13 +26,14 @@ export function Hero() {
   const color = useHero((st) => st.data.current?.color)
 
   return (
-    <div
+    <PageHeader.Root
+      page="home"
       style={{ ...CLHeroColor.betterContrast(color) }}
-      className="relative flex h-[85vh] max-h-[80vw] min-h-[400px] flex-col items-center pt-[var(--header-measure-height)]"
+      className="relative flex h-[85vh] max-h-[80vw] min-h-[400px] flex-col items-center"
     >
       <Title />
-      <Content />
       <Banner />
-    </div>
+      <Content />
+    </PageHeader.Root>
   )
 }

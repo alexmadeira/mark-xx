@@ -1,13 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import { LogoSVG } from '_APP/components/ui-element/logo-svg'
+import { LogoSVG } from '_APP/components/ui-element/svg/logo'
 
 import { colorController, overlapController } from '_SRV/controller'
 
 import { useOverlap } from '_STR/useOverlap'
 
-export function Logo() {
+export const Logo = memo(() => {
   const CLOverlap = overlapController()
   const CLLogoColor = colorController('logo')
 
@@ -16,7 +16,7 @@ export function Logo() {
 
   useEffect(() => {
     CLOverlap.setTarget('logo', logoRef.current)
-  }, [logoRef.current])
+  }, [])
 
   return (
     <Link to="/" ref={logoRef} className="pointer-events-auto">
@@ -28,4 +28,4 @@ export function Logo() {
       </div>
     </Link>
   )
-}
+})

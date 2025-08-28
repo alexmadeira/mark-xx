@@ -15,5 +15,20 @@ export const useFetcherProjects = create<TStoreFetcherProjects>((set) => ({
           draft.data.list[name] = projects
         }),
       ),
+    setProjectPage: (slug, project) =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data.pages[slug] = {
+            ...(state.data.pages[slug] || {}),
+            ...project,
+          }
+        }),
+      ),
+    setProjectPageStatus: (slug, status) =>
+      set((state) =>
+        produce(state, (draft) => {
+          _.set(draft.data.pages, [slug, 'status'], status)
+        }),
+      ),
   },
 }))

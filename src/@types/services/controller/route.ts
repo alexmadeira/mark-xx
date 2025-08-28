@@ -1,15 +1,20 @@
+import { ZRoutePages } from '@/config/route/page'
+import { ZRoutePath } from '@/config/route/path'
+
 import { z } from 'zod/v4'
 
-import { ZDataGlobalPages, ZDataGlobalRoutes } from '../content-data/global'
+export const ZRoutePathname = z.string()
 
 export const ZRouteProps = z.object({
-  routes: ZDataGlobalRoutes,
-  pages: ZDataGlobalPages,
+  pages: ZRoutePages,
+  paths: z.array(ZRoutePath),
 })
 
 //
 //
 //
 //
+
+export type TRoutePathname = z.infer<typeof ZRoutePathname>
 
 export type TRouteProps = z.infer<typeof ZRouteProps>
