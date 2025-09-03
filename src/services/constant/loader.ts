@@ -1,9 +1,10 @@
 export const LOADER_MEDIA_TYPES = ['video', 'image'] as const
+export const LOADER_STATUS = ['idle', 'loading', 'loaded', 'error'] as const
 export const LOADER_REQUEST_LISTENER_TYPES = [
   'REQUEST:Error',
   'REQUEST:Started',
   'REQUEST:Finished',
-  'REQUEST:UpdateSize',
+  'REQUEST:Update',
   'REQUEST:AllFinished',
 ] as const
 export const LOADER_MEDIA_LISTENER_TYPES = [
@@ -11,17 +12,17 @@ export const LOADER_MEDIA_LISTENER_TYPES = [
   'MEDIA:Started',
   'MEDIA:Finished',
   'MEDIA:AllFinished',
-  'MEDIA:UpdateSize',
+  'MEDIA:Update',
   'MEDIA:CheckDocument',
   'MEDIA:VIDEO:Error',
   'MEDIA:VIDEO:Started',
   'MEDIA:VIDEO:Finished',
-  'MEDIA:VIDEO:UpdateSize',
+  'MEDIA:VIDEO:Update',
   'MEDIA:VIDEO:AllFinished',
   'MEDIA:IMAGE:Error',
   'MEDIA:IMAGE:Started',
   'MEDIA:IMAGE:Finished',
-  'MEDIA:IMAGE:UpdateSize',
+  'MEDIA:IMAGE:Update',
   'MEDIA:IMAGE:AllFinished',
 ] as const
 export const LOADER_LISTENER_TYPES = [...LOADER_REQUEST_LISTENER_TYPES, ...LOADER_MEDIA_LISTENER_TYPES] as const

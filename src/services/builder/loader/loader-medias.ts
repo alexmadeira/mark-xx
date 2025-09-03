@@ -1,40 +1,41 @@
 import type { ILoaderMedias } from '@/interfaces/loader/medias'
 import type {
+  TLoaderLoadedMedias,
   TLoaderMediaListeners,
   TLoaderMediaLoadedErrorProps,
   TLoaderMediaLoadedProps,
   TLoaderMediaNotifyListenersProps,
   TLoaderMedias,
   TLoaderMediaSubscribeProps,
-  TLoaderTotalMedias,
 } from '@/services/builder/loader/medias'
 
 import _ from 'lodash'
 
 export class LoaderMedias implements ILoaderMedias {
-  private readonly totalMedias: TLoaderTotalMedias
   private readonly medias: TLoaderMedias
   private readonly listeners: TLoaderMediaListeners
+  private readonly loadedMedias: TLoaderLoadedMedias
 
   protected constructor() {
     this.medias = new Map()
-    this.totalMedias = { image: 0, video: 0 }
+    this.loadedMedias = new Map()
+
     this.listeners = {
       'MEDIA:Error': new Set(),
       'MEDIA:Started': new Set(),
       'MEDIA:Finished': new Set(),
-      'MEDIA:UpdateSize': new Set(),
+      'MEDIA:Update': new Set(),
       'MEDIA:AllFinished': new Set(),
       'MEDIA:CheckDocument': new Set(),
       'MEDIA:VIDEO:Error': new Set(),
       'MEDIA:VIDEO:Started': new Set(),
       'MEDIA:VIDEO:Finished': new Set(),
-      'MEDIA:VIDEO:UpdateSize': new Set(),
+      'MEDIA:VIDEO:Update': new Set(),
       'MEDIA:VIDEO:AllFinished': new Set(),
       'MEDIA:IMAGE:Error': new Set(),
       'MEDIA:IMAGE:Started': new Set(),
       'MEDIA:IMAGE:Finished': new Set(),
-      'MEDIA:IMAGE:UpdateSize': new Set(),
+      'MEDIA:IMAGE:Update': new Set(),
       'MEDIA:IMAGE:AllFinished': new Set(),
     }
     this.buildMediaMonitor()
@@ -58,9 +59,9 @@ export class LoaderMedias implements ILoaderMedias {
 
   private setUnloadedImages() {
     Array.from(document.images).forEach((img) => {
+      if (this.loadedMedias.has(img.src)) return
       if (img.complete) return
 
-      this.totalMedias.image++
       this.medias.set(img.src, { el: img, type: 'image' })
     })
   }
@@ -68,17 +69,17 @@ export class LoaderMedias implements ILoaderMedias {
   private setUnloadedVideos() {
     Array.from(document.querySelectorAll('video')).forEach((video) => {
       if (!video.src) return
+      if (this.loadedMedias.has(video.src)) return
       if (video.readyState === 0) return
       if (video.readyState >= 3) return
 
-      this.totalMedias.video++
       this.medias.set(video.src, { el: video, type: 'video' })
     })
   }
 
   private imageLoader(img: HTMLImageElement) {
     this.notifyListeners('MEDIA:IMAGE:Started', img.src)
-    this.notifyListeners('MEDIA:IMAGE:UpdateSize', this.medias.size)
+    this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
 
     img.addEventListener('load', () => this.mediaLoaded('image', img.src))
     img.addEventListener('error', () => this.mediaLoadedError('image', img.src))
@@ -86,7 +87,7 @@ export class LoaderMedias implements ILoaderMedias {
 
   private videoLoader(video: HTMLVideoElement) {
     this.notifyListeners('MEDIA:VIDEO:Started', video.src)
-    this.notifyListeners('MEDIA:VIDEO:UpdateSize', this.medias.size)
+    this.notifyListeners('MEDIA:VIDEO:Update', this.medias.size)
 
     video.addEventListener('canplay', () => this.mediaLoaded('video', video.src), { once: true })
     video.addEventListener('error', () => this.mediaLoaded('video', video.src), { once: true })
@@ -102,18 +103,19 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   private mediaLoaded(...[type, src]: TLoaderMediaLoadedProps) {
-    this.medias.delete(src)
     this.notifyListeners('MEDIA:Finished', src)
-    this.notifyListeners('MEDIA:UpdateSize', this.medias.size)
+    this.notifyListeners('MEDIA:Update', this.medias.size)
+
+    this.loadedMedias.set(src, type)
 
     switch (type) {
       case 'image':
         this.notifyListeners('MEDIA:IMAGE:Finished', src)
-        this.notifyListeners('MEDIA:IMAGE:UpdateSize', this.medias.size)
+        this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
         break
       case 'video':
         this.notifyListeners('MEDIA:VIDEO:Finished', src)
-        this.notifyListeners('MEDIA:VIDEO:UpdateSize', this.medias.size)
+        this.notifyListeners('MEDIA:VIDEO:Update', this.medias.size)
         break
     }
 
@@ -136,7 +138,7 @@ export class LoaderMedias implements ILoaderMedias {
   private mediaLoader() {
     this.medias.forEach((media) => {
       this.notifyListeners('MEDIA:Started', media.el.src)
-      this.notifyListeners('MEDIA:UpdateSize', this.medias.size)
+      this.notifyListeners('MEDIA:Update', this.medias.size)
 
       switch (media.type) {
         case 'image':
@@ -150,10 +152,10 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   private checkAllFinished() {
-    if (!this.size.all) this.notifyListeners('MEDIA:AllFinished')
+    if (this.finished.all) this.notifyListeners('MEDIA:AllFinished')
 
-    if (!this.size.image) this.notifyListeners('MEDIA:IMAGE:AllFinished')
-    if (!this.size.video) this.notifyListeners('MEDIA:VIDEO:AllFinished')
+    if (this.finished.image) this.notifyListeners('MEDIA:IMAGE:AllFinished')
+    if (this.finished.video) this.notifyListeners('MEDIA:VIDEO:AllFinished')
   }
 
   private notifyListeners(...[type, payload]: TLoaderMediaNotifyListenersProps) {
@@ -167,7 +169,7 @@ export class LoaderMedias implements ILoaderMedias {
     return () => this.listeners[type].delete(callback)
   }
 
-  public get size() {
+  public get loadinng() {
     return {
       all: this.medias.size,
       image: _.countBy([...this.medias.values()], 'type').image || 0,
@@ -175,10 +177,21 @@ export class LoaderMedias implements ILoaderMedias {
     }
   }
 
-  public get total() {
+  public get loaded() {
+    const loadedMedias = _.countBy([...this.loadedMedias.values()])
+
     return {
-      all: _.sum(_.values(this.totalMedias)),
-      ...this.totalMedias,
+      all: this.loadedMedias.size,
+      image: loadedMedias.image || 0,
+      video: loadedMedias.video || 0,
+    }
+  }
+
+  public get finished() {
+    return {
+      all: this.loaded.all === this.loadinng.all,
+      image: this.loaded.image === this.loadinng.image,
+      video: this.loaded.video === this.loadinng.video,
     }
   }
 }

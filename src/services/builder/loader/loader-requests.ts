@@ -1,12 +1,13 @@
 import type { ILoaderRequests } from '@/interfaces/loader/requests'
 import type {
   TLoaderAddInstanceProps,
+  TLoaderLoadedRequests,
+  TLoaderLoadingRequests,
   TLoaderRequestErrorProps,
   TLoaderRequestFinishedProps,
   TLoaderRequestInstance,
   TLoaderRequestListeners,
   TLoaderRequestNotifyListenersProps,
-  TLoaderRequests,
   TLoaderRequestStartedProps,
   TLoaderRequestSubscribeProps,
 } from '@/services/builder/loader/requests'
@@ -14,18 +15,18 @@ import type {
 import _ from 'lodash'
 
 export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
-  private totalRequests: number
-  private readonly requests: TLoaderRequests
+  private readonly loadingRequests: TLoaderLoadingRequests
+  private readonly loadedRequests: TLoaderLoadedRequests
   private readonly listeners: TLoaderRequestListeners
 
   protected constructor() {
-    this.totalRequests = 0
-    this.requests = new Set()
+    this.loadingRequests = new Set()
+    this.loadedRequests = new Set()
     this.listeners = {
       'REQUEST:Error': new Set(),
       'REQUEST:Started': new Set(),
       'REQUEST:Finished': new Set(),
-      'REQUEST:UpdateSize': new Set(),
+      'REQUEST:Update': new Set(),
       'REQUEST:AllFinished': new Set(),
     }
     _.bindAll(this, ['requestStarted', 'requestFinished', 'requestError', 'notifyListeners'])
@@ -36,24 +37,25 @@ export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
   }
 
   private requestStarted(...[config]: TLoaderRequestStartedProps) {
-    this.requests.add(config.url!)
-    this.totalRequests++
-    this.notifyListeners('REQUEST:UpdateSize', this.requests.size)
+    this.loadingRequests.add(config.url!)
+    this.notifyListeners('REQUEST:Update')
     this.notifyListeners('REQUEST:Started', config.url)
     return config
   }
 
   private requestFinished(...[response]: TLoaderRequestFinishedProps) {
-    this.requests.delete(response.config.url!)
-    this.notifyListeners('REQUEST:UpdateSize', this.requests.size)
+    this.loadedRequests.add(response.config.url!)
+
+    this.notifyListeners('REQUEST:Update')
     this.notifyListeners('REQUEST:Finished', response.config.url)
     this.checkAllFinished()
     return response
   }
 
   private requestError(...[error]: TLoaderRequestErrorProps) {
-    this.requests.delete(error.config!.url!)
-    this.notifyListeners('REQUEST:UpdateSize', this.requests.size)
+    this.loadedRequests.add(error.config!.url!)
+
+    this.notifyListeners('REQUEST:Update')
     this.notifyListeners('REQUEST:Error', error.config!.url)
     this.notifyListeners('REQUEST:Finished', error.config!.url)
     this.checkAllFinished()
@@ -67,7 +69,7 @@ export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
   }
 
   private checkAllFinished() {
-    if (!this.requests.size) this.notifyListeners('REQUEST:AllFinished')
+    if (!this.finished) this.notifyListeners('REQUEST:AllFinished')
   }
 
   public addInstance(...[instance]: TLoaderAddInstanceProps) {
@@ -80,11 +82,15 @@ export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
     return () => this.listeners[type].delete(callback)
   }
 
-  public get total() {
-    return this.totalRequests
+  public get loadinng() {
+    return this.loadingRequests.size
   }
 
-  public get size() {
-    return this.requests.size
+  public get loaded() {
+    return this.loadedRequests.size
+  }
+
+  public get finished() {
+    return this.loaded === this.loadinng
   }
 }

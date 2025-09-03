@@ -14,7 +14,7 @@ export function veronica(): ApiRequester<typeof markXXPaths> {
 
   apiRequesters.veronica = new ApiRequester(
     {
-      host: 'http://localhost:3000/api/',
+      host: 'http://localhost:3001/api/',
       paths: markXXPaths,
       queryClient,
     },

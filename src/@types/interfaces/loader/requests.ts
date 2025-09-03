@@ -1,11 +1,12 @@
-import type { TEListenerRequestType } from '@/enums/loader'
+import type { TELoaderListenerRequestType } from '@/enums/loader'
 
-export type TLoaderRequestsListenerType = TEListenerRequestType
+export type TLoaderRequestsListenerType = TELoaderListenerRequestType
 export type TLoaderRequestsListenerCallback = (payload?: unknown) => unknown | Promise<unknown>
 
 export interface ILoaderRequests<TInstance = unknown> {
-  size: number
-  total: number
+  loadinng: number
+  loaded: number
+  finished: boolean
   addInstance: (instance: TInstance) => void
   subscribe: (type: TLoaderRequestsListenerType, callback: TLoaderRequestsListenerCallback) => void
 }

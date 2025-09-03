@@ -1,30 +1,33 @@
 import type { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
-import { ZEListenerRequestType } from '@/enums/loader'
+import { ZELoaderListenerRequestType } from '@/enums/loader'
 
 import { z } from 'zod/v4'
 
-export const ZLoaderRequests = z.set(z.string())
+export const ZLoaderLoadingRequests = z.set(z.string())
+export const ZLoaderLoadedRequests = z.set(z.string())
+
 export const ZLoaderRequestError = z.custom<AxiosError>()
 export const ZLoaderRequestConfig = z.custom<InternalAxiosRequestConfig>()
 export const ZLoaderRequestInstance = z.custom<AxiosInstance>()
 export const ZLoaderRequestResponse = z.custom<AxiosResponse>()
 export const ZLoaderRequestCallback = z.custom<(payload?: unknown) => unknown | Promise<unknown>>()
-export const ZLoaderRequestListeners = z.record(ZEListenerRequestType, z.set(ZLoaderRequestCallback))
+export const ZLoaderRequestListeners = z.record(ZELoaderListenerRequestType, z.set(ZLoaderRequestCallback))
 
 export const ZLoaderAddInstanceProps = z.tuple([ZLoaderRequestInstance])
 export const ZLoaderRequestErrorProps = z.tuple([ZLoaderRequestError])
 export const ZLoaderRequestStartedProps = z.tuple([ZLoaderRequestConfig])
 export const ZLoaderRequestFinishedProps = z.tuple([ZLoaderRequestResponse])
 
-export const ZLoaderRequestNotifyListenersProps = z.tuple([ZEListenerRequestType, z.unknown().optional()])
-export const ZLoaderRequestSubscribeProps = z.tuple([ZEListenerRequestType, ZLoaderRequestCallback])
+export const ZLoaderRequestNotifyListenersProps = z.tuple([ZELoaderListenerRequestType, z.unknown().optional()])
+export const ZLoaderRequestSubscribeProps = z.tuple([ZELoaderListenerRequestType, ZLoaderRequestCallback])
 
 //
 //
 //
 
-export type TLoaderRequests = z.infer<typeof ZLoaderRequests>
+export type TLoaderLoadingRequests = z.infer<typeof ZLoaderLoadingRequests>
+export type TLoaderLoadedRequests = z.infer<typeof ZLoaderLoadedRequests>
 export type TLoaderRequestError = z.infer<typeof ZLoaderRequestError>
 export type TLoaderRequestConfig = z.infer<typeof ZLoaderRequestConfig>
 export type TLoaderRequestInstance = z.infer<typeof ZLoaderRequestInstance>

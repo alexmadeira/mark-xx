@@ -44,8 +44,14 @@ export class ScrollingController {
     this._props.lenis.stop()
   }
 
+  public none() {
+    this._props.lenis.stop()
+    document.documentElement.style.setProperty('overflow', 'hidden')
+  }
+
   public start() {
     this._props.lenis.start()
+    document.documentElement.style.removeProperty('overflow')
   }
 
   public restart() {

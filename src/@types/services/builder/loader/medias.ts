@@ -1,4 +1,4 @@
-import { ZEListenerMediaType, ZEMediaType } from '@/enums/loader'
+import { ZELoaderListenerMediaType, ZELoaderMediaType } from '@/enums/loader'
 
 import { z } from 'zod/v4'
 
@@ -12,16 +12,16 @@ export const ZLoaderMediaVide = z.object({
 })
 
 export const ZLoaderMedia = z.discriminatedUnion('type', [ZLoaderMediaImage, ZLoaderMediaVide])
-export const ZLoaderTotalMedias = z.record(ZEMediaType, z.number().min(0))
+export const ZLoaderLoadedMedias = z.map(z.string(), ZELoaderMediaType)
 export const ZLoaderMedias = z.map(z.string(), ZLoaderMedia)
 export const ZLoaderMediaCallback = z.custom<(payload?: unknown) => unknown | Promise<unknown>>()
-export const ZLoaderMediaListeners = z.record(ZEListenerMediaType, z.set(ZLoaderMediaCallback))
+export const ZLoaderMediaListeners = z.record(ZELoaderListenerMediaType, z.set(ZLoaderMediaCallback))
 
-export const ZLoaderMediaLoadedProps = z.tuple([ZEMediaType, z.string()])
-export const ZLoaderMediaLoadedErrorProps = z.tuple([ZEMediaType, z.string()])
+export const ZLoaderMediaLoadedProps = z.tuple([ZELoaderMediaType, z.string()])
+export const ZLoaderMediaLoadedErrorProps = z.tuple([ZELoaderMediaType, z.string()])
 
-export const ZLoaderMediaNotifyListenersProps = z.tuple([ZEListenerMediaType, z.unknown().optional()])
-export const ZLoaderMediaSubscribeProps = z.tuple([ZEListenerMediaType, ZLoaderMediaCallback])
+export const ZLoaderMediaNotifyListenersProps = z.tuple([ZELoaderListenerMediaType, z.unknown().optional()])
+export const ZLoaderMediaSubscribeProps = z.tuple([ZELoaderListenerMediaType, ZLoaderMediaCallback])
 
 //
 //
@@ -31,7 +31,7 @@ export type TLoaderMediaImage = z.infer<typeof ZLoaderMediaImage>
 export type TLoaderMediaVide = z.infer<typeof ZLoaderMediaVide>
 
 export type TLoaderMedia = z.infer<typeof ZLoaderMedia>
-export type TLoaderTotalMedias = z.infer<typeof ZLoaderTotalMedias>
+export type TLoaderLoadedMedias = z.infer<typeof ZLoaderLoadedMedias>
 export type TLoaderMedias = z.infer<typeof ZLoaderMedias>
 export type TLoaderMediaCallback = z.infer<typeof ZLoaderMediaCallback>
 export type TLoaderMediaListeners = z.infer<typeof ZLoaderMediaListeners>

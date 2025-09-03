@@ -1,11 +1,14 @@
+import type { TELoaderStatus } from '@/enums/loader'
 import type { ILoader } from '@/interfaces/loader'
 import type { ILoaderMedias } from '@/interfaces/loader/medias'
 import type { ILoaderProgress } from '@/interfaces/loader/progress'
 import type { ILoaderRequests } from '@/interfaces/loader/requests'
 
-import _ from 'lodash'
+import { useLoader } from '_STR/useLoader'
 
 export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TRequestInstance> {
+  private readonly loaderActions = useLoader.getState().actions
+
   constructor(
     private readonly requestsLoader: ILoaderRequests<TRequestInstance>,
     private readonly mediasLoader: ILoaderMedias,
@@ -19,30 +22,60 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private registerListeners() {
-    this.requestsLoader.subscribe('REQUEST:Started', this.progressLoader.start.bind(this))
+    this.requestsLoader.subscribe('REQUEST:Started', this.startLoading.bind(this))
+    this.requestsLoader.subscribe('REQUEST:Update', this.calculateLoadingSize.bind(this))
     this.requestsLoader.subscribe('REQUEST:Finished', this.calculateLoadingSize.bind(this))
-    this.requestsLoader.subscribe('REQUEST:AllFinished', this.finish.bind(this))
-    this.requestsLoader.subscribe('REQUEST:UpdateSize', this.calculateLoadingSize.bind(this))
+    this.requestsLoader.subscribe('REQUEST:AllFinished', this.finishCheck.bind(this))
 
-    this.mediasLoader.subscribe('MEDIA:Started', this.progressLoader.start.bind(this))
+    this.mediasLoader.subscribe('MEDIA:Started', this.startLoading.bind(this))
+    this.mediasLoader.subscribe('MEDIA:Update', this.calculateLoadingSize.bind(this))
     this.mediasLoader.subscribe('MEDIA:Finished', this.calculateLoadingSize.bind(this))
-    this.mediasLoader.subscribe('MEDIA:AllFinished', this.finish.bind(this))
-    this.mediasLoader.subscribe('MEDIA:UpdateSize', this.calculateLoadingSize.bind(this))
+    this.mediasLoader.subscribe('MEDIA:AllFinished', this.finishCheck.bind(this))
+  }
+
+  private startLoading() {
+    if (useLoader.getState().data.status === 'loading') return
+
+    this.updateLoaderStatus()
+    this.progressLoader.start()
+  }
+
+  private updateLoaderStatus(status?: TELoaderStatus) {
+    this.loaderActions.setStatus(status || this.currentStatus)
   }
 
   private calculateLoadingSize() {
-    const total = this.requestsLoader.total + this.mediasLoader.total.all
-    if (!total) return
-    const requestsPercent = this.requestsLoader.size / total
-    const mediasPercent = this.mediasLoader.size.all / total
-    const loadingSize = 1 - (requestsPercent + mediasPercent)
+    const loadingProgress = 1 - this.totalLoaded / this.totalLoading
 
-    this.progressLoader.set(loadingSize)
+    this.loaderActions.setLoaded(loadingProgress)
+    this.progressLoader.set(loadingProgress)
+
+    this.updateLoaderStatus()
+
+    this.finishCheck()
   }
 
-  private finish() {
-    // if (this.requestsLoader.size || this.mediasLoader.size.all) return
-    // this.progressLoader.done()
+  private finishCheck() {
+    if (this.currentStatus === 'idle') return
+    if (this.currentStatus === 'loading') return
+
+    this.updateLoaderStatus()
+    this.progressLoader.done()
+  }
+
+  private get totalLoading() {
+    return this.requestsLoader.loadinng + this.mediasLoader.loadinng.all
+  }
+
+  private get totalLoaded() {
+    return this.requestsLoader.loaded + this.mediasLoader.loaded.all
+  }
+
+  private get currentStatus() {
+    if (this.totalLoading - this.totalLoaded > 0) return 'loading'
+    if (this.totalLoading - this.totalLoaded === 0) return 'loaded'
+
+    return 'idle'
   }
 
   public addInstance(instance: TRequestInstance) {

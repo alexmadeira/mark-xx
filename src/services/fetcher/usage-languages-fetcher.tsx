@@ -1,11 +1,12 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
+import type { IFetcher } from '@/interfaces/fetcher'
 import type { TUsageLanguageFetcherProps } from '@/services/fetcher/usage-language'
 
 import { ApiRequester } from '_SRV/api/api-requester'
 
 import { useFetcherUsageLanguages } from '_STR/useFetcherUsageLanguages'
 
-export class UsageLanguagesFetcher {
+export class UsageLanguagesFetcher implements IFetcher<TUsageLanguageFetcherProps> {
   private readonly usageLanguageActions = useFetcherUsageLanguages.getState().actions
 
   protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
@@ -24,10 +25,17 @@ export class UsageLanguagesFetcher {
       this.usageLanguageActions.setStatus('loaded')
 
       if (options.callback) options.callback()
-      return result
     } catch (error) {
       this.usageLanguageActions.setStatus('error')
       throw error
+    }
+  }
+
+  public prefetch(name: string, options: TUsageLanguageFetcherProps = {}) {
+    return {
+      tags: ['usage-languages'],
+      name,
+      fetch: () => this.fetch(name, options),
     }
   }
 }
