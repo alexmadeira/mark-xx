@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { PageHeader } from '_APP/components/ui-element/page/header'
 
 import { colorController, heroController } from '_SRV/controller'
-import { technologiesFetcher } from '_SRV/fetcher'
 
+import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 import { useHero } from '_STR/useHero'
 
 import { Banner } from './banner'
@@ -14,14 +14,10 @@ import { Title } from './title'
 export function Hero() {
   const CLHeroColor = colorController('hero')
   const CLHero = heroController()
-
-  const FTechnologies = technologiesFetcher()
-
+  const status = useFetcherTechnologies((st) => st.data.status)
   useEffect(() => {
-    FTechnologies.fetch('banner', {
-      callback: CLHero.start,
-    })
-  }, [])
+    if (status === 'loaded') CLHero.start()
+  }, [status])
 
   const color = useHero((st) => st.data.current?.color)
 

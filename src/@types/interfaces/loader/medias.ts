@@ -1,13 +1,15 @@
-import type { TEListenerMediaType, TEMediaType } from '@/enums/loader'
+import type { TELoaderListenerMediaType, TELoaderMediaType } from '@/enums/loader'
 
-export type TLoaderMediasListenerType = TEListenerMediaType
+export type TLoaderMediasListenerType = TELoaderListenerMediaType
 
-export type TLoaderMediasSize = Record<TEMediaType | 'all', number>
-export type TLoaderMediasTotal = Record<TEMediaType | 'all', number>
+export type TLoaderMediasLoadinng = Record<TELoaderMediaType | 'all', number>
+export type TLoaderMediasLoaded = Record<TELoaderMediaType | 'all', number>
+export type TLoaderMediasFinished = Record<TELoaderMediaType | 'all', boolean>
 export type TLoaderMediasListenerCallback = (payload?: unknown) => unknown | Promise<unknown>
 
 export interface ILoaderMedias {
-  size: TLoaderMediasSize
-  total: TLoaderMediasTotal
+  loaded: TLoaderMediasLoaded
+  loadinng: TLoaderMediasLoadinng
+  finished: TLoaderMediasFinished
   subscribe: (type: TLoaderMediasListenerType, callback: TLoaderMediasListenerCallback) => void
 }
