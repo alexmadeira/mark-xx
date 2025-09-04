@@ -9,11 +9,7 @@ import { useFetcherProjects } from '_STR/useFetcherProjects'
 export class ProjectFetcher implements IFetcher<TProjectFetcherProps> {
   private readonly projectActions = useFetcherProjects.getState().actions
 
-  protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
-
-  public static create(api: ApiRequester<typeof markXXPaths>) {
-    return new ProjectFetcher(api)
-  }
+  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 
   public async fetch(slug: string, options: TProjectFetcherProps = {}) {
     try {

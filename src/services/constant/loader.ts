@@ -1,5 +1,9 @@
+export const LOADER_STATUS = ['idle', 'loading', 'loaded', 'finished', 'error'] as const
+
+export const LOADER_EVENTS = ['Loader:Finished'] as const
+
 export const LOADER_MEDIA_TYPES = ['video', 'image'] as const
-export const LOADER_STATUS = ['idle', 'loading', 'loaded', 'error'] as const
+
 export const LOADER_REQUEST_LISTENER_TYPES = [
   'REQUEST:Error',
   'REQUEST:Started',

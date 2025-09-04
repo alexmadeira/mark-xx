@@ -1,11 +1,9 @@
 import { defaultElementProps } from './_defaults/element'
-import { defaultPrefetchingProps } from './_defaults/prefetching'
 import { defaultColorProps, defaultHeroProps, defaultRouteProps, defaultScrollingProps } from './_defaults'
 import { ColorController } from './color-controller'
 import { ElementController } from './element-controller'
 import { HeroController } from './hero-controller'
 import { OverlapController } from './overlap-controller'
-import { PrefetchingController } from './prefetching-controller'
 import { RouteController } from './route-controller'
 import { ScrollingController } from './scrolling-controller'
 
@@ -13,7 +11,6 @@ let controllerHero: HeroController
 let controllerRoute: RouteController
 let controllerScrolling: ScrollingController
 let controllerOverlap: OverlapController
-let controllerPrefetching: PrefetchingController
 
 const controllersColor: Record<string, ColorController> = {}
 const controllersElement: Record<string, ElementController> = {}
@@ -36,11 +33,6 @@ export function scrollingController() {
 export function overlapController() {
   if (!controllerOverlap) controllerOverlap = OverlapController.create()
   return controllerOverlap
-}
-
-export function prefetchingController() {
-  if (!controllerPrefetching) controllerPrefetching = PrefetchingController.create(defaultPrefetchingProps)
-  return controllerPrefetching
 }
 
 export function colorController(color: keyof typeof defaultColorProps) {

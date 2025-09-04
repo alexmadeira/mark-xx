@@ -9,11 +9,7 @@ import { useFetcherPages } from '_STR/useFetcherPages'
 export class PageFetcher implements IFetcher<TPageFetcherProps> {
   private readonly pagesActions = useFetcherPages.getState().actions
 
-  protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
-
-  public static create(api: ApiRequester<typeof markXXPaths>) {
-    return new PageFetcher(api)
-  }
+  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 
   public async fetch(slug: string, options: TPageFetcherProps = {}) {
     try {
