@@ -9,11 +9,7 @@ import { useFetcherBrands } from '_STR/useFetcherBrands'
 export class BrandsFetcher implements IFetcher<TBrandsFetcherProps> {
   private readonly brandsActions = useFetcherBrands.getState().actions
 
-  protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
-
-  public static create(api: ApiRequester<typeof markXXPaths>) {
-    return new BrandsFetcher(api)
-  }
+  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TBrandsFetcherProps = {}) {
     this.brandsActions.setStatus('loading')

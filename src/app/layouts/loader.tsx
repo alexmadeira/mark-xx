@@ -22,7 +22,6 @@ export function Loader() {
   async function isLoaing() {
     await animate(scope.current, { display: 'flex' }, { duration: 0 })
     await animate('.dor', { height: '100%' }, { ease: 'easeIn', duration: 0.5, delay: 0.5 })
-    CLScrolling.none()
   }
   async function isIdle() {
     await animate(scope.current, { display: 'flex' }, { duration: 0 })
@@ -33,10 +32,11 @@ export function Loader() {
   useEffect(() => {
     if (status === 'idle') isIdle()
     if (status === 'loading') isLoaing()
+    if (status === 'loading') CLScrolling.none()
 
     // console.log('Loader status', status)
-    if (status === 'loaded') isLoaded()
-    if (status === 'loaded') CLScrolling.restart()
+    if (status === 'loaded' || status === 'finished') isLoaded()
+    if (status === 'loaded' || status === 'finished') CLScrolling.restart()
   }, [status])
 
   return (

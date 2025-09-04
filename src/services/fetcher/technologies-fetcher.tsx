@@ -9,11 +9,7 @@ import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> {
   private readonly technologiesActions = useFetcherTechnologies.getState().actions
 
-  protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
-
-  public static create(api: ApiRequester<typeof markXXPaths>) {
-    return new TechnologiesFetcher(api)
-  }
+  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TTechnologiesFetcherProps = {}) {
     this.technologiesActions.setStatus('loading')

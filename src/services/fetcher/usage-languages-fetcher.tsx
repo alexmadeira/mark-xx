@@ -9,11 +9,7 @@ import { useFetcherUsageLanguages } from '_STR/useFetcherUsageLanguages'
 export class UsageLanguagesFetcher implements IFetcher<TUsageLanguageFetcherProps> {
   private readonly usageLanguageActions = useFetcherUsageLanguages.getState().actions
 
-  protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
-
-  public static create(api: ApiRequester<typeof markXXPaths>) {
-    return new UsageLanguagesFetcher(api)
-  }
+  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TUsageLanguageFetcherProps = {}) {
     this.usageLanguageActions.setStatus('loading')

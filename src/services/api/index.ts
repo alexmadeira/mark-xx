@@ -5,6 +5,8 @@ import { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import { loader } from '_SRV/builder/loader'
 import { queryClient } from '_SRV/lib'
 
+import { env } from '~/env'
+
 import { ApiRequester } from './api-requester'
 
 const apiRequesters: Record<string, ApiRequester<typeof requesterPaths>> = {}
@@ -14,7 +16,7 @@ export function veronica(): ApiRequester<typeof markXXPaths> {
 
   apiRequesters.veronica = new ApiRequester(
     {
-      host: 'http://localhost:3001/api/',
+      host: env.VITE_VERONICA_API,
       paths: markXXPaths,
       queryClient,
     },

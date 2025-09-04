@@ -5,13 +5,11 @@ import { Header } from '_APP/components/header'
 import _ from 'lodash'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { colorController, prefetchingController, routeController } from '_SRV/controller'
+import { colorController, routeController } from '_SRV/controller'
 
 import { Loader } from './loader'
 
 export function BaseLayout() {
-  prefetchingController()
-
   const CLRoute = routeController()
   const CLLogoColor = colorController('logo')
   const CLTextColor = colorController('text')

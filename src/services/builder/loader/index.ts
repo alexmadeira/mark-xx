@@ -9,7 +9,9 @@ let builderLoader: LoaderBuilder<AxiosInstance>
 
 export function loader() {
   if (!builderLoader)
-    builderLoader = new LoaderBuilder(LoaderRequests.create(), LoaderMedias.create(), LoaderProgress.create())
+    builderLoader = new LoaderBuilder(LoaderRequests.create(), LoaderMedias.create(), LoaderProgress.create(), {
+      once: true,
+    })
 
   return builderLoader
 }

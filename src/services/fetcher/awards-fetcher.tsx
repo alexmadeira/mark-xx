@@ -9,11 +9,7 @@ import { useFetcherAwards } from '_STR/useFetcherAwards'
 export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
   private readonly awardsActions = useFetcherAwards.getState().actions
 
-  protected constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
-
-  public static create(api: ApiRequester<typeof markXXPaths>) {
-    return new AwardsFetcher(api)
-  }
+  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TAwardsFetcherProps = {}) {
     this.awardsActions.setStatus('loading')
