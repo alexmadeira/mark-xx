@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { twMerge } from 'tailwind-merge'
 
-import { routeController, scrollingController } from '_SRV/controller'
-import { projectFetcher } from '_SRV/fetcher'
+import { routeController } from '_SRV/controller'
+import { preFetcher, projectFetcher } from '_SRV/fetcher'
 
 import { Banner } from './sessions/banner'
 import { Header } from './sessions/header'
@@ -13,14 +12,10 @@ import { Previews } from './sessions/previews'
 
 export function Project() {
   const CLRoute = routeController()
-  const CLScrolling = scrollingController()
   const FProject = projectFetcher()
+  const FPreFetcher = preFetcher()
 
-  useEffect(() => {
-    FProject.fetch(CLRoute.params.slug, {
-      callback: CLScrolling.resize,
-    })
-  }, [])
+  FPreFetcher.fetch(FProject.prefetch(CLRoute.params.slug))
 
   return (
     <>

@@ -1,3 +1,4 @@
+import type { ILoader } from '@/interfaces/loader'
 import type {
   TApiRequesterFetchProps,
   TApiRequesterInstance,
@@ -8,6 +9,7 @@ import type {
   TApiRequesterQueryProps,
 } from '@/services/api/api-requester'
 import type { Nullish } from '@/utils/nullish'
+import type { AxiosInstance } from 'axios'
 
 import axios from 'axios'
 import _ from 'lodash'
@@ -18,18 +20,18 @@ import { useRequester } from '_STR/useRequester'
 export class ApiRequester<TPaths extends TApiRequesterPaths> {
   private api: Nullish<TApiRequesterInstance>
 
-  protected constructor(private readonly _props: TApiRequesterProps<TPaths>) {
+  constructor(
+    private readonly _props: TApiRequesterProps<TPaths>,
+    private readonly loader: ILoader<AxiosInstance>,
+  ) {
     this.setup()
-  }
-
-  static create<T extends TApiRequesterPaths>(props: TApiRequesterProps<T>) {
-    return new ApiRequester(props)
   }
 
   private setup() {
     this.api = axios.create({
       baseURL: this.host,
     })
+    this.loader.addInstance(this.api)
   }
 
   private async fetch<TResponse = unknown>({ req, body, params, signal }: TApiRequesterFetchProps) {
