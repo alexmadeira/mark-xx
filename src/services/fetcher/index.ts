@@ -3,11 +3,13 @@ import { veronica } from '_SRV/api'
 import { AwardsFetcher } from './awards-fetcher'
 import { BrandsFetcher } from './brands-fetcher'
 import { PageFetcher } from './page-fetcher'
+import { PreFetcher } from './pre-fetcher'
 import { ProjectFetcher } from './project-fetcher'
 import { ProjectsFetcher } from './projects-fetcher'
 import { TechnologiesFetcher } from './technologies-fetcher'
 import { UsageLanguagesFetcher } from './usage-languages-fetcher'
 
+let fetcherPre: PreFetcher
 let fetcherPage: PageFetcher
 let fetcherProject: ProjectFetcher
 let fetcherAwards: AwardsFetcher
@@ -17,46 +19,37 @@ let fetcherTechnologies: TechnologiesFetcher
 let fetcherUsageLanguages: UsageLanguagesFetcher
 
 export function projectsFetcher() {
-  if (fetcherProjects) return fetcherProjects
-
-  fetcherProjects = ProjectsFetcher.create(veronica())
+  if (!fetcherProjects) fetcherProjects = new ProjectsFetcher(veronica())
   return fetcherProjects
 }
 export function projectFetcher() {
-  if (fetcherProject) return fetcherProject
-
-  fetcherProject = ProjectFetcher.create(veronica())
+  if (!fetcherProject) fetcherProject = new ProjectFetcher(veronica())
   return fetcherProject
 }
 
 export function awardsFetcher() {
-  if (fetcherAwards) return fetcherAwards
-
-  fetcherAwards = AwardsFetcher.create(veronica())
+  if (!fetcherAwards) fetcherAwards = new AwardsFetcher(veronica())
   return fetcherAwards
 }
 export function brandsFetcher() {
-  if (fetcherBrands) return fetcherBrands
-
-  fetcherBrands = BrandsFetcher.create(veronica())
+  if (!fetcherBrands) fetcherBrands = new BrandsFetcher(veronica())
   return fetcherBrands
 }
 export function technologiesFetcher() {
-  if (fetcherTechnologies) return fetcherTechnologies
-
-  fetcherTechnologies = TechnologiesFetcher.create(veronica())
+  if (!fetcherTechnologies) fetcherTechnologies = new TechnologiesFetcher(veronica())
   return fetcherTechnologies
 }
 export function pageFetcher() {
-  if (fetcherPage) return fetcherPage
-
-  fetcherPage = PageFetcher.create(veronica())
+  if (!fetcherPage) fetcherPage = new PageFetcher(veronica())
   return fetcherPage
 }
 
 export function usageLanguagesFetcher() {
-  if (fetcherUsageLanguages) return fetcherUsageLanguages
-
-  fetcherUsageLanguages = UsageLanguagesFetcher.create(veronica())
+  if (!fetcherUsageLanguages) fetcherUsageLanguages = new UsageLanguagesFetcher(veronica())
   return fetcherUsageLanguages
+}
+
+export function preFetcher() {
+  if (!fetcherPre) fetcherPre = new PreFetcher()
+  return fetcherPre
 }

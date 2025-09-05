@@ -8,6 +8,7 @@ import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 import { useHero } from '_STR/useHero'
 
 export class HeroController {
+  private isRunning = false
   private readonly controll: THeroControll
   private readonly heroActions = useHero.getState().actions
 
@@ -78,11 +79,14 @@ export class HeroController {
   }
 
   public start() {
+    if (this.isRunning) return
+    this.isRunning = true
     this.heroActions.setCurrent(this.currentHero)
     this.write()
   }
 
   public stop() {
     this.clearTimer()
+    this.isRunning = false
   }
 }

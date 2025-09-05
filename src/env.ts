@@ -5,6 +5,8 @@ const ZEnvGlobal = z.object({
 })
 
 export const ZEnvClient = ZEnvGlobal.extend({
+  VITE_VERONICA_API: z.url().default('http://localhost:3001/api/'),
+
   VITE_STORAGE_KEY: z.string().default('ALEX_MADEIRA::storage'),
   VITE_QUERY_GC_TIME: z.coerce.number().default(1000 * 60 * 60 * 24), // 24 hours
   VITE_QUERY_CLIENT_STALE_TIME: z.coerce.number().default(1000 * 60 * 5), // 5 minutes
