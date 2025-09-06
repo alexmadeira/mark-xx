@@ -7,7 +7,8 @@ export function HeaderCaption({ className, ...props }: TPageHeaderCaptionProps) 
     <h2
       {...props}
       className={twMerge(
-        'flex items-center text-[clamp(1.125rem,5vw,6rem)] leading-[clamp(1.75rem,5vw,1)] font-light text-nowrap transition-colors duration-200',
+        'flex items-center text-[clamp(1.125rem,4vw,6rem)] leading-[120%] font-light text-nowrap transition-colors duration-200',
+        '4xl:text-[clamp(7rem,5.5vw,9rem)] 4xl:leading-relaxed',
         className,
       )}
     />
