@@ -25,7 +25,7 @@ export function Hero() {
     <PageHeader.Root
       page="home"
       style={{ ...CLHeroColor.betterContrast(color) }}
-      className="relative flex h-[85vh] max-h-[90vw] min-h-[400px] flex-col items-center"
+      className="relative flex h-[45vh] flex-col items-center sm:h-[75vh] sm:max-h-[90vw] md:h-[85vh]"
     >
       <Title />
       <Banner />
