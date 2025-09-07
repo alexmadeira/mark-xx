@@ -29,7 +29,7 @@ export function Header() {
           headerClassName,
         )}
       >
-        <div className="px-x-container mx-auto flex w-full flex-row items-center gap-[clamp(0.5rem,2vw,2.5rem)]">
+        <div className="px-x-0 mx-auto flex w-full flex-row items-center gap-[clamp(0.5rem,2vw,2.5rem)]">
           <Logo />
           <Nav />
         </div>
