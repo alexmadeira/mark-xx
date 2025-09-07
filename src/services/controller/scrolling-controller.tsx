@@ -5,6 +5,7 @@ import type {
   TScrollingToOption,
 } from '@/services/controller/scrolling'
 
+import mobile from 'is-mobile'
 import Lenis from 'lenis'
 import _ from 'lodash'
 
@@ -18,6 +19,10 @@ export class ScrollingController {
     this.ev.on('scroll', this.setDetails.bind(this))
 
     _.bindAll(this, ['stop', 'start', 'restart', 'resize', 'fromStart', 'scrollTo'])
+
+    if (mobile()) {
+      this._props.lenis.destroy()
+    }
   }
 
   public static create(props: TScrollingCreateProps) {
