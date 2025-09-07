@@ -31,7 +31,7 @@ export function Header() {
   return (
     <div
       ref={targetRef}
-      className="px-x-container relative mt-[100vh] flex w-full flex-col gap-[clamp(0.5rem,1vw,2rem)]"
+      className="md:px-x-container relative mt-[100vh] flex w-full flex-col gap-[clamp(0.5rem,1vw,2rem)] px-8"
     >
       <motion.h1
         style={{ scale, top, x, y, left, opacity }}

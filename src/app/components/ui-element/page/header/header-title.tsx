@@ -16,7 +16,7 @@ export function HeaderTitle({ className, children, ...props }: TPageHeaderTitleP
 
   return (
     <div {...props} className={twMerge('my-0 w-full', 'sm:my-4', 'md:my-[clamp(1rem,4vw,5rem)]', className)}>
-      <div className="px-x-container mx-auto flex w-full flex-col gap-0">
+      <div className="md:px-x-container mx-auto flex w-full flex-col gap-0 px-8">
         <h1
           className={twMerge(
             'w-full text-4xl font-semibold tracking-widest sm:text-5xl',

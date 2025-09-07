@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="relative z-10 mt-auto flex w-full flex-col items-center py-4 md:py-[calc(1.25rem+var(--spacing-safe-area-bottom))] lg:py-10">
       <div className="w-full">
-        <div className="px-x-container mx-auto flex w-full flex-col items-center md:flex-row md:items-end md:gap-[clamp(0.5rem,2vw,2.5rem)]">
+        <div className="md:px-x-container mx-auto flex w-full flex-col items-center px-4 md:flex-row md:items-end md:gap-[clamp(0.5rem,2vw,2.5rem)]">
           <ul className="flex flex-1 gap-6 md:gap-10 lg:gap-14">
             <li>
               <a
