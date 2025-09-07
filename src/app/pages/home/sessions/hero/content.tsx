@@ -18,7 +18,7 @@ export function Content() {
         'md:pb-[clamp(calc(var(--spacing)_*_6),8vw,calc(var(--spacing)_*_20))]',
       )}
     >
-      <div className="px-x-container flex h-full w-full flex-1 flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+      <div className="md:px-x-container flex h-full w-full flex-1 flex-col items-start justify-between gap-4 px-8 sm:flex-row sm:items-end">
         <div className="flex flex-2" dangerouslySetInnerHTML={{ __html: content.join('') }} />
         <div className="relative z-1 flex flex-1 flex-col items-start gap-2 sm:items-end">
           <a
