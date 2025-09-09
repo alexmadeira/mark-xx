@@ -21,6 +21,8 @@ export const ZPageHeaderTitleProps = z.intersection(
   z.custom<HTMLAttributes<HTMLDivElement>>(),
   ZPageHeaderProps.partial(),
 )
+export const ZPageHeaderTitleNameProps = ZPageHeaderProps.partial()
+
 export const ZPageHeaderCaptionProps = z.custom<HTMLAttributes<HTMLHeadingElement>>()
 
 export const ZPageHeaderContentProps = z.intersection(
@@ -41,6 +43,7 @@ export type TPageHeaderProvider = z.infer<typeof ZPageHeaderProvider>
 export type TPageHeaderContextProps = z.infer<typeof ZPageHeaderContextProps>
 
 export type TPageHeaderTitleProps = z.infer<typeof ZPageHeaderTitleProps>
+export type TPageHeaderTitleNameProps = z.infer<typeof ZPageHeaderTitleNameProps>
 export type TPageHeaderCaptionProps = z.infer<typeof ZPageHeaderCaptionProps>
 export type TPageHeaderContentProps = z.infer<typeof ZPageHeaderContentProps>
 
