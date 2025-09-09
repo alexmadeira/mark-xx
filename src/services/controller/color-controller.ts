@@ -69,9 +69,6 @@ export class ColorController<TColorName = string> {
       animate(this.motionColors.get(key)!, color, {
         ...this.transition,
         onUpdate: (value) => {
-          if (key === '--hero-foreground-color') {
-            console.log({ key, value })
-          }
           document.documentElement.style.setProperty(key, value)
         },
       })
