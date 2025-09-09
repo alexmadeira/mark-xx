@@ -1,7 +1,6 @@
 import type { TStoreFetcherAwards } from '@/services/store/fetcher-awards'
 
 import { produce } from 'immer'
-import _ from 'lodash'
 import { create } from 'zustand'
 
 import { fetcherAwardsDefaultData } from './_defaults/fetcher-awards'

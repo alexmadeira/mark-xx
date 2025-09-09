@@ -10,7 +10,7 @@ export function Title() {
   return (
     <PageHeader.Title
       style={{ opacity: typing !== null ? 1 : 0 }}
-      className="relative z-1 w-full flex-1 opacity-0 transition-opacity duration-2000"
+      className="relative z-1 w-full flex-1 text-[var(--hero-contrast-color)] opacity-0 transition-opacity duration-2000"
     >
       <TitleCaption />
     </PageHeader.Title>
