@@ -1,30 +1,27 @@
-import type {
-  TColor,
-  TColorCssVars,
-  TColorProps,
-  TColors,
-  TColorsBetterContrastResult,
-} from '@/services/controller/color'
+import type { TColor, TColorCssVars, TColorMotionColors, TColorProps, TColors } from '@/services/controller/color'
 import type { Nullish } from '@/utils/nullish'
 
 import { ZColorProps } from '@/services/controller/color'
 
 import { contrast, isValidColor, opacify } from 'colorizr'
 import _ from 'lodash'
+import { animate, motionValue } from 'motion'
 
 import { Css } from '_SRV/utils/css'
 
-export class ColorController {
+export class ColorController<TColorName = string> {
   private totalColors: number = 0
+  private colors: TColors
 
-  private _colors: TColors | null = null
+  private readonly motionColors: TColorMotionColors
 
   protected constructor(private readonly _props: TColorProps) {
-    this._colors = this.prepareColors()
+    this.colors = this.prepareColors()
+    this.motionColors = new Map()
   }
 
-  static create(props: TColorProps) {
-    return new ColorController(ZColorProps.parse(props))
+  static create<C>(props: TColorProps) {
+    return new ColorController<C>(ZColorProps.parse(props))
   }
 
   private parseColor(raw: TColor) {
@@ -38,10 +35,10 @@ export class ColorController {
   }
 
   private prepareColors() {
-    const variationList = this._props.variations || []
+    const variationList = this.variations || []
 
-    const dark = this.parseColor(this._props.dark)
-    const light = this.parseColor(this._props.light)
+    const dark = this.parseColor(this.dark)
+    const light = this.parseColor(this.light)
     const variations = variationList.map(this.parseColor.bind(this))
 
     this.totalColors = 2 + variations.length - 1
@@ -54,6 +51,7 @@ export class ColorController {
 
     contrasts[this.colors.dark] = contrast(baseColor, this.colors.dark)
     contrasts[this.colors.light] = contrast(this.colors.light, baseColor)
+
     this.colors.variations.forEach((color) => {
       contrasts[color] = contrast(baseColor, color)
     })
@@ -63,40 +61,58 @@ export class ColorController {
       .map(([key]) => key)
   }
 
-  private makeCssVars(color: TColor, name?: string | null) {
-    if (!name) return {}
+  private setCssVars(cssVars: TColorCssVars) {
+    _.forEach(cssVars, (color, key) => {
+      if (!this.transition) return document.documentElement.style.setProperty(key, color)
+      if (!this.motionColors.has(key)) this.motionColors.set(key, motionValue(color))
+
+      animate(this.motionColors.get(key)!, color, {
+        ...this.transition,
+        onUpdate: (value) => {
+          if (key === '--hero-foreground-color') {
+            console.log({ key, value })
+          }
+          document.documentElement.style.setProperty(key, value)
+        },
+      })
+    })
+  }
+
+  private makeCssVars(rgbColor: TColor, name: TColorName, level: number) {
     const cssVars: TColorCssVars = {}
 
-    const foregroundColor = this.betterContrast(color)
+    const contrastColor = this.contrastingColor(rgbColor, level)
+    const foregroundColor = this.contrastingColor(contrastColor, level)
 
-    cssVars[`--${name}-color`] = color
-    cssVars[`--${name}-shadow-color`] = opacify(foregroundColor.color, 0.3)
-    cssVars[`--${name}-foreground-color`] = foregroundColor.color
-    cssVars[`--${name}-foreground-shadow-color`] = opacify(color, 0.3)
+    cssVars[`--${name}-color`] = rgbColor
+    cssVars[`--${name}-shadow-color`] = opacify(contrastColor, 0.3)
+    cssVars[`--${name}-foreground-color`] = contrastColor
+    cssVars[`--${name}-foreground-shadow-color`] = opacify(rgbColor, 0.3)
+
+    cssVars[`--${name}-contrast-color`] = contrastColor
+    cssVars[`--${name}-contrast-shadow-color`] = opacify(foregroundColor, 0.3)
+    cssVars[`--${name}-contrast-foreground-color`] = foregroundColor
+    cssVars[`--${name}-contrast-foreground-shadow-color`] = opacify(contrastColor, 0.3)
 
     return cssVars
   }
 
-  private get colors() {
-    if (!this._colors) throw new Error('Colors not initialized')
-    return this._colors
-  }
-
-  public betterContrast(color?: Nullish<TColor>, name?: string | null, level: number = 0) {
-    const rgbColor = this.parseColor(color || this.default)
+  private contrastingColor(rgbColor: TColor, level: number = 0) {
     const contrasts = this.checkContrasts(rgbColor)
     const contrastIndex = Math.min(level, this.totalColors - 1)
 
-    const result: TColorsBetterContrastResult = {
-      color: contrasts[contrastIndex],
-      ...this.makeCssVars(contrasts[contrastIndex], name),
-    }
-
-    return result
+    return contrasts[contrastIndex]
   }
 
-  public randomBetterContrast(color?: TColor, name?: string | null, limit: number = 3) {
-    return this.betterContrast(color, name, _.random(limit))
+  public betterContrast(name: TColorName, color: Nullish<TColor>, level: number = 0) {
+    const rgbColor = this.parseColor(color || this.default)
+    const cssVars = this.makeCssVars(rgbColor, name, level)
+
+    this.setCssVars(cssVars)
+  }
+
+  public randomBetterContrast(name: TColorName, color: Nullish<TColor>, limit: number = 3) {
+    return this.betterContrast(name, color, _.random(limit))
   }
 
   public set default(color: TColor) {
@@ -105,5 +121,21 @@ export class ColorController {
 
   public get default() {
     return this.parseColor(this._props.default)
+  }
+
+  public get dark() {
+    return this._props.dark
+  }
+
+  public get light() {
+    return this._props.light
+  }
+
+  public get variations() {
+    return this._props.variations
+  }
+
+  public get transition() {
+    return this._props.transition
   }
 }

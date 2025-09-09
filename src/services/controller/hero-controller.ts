@@ -10,7 +10,7 @@ import { useHero } from '_STR/useHero'
 
 export class HeroController {
   private isRunning = false
-  private readonly color: MotionValue<string>
+  private readonly motionColor: MotionValue<string>
   private readonly controll: THeroControll
   private readonly heroActions = useHero.getState().actions
 
@@ -20,7 +20,7 @@ export class HeroController {
   protected constructor(private readonly _props: THeroProps) {
     _.bindAll(this, ['write', 'erase', 'start', 'stop'])
 
-    this.color = motionValue('transparent')
+    this.motionColor = motionValue('transparent')
     this.controll = { hero: 0, letter: 0 }
   }
 
@@ -67,7 +67,7 @@ export class HeroController {
     const msNavbutton = document.querySelector('meta[name="msapplication-navbutton-color"]')
     const appleStatusBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
 
-    animate(this.color, newColor, {
+    animate(this.motionColor, newColor, {
       duration: 4,
       onUpdate: (value) => {
         this.heroActions.setColor(value)
