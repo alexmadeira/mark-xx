@@ -12,7 +12,7 @@ let controllerRoute: RouteController
 let controllerScrolling: ScrollingController
 let controllerOverlap: OverlapController
 
-const controllersColor: Record<string, ColorController> = {}
+const controllersColor: Record<string, ColorController<keyof typeof defaultColorProps>> = {}
 const controllersElement: Record<string, ElementController> = {}
 
 export function heroController() {
@@ -36,7 +36,8 @@ export function overlapController() {
 }
 
 export function colorController(color: keyof typeof defaultColorProps) {
-  if (!controllersColor[color]) controllersColor[color] = ColorController.create(defaultColorProps[color])
+  if (!controllersColor[color])
+    controllersColor[color] = ColorController.create<keyof typeof defaultColorProps>(defaultColorProps[color])
   return controllersColor[color]
 }
 

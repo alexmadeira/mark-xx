@@ -30,7 +30,7 @@ export const routePaths = [
     type: 'project',
     color: {
       hex: '#ffffff',
-      twVar: '--color-blue-100',
+      twVar: '--color-black',
     },
   },
 ] satisfies TRoutePath[]
