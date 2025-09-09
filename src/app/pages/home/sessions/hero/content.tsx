@@ -28,29 +28,17 @@ export function Content() {
       >
         <div className="flex flex-2" dangerouslySetInnerHTML={{ __html: content.join('') }} />
         <div className="relative z-1 flex flex-1 flex-col items-start gap-2 sm:items-end">
-          <a
-            href="#"
-            className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline transition-colors duration-200"
-          >
+          <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
             alex.c.madeira@gmail.com
           </a>
           <div className="flex w-full items-center justify-center gap-x-3 sm:justify-end">
-            <a
-              href="#"
-              className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline transition-colors duration-200"
-            >
+            <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
               Linkedin
             </a>
-            <a
-              href="#"
-              className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline transition-colors duration-200"
-            >
+            <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
               Github
             </a>
-            <a
-              href="#"
-              className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline transition-colors duration-200"
-            >
+            <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
               Instagram
             </a>
           </div>

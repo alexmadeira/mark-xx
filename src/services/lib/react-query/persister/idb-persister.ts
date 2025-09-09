@@ -9,10 +9,28 @@ export class IDBPersister extends Persister {
     return new IDBPersister(props, events)
   }
 
+  private async getStorageVersion() {
+    return await get<string>(`${this.storageKey}::version`)
+  }
+
+  private async getStorageData() {
+    await this.checkVersion()
+    return await get<TPersistData>(this.storageKey)
+  }
+
+  private async checkVersion() {
+    const version = await this.getStorageVersion()
+    if (version === this.version) return true
+
+    await this.removeClient()
+    await set(`${this.storageKey}::version`, this.version)
+  }
+
   public async persistClient(data: TPersistData) {
     try {
       this.updateClientStatus('persisting')
       await set(this.storageKey, data)
+
       this.updateClientStatus('persisted')
     } catch (_err) {
       this.updateClientStatus('error')
@@ -22,7 +40,7 @@ export class IDBPersister extends Persister {
   public async restoreClient() {
     try {
       this.updateCacheStatus('restoring')
-      const result = await get<TPersistData>(this.storageKey)
+      const result = await this.getStorageData()
 
       this.updateCacheStatus('restored')
       return result

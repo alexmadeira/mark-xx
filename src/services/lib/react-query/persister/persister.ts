@@ -28,4 +28,8 @@ export abstract class Persister implements IPersister {
   public get storageKey() {
     return this._props.storageKey
   }
+
+  public get version() {
+    return this._props.version
+  }
 }

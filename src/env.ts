@@ -5,6 +5,9 @@ const ZEnvGlobal = z.object({
 })
 
 export const ZEnvClient = ZEnvGlobal.extend({
+  PACKAGE_VERSION: z.string().default('0.0.0'),
+  BUILD_VERSIO: z.string().default('19901002_000000000'),
+
   VITE_VERONICA_API: z.url().default('http://localhost:3001/api/'),
 
   VITE_STORAGE_KEY: z.string().default('ALEX_MADEIRA::storage'),
@@ -17,4 +20,5 @@ export const ZEnvClient = ZEnvGlobal.extend({
   PROD: z.coerce.boolean(),
   SSR: z.coerce.boolean(),
 })
+
 export const env = ZEnvClient.parse(import.meta.env)

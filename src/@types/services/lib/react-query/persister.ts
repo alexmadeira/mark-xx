@@ -11,6 +11,7 @@ export const ZPersistEvents = z.object({
 
 export const ZPersisterProps = z.object({
   storageKey: z.string(),
+  version: z.string(),
 })
 
 export const ZPersister = z.custom<Persister>()
