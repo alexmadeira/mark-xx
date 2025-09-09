@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { PageHeader } from '_APP/components/ui-element/page/header'
+import { twMerge } from 'tailwind-merge'
 
 import { colorController, heroController } from '_SRV/controller'
 
@@ -25,7 +26,7 @@ export function Hero() {
     <PageHeader.Root
       page="home"
       style={{ ...CLHeroColor.betterContrast(color) }}
-      className="relative flex h-[85vh] max-h-[90vw] min-h-[400px] flex-col items-center"
+      className={twMerge('relative flex h-[45vh] flex-col items-center', 'sm:h-[85vh]', 'lg:h-[90vh]')}
     >
       <Title />
       <Banner />
