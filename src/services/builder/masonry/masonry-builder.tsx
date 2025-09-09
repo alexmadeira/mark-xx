@@ -204,6 +204,7 @@ export class MasonryBuilder {
       />
     )
   }
+  // 'md:
 
   public render({ contents, ...props }: TMasonryRenderProps) {
     this.setContents(contents)
@@ -211,7 +212,11 @@ export class MasonryBuilder {
     return (
       <div
         key={this.name}
-        className="group/masonry grid h-full w-full flex-1 grid-flow-row-dense gap-4 p-4 sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12"
+        className={twMerge(
+          'group/masonry grid h-full w-full flex-1 grid-flow-row-dense gap-4 px-[max(var(--spacing-safe-area-x),var(--spacing)*4))] py-4',
+          'sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12',
+          'lg:px-4',
+        )}
       >
         {this.grid.slice(0, this.gridContents.length).map((size, i) => {
           return this.contentWrapper({
