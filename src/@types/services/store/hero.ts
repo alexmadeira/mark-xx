@@ -10,11 +10,13 @@ export const ZStoreHeroCurrentProps = z.object({
 
 export const ZStoreHeroData = z.object({
   current: ZStoreHeroCurrentProps.nullish(),
+  color: z.string(),
   typing: z.string().nullish(),
 })
 
 export const ZStoreHeroActions = z.object({
   setCurrent: z.custom<(content: z.infer<typeof ZStoreHeroCurrentProps>) => void>(),
+  setColor: z.custom<(color: string) => void>(),
   setTyping: z.custom<(typing: string) => void>(),
 })
 
