@@ -22,16 +22,16 @@ export function NavLink({ className, ...rest }: TNavLinkProps) {
     CLOverlap.setTarget(name, navigationRef.current)
   }, [navigationRef.current])
 
-  const background = CLNavigationColor.betterContrast(overlapNavigation, 'navigation-background')
-  const text = CLNavigationColor.betterContrast(background.color, 'navigation-text')
+  CLNavigationColor.betterContrast('navigation', overlapNavigation)
 
   return (
     <Link
       {...rest}
       ref={navigationRef}
-      style={{ ...background, ...text }}
       className={twMerge(
-        'pointer-events-auto rounded-full border border-zinc-400/50 bg-[var(--navigation-background-color)] px-[clamp(1rem,2vw,1.75rem)] py-[clamp(0.25rem,1vw,0.5rem)] text-[clamp(0.875rem,2vw,1.125rem)] leading-[clamp(1.25rem,2vw,1.75rem)] text-[var(--navigation-text-color)]! transition-all duration-250 hover:scale-110 hover:bg-[var(--navigation-background-foreground-color)] hover:text-[var(--navigation-text-foreground-color)]! hover:shadow-lg hover:shadow-[color:var(--navigation-background-foreground-shadow-color)] active:scale-95 active:duration-100',
+        'pointer-events-auto rounded-full border border-zinc-400/50 px-[clamp(1rem,2vw,1.75rem)] py-[clamp(0.25rem,1vw,0.5rem)] text-[clamp(0.875rem,2vw,1.125rem)] leading-[clamp(1.25rem,2vw,1.75rem)] transition-transform duration-500 hover:scale-110 hover:shadow-lg active:scale-95 active:duration-250',
+        'bg-[var(--navigation-foreground-color)] text-[var(--navigation-contrast-foreground-color)] shadow-[color:var(--navigation-foreground-shadow-color)]',
+        'hover:bg-[var(--navigation-contrast-foreground-color)] hover:text-[var(--navigation-foreground-color)]! hover:shadow-[color:var(--navigation-contrast-foreground-shadow-color)]',
         className,
       )}
     />

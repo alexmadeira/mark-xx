@@ -23,7 +23,7 @@ export function BaseLayout() {
   CLLogoColor.default = CLRoute.currentRoute.color.twVar
   CLNavigationColor.default = CLRoute.currentRoute.color.twVar
 
-  const colorStyle = CLTextColor.betterContrast(CLRoute.currentRoute.color.twVar, 'page')
+  CLTextColor.betterContrast('page', CLRoute.currentRoute.color.twVar)
 
   return (
     <>
@@ -37,8 +37,7 @@ export function BaseLayout() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            style={{ ...colorStyle }}
-            className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col"
+            className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col text-[var(--page-foreground-color)]"
           >
             <Header />
             {element}

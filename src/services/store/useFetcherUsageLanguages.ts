@@ -1,7 +1,6 @@
 import type { TStoreFetcherUsageLanguages } from '@/services/store/fetcher-usage-languages'
 
 import { produce } from 'immer'
-import _ from 'lodash'
 import { create } from 'zustand'
 
 import { fetcherUsageLanguagesDefaultData } from './_defaults/fetcher-usage-languages'

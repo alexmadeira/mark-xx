@@ -14,6 +14,8 @@ export const Logo = memo(() => {
   const logoRef = useRef<HTMLAnchorElement>(null)
   const overlapLogo = useOverlap((st) => st.data.collision.logo)
 
+  CLLogoColor.betterContrast('logo', overlapLogo)
+
   useEffect(() => {
     CLOverlap.setTarget('logo', logoRef.current)
   }, [])
@@ -21,10 +23,7 @@ export const Logo = memo(() => {
   return (
     <Link to="/" ref={logoRef} className="pointer-events-auto">
       <div>
-        <LogoSVG
-          style={{ ...CLLogoColor.betterContrast(overlapLogo) }}
-          className="w-[clamp(3.5rem,6vw,9rem)] transition-colors duration-250"
-        />
+        <LogoSVG className="w-[clamp(3.5rem,6vw,9rem)] text-[var(--logo-foreground-color)]" />
       </div>
     </Link>
   )

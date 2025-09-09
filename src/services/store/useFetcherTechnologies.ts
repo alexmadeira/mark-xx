@@ -1,7 +1,6 @@
 import type { TStoreFetcherTechnologies } from '@/services/store/fetcher-technologies'
 
 import { produce } from 'immer'
-import _ from 'lodash'
 import { create } from 'zustand'
 
 import { fetcherTechnologiesDefaultData } from './_defaults/fetcher-technologies'

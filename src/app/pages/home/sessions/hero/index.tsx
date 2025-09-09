@@ -21,11 +21,11 @@ export function Hero() {
   }, [status])
 
   const color = useHero((st) => st.data.current?.color)
+  CLHeroColor.betterContrast('hero', color)
 
   return (
     <PageHeader.Root
       page="home"
-      style={{ ...CLHeroColor.betterContrast(color) }}
       className={twMerge('relative flex h-[45vh] flex-col items-center', 'sm:h-[85vh]', 'lg:h-[90vh]')}
     >
       <Title />
