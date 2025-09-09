@@ -1,6 +1,6 @@
 export function Browser() {
   return (
-    <div className="px-x-container flex w-full flex-col flex-wrap items-start justify-start gap-[clamp(1rem,2vw,3rem)] py-[clamp(2rem,3vw,5rem)] md:flex-row">
+    <div className="md:px-x-container flex w-full flex-col flex-wrap items-start justify-start gap-[clamp(1rem,2vw,3rem)] px-8 py-[clamp(2rem,3vw,5rem)] md:flex-row">
       {Array(4)
         .fill('')
         .map((_item) => (

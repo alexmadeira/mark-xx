@@ -20,5 +20,11 @@ export const useHero = create<TStoreHero>((set) => ({
           if (state.data.typing !== typing) draft.data.typing = typing
         }),
       ),
+    setColor: (color) =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data.color = color
+        }),
+      ),
   },
 }))

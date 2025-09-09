@@ -4,7 +4,7 @@
 
 export function Masonry() {
   return (
-    <div className="px-x-container w-full">
+    <div className="md:px-x-container w-full px-8">
       {/* <ProjectMasonry.render>
         <ProjectDetails />
       </ProjectMasonry.render> */}

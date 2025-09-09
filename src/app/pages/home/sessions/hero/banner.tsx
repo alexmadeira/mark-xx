@@ -9,10 +9,11 @@ import { useHero } from '_STR/useHero'
 
 export function Banner() {
   const overlapLogo = overlapController()
-  const [isPresent, safeToRemove] = usePresence()
 
+  const [isPresent, safeToRemove] = usePresence()
   const heroRef = useRef<HTMLDivElement>(null)
   const content = useHero((st) => st.data.current)
+  const background = useHero((st) => st.data.color)
 
   useEffect(() => {
     if (!content) return
@@ -24,7 +25,11 @@ export function Banner() {
   }, [content, isPresent])
 
   return (
-    <div ref={heroRef} className="group absolute top-0 left-0 h-full w-full overflow-clip">
+    <motion.div
+      ref={heroRef}
+      style={{ background }}
+      className="group absolute top-0 left-0 h-full w-full overflow-clip"
+    >
       <AnimatePresence mode="sync">
         {content && (
           <motion.img
@@ -36,16 +41,6 @@ export function Banner() {
           />
         )}
       </AnimatePresence>
-      <AnimatePresence mode="sync" initial={false}>
-        {content && (
-          <motion.div
-            key={content.color}
-            style={{ background: content.color }}
-            {...uiConfigHero.bannerOverlay}
-            className="absolute top-0 left-0 h-full w-full"
-          />
-        )}
-      </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }
