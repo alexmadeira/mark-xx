@@ -15,9 +15,3 @@ export function HeaderCaption({ className, ...props }: TPageHeaderCaptionProps) 
     />
   )
 }
-
-// className={twMerge(
-//   'text-black-900 w-full text-4xl tracking-widest sm:text-5xl',
-//   'md:text-[clamp(2rem,9vw,8rem)]',
-//   '4xl:text-[clamp(13rem,10vw,17rem)] leading-none',
-// )}

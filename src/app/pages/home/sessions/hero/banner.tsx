@@ -21,6 +21,16 @@ export function Banner() {
     if (!isPresent) overlapLogo.removeElement(heroRef.current)
 
     if (safeToRemove) safeToRemove()
+
+    const theme = document.querySelector('meta[name="theme-color"]')
+    const msTile = document.querySelector('meta[name="msapplication-TileColor"]')
+    const msNavbutton = document.querySelector('meta[name="msapplication-navbutton-color"]')
+    const appleStatusBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
+
+    theme?.setAttribute('content', content.color)
+    msTile?.setAttribute('content', content.color)
+    msNavbutton?.setAttribute('content', content.color)
+    appleStatusBar?.setAttribute('content', content.color)
   }, [content, isPresent])
 
   return (

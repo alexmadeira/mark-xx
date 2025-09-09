@@ -31,7 +31,7 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
     }
 
     _.bindAll(this, ['startLoading', 'checkAutoLoad', 'updateLoading', 'finishCheck', 'finish'])
-    _.delay(this.checkAutoLoad, 500)
+    _.delay(this.checkAutoLoad, 1000)
 
     this.build()
   }

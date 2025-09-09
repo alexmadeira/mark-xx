@@ -22,7 +22,13 @@ export function HeaderContent(props: TPageHeaderContentProps) {
   return (
     <div className={twMerge('mt-5 flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]', 'lg:mt-0')}>
       <div className="w-full">
-        <div className="md:px-x-container mx-auto grid w-full grid-cols-1 flex-col gap-5 px-8 md:gap-10 lg:grid-cols-12">
+        <div
+          className={twMerge(
+            'mx-auto grid w-full grid-cols-1 flex-col gap-5 px-8',
+            'md:gap-10 md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8))]',
+            'lg:px-x-container lg:grid-cols-12',
+          )}
+        >
           <div className="lg:col-span-12 xl:col-span-3 2xl:col-span-3">
             <h2 className={twMerge('text-[clamp(1.5rem,3.5vw,2.25rem)] leading-[clamp(2rem,4vw,3rem)] font-normal')}>
               {page?.properties?.subTitle}
