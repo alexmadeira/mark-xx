@@ -2,18 +2,9 @@ import type { TPageHeaderTitleProps } from '@/props/components/ui-element/page/h
 
 import { twMerge } from 'tailwind-merge'
 
-import { useFetcherPages } from '_STR/useFetcherPages'
-
-import { useHeader } from './header-context'
+import { HeaderTitleName } from './header-title-name'
 
 export function HeaderTitle({ className, children, ...props }: TPageHeaderTitleProps) {
-  const context = useHeader()
-  const pageName = context.page || props.page
-
-  if (!pageName) throw new Error('prop page is required to HeaderTitle')
-
-  const page = useFetcherPages((st) => st.data[pageName])
-
   return (
     <div
       {...props}
@@ -31,16 +22,7 @@ export function HeaderTitle({ className, children, ...props }: TPageHeaderTitleP
           'lg:px-x-container',
         )}
       >
-        <h1
-          className={twMerge(
-            'w-full text-4xl font-medium tracking-widest',
-            'sm:text-5xl',
-            'md:text-[clamp(2rem,9vw,8rem)]',
-            '4xl:text-[clamp(13rem,10vw,17rem)] leading-none',
-          )}
-        >
-          {page?.properties?.name}
-        </h1>
+        <HeaderTitleName />
         {children}
       </div>
     </div>
