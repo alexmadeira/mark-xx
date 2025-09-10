@@ -3,7 +3,7 @@ import type { Nullish } from '@/utils/nullish'
 
 import { ZColorProps } from '@/services/controller/color'
 
-import { contrast, isValidColor, opacify } from 'colorizr'
+import { contrast, convert, isValidColor, opacify } from 'colorizr'
 import _ from 'lodash'
 import { animate, motionValue } from 'motion'
 
@@ -28,10 +28,10 @@ export class ColorController<TColorName = string> {
     if (!isValidColor(raw)) {
       const colorValue = Css.findCorVar(raw)
       if (!isValidColor(colorValue)) throw new Error(`Invalid color: ${raw}`)
-      return colorValue
+      return convert(colorValue, 'rgb')
     }
 
-    return raw
+    return convert(raw, 'rgb')
   }
 
   private prepareColors() {
