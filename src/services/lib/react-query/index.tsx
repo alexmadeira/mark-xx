@@ -5,9 +5,8 @@ import { useRequester } from '_STR/useRequester'
 import { env } from '~/env'
 
 import { IDBPersister } from './persister/idb-persister'
-import { LocalStoragePersister } from './persister/local-storage-persister'
 
-const Persister = env.MODE !== 'development' ? LocalStoragePersister : IDBPersister
+const Persister = env.MODE !== 'development' ? IDBPersister : IDBPersister
 const persisterStorageVersion = `${env.BUILD_VERSIO}.${env.PACKAGE_VERSION}`
 
 export const queryClient = new QueryClient({
