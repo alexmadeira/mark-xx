@@ -20,7 +20,7 @@ export class HeroController {
   protected constructor(private readonly _props: THeroProps) {
     _.bindAll(this, ['write', 'erase', 'start', 'stop'])
 
-    this.motionColor = motionValue('transparent')
+    this.motionColor = motionValue('#00000000')
     this.controll = { hero: 0, letter: 0 }
   }
 
