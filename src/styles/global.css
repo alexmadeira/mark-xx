@@ -5,3 +5,7 @@
 @import "./tokens/spacing.css";
 @import "./tokens/animation.css";
 @import "./tokens/breakpoint.css";
+
+body {
+  overflow-y: scroll;
+}

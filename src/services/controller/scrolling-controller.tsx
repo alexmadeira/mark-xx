@@ -46,6 +46,7 @@ export class ScrollingController {
   }
 
   public stop() {
+    this._props.lenis.scrollTo(0, { immediate: true })
     this._props.lenis.stop()
   }
 

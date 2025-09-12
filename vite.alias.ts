@@ -8,5 +8,6 @@ export const alias = {
   _STR: path.resolve(__dirname, './src/services/store'),
   _SRV: path.resolve(__dirname, './src/services'),
   _CFG: path.resolve(__dirname, './src/config'),
+  _AST: path.resolve(__dirname, './src/_assets_'),
   '~': path.resolve(__dirname, './src'),
 }

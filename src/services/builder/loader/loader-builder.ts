@@ -74,7 +74,7 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   private updateLoading() {
     if (this.permanentlyFinished) return
 
-    const loadingProgress = 1 - this.totalLoaded / this.totalLoading
+    const loadingProgress = this.totalLoaded / this.totalLoading
 
     this.loaderActions.setLoaded(loadingProgress)
     this.progressLoader.set(loadingProgress)
