@@ -1,42 +1,34 @@
-// import { useEffect } from 'react'
-
 import type { LottieRefCurrentProps } from 'lottie-react'
 
 import { useEffect, useRef } from 'react'
 
-import { logoMotion } from '_CFG/motion/logo'
 import Lottie from 'lottie-react'
-import { useAnimate } from 'motion/react'
+import { AnimatePresence, useAnimate } from 'motion/react'
 import { twMerge } from 'tailwind-merge'
+
+import { logoMotion } from '_CFG/motion/logo'
 
 import { scrollingController } from '_SRV/controller'
 
 import { useLoader } from '_STR/useLoader'
+
+import { SplashScreenLoadingCountUp } from './splash-screen-loading-countup'
 
 export function SplashScreen() {
   const CLScrolling = scrollingController()
   CLScrolling.stop()
 
   const logoRef = useRef<LottieRefCurrentProps>(null)
-  const countUpRef = useRef<HTMLSpanElement>(null)
-
-  // const { update } = useCountUp({
-  //   // ref: countUpRef,
-  //   start: 0,
-  //   end: 0,
-  //   duration: 1,
-  //   suffix: '%',
-  //   onEnd: isLoaded,
-  // })
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
 
   const status = useLoader((st) => st.data.status)
   const loaded = useLoader((st) => st.data.loaded)
+  const hasLoaded = status === 'finished' && loaded === 0
 
-  // async function isLoaded() {
-  //   animate('#countup', { opacity: 0 }, { ease: 'easeIn', duration: 0.5 })
-  // }
+  async function isLoaded() {
+    animate('loading-countup', { opacity: 0 }, { delay: 2, ease: 'easeIn', duration: 0.5 })
+  }
 
   async function onComplete() {
     animate('#overlay', { opacity: 0 }, { ease: 'easeIn', duration: 0.5 })
@@ -46,17 +38,12 @@ export function SplashScreen() {
   }
 
   useEffect(() => {
-    switch (status) {
-      case 'loading':
-        // update(loaded * 100)
-        break
-      case 'finished':
-        // update(100)
-        logoRef.current?.playSegments([19, 120], true)
-        logoRef.current?.play()
-        break
+    if (status === 'finished') isLoaded()
+    if (status === 'finished' && logoRef.current) {
+      logoRef.current.playSegments([hasLoaded ? 68 : 30, 120])
+      logoRef.current.play()
     }
-  }, [status, loaded, logoRef.current])
+  }, [status, hasLoaded])
 
   return (
     <div ref={scope}>
@@ -76,21 +63,11 @@ export function SplashScreen() {
             lottieRef={logoRef}
             animationData={logoMotion}
             initialSegment={[0, 19]}
-            onComplete={() => {
-              if (status === 'finished') onComplete()
-            }}
+            onComplete={() => status === 'finished' && onComplete()}
             loop={false}
             autoPlay={false}
           />
-          <div
-            id="countup"
-            className={twMerge(
-              'text-blackflex flex w-full items-center justify-end text-3xl leading-[120%] font-medium tracking-widest',
-              'text-[clamp(0.3rem,6vw,5.5rem)]',
-            )}
-          >
-            <span ref={countUpRef} className="flex w-fit leading-0" />
-          </div>
+          <AnimatePresence>{status === 'loading' && <SplashScreenLoadingCountUp />}</AnimatePresence>
         </div>
       </div>
     </div>
