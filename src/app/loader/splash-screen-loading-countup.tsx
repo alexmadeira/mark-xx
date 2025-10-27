@@ -10,12 +10,11 @@ export function SplashScreenLoadingCountUp() {
     ref: 'loading-countup',
     start: 0,
     end: 0,
-    duration: 2,
+    duration: 1.5,
     suffix: '%',
   })
 
   const loaded = useLoader((st) => st.data.loaded)
-  // const status = useLoader((st) => st.data.status)
 
   useEffect(() => {
     update(loaded * 100)

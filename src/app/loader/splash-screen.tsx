@@ -16,7 +16,7 @@ import { SplashScreenLoadingCountUp } from './splash-screen-loading-countup'
 
 export function SplashScreen() {
   const CLScrolling = scrollingController()
-  CLScrolling.stop()
+  // CLScrolling.stop()
 
   const logoRef = useRef<LottieRefCurrentProps>(null)
 
@@ -26,18 +26,38 @@ export function SplashScreen() {
   const loaded = useLoader((st) => st.data.loaded)
   const hasLoaded = status === 'finished' && loaded === 0
 
+  // async function onComplete() {
+  //   animate('#overlay', { opacity: 0 }, { ease: 'easeIn', duration: 0.5 })
+  //   await animate('#loader', { scale: 55 }, { ease: 'circIn', duration: 1 })
+  //   await animate(scope.current, { display: 'none' }, { duration: 0 })
+
+  //   CLScrolling.start()
+  // }
+
+  // useEffect(() => {
+  //   CLScrolling.none()
+
+  //   if (finishd && logoRef.current) {
+  //     logoRef.current.playSegments([hasLoaded ? 70 : 30, 120])
+  //     logoRef.current.play()
+  //   }
+  // }, [finishd, hasLoaded])
+
   async function isLoaded() {
-    animate('loading-countup', { opacity: 0 }, { delay: 2, ease: 'easeIn', duration: 0.5 })
+    animate('loading-countup', { opacity: 0 }, { delay: 1.5, ease: 'easeIn', duration: 0.5 })
   }
 
   async function onComplete() {
     animate('#overlay', { opacity: 0 }, { ease: 'easeIn', duration: 0.5 })
     await animate('#loader', { scale: 55 }, { ease: 'circIn', duration: 1 })
     await animate(scope.current, { display: 'none' }, { duration: 0 })
-    CLScrolling.restart()
+
+    CLScrolling.start()
   }
 
   useEffect(() => {
+    CLScrolling.none()
+
     if (status === 'finished') isLoaded()
     if (status === 'finished' && logoRef.current) {
       logoRef.current.playSegments([hasLoaded ? 68 : 30, 120])
