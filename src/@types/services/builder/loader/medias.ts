@@ -18,7 +18,6 @@ export const ZLoaderMediaCallback = z.custom<(payload?: unknown) => unknown | Pr
 export const ZLoaderMediaListeners = z.record(ZELoaderListenerMediaType, z.set(ZLoaderMediaCallback))
 
 export const ZLoaderMediaLoadedProps = z.tuple([ZELoaderMediaType, z.string()])
-export const ZLoaderMediaLoadedErrorProps = z.tuple([ZELoaderMediaType, z.string()])
 
 export const ZLoaderMediaNotifyListenersProps = z.tuple([ZELoaderListenerMediaType, z.unknown().optional()])
 export const ZLoaderMediaSubscribeProps = z.tuple([ZELoaderListenerMediaType, ZLoaderMediaCallback])
@@ -37,7 +36,6 @@ export type TLoaderMediaCallback = z.infer<typeof ZLoaderMediaCallback>
 export type TLoaderMediaListeners = z.infer<typeof ZLoaderMediaListeners>
 
 export type TLoaderMediaLoadedProps = z.infer<typeof ZLoaderMediaLoadedProps>
-export type TLoaderMediaLoadedErrorProps = z.infer<typeof ZLoaderMediaLoadedErrorProps>
 
 export type TLoaderMediaNotifyListenersProps = z.infer<typeof ZLoaderMediaNotifyListenersProps>
 export type TLoaderMediaSubscribeProps = z.infer<typeof ZLoaderMediaSubscribeProps>

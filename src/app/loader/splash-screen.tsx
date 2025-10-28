@@ -3,7 +3,7 @@ import type { LottieRefCurrentProps } from 'lottie-react'
 import { useEffect, useRef } from 'react'
 
 import Lottie from 'lottie-react'
-import { AnimatePresence, useAnimate } from 'motion/react'
+import { useAnimate } from 'motion/react'
 import { twMerge } from 'tailwind-merge'
 
 import { logoMotion } from '_CFG/motion/logo'
@@ -26,7 +26,7 @@ export function SplashScreen() {
   const hasLoaded = status === 'finished' && loaded === 0
 
   async function isLoaded() {
-    animate('loading-countup', { opacity: 0 }, { delay: 1.5, ease: 'easeIn', duration: 0.5 })
+    animate('#loading-countup', { opacity: 0 }, { delay: 1.5, ease: 'easeIn', duration: 0.5 })
   }
 
   async function onComplete() {
@@ -69,7 +69,7 @@ export function SplashScreen() {
             loop={false}
             autoPlay={false}
           />
-          <AnimatePresence>{status === 'loading' && <SplashScreenLoadingCountUp />}</AnimatePresence>
+          <SplashScreenLoadingCountUp />
         </div>
       </div>
     </div>

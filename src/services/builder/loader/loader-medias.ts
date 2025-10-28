@@ -2,13 +2,13 @@ import type { ILoaderMedias } from '@/interfaces/loader/medias'
 import type {
   TLoaderLoadedMedias,
   TLoaderMediaListeners,
-  TLoaderMediaLoadedErrorProps,
   TLoaderMediaLoadedProps,
   TLoaderMediaNotifyListenersProps,
   TLoaderMedias,
   TLoaderMediaSubscribeProps,
 } from '@/services/builder/loader/medias'
 
+import { get, set } from 'idb-keyval'
 import _ from 'lodash'
 
 export class LoaderMedias implements ILoaderMedias {
@@ -46,24 +46,58 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   private buildMediaMonitor() {
+    const debounceLoadMedias = _.debounce(() => this.loadMedias(), 10)
     new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target === document.body) return
         switch (mutation.type) {
           case 'childList':
-            return this.loadMedias()
+            return debounceLoadMedias()
         }
       })
     }).observe(document.body, { childList: true, subtree: true })
   }
 
-  private setUnloadedImages() {
-    Array.from(document.images).forEach((img) => {
-      if (this.loadedMedias.has(img.src)) return
-      if (img.complete) return
+  private async getCachedMedia(src: string) {
+    if (src.includes('blob:')) return src
+
+    const cached = await get(src)
+    if (cached) return URL.createObjectURL(cached)
+
+    return ''
+  }
+
+  async saveMediaToCache(src: string) {
+    if (src.includes('blob:')) return src
+    const cached = await this.getCachedMedia(src)
+    if (cached) return cached
+
+    const response = await fetch(src)
+    const blob = await response.blob()
+
+    await set(src, blob)
+    return URL.createObjectURL(blob)
+  }
+
+  private async setUnloadedImages() {
+    for (const img of Array.from(document.images)) {
+      const cached = await this.getCachedMedia(img.src)
+
+      if (this.loadedMedias.has(img.src)) {
+        console.log('loaded media found, skipping', img.src)
+        img.src = cached
+        continue
+      }
+
+      if (cached) {
+        this.loadedMedias.set(img.src, 'image')
+        console.log('cached media found, skipping', img.src)
+        img.src = cached
+        continue
+      }
 
       this.medias.set(img.src, { el: img, type: 'image' })
-    })
+    }
   }
 
   private setUnloadedVideos() {
@@ -77,12 +111,13 @@ export class LoaderMedias implements ILoaderMedias {
     })
   }
 
-  private imageLoader(img: HTMLImageElement) {
+  private async imageLoader(img: HTMLImageElement) {
     this.notifyListeners('MEDIA:IMAGE:Started', img.src)
     this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
 
-    img.addEventListener('load', () => this.mediaLoaded('image', img.src))
-    img.addEventListener('error', () => this.mediaLoadedError('image', img.src))
+    img.src = await this.saveMediaToCache(img.src)
+
+    this.mediaLoaded('image', img.src)
   }
 
   private videoLoader(video: HTMLVideoElement) {
@@ -93,16 +128,16 @@ export class LoaderMedias implements ILoaderMedias {
     video.addEventListener('error', () => this.mediaLoaded('video', video.src), { once: true })
   }
 
-  private loadMedias() {
+  private async loadMedias() {
     this.notifyListeners('MEDIA:CheckDocument')
 
-    this.setUnloadedImages()
+    await this.setUnloadedImages()
     this.setUnloadedVideos()
 
     this.mediaLoader()
   }
 
-  private mediaLoaded(...[type, src]: TLoaderMediaLoadedProps) {
+  private async mediaLoaded(...[type, src]: TLoaderMediaLoadedProps) {
     this.notifyListeners('MEDIA:Finished', src)
     this.notifyListeners('MEDIA:Update', this.medias.size)
 
@@ -120,19 +155,6 @@ export class LoaderMedias implements ILoaderMedias {
     }
 
     this.checkAllFinished()
-  }
-
-  private mediaLoadedError(...[src, type]: TLoaderMediaLoadedErrorProps) {
-    this.notifyListeners('MEDIA:Error', src)
-
-    switch (type) {
-      case 'image':
-        return this.notifyListeners('MEDIA:IMAGE:Error', src)
-      case 'video':
-        return this.notifyListeners('MEDIA:VIDEO:Error', src)
-    }
-
-    this.mediaLoaded(src, type)
   }
 
   private mediaLoader() {
