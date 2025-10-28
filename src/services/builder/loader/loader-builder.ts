@@ -62,9 +62,8 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
 
   private checkAutoLoad() {
     const hasNothingToLoad = this.requestsLoader.loadinng === 0 && this.mediasLoader.loadinng.all === 0
-    const hasNothingLoaded = this.requestsLoader.loaded === 0 && this.mediasLoader.loaded.all === 0
 
-    if (hasNothingToLoad && hasNothingLoaded) this.autoLoaded()
+    if (hasNothingToLoad) this.autoLoaded()
   }
 
   private updateLoaderStatus(status?: TELoaderStatus) {
