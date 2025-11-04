@@ -61,7 +61,7 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private checkAutoLoad() {
-    const hasNothingToLoad = this.requestsLoader.loadinng === 0 && this.mediasLoader.loadinng.all === 0
+    const hasNothingToLoad = this.requestsLoader.loading === 0 && this.mediasLoader.loading.all === 0
 
     if (hasNothingToLoad) this.autoLoaded()
   }
@@ -116,7 +116,7 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private get totalLoading() {
-    return this.requestsLoader.loadinng + this.mediasLoader.loadinng.all
+    return this.requestsLoader.loading + this.mediasLoader.loading.all
   }
 
   private get totalLoaded() {

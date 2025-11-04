@@ -29,7 +29,7 @@ export function Banner() {
       <div className="relative h-full w-full overflow-hidden">
         <motion.img
           style={{ opacity, scale }}
-          src={project?.bannerSrc}
+          data-src={project?.bannerSrc}
           alt={project?.bannerName || ''}
           className="h-full w-full object-cover lg:object-top"
         />
