@@ -4,6 +4,7 @@ import { useFetcherUsageLanguages } from '_STR/useFetcherUsageLanguages'
 
 export function Bar(props: TLanguagesBarProps) {
   const total = useFetcherUsageLanguages((st) => st.data.total)
+
   return (
     <div
       style={{ background: props.color, width: `${(props.size / total) * 100}%` }}

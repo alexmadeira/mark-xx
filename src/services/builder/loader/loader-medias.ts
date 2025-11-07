@@ -125,6 +125,7 @@ export class LoaderMedias implements ILoaderMedias {
       if (!loaded) continue
       if (_.startsWith(video.src, 'blob:')) continue
       if (video.src !== loaded.cacheUrl) video.src = loaded.cacheUrl
+      video.load()
 
       this.loadedMedias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video', cacheUrl: loaded.cacheUrl })
     }
@@ -150,6 +151,8 @@ export class LoaderMedias implements ILoaderMedias {
 
     const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(video))
     this.loadedMedias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video', cacheUrl })
+
+    video.load()
 
     this.updateVideoSrc()
     this.mediaLoaded(this.getMediaOriginalSrc(video))
