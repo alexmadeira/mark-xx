@@ -28,11 +28,12 @@ export const ZLoaderMedias = z.map(z.string(), ZLoaderMedia)
 export const ZLoaderMediaCallback = z.custom<(payload?: unknown) => unknown | Promise<unknown>>()
 export const ZLoaderMediaListeners = z.record(ZELoaderListenerMediaType, z.set(ZLoaderMediaCallback))
 
-export const ZLoaderFetchMediaProps = z.tuple([z.string()])
-export const ZLoaderMediaLoadedProps = z.tuple([z.string()])
-export const ZLoaderGetCachedMediaProps = z.tuple([z.string()])
-export const ZLoaderSaveMediaToCacheProps = z.tuple([z.string()])
+export const ZLoaderFetchMediaProps = z.tuple([z.url()])
+export const ZLoaderMediaLoadedProps = z.tuple([z.url()])
+export const ZLoaderGetCachedMediaProps = z.tuple([z.url()])
+export const ZLoaderSaveMediaToCacheProps = z.tuple([z.url()])
 export const ZLoaderGetMediaOriginalSrcProps = z.tuple([z.union([ZLoaderElementImage, ZLoaderElementVideo])])
+export const ZLoaderIsBlobProps = z.tuple([z.url()])
 
 export const ZLoaderMediaNotifyListenersProps = z.tuple([ZELoaderListenerMediaType, z.unknown().optional()])
 export const ZLoaderMediaSubscribeProps = z.tuple([ZELoaderListenerMediaType, ZLoaderMediaCallback])
@@ -56,6 +57,7 @@ export type TLoaderMediaLoadedProps = z.infer<typeof ZLoaderMediaLoadedProps>
 export type TLoaderGetCachedMediaProps = z.infer<typeof ZLoaderGetCachedMediaProps>
 export type TLoaderSaveMediaToCacheProps = z.infer<typeof ZLoaderSaveMediaToCacheProps>
 export type TLoaderGetMediaOriginalSrcProps = z.infer<typeof ZLoaderGetMediaOriginalSrcProps>
+export type TLoaderIsBlobProps = z.infer<typeof ZLoaderIsBlobProps>
 
 export type TLoaderMediaNotifyListenersProps = z.infer<typeof ZLoaderMediaNotifyListenersProps>
 export type TLoaderMediaSubscribeProps = z.infer<typeof ZLoaderMediaSubscribeProps>

@@ -3,6 +3,7 @@ import type {
   TLoaderFetchMediaProps,
   TLoaderGetCachedMediaProps,
   TLoaderGetMediaOriginalSrcProps,
+  TLoaderIsBlobProps,
   TLoaderLoadedMedias,
   TLoaderMediaListeners,
   TLoaderMediaLoadedProps,
@@ -81,7 +82,7 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   private async saveMediaToCache(...[src]: TLoaderSaveMediaToCacheProps) {
-    if (_.startsWith(src, 'blob:')) return src
+    if (this.isBlob(src)) return src
 
     const loaded = this.loadedMedias.get(src)
     if (loaded) return loaded.cacheUrl
@@ -93,23 +94,34 @@ export class LoaderMedias implements ILoaderMedias {
     return media.dataset.src ?? media.src
   }
 
+  private isBlob(...[src]: TLoaderIsBlobProps) {
+    return _.startsWith(src, 'blob:')
+  }
+
   private setUnloadedImages() {
     for (const img of Array.from(document.images)) {
+      if (this.isBlob(img.src)) continue
+      if (!this.getMediaOriginalSrc(img)) continue
+
       this.medias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image' })
     }
   }
 
   private setUnloadedVideos() {
     for (const video of Array.from(document.querySelectorAll('video'))) {
+      if (this.isBlob(video.src)) continue
+      if (!this.getMediaOriginalSrc(video)) continue
+
       this.medias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video' })
     }
   }
 
   private updateImagesSrc() {
     for (const img of Array.from(document.images)) {
+      if (this.isBlob(img.src)) continue
+
       const loaded = this.loadedMedias.get(this.getMediaOriginalSrc(img))
       if (!loaded) continue
-      if (_.startsWith(img.src, 'blob:')) continue
 
       if (img.src !== loaded.cacheUrl) img.src = loaded.cacheUrl
 

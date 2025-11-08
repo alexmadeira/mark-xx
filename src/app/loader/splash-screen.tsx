@@ -25,7 +25,7 @@ export function SplashScreen() {
   const loaded = useLoader((st) => st.data.loaded)
   const hasLoaded = status === 'finished' && loaded === 0
 
-  async function isLoaded() {
+  function isLoaded() {
     animate('#loading-countup', { opacity: 0 }, { delay: 1.5, ease: 'easeIn', duration: 0.5 })
   }
 
