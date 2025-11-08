@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 
-import { uiConfigHero } from '_CFG/ui/hero'
 import { AnimatePresence, motion, usePresence } from 'motion/react'
+
+import { uiConfigHero } from '_CFG/ui/hero'
 
 import { overlapController } from '_SRV/controller'
 
@@ -35,7 +36,7 @@ export function Banner() {
           <motion.img
             key={content.id}
             alt={content.name}
-            src={content.banner}
+            data-src={content.banner}
             {...uiConfigHero.banner}
             className="absolute top-0 left-0 h-full w-full object-cover object-top"
           />

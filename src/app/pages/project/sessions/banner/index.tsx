@@ -19,7 +19,6 @@ export function Banner() {
   })
   const scale = useTransform(scrollYProgress, [0, 0.7], [1, 1.3])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.15])
-
   return (
     <div
       key="project-banner"
@@ -29,7 +28,7 @@ export function Banner() {
       <div className="relative h-full w-full overflow-hidden">
         <motion.img
           style={{ opacity, scale }}
-          src={project?.bannerSrc}
+          data-src={project?.bannerSrc}
           alt={project?.bannerName || ''}
           className="h-full w-full object-cover lg:object-top"
         />

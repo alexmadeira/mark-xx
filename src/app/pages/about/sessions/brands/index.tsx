@@ -15,7 +15,7 @@ export function Brands() {
         </h2>
         <div className="flex w-full flex-wrap items-center justify-center gap-[clamp(0.5rem,2vw,2rem)]">
           {brands.map((brand) => (
-            <Brand key={brand.id} {...brand} />
+            <Brand key={brand.id} name={brand.name} logo={brand.logo} />
           ))}
         </div>
       </div>

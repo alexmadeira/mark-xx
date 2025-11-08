@@ -36,6 +36,42 @@
         "varsIgnorePattern": "^_",
         "ignoreRestSiblings": true
       }
+    ],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^.*\\u0000$"],
+          ["^@/"],
+
+          ["^tests/", "^__tests/", "^__tests__/"],
+
+          ["^node:"],
+          ["^react"],
+          ["^styled-components"],
+          ["^next"],
+
+          ["^@?\\w"],
+          ["^\\u0000"],
+
+          ["^#/"],
+
+          ["^_CFG"],
+          ["^_UTL/"],
+          ["^_SRV/"],
+          ["^_STR/"],
+          ["^_MDL/"],
+          ["^_CTL/"],
+
+          ["^~/"],
+
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+
+          ["^.+\\.s?css$"],
+          ["^\\./styles$"]
+        ]
+      }
     ]
   },
   "env": {

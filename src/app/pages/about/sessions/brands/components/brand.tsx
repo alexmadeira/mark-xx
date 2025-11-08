@@ -11,7 +11,7 @@ export function Brand({ logo, name, className, ...rest }: TBrandsBrandProps) {
         className,
       )}
     >
-      <img src={logo} alt={name} className="h-full w-full rounded-md object-contain" />
+      <img data-src={logo} alt={name} className="h-full w-full rounded-md object-contain" />
     </div>
   )
 }

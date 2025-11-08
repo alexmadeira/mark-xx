@@ -2,12 +2,10 @@ import { useLocation, useOutlet } from 'react-router-dom'
 
 import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
-import _ from 'lodash'
+import { SplashScreen } from '_APP/loader/splash-screen'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { colorController, routeController } from '_SRV/controller'
-
-import { Loader } from './loader'
 
 export function BaseLayout() {
   const CLRoute = routeController()
@@ -27,8 +25,7 @@ export function BaseLayout() {
 
   return (
     <>
-      <Loader />
-
+      <SplashScreen />
       <div className="relative flex min-h-screen flex-col antialiased">
         <AnimatePresence mode="sync" initial={false}>
           <motion.div

@@ -61,10 +61,9 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private checkAutoLoad() {
-    const hasNothingToLoad = this.requestsLoader.loadinng === 0 && this.mediasLoader.loadinng.all === 0
-    const hasNothingLoaded = this.requestsLoader.loaded === 0 && this.mediasLoader.loaded.all === 0
+    const hasNothingToLoad = this.requestsLoader.loading === 0 && this.mediasLoader.loading.all === 0
 
-    if (hasNothingToLoad && hasNothingLoaded) this.autoLoaded()
+    if (hasNothingToLoad) this.autoLoaded()
   }
 
   private updateLoaderStatus(status?: TELoaderStatus) {
@@ -74,7 +73,7 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   private updateLoading() {
     if (this.permanentlyFinished) return
 
-    const loadingProgress = 1 - this.totalLoaded / this.totalLoading
+    const loadingProgress = this.totalLoaded / this.totalLoading
 
     this.loaderActions.setLoaded(loadingProgress)
     this.progressLoader.set(loadingProgress)
@@ -117,7 +116,7 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private get totalLoading() {
-    return this.requestsLoader.loadinng + this.mediasLoader.loadinng.all
+    return this.requestsLoader.loading + this.mediasLoader.loading.all
   }
 
   private get totalLoaded() {

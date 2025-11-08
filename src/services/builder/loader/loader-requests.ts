@@ -82,7 +82,7 @@ export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
     return () => this.listeners[type].delete(callback)
   }
 
-  public get loadinng() {
+  public get loading() {
     return this.loadingRequests.size
   }
 
@@ -91,6 +91,6 @@ export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
   }
 
   public get finished() {
-    return this.loaded === this.loadinng
+    return this.loaded === this.loading
   }
 }

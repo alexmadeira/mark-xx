@@ -5,7 +5,7 @@ export function Grid() {
         .fill('')
         .map((_item, i) => (
           <div className="h-full w-full overflow-clip">
-            <img className="w-full" src={`https://picsum.photos/300/200?${i}`} />
+            <img className="w-full" alt="" data-src={`https://picsum.photos/300/200?${i}`} />
           </div>
         ))}
     </div>

@@ -50,19 +50,22 @@ export class ScrollingController {
   }
 
   public none() {
-    this._props.lenis.stop()
-    document.documentElement.style.setProperty('overflow', 'hidden')
+    document.documentElement.style.setProperty('overflow-y', 'scroll')
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden')
+
+    this.stop()
   }
 
   public start() {
-    this._props.lenis.start()
     document.documentElement.style.removeProperty('overflow')
+    document.getElementsByTagName('body')[0].style.removeProperty('overflow')
+
+    this._props.lenis.start()
+    this.resize()
   }
 
   public restart() {
-    this.stop()
-    this.start()
-    window.scrollTo(0, 0)
+    this.fromStart()
     this.resize()
   }
 
