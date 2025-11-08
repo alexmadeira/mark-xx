@@ -49,6 +49,7 @@ export function PreFetcherProvider({ children }: TPreFetcherProviderProps) {
     FProjects.prefetch('home-projects', { filter: { highlight: true } }),
     FTechnologies.prefetch('banner'),
     FUsageLanguages.prefetch('about:usage-languages'),
+    // ...dynamicProjects.map((slug) => FProject.prefetch(slug)),
   ])
 
   FPreFetcher.addBackgroundPrefetcher(dynamicProjects.map((slug) => FProject.prefetch(slug)))

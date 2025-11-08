@@ -1,14 +1,19 @@
 import type { ILoaderMedias } from '@/interfaces/loader/medias'
 import type {
+  TLoaderFetchMediaProps,
+  TLoaderGetCachedMediaProps,
+  TLoaderGetMediaOriginalSrcProps,
+  TLoaderIsBlobProps,
   TLoaderLoadedMedias,
   TLoaderMediaListeners,
-  TLoaderMediaLoadedErrorProps,
   TLoaderMediaLoadedProps,
   TLoaderMediaNotifyListenersProps,
   TLoaderMedias,
   TLoaderMediaSubscribeProps,
+  TLoaderSaveMediaToCacheProps,
 } from '@/services/builder/loader/medias'
 
+import { get, set } from 'idb-keyval'
 import _ from 'lodash'
 
 export class LoaderMedias implements ILoaderMedias {
@@ -38,6 +43,7 @@ export class LoaderMedias implements ILoaderMedias {
       'MEDIA:IMAGE:Update': new Set(),
       'MEDIA:IMAGE:AllFinished': new Set(),
     }
+
     this.buildMediaMonitor()
   }
 
@@ -45,52 +51,123 @@ export class LoaderMedias implements ILoaderMedias {
     return new LoaderMedias()
   }
 
+  private fetchMedia = _.memoize(async (...[src]: TLoaderFetchMediaProps) => {
+    const cachedUrl = await this.getCachedMedia(src)
+    if (cachedUrl) return cachedUrl
+
+    const response = await fetch(src)
+    const blob = await response.blob()
+    await set(src, blob)
+
+    return URL.createObjectURL(blob)
+  })
+
   private buildMediaMonitor() {
-    new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.target === document.body) return
-        switch (mutation.type) {
-          case 'childList':
-            return this.loadMedias()
+    new MutationObserver(async (mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.target === document.body) continue
+        if (mutation.type === 'childList') {
+          this.loadMedias()
         }
-      })
+      }
     }).observe(document.body, { childList: true, subtree: true })
   }
 
-  private setUnloadedImages() {
-    Array.from(document.images).forEach((img) => {
-      if (this.loadedMedias.has(img.src)) return
-      if (img.complete) return
+  private async getCachedMedia(...[src]: TLoaderGetCachedMediaProps) {
+    const loaded = this.loadedMedias.get(src)
+    if (loaded) return loaded.cacheUrl
 
-      this.medias.set(img.src, { el: img, type: 'image' })
-    })
+    const cachedBlob = await get(src)
+    if (cachedBlob) return URL.createObjectURL(cachedBlob)
+  }
+
+  private async saveMediaToCache(...[src]: TLoaderSaveMediaToCacheProps) {
+    if (this.isBlob(src)) return src
+
+    const loaded = this.loadedMedias.get(src)
+    if (loaded) return loaded.cacheUrl
+
+    return await this.fetchMedia(src)
+  }
+
+  private getMediaOriginalSrc(...[media]: TLoaderGetMediaOriginalSrcProps) {
+    return media.dataset.src ?? media.src
+  }
+
+  private isBlob(...[src]: TLoaderIsBlobProps) {
+    return _.startsWith(src, 'blob:')
+  }
+
+  private setUnloadedImages() {
+    for (const img of Array.from(document.images)) {
+      if (this.isBlob(img.src)) continue
+      if (!this.getMediaOriginalSrc(img)) continue
+
+      this.medias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image' })
+    }
   }
 
   private setUnloadedVideos() {
-    Array.from(document.querySelectorAll('video')).forEach((video) => {
-      if (!video.src) return
-      if (this.loadedMedias.has(video.src)) return
-      if (video.readyState === 0) return
-      if (video.readyState >= 3) return
+    for (const video of Array.from(document.querySelectorAll('video'))) {
+      if (this.isBlob(video.src)) continue
+      if (!this.getMediaOriginalSrc(video)) continue
 
-      this.medias.set(video.src, { el: video, type: 'video' })
-    })
+      this.medias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video' })
+    }
   }
 
-  private imageLoader(img: HTMLImageElement) {
-    this.notifyListeners('MEDIA:IMAGE:Started', img.src)
+  private updateImagesSrc() {
+    for (const img of Array.from(document.images)) {
+      if (this.isBlob(img.src)) continue
+
+      const loaded = this.loadedMedias.get(this.getMediaOriginalSrc(img))
+      if (!loaded) continue
+
+      if (img.src !== loaded.cacheUrl) img.src = loaded.cacheUrl
+
+      this.loadedMedias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image', cacheUrl: loaded.cacheUrl })
+    }
+  }
+
+  private updateVideoSrc() {
+    for (const video of Array.from(document.querySelectorAll('video'))) {
+      if (!video.dataset.src) video.dataset.src = this.getMediaOriginalSrc(video)
+      const loaded = this.loadedMedias.get(this.getMediaOriginalSrc(video))
+
+      if (!loaded) continue
+      if (_.startsWith(video.src, 'blob:')) continue
+      if (video.src !== loaded.cacheUrl) video.src = loaded.cacheUrl
+      video.load()
+
+      this.loadedMedias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video', cacheUrl: loaded.cacheUrl })
+    }
+  }
+
+  private async imageLoader(img: HTMLImageElement) {
+    this.notifyListeners('MEDIA:IMAGE:Started', img.dataset.src)
     this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
 
-    img.addEventListener('load', () => this.mediaLoaded('image', img.src))
-    img.addEventListener('error', () => this.mediaLoadedError('image', img.src))
+    const cacheUrl =
+      (await this.getCachedMedia(this.getMediaOriginalSrc(img))) ||
+      (await this.saveMediaToCache(this.getMediaOriginalSrc(img)))
+
+    this.loadedMedias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image', cacheUrl })
+
+    this.updateImagesSrc()
+    this.mediaLoaded(this.getMediaOriginalSrc(img))
   }
 
-  private videoLoader(video: HTMLVideoElement) {
+  private async videoLoader(video: HTMLVideoElement) {
     this.notifyListeners('MEDIA:VIDEO:Started', video.src)
     this.notifyListeners('MEDIA:VIDEO:Update', this.medias.size)
 
-    video.addEventListener('canplay', () => this.mediaLoaded('video', video.src), { once: true })
-    video.addEventListener('error', () => this.mediaLoaded('video', video.src), { once: true })
+    const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(video))
+    this.loadedMedias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video', cacheUrl })
+
+    video.load()
+
+    this.updateVideoSrc()
+    this.mediaLoaded(this.getMediaOriginalSrc(video))
   }
 
   private loadMedias() {
@@ -102,13 +179,14 @@ export class LoaderMedias implements ILoaderMedias {
     this.mediaLoader()
   }
 
-  private mediaLoaded(...[type, src]: TLoaderMediaLoadedProps) {
+  private mediaLoaded(...[src]: TLoaderMediaLoadedProps) {
     this.notifyListeners('MEDIA:Finished', src)
     this.notifyListeners('MEDIA:Update', this.medias.size)
 
-    this.loadedMedias.set(src, type)
+    const loadedMedia = this.loadedMedias.get(src)
+    if (!loadedMedia) return
 
-    switch (type) {
+    switch (loadedMedia.type) {
       case 'image':
         this.notifyListeners('MEDIA:IMAGE:Finished', src)
         this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
@@ -122,30 +200,17 @@ export class LoaderMedias implements ILoaderMedias {
     this.checkAllFinished()
   }
 
-  private mediaLoadedError(...[src, type]: TLoaderMediaLoadedErrorProps) {
-    this.notifyListeners('MEDIA:Error', src)
-
-    switch (type) {
-      case 'image':
-        return this.notifyListeners('MEDIA:IMAGE:Error', src)
-      case 'video':
-        return this.notifyListeners('MEDIA:VIDEO:Error', src)
-    }
-
-    this.mediaLoaded(src, type)
-  }
-
   private mediaLoader() {
-    this.medias.forEach((media) => {
+    this.medias.forEach(async (media) => {
       this.notifyListeners('MEDIA:Started', media.el.src)
       this.notifyListeners('MEDIA:Update', this.medias.size)
 
       switch (media.type) {
         case 'image':
-          this.imageLoader(media.el)
+          await this.imageLoader(media.el)
           break
         case 'video':
-          this.videoLoader(media.el)
+          await this.videoLoader(media.el)
           break
       }
     })
@@ -153,7 +218,6 @@ export class LoaderMedias implements ILoaderMedias {
 
   private checkAllFinished() {
     if (this.finished.all) this.notifyListeners('MEDIA:AllFinished')
-
     if (this.finished.image) this.notifyListeners('MEDIA:IMAGE:AllFinished')
     if (this.finished.video) this.notifyListeners('MEDIA:VIDEO:AllFinished')
   }
@@ -169,7 +233,7 @@ export class LoaderMedias implements ILoaderMedias {
     return () => this.listeners[type].delete(callback)
   }
 
-  public get loadinng() {
+  public get loading() {
     return {
       all: this.medias.size,
       image: _.countBy([...this.medias.values()], 'type').image || 0,
@@ -178,8 +242,7 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   public get loaded() {
-    const loadedMedias = _.countBy([...this.loadedMedias.values()])
-
+    const loadedMedias = _.countBy([...this.loadedMedias.values()], 'type')
     return {
       all: this.loadedMedias.size,
       image: loadedMedias.image || 0,
@@ -189,9 +252,9 @@ export class LoaderMedias implements ILoaderMedias {
 
   public get finished() {
     return {
-      all: this.loaded.all === this.loadinng.all,
-      image: this.loaded.image === this.loadinng.image,
-      video: this.loaded.video === this.loadinng.video,
+      all: this.loaded.all === this.loading.all,
+      image: this.loaded.image === this.loading.image,
+      video: this.loaded.video === this.loading.video,
     }
   }
 }
