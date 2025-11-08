@@ -3,7 +3,6 @@ import { useLocation, useOutlet } from 'react-router-dom'
 import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
 import { SplashScreen } from '_APP/loader/splash-screen'
-import _ from 'lodash'
 import { AnimatePresence, motion } from 'motion/react'
 
 import { colorController, routeController } from '_SRV/controller'

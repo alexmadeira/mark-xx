@@ -8,7 +8,7 @@ export function PageWrapper({ children }: TPageWrapperProps) {
   const CLScrolling = scrollingController()
 
   useEffect(() => {
-    CLScrolling.restart()
+    CLScrolling.fromStart()
   }, [])
 
   return children

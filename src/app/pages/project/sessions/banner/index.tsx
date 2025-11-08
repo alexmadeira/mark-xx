@@ -19,7 +19,6 @@ export function Banner() {
   })
   const scale = useTransform(scrollYProgress, [0, 0.7], [1, 1.3])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.15])
-
   return (
     <div
       key="project-banner"

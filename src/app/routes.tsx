@@ -1,10 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { BaseLayout } from '_LAY/base'
+import { PageWrapper } from '_LAY/page-wrapper.tsx'
 
 import { routeController } from '_SRV/controller'
-
-import { PageWrapper } from './layouts/page-wrapper'
 
 const RouteController = routeController()
 
