@@ -21,16 +21,17 @@ export function SplashScreen() {
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
 
-  const status = useLoader((st) => st.data.status)
-  const loaded = useLoader((st) => st.data.loaded)
-  const hasLoaded = status === 'finished' && loaded === 0
-
-  function isLoaded() {
-    animate('#loading-countup', { opacity: 0 }, { delay: 1.5, ease: 'easeIn', duration: 0.5 })
-  }
+  const onceFinished = useLoader((st) => st.data.once)
 
   async function onComplete() {
-    animate('#overlay', { opacity: 0 }, { ease: 'easeIn', duration: 0.5 })
+    await animate('#loading-countup', { opacity: 0 }, { ease: 'easeIn', duration: 0.5 })
+
+    if (logoRef.current) {
+      logoRef.current.playSegments([onceFinished ? 68 : 30, 120])
+      logoRef.current.play()
+    }
+
+    await animate('#overlay', { opacity: 0 }, { delay: 1, ease: 'easeIn', duration: 0.5 })
     await animate('#loader', { scale: 55 }, { ease: 'circIn', duration: 1 })
     await animate(scope.current, { display: 'none' }, { duration: 0 })
 
@@ -39,13 +40,8 @@ export function SplashScreen() {
 
   useEffect(() => {
     CLScrolling.none()
-
-    if (status === 'finished') isLoaded()
-    if (status === 'finished' && logoRef.current) {
-      logoRef.current.playSegments([hasLoaded ? 68 : 30, 120])
-      logoRef.current.play()
-    }
-  }, [status, hasLoaded])
+    if (onceFinished) onComplete().then()
+  }, [onceFinished])
 
   return (
     <div ref={scope}>
@@ -65,7 +61,6 @@ export function SplashScreen() {
             lottieRef={logoRef}
             animationData={logoMotion}
             initialSegment={[0, 19]}
-            onComplete={() => status === 'finished' && onComplete()}
             loop={false}
             autoPlay={false}
           />

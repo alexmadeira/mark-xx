@@ -18,7 +18,7 @@ export class ScrollingController {
     this._actions.setDetails(this._props.lenis)
     this.ev.on('scroll', this.setDetails.bind(this))
 
-    _.bindAll(this, ['stop', 'start', 'restart', 'resize', 'fromStart', 'scrollTo'])
+    _.bindAll(this, ['stop', 'start', 'restart', 'none', 'resize', 'fromStart', 'scrollTo'])
 
     if (mobile()) {
       this._props.lenis.destroy()
@@ -27,7 +27,7 @@ export class ScrollingController {
 
   public static create(props: TScrollingCreateProps) {
     return new ScrollingController({
-      lenis: new Lenis(props),
+      lenis: new Lenis({ ...props }),
     })
   }
 
