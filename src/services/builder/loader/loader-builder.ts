@@ -18,8 +18,6 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   private readonly loaderActions = useLoader.getState().actions
   private readonly listeners: TLoaderEventListeners
 
-  private permanentlyFinished = false
-
   constructor(
     private readonly requestsLoader: ILoaderRequests<TRequestInstance>,
     private readonly mediasLoader: ILoaderMedias,
@@ -53,7 +51,6 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private startLoading() {
-    if (this.permanentlyFinished) return
     if (useLoader.getState().data.status === 'loading') return
 
     this.updateLoaderStatus()
@@ -71,12 +68,12 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private updateLoading() {
-    if (this.permanentlyFinished) return
-
     const loadingProgress = this.totalLoaded / this.totalLoading
 
-    this.loaderActions.setLoaded(loadingProgress)
-    this.progressLoader.set(loadingProgress)
+    if (!useLoader.getState().data.once) {
+      this.loaderActions.setLoaded(loadingProgress)
+      this.progressLoader.set(loadingProgress)
+    }
 
     this.updateLoaderStatus()
 
@@ -85,7 +82,6 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   }
 
   private finishCheck() {
-    if (this.currentStatus === 'idle') return
     if (this.currentStatus === 'loading') return
 
     this.progressLoader.done()
@@ -96,9 +92,13 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
     this.updateLoaderStatus('finished')
     this.progressLoader.done()
 
-    if (this.once) this.permanentlyFinished = true
+    if (this.once) this.loaderActions.onceFinished()
 
     this.notifyListeners('Loader:Finished')
+  }
+
+  private get once() {
+    return this._props.once
   }
 
   private autoLoaded() {
@@ -109,10 +109,6 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
     for (const listener of this.listeners[type]) {
       listener(payload)
     }
-  }
-
-  private get once() {
-    return this._props.once
   }
 
   private get totalLoading() {
@@ -126,8 +122,6 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
   private get currentStatus() {
     if (this.totalLoading - this.totalLoaded > 0) return 'loading'
     if (this.totalLoading - this.totalLoaded === 0) return 'loaded'
-
-    return 'idle'
   }
 
   public on(...[type, callback]: TLoaderEventSubscribeProps) {
