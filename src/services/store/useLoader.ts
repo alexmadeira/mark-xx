@@ -11,7 +11,13 @@ export const useLoader = create<TStoreLoader>((set) => ({
     setStatus: (status) =>
       set((state) =>
         produce(state, (draft) => {
-          draft.data.status = status
+          if (status) draft.data.status = status
+        }),
+      ),
+    onceFinished: () =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data.once = true
         }),
       ),
     setLoaded: (loaded) =>
