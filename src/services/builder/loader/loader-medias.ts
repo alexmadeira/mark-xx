@@ -100,18 +100,12 @@ export class LoaderMedias implements ILoaderMedias {
 
   private setUnloadedImages() {
     for (const img of Array.from(document.images)) {
-      if (this.isBlob(img.src)) continue
-      if (!this.getMediaOriginalSrc(img)) continue
-
       this.medias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image' })
     }
   }
 
   private setUnloadedVideos() {
     for (const video of Array.from(document.querySelectorAll('video'))) {
-      if (this.isBlob(video.src)) continue
-      if (!this.getMediaOriginalSrc(video)) continue
-
       this.medias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video' })
     }
   }

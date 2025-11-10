@@ -4,13 +4,15 @@ import { z } from 'zod/v4'
 
 export const ZStoreLoaderLoaded = z.number().min(0).max(1).default(0)
 export const ZStoreLoaderData = z.object({
+  once: z.boolean(),
   status: ZELoaderStatus,
   loaded: ZStoreLoaderLoaded,
 })
 
 export const ZStoreLoaderActions = z.object({
   setLoaded: z.custom<(loaded: z.infer<typeof ZStoreLoaderLoaded>) => void>(),
-  setStatus: z.custom<(status: z.infer<typeof ZELoaderStatus>) => void>(),
+  setStatus: z.custom<(status?: z.infer<typeof ZELoaderStatus>) => void>(),
+  onceFinished: z.custom<() => void>(),
 })
 
 export const ZStoreLoader = z.object({
