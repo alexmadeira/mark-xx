@@ -20,7 +20,7 @@ export function BackgroundLoader() {
   const status = useLoader((st) => st.data.status)
   const once = useLoader((st) => st.data.once)
 
-  useInterval(CLScrolling.resize, !once ? 500 : null)
+  useInterval(CLScrolling.resize, 500)
 
   if (!once) return null
 
