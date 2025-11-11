@@ -61,7 +61,7 @@ export class ScrollingController {
     document.getElementsByTagName('body')[0].style.removeProperty('overflow')
 
     this._props.lenis.start()
-    this.resize()
+    this._props.lenis.resize()
   }
 
   public restart() {
