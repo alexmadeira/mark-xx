@@ -13,6 +13,7 @@ export function Banner() {
 
   const [isPresent, safeToRemove] = usePresence()
   const heroRef = useRef<HTMLDivElement>(null)
+
   const content = useHero((st) => st.data.current)
   const background = useHero((st) => st.data.color)
 

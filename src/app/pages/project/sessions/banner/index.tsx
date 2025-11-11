@@ -18,7 +18,7 @@ export function Banner() {
     offset: ['start start', 'end start'],
   })
   const scale = useTransform(scrollYProgress, [0, 0.7], [1, 1.3])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.15])
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
   return (
     <div
       key="project-banner"
@@ -26,12 +26,14 @@ export function Banner() {
       className="fixed top-0 left-0 h-[100vh] max-h-[200vw] min-h-[400px] w-full"
     >
       <div className="relative h-full w-full overflow-hidden">
-        <motion.img
-          style={{ opacity, scale }}
-          data-src={project?.bannerSrc}
-          alt={project?.bannerName || ''}
-          className="h-full w-full object-cover lg:object-top"
-        />
+        {!!project?.bannerSrc && (
+          <motion.img
+            style={{ opacity, scale }}
+            data-src={project.bannerSrc}
+            alt={project.bannerName || ''}
+            className="h-full w-full object-cover lg:object-top"
+          />
+        )}
       </div>
     </div>
   )
