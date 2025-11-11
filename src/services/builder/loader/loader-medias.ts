@@ -83,6 +83,8 @@ export class LoaderMedias implements ILoaderMedias {
 
   private async saveMediaToCache(...[src]: TLoaderSaveMediaToCacheProps) {
     if (this.isBlob(src)) return src
+    const cached = await this.getCachedMedia(src)
+    if (cached) return cached
 
     const loaded = this.loadedMedias.get(src)
     if (loaded) return loaded.cacheUrl
@@ -112,11 +114,10 @@ export class LoaderMedias implements ILoaderMedias {
 
   private updateImagesSrc() {
     for (const img of Array.from(document.images)) {
-      if (this.isBlob(img.src)) continue
-
       const loaded = this.loadedMedias.get(this.getMediaOriginalSrc(img))
-      if (!loaded) continue
 
+      if (!loaded) continue
+      if (this.isBlob(img.src)) continue
       if (img.src !== loaded.cacheUrl) img.src = loaded.cacheUrl
 
       this.loadedMedias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image', cacheUrl: loaded.cacheUrl })
@@ -129,7 +130,7 @@ export class LoaderMedias implements ILoaderMedias {
       const loaded = this.loadedMedias.get(this.getMediaOriginalSrc(video))
 
       if (!loaded) continue
-      if (_.startsWith(video.src, 'blob:')) continue
+      if (this.isBlob(video.src)) continue
       if (video.src !== loaded.cacheUrl) video.src = loaded.cacheUrl
       video.load()
 
@@ -141,10 +142,7 @@ export class LoaderMedias implements ILoaderMedias {
     this.notifyListeners('MEDIA:IMAGE:Started', img.dataset.src)
     this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
 
-    const cacheUrl =
-      (await this.getCachedMedia(this.getMediaOriginalSrc(img))) ||
-      (await this.saveMediaToCache(this.getMediaOriginalSrc(img)))
-
+    const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(img))
     this.loadedMedias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image', cacheUrl })
 
     this.updateImagesSrc()
