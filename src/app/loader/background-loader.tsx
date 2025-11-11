@@ -1,6 +1,7 @@
 import type { LottieRefCurrentProps } from 'lottie-react'
 
 import { useRef } from 'react'
+import { useInterval } from 'react-use'
 
 import Lottie from 'lottie-react'
 import { motion } from 'motion/react'
@@ -8,12 +9,20 @@ import { twMerge } from 'tailwind-merge'
 
 import { loadingMotion } from '_CFG/motion/loading'
 
+import { scrollingController } from '_SRV/controller'
+
 import { useLoader } from '_STR/useLoader'
 
 export function BackgroundLoader() {
+  const CLScrolling = scrollingController()
   const logoRef = useRef<LottieRefCurrentProps>(null)
 
   const status = useLoader((st) => st.data.status)
+  const once = useLoader((st) => st.data.once)
+
+  useInterval(CLScrolling.resize, !once ? 500 : null)
+
+  if (!once) return null
 
   return (
     <motion.div
