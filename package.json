@@ -49,6 +49,7 @@
     "lodash": "4.17.21",
     "lottie-react": "2.4.1",
     "lucide-react": "0.543.0",
+    "marked": "17.0.0",
     "motion": "12.23.12",
     "mustache": "4.2.0",
     "potpack": "2.1.0",

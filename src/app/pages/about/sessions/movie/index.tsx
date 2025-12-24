@@ -8,7 +8,7 @@ export function Movie() {
   const CLOverlap = overlapController()
 
   const videoRef = useRef<HTMLDivElement>(null)
-  const pageProperties = useFetcherPages((st) => st.data.about?.properties)
+  const about = useFetcherPages((st) => st.data.about)
 
   useEffect(() => {
     if (videoRef.current) CLOverlap.addElement(videoRef.current, '--color-black')
@@ -18,15 +18,17 @@ export function Movie() {
     <div className="3xl:h-[50vh] relative mt-32 h-[40vh] min-h-[300px] w-full">
       <div className="absolute top-0 left-0 z-1 h-full w-full bg-zinc-800/70" />
       <div ref={videoRef} className="h-full w-full object-cover object-center">
-        <video
-          loop
-          muted
-          autoPlay
-          playsInline
-          data-src={pageProperties?.property1}
-          preload="metadata"
-          className="h-full w-full object-cover object-center"
-        />
+        {about.movie && (
+          <video
+            loop
+            muted
+            autoPlay
+            playsInline
+            data-src={about.movie}
+            preload="metadata"
+            className="h-full w-full object-cover object-center"
+          />
+        )}
       </div>
     </div>
   )
