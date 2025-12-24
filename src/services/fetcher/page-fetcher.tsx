@@ -3,6 +3,7 @@ import type { IFetcher } from '@/interfaces/fetcher'
 import type { TPageFetcherProps } from '@/services/fetcher/page'
 
 import { ApiRequester } from '_SRV/api/api-requester'
+import { PageMapper } from '_SRV/mapper/page-mapper.ts'
 
 import { useFetcherPages } from '_STR/useFetcherPages'
 
@@ -19,7 +20,7 @@ export class PageFetcher implements IFetcher<TPageFetcherProps> {
 
       if (options.callback) options.callback()
 
-      this.pagesActions.setPage(slug, result)
+      this.pagesActions.setPage(slug, PageMapper.toStore(result))
       this.pagesActions.setPageStatus(slug, 'loaded')
     } catch (error) {
       this.pagesActions.setPageStatus(slug, 'error')

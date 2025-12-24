@@ -15,14 +15,12 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
   if (!pageName) throw new Error('prop page is required to HeaderTitle')
 
   const page = useFetcherPages((st) => st.data[pageName])
-
-  const name = page?.properties?.name?.replace(/\s+/g, '\u00A0') || ''
-
+  const isLoaded = page.status === 'loaded'
   return (
     <div className="my-2 h-fit w-full overflow-hidden">
       <h1
-        role="text"
-        aria-label={page?.properties?.name}
+        role="heading"
+        aria-label={page.name}
         className={twMerge(
           'flex w-full items-center text-4xl leading-[120%] font-medium tracking-widest',
           'sm:text-5xl',
@@ -30,18 +28,19 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
           '4xl:text-[clamp(13rem,10vw,17rem)]',
         )}
       >
-        {_.map([...name], (char, i) => (
-          <motion.span
-            key={`${page?.properties?.id}:${char}:${i}`}
-            exit={{ y: '150%' }}
-            initial={{ y: '-100%' }}
-            animate={{ y: '0%' }}
-            transition={{ duration: 0.2, ease: 'easeInOut', delay: i * 0.03 }}
-            aria-hidden="true"
-            children={char}
-            className="flex"
-          />
-        ))}
+        {isLoaded &&
+          _.map([...page.name], (char, i) => (
+            <motion.span
+              key={`${page.id}:${char}:${i}`}
+              exit={{ y: '150%' }}
+              initial={{ y: '-100%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 0.2, ease: 'easeInOut', delay: i * 0.03 }}
+              aria-hidden="true"
+              children={char}
+              className="flex"
+            />
+          ))}
       </h1>
     </div>
   )
