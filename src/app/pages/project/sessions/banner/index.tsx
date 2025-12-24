@@ -11,7 +11,7 @@ export function Banner() {
 
   const targetRef = useRef<HTMLDivElement>(null)
 
-  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug]?.properties)
+  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug])
 
   const { scrollYProgress } = useScroll({
     target: targetRef,

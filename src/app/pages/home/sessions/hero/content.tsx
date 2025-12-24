@@ -1,14 +1,9 @@
 import { twMerge } from 'tailwind-merge'
 
-import { contentPreseter } from '_SRV/preseter'
-
 import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function Content() {
-  const preseter = contentPreseter('home')
-  const pageContent = useFetcherPages((st) => st.data.home?.content)
-
-  const content = preseter.contentHtml(pageContent)
+  const home = useFetcherPages((st) => st.data.home)
 
   return (
     <div
@@ -26,7 +21,10 @@ export function Content() {
           'lg:px-x-container',
         )}
       >
-        <div className="flex flex-2" dangerouslySetInnerHTML={{ __html: content.join('') }} />
+        <div
+          className="flex flex-2 text-[clamp(0.875rem,2vw,2.25rem)] leading-[clamp(1.25rem,2vw,2.5rem)] font-light"
+          dangerouslySetInnerHTML={{ __html: home.content || '' }}
+        />
         <div className="relative z-1 flex flex-1 flex-col items-start gap-2 sm:items-end">
           <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
             alex.c.madeira@gmail.com

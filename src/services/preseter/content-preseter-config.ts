@@ -6,4 +6,5 @@ export const contentPreseterConfig = {
     year: dayJS().format('YYYY'),
     month: dayJS().format('MMMM'),
   },
+  yearsOfWork: dayJS('2009-01-01').toNow(true),
 }

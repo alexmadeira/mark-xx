@@ -12,7 +12,7 @@ export function Header() {
   const CLRoute = routeController()
 
   const targetRef = useRef<HTMLDivElement>(null)
-  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug]?.properties)
+  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug])
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -26,7 +26,7 @@ export function Header() {
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.5], [2, 1.5, 1])
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1])
 
-  const bornYear = dayJS(project?.date.start).format('YYYY')
+  const bornYear = dayJS(project?.date).format('YYYY')
 
   return (
     <div

@@ -2,8 +2,6 @@ import type { TPageHeaderContentProps } from '@/props/components/ui-element/page
 
 import { twMerge } from 'tailwind-merge'
 
-import { contentPreseter } from '_SRV/preseter'
-
 import { useFetcherPages } from '_STR/useFetcherPages'
 
 import { useHeader } from './header-context'
@@ -15,9 +13,6 @@ export function HeaderContent(props: TPageHeaderContentProps) {
   if (!pageName) throw new Error('prop page is required to HeaderContent')
 
   const page = useFetcherPages((st) => st.data[pageName])
-  const preseter = contentPreseter(pageName)
-
-  const content = preseter.contentHtml(page?.content)
 
   return (
     <div className={twMerge('mt-5 flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]', 'lg:mt-0')}>
@@ -31,13 +26,13 @@ export function HeaderContent(props: TPageHeaderContentProps) {
         >
           <div className="lg:col-span-12 xl:col-span-3 2xl:col-span-3">
             <h2 className={twMerge('text-[clamp(1.5rem,3.5vw,2.25rem)] leading-[clamp(2rem,4vw,3rem)] font-normal')}>
-              {page?.properties?.subTitle}
+              {page?.subTitle}
             </h2>
           </div>
           <div className="flex flex-col gap-20 lg:col-span-12 xl:col-span-9 2xl:col-span-9">
             <div
               className="flex flex-col gap-[clamp(1rem,2vw,2rem)] text-[clamp(1rem,2vw,1.5rem)] leading-[clamp(1.5rem,3vw,2rem)] font-light"
-              dangerouslySetInnerHTML={{ __html: content.join('') }}
+              dangerouslySetInnerHTML={{ __html: page.content || '' }}
             />
           </div>
         </div>
