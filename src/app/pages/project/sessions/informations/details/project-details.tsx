@@ -6,7 +6,7 @@ import { useFetcherProjects } from '_STR/useFetcherProjects'
 export function ProjectDetails() {
   const CLRoute = routeController()
 
-  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug]?.properties)
+  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug])
 
   const journeyStart = dayJS(project?.timeline.start).format('YYYY')
   const journeyEnd = dayJS(project?.timeline.end).format('YYYY')
