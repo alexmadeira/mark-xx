@@ -5,7 +5,6 @@ import type {
   TLoaderLoadingRequests,
   TLoaderRequestErrorProps,
   TLoaderRequestFinishedProps,
-  TLoaderRequestInstance,
   TLoaderRequestListeners,
   TLoaderRequestNotifyListenersProps,
   TLoaderRequestStartedProps,
@@ -14,7 +13,7 @@ import type {
 
 import _ from 'lodash'
 
-export class LoaderRequests implements ILoaderRequests<TLoaderRequestInstance> {
+export class LoaderRequests implements ILoaderRequests {
   private readonly loadingRequests: TLoaderLoadingRequests
   private readonly loadedRequests: TLoaderLoadedRequests
   private readonly listeners: TLoaderRequestListeners

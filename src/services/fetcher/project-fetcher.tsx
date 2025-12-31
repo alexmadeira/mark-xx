@@ -1,8 +1,7 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
+import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TProjectFetcherProps } from '@/services/fetcher/project'
-
-import { ApiRequester } from '_SRV/api/api-requester'
 
 // import { PageMapper } from '_SRV/mapper/page-mapper.ts'
 import { useFetcherProjects } from '_STR/useFetcherProjects'
@@ -10,13 +9,13 @@ import { useFetcherProjects } from '_STR/useFetcherProjects'
 export class ProjectFetcher implements IFetcher<TProjectFetcherProps> {
   private readonly projectActions = useFetcherProjects.getState().actions
 
-  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(slug: string, options: TProjectFetcherProps = {}) {
     try {
       this.projectActions.setProjectPageStatus(slug, 'loading')
 
-      await this.api.query('mark-xx:project', ['mark-xx:project', slug], {}, { slug })
+      await this.api.query('mark-xx:project', ['mark-xx:project', slug], { slug })
 
       if (options.callback) options.callback()
 

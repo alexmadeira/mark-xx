@@ -1,11 +1,11 @@
 import type { HTMLAttributes, ReactNode } from 'react'
 
-import { ZERouteType } from '@/enums/route'
+import { ZEPrismicPageType } from '@/enums/prismic'
 
 import { z } from 'zod/v4'
 
 export const ZPageHeaderProps = z.object({
-  page: ZERouteType.optional(),
+  page: ZEPrismicPageType.optional(),
 })
 
 export const ZPageHeaderProvider = z.object({

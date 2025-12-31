@@ -1,5 +1,3 @@
-import { ZSchemaPageContent } from '@/services/schema/page.ts'
-
 import { z } from 'zod/v4'
 
 export const ZSchemaProjectTag = z.object({ id: z.string(), name: z.string() })
@@ -29,8 +27,8 @@ export const ZSchemaProject = z.object({
 })
 
 export const ZSchemaProjectPage = z.object({
-  content: ZSchemaPageContent,
-  properties: ZSchemaProject,
+  // content: ZSchemaPageContent,
+  // properties: ZSchemaProject,
 })
 //
 //

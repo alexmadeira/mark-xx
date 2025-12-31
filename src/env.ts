@@ -14,6 +14,10 @@ export const ZEnvClient = ZEnvGlobal.extend({
   VITE_QUERY_GC_TIME: z.coerce.number().default(1000 * 60 * 60 * 24), // 24 hours
   VITE_QUERY_CLIENT_STALE_TIME: z.coerce.number().default(1000 * 60 * 5), // 5 minutes
 
+  VITE_PRISMIC_REPOSITORY_NAME: z.string(),
+  VITE_PRISMIC_CUSTOM_TYPES_TOKEN: z.string(),
+  VITE_PRISMIC_ACCESS_TOKEN: z.string(),
+
   BASE_URL: z.string(),
   DEV: z.coerce.boolean(),
   MODE: z.enum(['development', 'production']),
