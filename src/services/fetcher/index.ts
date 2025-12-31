@@ -1,4 +1,4 @@
-import { veronica } from '_SRV/api'
+import { prismic, veronica } from '_SRV/api'
 
 import { AwardsFetcher } from './awards-fetcher'
 import { BrandsFetcher } from './brands-fetcher'
@@ -36,11 +36,11 @@ export function brandsFetcher() {
   return fetcherBrands
 }
 export function technologiesFetcher() {
-  if (!fetcherTechnologies) fetcherTechnologies = new TechnologiesFetcher(veronica())
+  if (!fetcherTechnologies) fetcherTechnologies = new TechnologiesFetcher(prismic())
   return fetcherTechnologies
 }
 export function pageFetcher() {
-  if (!fetcherPage) fetcherPage = new PageFetcher(veronica())
+  if (!fetcherPage) fetcherPage = new PageFetcher(prismic())
   return fetcherPage
 }
 

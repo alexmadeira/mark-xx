@@ -36,6 +36,7 @@ export class Requester<TPaths extends TRequesterPaths> {
         params: httpParams,
         uid: prismicParams?.uid,
         tags: prismicParams?.tags,
+        return: prismicParams?.return,
       },
     }
   }

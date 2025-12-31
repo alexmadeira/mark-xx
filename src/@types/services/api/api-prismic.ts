@@ -1,4 +1,6 @@
-import type { AbortSignalLike, Client, PrismicError } from '@prismicio/client'
+import type { AbortSignalLike, Client, PrismicDocument, PrismicError } from '@prismicio/client'
+
+import { ZEPrismicReturnType } from '@/enums/prismic'
 
 import { z } from 'zod/v4'
 
@@ -10,12 +12,17 @@ export const ZApiPrismicRequestError = z.custom<PrismicError<unknown>>()
 export const ZApiPrismicRequestConfig = z.object({
   uid: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  return: ZEPrismicReturnType.optional(),
   signal: z.custom<AbortSignalLike>().optional(),
 })
 
 export const ZApiPrismicRequestErrorProps = z.tuple([ZApiPrismicRequestKey])
 export const ZApiPrismicRequestStartedProps = z.tuple([ZApiPrismicRequestKey])
 export const ZApiPrismicRequestFinishedProps = z.tuple([ZApiPrismicRequestKey])
+export const ZApiPrismicRequestReturnByTypeProps = z.tuple([
+  z.custom<PrismicDocument[]>(),
+  ZEPrismicReturnType.optional(),
+])
 
 export const ZApiPrismicRequestGetProps = z.tuple([z.string(), ZApiPrismicRequestConfig.optional()])
 export const ZApiPrismicRequestDeleteProps = z.tuple([z.string(), ZApiPrismicRequestConfig.optional()])
@@ -36,6 +43,7 @@ export type TApiPrismicRequestConfig = z.infer<typeof ZApiPrismicRequestConfig>
 export type TApiPrismicRequestErrorProps = z.infer<typeof ZApiPrismicRequestErrorProps>
 export type TApiPrismicRequestStartedProps = z.infer<typeof ZApiPrismicRequestStartedProps>
 export type TApiPrismicRequestFinishedProps = z.infer<typeof ZApiPrismicRequestFinishedProps>
+export type TApiPrismicRequestReturnByTypeProps = z.infer<typeof ZApiPrismicRequestReturnByTypeProps>
 
 export type TApiPrismicRequestGetProps = z.infer<typeof ZApiPrismicRequestGetProps>
 export type TApiPrismicRequestDeleteProps = z.infer<typeof ZApiPrismicRequestDeleteProps>

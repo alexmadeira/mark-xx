@@ -8,10 +8,12 @@ import type {
   TApiPrismicRequestPatchProps,
   TApiPrismicRequestPostProps,
   TApiPrismicRequestPutProps,
+  TApiPrismicRequestReturnByTypeProps,
   TApiPrismicRequestStartedProps,
 } from '@/services/api/api-prismic'
 
 import { Client, createClient, filter } from '@prismicio/client'
+import _ from 'lodash'
 
 import { RequesterApi } from '_SRV/builder/requester/requester-api'
 
@@ -42,7 +44,19 @@ export class PrismicRequesterApi extends RequesterApi<Client> {
     this.loader.requestError(requestKey)
   }
 
-  public async get<T>(...[type, config]: TApiPrismicRequestGetProps) {
+  private returnByType<T>(...[documents, returnType]: TApiPrismicRequestReturnByTypeProps) {
+    switch (returnType) {
+      case 'first':
+        return _.first(documents) as T
+      case 'last':
+        return _.last(documents) as T
+      case 'all':
+      default:
+        return documents as T
+    }
+  }
+
+  public async get<T>(...[type, config]: TApiPrismicRequestGetProps): Promise<T> {
     this.requestStarted(type)
     try {
       const filters = [filter.at('document.type', type)]
@@ -58,7 +72,7 @@ export class PrismicRequesterApi extends RequesterApi<Client> {
       if (!result.results.length) throw new Error('No results found')
 
       this.requestFinished(type)
-      return result.results[0] as T
+      return this.returnByType<T>(result.results, config?.return)
     } catch (err) {
       this.requestError(type)
       throw err

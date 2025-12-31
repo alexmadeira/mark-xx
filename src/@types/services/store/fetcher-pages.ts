@@ -29,19 +29,6 @@ export const ZStoreFetcherPagesAboutProperties = z.object({
   movie: z.url(),
 })
 
-// export const ZStoreFetcherPagesHome = z.discriminatedUnion('status', [
-//   ZStoreFetcherPagesHomeProperties,
-//   ZStoreFetcherPagesEmptyProperties,
-// ])
-// export const ZStoreFetcherPagesAbout = z.discriminatedUnion('status', [
-//   ZStoreFetcherPagesAboutProperties,
-//   ZStoreFetcherPagesEmptyProperties,
-// ])
-// export const ZStoreFetcherPagesProjects = z.discriminatedUnion('status', [
-//   ZStoreFetcherPagesProjectsProperties,
-//   ZStoreFetcherPagesEmptyProperties,
-// ])
-
 export const ZStoreFetcherPagesData = z.object({
   home: ZStoreFetcherPagesHomeProperties,
   about: ZStoreFetcherPagesAboutProperties,
@@ -53,12 +40,6 @@ export const ZStoreFetcherPagesAnyData = z.union([
   ZStoreFetcherPagesAboutProperties,
   ZStoreFetcherPagesProjectsProperties,
 ])
-
-// export const ZStoreFetcherSetPageContent = z.object({
-//   home: ZStoreFetcherPagesHomeProperties,
-//   about: ZStoreFetcherPagesAboutProperties,
-//   projects: ZStoreFetcherPagesProjectsProperties,
-// })
 
 export const ZStoreFetcherPagesActions = z.object({
   setPage:
@@ -81,11 +62,7 @@ export type TStoreFetcherPagesBaseProperties = z.infer<typeof ZStoreFetcherPages
 export type TStoreFetcherPagesHomeProperties = z.infer<typeof ZStoreFetcherPagesHomeProperties>
 export type TStoreFetcherPagesAboutProperties = z.infer<typeof ZStoreFetcherPagesAboutProperties>
 export type TStoreFetcherPagesProjectsProperties = z.infer<typeof ZStoreFetcherPagesProjectsProperties>
-// export type TStoreFetcherPagesHome = z.infer<typeof ZStoreFetcherPagesHome>
-// export type TStoreFetcherPagesAbout = z.infer<typeof ZStoreFetcherPagesAbout>
-// export type TStoreFetcherPagesProjects = z.infer<typeof ZStoreFetcherPagesProjects>
 export type TStoreFetcherPagesData = z.infer<typeof ZStoreFetcherPagesData>
 export type TStoreFetcherPagesAnyData = z.infer<typeof ZStoreFetcherPagesAnyData>
-// export type TStoreFetcherSetPageContent = z.infer<typeof ZStoreFetcherSetPageContent>
 export type TStoreFetcherPagesActions = z.infer<typeof ZStoreFetcherPagesActions>
 export type TStoreFetcherPages = z.infer<typeof ZStoreFetcherPages>

@@ -9,6 +9,7 @@ import { ZPrismicDocumentProjects } from './projects'
 export * from './home'
 export * from './about'
 export * from './projects'
+export * from './technology'
 
 export const ZPrismicAnyDocument = z.custom<AllDocumentTypes>()
 

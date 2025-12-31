@@ -522,66 +522,77 @@ interface ProjectsDocumentData {
 export type ProjectsDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectsDocumentData>, "projects", Lang>;
 
 /**
- * Content for Technologie documents
+ * Content for Technology documents
  */
-interface TechnologieDocumentData {
+interface TechnologyDocumentData {
 	/**
-	 * Nome field in *Technologie*
+	 * Nome field in *Technology*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: technologie.name
+	 * - **API ID Path**: technology.name
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	name: prismic.KeyTextField;
 	
 	/**
-	 * Comecei em field in *Technologie*
+	 * Escrever field in *Technology*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: technology.type
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	type: prismic.KeyTextField;
+	
+	/**
+	 * Comecei em field in *Technology*
 	 *
 	 * - **Field Type**: Date
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: technologie.usage_started
+	 * - **API ID Path**: technology.usage_started
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/date
 	 */
 	usage_started: prismic.DateField;
 	
 	/**
-	 * Cor field in *Technologie*
+	 * Cor field in *Technology*
 	 *
 	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: technologie.color
+	 * - **API ID Path**: technology.color
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/color
 	 */
 	color: prismic.ColorField;
 	
 	/**
-	 * Banner field in *Technologie*
+	 * Banner field in *Technology*
 	 *
-	 * - **Field Type**: Image
+	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: technologie.banner
+	 * - **API ID Path**: technology.banner
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
-	banner: prismic.ImageField<never>;
+	banner: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
- * Technologie document from Prismic
+ * Technology document from Prismic
  *
- * - **API ID**: `technologie`
+ * - **API ID**: `technology`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type TechnologieDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<TechnologieDocumentData>, "technologie", Lang>;
+export type TechnologyDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<TechnologyDocumentData>, "technology", Lang>;
 
-export type AllDocumentTypes = AboutDocument | AwardDocument | CompanyDocument | HomeDocument | ProjectDocument | ProjectsDocument | TechnologieDocument;
+export type AllDocumentTypes = AboutDocument | AwardDocument | CompanyDocument | HomeDocument | ProjectDocument | ProjectsDocument | TechnologyDocument;
 
 declare module "@prismicio/client" {
 	interface CreateClient {
@@ -611,8 +622,8 @@ declare module "@prismicio/client" {
 			ProjectDocumentDataTechnologiesItem,
 			ProjectsDocument,
 			ProjectsDocumentData,
-			TechnologieDocument,
-			TechnologieDocumentData,
+			TechnologyDocument,
+			TechnologyDocumentData,
 			AllDocumentTypes
 		}
 	}

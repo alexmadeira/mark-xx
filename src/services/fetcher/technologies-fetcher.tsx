@@ -3,6 +3,10 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TTechnologiesFetcherProps } from '@/services/fetcher/technologies'
 
+import _ from 'lodash'
+
+import { TechnologyMapper } from '_SRV/mapper/technology-mapper'
+
 import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 
 export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> {
@@ -13,9 +17,13 @@ export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> 
   public async fetch(name: string, options: TTechnologiesFetcherProps = {}) {
     this.technologiesActions.setStatus('loading')
     try {
-      const result = await this.api.query('mark-xx:technologies', ['mark-xx:technologies', name])
+      const result = await this.api.query('mark-xx:technologies', ['mark-xx:technologies', name], {
+        return: 'all',
+        type: 'technology',
+        tags: _.castArray(options.filter?.tags || []),
+      })
 
-      this.technologiesActions.setList(result)
+      this.technologiesActions.setList(result.map(TechnologyMapper.toStore))
       this.technologiesActions.setStatus('loaded')
 
       if (options.callback) options.callback()
