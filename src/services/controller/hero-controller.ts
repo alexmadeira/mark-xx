@@ -30,7 +30,7 @@ export class HeroController {
 
   private next() {
     this.controll.hero = (this.controll.hero + 1) % this.heroContent.length
-    // this.heroActions.setCurrent(this.currentHero)
+    this.heroActions.setCurrent(this.currentHero)
     this.updateColor(this.currentHero.color)
     this.write()
   }
@@ -103,7 +103,7 @@ export class HeroController {
   public start() {
     if (this.isRunning) return
     this.isRunning = true
-    // this.heroActions.setCurrent(this.currentHero)
+    this.heroActions.setCurrent(this.currentHero)
     this.updateColor(this.currentHero.color)
     this.write()
   }
