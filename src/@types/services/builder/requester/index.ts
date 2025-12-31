@@ -1,6 +1,7 @@
 import type { IApi } from '@/interfaces/api'
 import type { FetchQueryOptions, QueryClient } from '@tanstack/react-query'
 
+import { ZEPrismicReturnType } from '@/enums/prismic'
 import { ZERequesterMethod } from '@/enums/requester'
 
 import { z } from 'zod/v4'
@@ -27,6 +28,7 @@ export const ZRequesterMutateData = z.object({
 
 export const ZRequesterPrismicQueryParams = z.object({
   type: z.string(),
+  return: ZEPrismicReturnType,
   uid: z.string().optional(),
   tags: z.array(z.string()).optional(),
 })
@@ -87,6 +89,7 @@ export function ZRequesterFetchProps<T extends z.infer<typeof ZRequesterPaths>, 
     config: z.object({
       uid: z.string().optional(),
       tags: z.array(z.string()).optional(),
+      return: ZEPrismicReturnType.optional(),
       signal: z.custom<AbortSignal>().optional(),
       params: z.custom<z.infer<T[K]['params']>>().optional(),
     }),

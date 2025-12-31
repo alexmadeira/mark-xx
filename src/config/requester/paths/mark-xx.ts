@@ -12,7 +12,6 @@ import z from 'zod'
 export const markXXPaths = {
   'mark-xx:technologies': {
     method: 'get',
-    path: '/mark-xx/technologies',
     schema: z.array(ZSchemaTechnology),
   },
   'mark-xx:projects': {
