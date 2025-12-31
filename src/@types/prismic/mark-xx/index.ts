@@ -10,6 +10,7 @@ export * from './home'
 export * from './about'
 export * from './projects'
 export * from './technology'
+export * from './award'
 
 export const ZPrismicAnyDocument = z.custom<AllDocumentTypes>()
 

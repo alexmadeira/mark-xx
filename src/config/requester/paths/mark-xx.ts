@@ -30,7 +30,6 @@ export const markXXPaths = {
   },
   'mark-xx:awards': {
     method: 'get',
-    path: '/mark-xx/awards',
     schema: z.array(ZSchemaAward),
   },
   'mark-xx:brands': {

@@ -148,13 +148,13 @@ interface AwardDocumentData {
 	/**
 	 * Descrição field in *Award*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: award.description
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	description: prismic.RichTextField;
+	description: prismic.KeyTextField;
 }
 
 /**

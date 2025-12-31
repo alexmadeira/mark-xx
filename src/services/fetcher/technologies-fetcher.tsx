@@ -23,8 +23,6 @@ export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> 
         tags: _.castArray(options.filter?.tags || []),
       })
 
-      console.log(result.map(TechnologyMapper.toStore))
-
       this.technologiesActions.setList(result.map(TechnologyMapper.toStore))
       this.technologiesActions.setStatus('loaded')
 

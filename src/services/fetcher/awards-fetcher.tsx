@@ -3,6 +3,8 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TAwardsFetcherProps } from '@/services/fetcher/awards'
 
+import { AwardMapper } from '_SRV/mapper/award-mapper'
+
 import { useFetcherAwards } from '_STR/useFetcherAwards'
 
 export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
@@ -13,9 +15,12 @@ export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
   public async fetch(name: string, options: TAwardsFetcherProps = {}) {
     this.awardsActions.setStatus('loading')
     try {
-      const result = await this.api.query('mark-xx:awards', ['mark-xx:awards', name])
+      const result = await this.api.query('mark-xx:awards', ['mark-xx:awards', name], {
+        return: 'all',
+        type: 'award',
+      })
 
-      this.awardsActions.setList(result)
+      this.awardsActions.setList(result.map(AwardMapper.toStore))
       this.awardsActions.setStatus('loaded')
 
       if (options.callback) options.callback()
