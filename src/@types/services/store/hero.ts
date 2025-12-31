@@ -4,8 +4,8 @@ export const ZStoreHeroCurrentProps = z.object({
   id: z.string(),
   name: z.string(),
   color: z.string(),
-  banner: z.string(),
   type: z.string(),
+  banner: z.string().optional(),
 })
 
 export const ZStoreHeroData = z.object({
