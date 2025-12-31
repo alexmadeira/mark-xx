@@ -10,17 +10,18 @@ import { useHeader } from './header-context'
 
 export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
   const context = useHeader()
-  const pageName = context.page || props.page
+  const name = context.page || props.page
 
-  if (!pageName) throw new Error('prop page is required to HeaderTitle')
+  if (!name) throw new Error('prop page is required to HeaderTitle')
 
-  const page = useFetcherPages((st) => st.data[pageName])
+  const page = useFetcherPages((st) => st.data[name])
+
   const isLoaded = page.status === 'loaded'
   return (
     <div className="my-2 h-fit w-full overflow-hidden">
       <h1
         role="heading"
-        aria-label={page.name}
+        aria-label={page.title}
         className={twMerge(
           'flex w-full items-center text-4xl leading-[120%] font-medium tracking-widest',
           'sm:text-5xl',
@@ -29,7 +30,7 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
         )}
       >
         {isLoaded &&
-          _.map([...page.name], (char, i) => (
+          _.map([...page.title], (char, i) => (
             <motion.span
               key={`${page.id}:${char}:${i}`}
               exit={{ y: '150%' }}

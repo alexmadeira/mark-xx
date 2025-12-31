@@ -1,20 +1,26 @@
 import type { TSchemaPage } from '@/services/schema/page.ts'
-import type { TStoreFetcherPagesPageProperties } from '@/services/store/fetcher-pages.ts'
+import type { TStoreFetcherPagesAnyData } from '@/services/store/fetcher-pages.ts'
 
-import { marked } from 'marked'
-import mustache from 'mustache'
+import { ZStoreFetcherPagesAnyData } from '@/services/store/fetcher-pages.ts'
 
-import { contentPreseterConfig } from '_SRV/preseter/content-preseter-config.ts'
+import { asHTML } from '@prismicio/client'
+import _ from 'lodash'
 
 export class PageMapper {
-  public static toStore(raw: TSchemaPage): TStoreFetcherPagesPageProperties {
-    return {
-      id: raw.properties.id,
-      name: raw.properties.name.replace(/\s+/g, '\u00A0'),
-      slug: raw.properties.slug,
-      subTitle: raw.properties.subTitle,
-      content: mustache.render(marked.parse(raw.content, { async: false }), contentPreseterConfig),
-      movie: String(raw.properties.custom.movie),
+  public static toStore(raw: TSchemaPage): TStoreFetcherPagesAnyData {
+    const baseData: TStoreFetcherPagesAnyData = {
+      status: 'loading',
+      id: raw.id,
+      slug: raw.uid,
+      title: _.presentsContent(_.get(raw, 'data.title', '')).replace(/\s+/g, '\u00A0'),
+      color: _.get(raw, 'data.color', '#FFFFFF'),
+      description: _.presentsContent(asHTML(_.get(raw, 'data.description'))),
+      subTitle: _.presentsContent(_.get(raw, 'data.sub_title')),
     }
+    const extraData = {
+      movie: _.get(raw, 'data.movie.url'),
+    }
+
+    return ZStoreFetcherPagesAnyData.parse(_.omitBy({ ...baseData, ...extraData }, _.isUndefined))
   }
 }

@@ -1,27 +1,22 @@
-import type { requesterPaths } from '_CFG/requester/paths'
-
 import { markXXPaths } from '_CFG/requester/paths/mark-xx'
 
 import { loader } from '_SRV/builder/loader'
+import { Requester } from '_SRV/builder/requester'
 import { queryClient } from '_SRV/lib'
 
-import { env } from '~/env'
+import { PrismicRequesterApi } from './requester-api/prismic-requester-api'
+// imp VeronicaRequesterApi } from './requester-api/veronica-requester-api'
 
-import { ApiRequester } from './api-requester'
+let veronicaRequesterApi: Requester<typeof markXXPaths> | null = null
 
-const apiRequesters: Record<string, ApiRequester<typeof requesterPaths>> = {}
+export function veronica() {
+  if (veronicaRequesterApi) return veronicaRequesterApi
 
-export function veronica(): ApiRequester<typeof markXXPaths> {
-  if (apiRequesters.veronica) return apiRequesters.veronica
+  veronicaRequesterApi = new Requester({
+    api: PrismicRequesterApi.create(loader()),
+    paths: markXXPaths,
+    queryClient,
+  })
 
-  apiRequesters.veronica = new ApiRequester(
-    {
-      host: env.VITE_VERONICA_API,
-      paths: markXXPaths,
-      queryClient,
-    },
-    loader(),
-  )
-
-  return apiRequesters.veronica
+  return veronicaRequesterApi
 }

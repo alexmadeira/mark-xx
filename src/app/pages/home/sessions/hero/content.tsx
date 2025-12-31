@@ -23,7 +23,7 @@ export function Content() {
       >
         <div
           className="flex flex-2 text-[clamp(0.875rem,2vw,2.25rem)] leading-[clamp(1.25rem,2vw,2.5rem)] font-light"
-          dangerouslySetInnerHTML={{ __html: home.content || '' }}
+          dangerouslySetInnerHTML={{ __html: home.status === 'loaded' ? home.description : '' }}
         />
         <div className="relative z-1 flex flex-1 flex-col items-start gap-2 sm:items-end">
           <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">

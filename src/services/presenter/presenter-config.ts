@@ -1,6 +1,6 @@
 import { dayJS } from '_SRV/lib'
 
-export const contentPreseterConfig = {
+export const defaultContentView = {
   date: {
     day: dayJS().format('DD'),
     year: dayJS().format('YYYY'),
