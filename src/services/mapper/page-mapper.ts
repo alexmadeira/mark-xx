@@ -1,8 +1,6 @@
 import type { TSchemaPage } from '@/services/schema/page.ts'
 import type { TStoreFetcherPagesAnyData } from '@/services/store/fetcher-pages.ts'
 
-import { ZStoreFetcherPagesAnyData } from '@/services/store/fetcher-pages.ts'
-
 import { asHTML } from '@prismicio/client'
 import _ from 'lodash'
 
@@ -21,6 +19,6 @@ export class PageMapper {
       movie: _.get(raw, 'data.movie.url'),
     }
 
-    return ZStoreFetcherPagesAnyData.parse(_.omitBy({ ...baseData, ...extraData }, _.isUndefined))
+    return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
   }
 }

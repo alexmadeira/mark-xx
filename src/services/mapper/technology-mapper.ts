@@ -1,8 +1,6 @@
 import type { TSchemaTechnology } from '@/services/schema/technology'
 import type { TStoreFetcherTechnology } from '@/services/store/fetcher-technologies'
 
-import { ZStoreFetcherTechnology } from '@/services/store/fetcher-technologies'
-
 import _ from 'lodash'
 
 export class TechnologyMapper {
@@ -17,6 +15,6 @@ export class TechnologyMapper {
       banner: _.get(raw, 'data.banner.url'),
     }
 
-    return ZStoreFetcherTechnology.parse(_.omitBy({ ...baseData, ...extraData }, _.isUndefined))
+    return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherTechnology
   }
 }

@@ -19,20 +19,20 @@ let fetcherTechnologies: TechnologiesFetcher
 let fetcherUsageLanguages: UsageLanguagesFetcher
 
 export function projectsFetcher() {
-  if (!fetcherProjects) fetcherProjects = new ProjectsFetcher(veronica())
+  if (!fetcherProjects) fetcherProjects = new ProjectsFetcher(prismic())
   return fetcherProjects
 }
 export function projectFetcher() {
-  if (!fetcherProject) fetcherProject = new ProjectFetcher(veronica())
+  if (!fetcherProject) fetcherProject = new ProjectFetcher(prismic())
   return fetcherProject
 }
 
 export function awardsFetcher() {
-  if (!fetcherAwards) fetcherAwards = new AwardsFetcher(veronica())
+  if (!fetcherAwards) fetcherAwards = new AwardsFetcher(prismic())
   return fetcherAwards
 }
 export function brandsFetcher() {
-  if (!fetcherBrands) fetcherBrands = new BrandsFetcher(veronica())
+  if (!fetcherBrands) fetcherBrands = new BrandsFetcher(prismic())
   return fetcherBrands
 }
 export function technologiesFetcher() {

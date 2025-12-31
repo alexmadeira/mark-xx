@@ -1,5 +1,5 @@
 import {
-  // awardsFetcher,
+  awardsFetcher,
   // brandsFetcher,
   pageFetcher,
   preFetcher,
@@ -10,7 +10,7 @@ import {
 
 export function PreFetcher() {
   const FPage = pageFetcher()
-  // const FAwards = awardsFetcher()
+  const FAwards = awardsFetcher()
   // const FBrands = brandsFetcher()
   // const FProjects = projectsFetcher()
   const FTechnologies = technologiesFetcher()
@@ -23,7 +23,7 @@ export function PreFetcher() {
     FPage.prefetch('home'),
     FPage.prefetch('about'),
     FPage.prefetch('projects'),
-    // FAwards.prefetch('about:awards'),
+    FAwards.prefetch('about:awards'),
     // FBrands.prefetch('about:brands'),
     // FProjects.prefetch('projects'),
     // FProjects.prefetch('home-projects', { filter: { highlight: true } }),
