@@ -1,6 +1,6 @@
 import {
   awardsFetcher,
-  // brandsFetcher,
+  brandsFetcher,
   pageFetcher,
   preFetcher,
   // projectsFetcher,
@@ -11,7 +11,7 @@ import {
 export function PreFetcher() {
   const FPage = pageFetcher()
   const FAwards = awardsFetcher()
-  // const FBrands = brandsFetcher()
+  const FBrands = brandsFetcher()
   // const FProjects = projectsFetcher()
   const FTechnologies = technologiesFetcher()
 
@@ -24,7 +24,7 @@ export function PreFetcher() {
     FPage.prefetch('about'),
     FPage.prefetch('projects'),
     FAwards.prefetch('about:awards'),
-    // FBrands.prefetch('about:brands'),
+    FBrands.prefetch('about:brands'),
     // FProjects.prefetch('projects'),
     // FProjects.prefetch('home-projects', { filter: { highlight: true } }),
     FTechnologies.prefetch('banner:technologies', { filter: { tags: ['banner'] } }),
