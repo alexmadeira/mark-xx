@@ -1,25 +1,30 @@
 import type { ILoader } from '@/interfaces/loader'
 import type {
+  TApiPrismicInstance,
   TApiPrismicProps,
   TApiPrismicRequestDeleteProps,
   TApiPrismicRequestErrorProps,
   TApiPrismicRequestFinishedProps,
+  TApiPrismicRequestGetByIdProps,
   TApiPrismicRequestGetProps,
+  TApiPrismicRequestInjectRelationshipsProps,
   TApiPrismicRequestPatchProps,
   TApiPrismicRequestPostProps,
   TApiPrismicRequestPutProps,
-  TApiPrismicRequestReturnByTypeProps,
+  TApiPrismicRequestReturnTypeProps,
   TApiPrismicRequestStartedProps,
 } from '@/services/api/api-prismic'
 
-import { Client, createClient, filter } from '@prismicio/client'
+import { createClient, filter } from '@prismicio/client'
 import _ from 'lodash'
 
 import { RequesterApi } from '_SRV/builder/requester/requester-api'
 
 import { env } from '~/env'
 
-export class PrismicRequesterApi extends RequesterApi<Client> {
+import { PrismicUtils } from './utils/prismic-utils'
+
+export class PrismicRequesterApi extends RequesterApi<TApiPrismicInstance> {
   static create(loader: ILoader, props?: TApiPrismicProps) {
     return new PrismicRequesterApi(loader, props).setup()
   }
@@ -44,19 +49,42 @@ export class PrismicRequesterApi extends RequesterApi<Client> {
     this.loader.requestError(requestKey)
   }
 
-  private returnByType<T>(...[documents, returnType]: TApiPrismicRequestReturnByTypeProps) {
+  private async returnType<T>(...[documents, returnType]: TApiPrismicRequestReturnTypeProps) {
     switch (returnType) {
       case 'first':
-        return _.first(documents) as T
+        return await this.injectRelationships<T>(_.first(documents))
       case 'last':
-        return _.last(documents) as T
+        return await this.injectRelationships<T>(_.last(documents))
       case 'all':
       default:
-        return documents as T
+        return await this.injectRelationships<T>(documents)
     }
   }
 
-  public async get<T>(...[type, config]: TApiPrismicRequestGetProps): Promise<T> {
+  private async injectRelationships<T>(...[documents]: TApiPrismicRequestInjectRelationshipsProps) {
+    if (!documents) return documents as T
+
+    for (const document of _.castArray(documents)) {
+      for (const [key, ids] of Object.entries(PrismicUtils.relationshipKeys(document))) {
+        const result = await this.getById(ids)
+        _.set(document.data, key, result)
+      }
+    }
+
+    return documents as T
+  }
+
+  public async getById(...[ids, config]: TApiPrismicRequestGetByIdProps) {
+    const result = await this.api.getByIDs(_.castArray(ids), {
+      fetchOptions: {
+        signal: config?.signal,
+      },
+    })
+
+    return await this.returnType(result.results, config?.return)
+  }
+
+  public async get<T>(...[type, config]: TApiPrismicRequestGetProps) {
     this.requestStarted(type)
 
     try {
@@ -69,14 +97,16 @@ export class PrismicRequesterApi extends RequesterApi<Client> {
 
       const result = await this.api.get({
         filters,
+        fetchLinks: ['technologies.technology.name'],
         fetchOptions: {
           signal: config?.signal,
         },
       })
+
       if (!result.results.length) throw new Error('No results found')
 
       this.requestFinished(type)
-      return this.returnByType<T>(result.results, config?.return)
+      return await this.returnType<T>(result.results, config?.return)
     } catch (err) {
       this.requestError(type)
       throw err

@@ -2,13 +2,10 @@ import { ZEFetcherStatus } from '@/enums/fetcher'
 
 import { z } from 'zod/v4'
 
-export const ZStoreFetcherAward = z.object({
-  id: z.string(),
-  name: z.string(),
-  slug: z.string(),
-  date: z.coerce.date(),
-  description: z.string(),
-})
+import { ZSchemaAward } from '../schema/award'
+
+export const ZStoreFetcherAward = ZSchemaAward
+
 export const ZStoreFetcherAwardsData = z.object({
   list: ZStoreFetcherAward.array(),
   status: ZEFetcherStatus,

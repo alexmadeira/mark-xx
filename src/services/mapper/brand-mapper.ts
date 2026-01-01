@@ -1,10 +1,10 @@
-import type { TSchemaBrand } from '@/services/schema/brand'
+import type { TRawSchemaBrand } from '@/services/schema/brand'
 import type { TStoreFetcherBrand } from '@/services/store/fetcher-brands'
 
 import _ from 'lodash'
 
 export class BrandMapper {
-  public static toStore(raw: TSchemaBrand): TStoreFetcherBrand {
+  public static toStore(raw: TRawSchemaBrand): TStoreFetcherBrand {
     return {
       id: raw.id,
       slug: raw.uid,

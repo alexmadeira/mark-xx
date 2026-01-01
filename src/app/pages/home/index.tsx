@@ -14,9 +14,9 @@ export function Home() {
   const HomeMasonry = masonry('home')
 
   const projects = useFetcherProjects((st) => st.data.list['home:projects'])
+
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 
-  console.log('masonryProjects', masonryProjects)
   return (
     <>
       <Helmet title="Home" />

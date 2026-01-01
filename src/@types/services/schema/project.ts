@@ -2,25 +2,39 @@ import { ZPrismicDocumentProject } from '@/prismic/mark-xx'
 
 import { z } from 'zod/v4'
 
-export const ZSchemaProjectTag = z.object({ id: z.string(), name: z.string() })
-export const ZSchemaProjectDate = z.object({ start: z.coerce.date() })
-export const ZSchemaProjectTimeline = z.object({ start: z.coerce.date(), end: z.coerce.date() })
-export const ZSchemaProjectTechnology = z.object({ id: z.string(), name: z.string() })
+import { ZSchemaTechnology } from './technology'
 
-export const ZSchemaProject = ZPrismicDocumentProject
-
-export const ZSchemaProjectPage = z.object({
-  // content: ZSchemaPageContent,
-  // properties: ZSchemaProject,
+export const ZRawSchemaProject = ZPrismicDocumentProject
+export const ZSchemaProject = z.object({
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  role: z.string(),
+  date: z.coerce.date(),
+  tags: z.string().array(),
+  color: z.string(),
+  company: z.string(),
+  teamSize: z.string(),
+  highlight: z.boolean(),
+  description: z.string(),
+  banner: z.url().optional(),
+  thumbnail: z.url().optional(),
+  bannerName: z.string().optional(),
+  bannerClass: z.string().optional(),
+  thumbnailClass: z.string().optional(),
+  timeline: z.object({ start: z.coerce.date(), end: z.coerce.date() }),
+  technologies: ZSchemaTechnology.array(),
 })
+
+export const ZRawSchemaProjectPage = z.object({
+  // content: ZRawSchemaPageContent,
+  // properties: ZRawSchemaProject,
+})
+
 //
 //
 //
 //
 
-export type TSchemaProjectTag = z.infer<typeof ZSchemaProjectTag>
-export type TSchemaProjectDate = z.infer<typeof ZSchemaProjectDate>
-export type TSchemaProjectTimeline = z.infer<typeof ZSchemaProjectTimeline>
-export type TSchemaProjectTechnology = z.infer<typeof ZSchemaProjectTechnology>
-export type TSchemaProject = z.infer<typeof ZSchemaProject>
-export type TSchemaProjectPage = z.infer<typeof ZSchemaProjectPage>
+export type TRawSchemaProject = z.infer<typeof ZRawSchemaProject>
+export type TRawSchemaProjectPage = z.infer<typeof ZRawSchemaProjectPage>

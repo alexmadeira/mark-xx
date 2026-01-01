@@ -2,7 +2,16 @@ import type { ProjectDocument, ProjectDocumentData } from './types'
 
 import { z } from 'zod/v4'
 
-export const ZPrismicDocumentProject = z.custom<ProjectDocument>()
+import { ZPrismicDocumentTechnology } from './technology'
+
+export const ZPrismicDocumentProject = z.intersection(
+  z.custom<ProjectDocument>(),
+  z.object({
+    data: z.object({
+      technologies: ZPrismicDocumentTechnology.array(),
+    }),
+  }),
+)
 export const ZPrismicDocumentProjectData = z.custom<ProjectDocumentData>()
 
 //

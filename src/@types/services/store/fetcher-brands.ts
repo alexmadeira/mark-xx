@@ -2,12 +2,9 @@ import { ZEFetcherStatus } from '@/enums/fetcher'
 
 import { z } from 'zod/v4'
 
-export const ZStoreFetcherBrand = z.object({
-  id: z.string(),
-  logo: z.url(),
-  name: z.string(),
-  slug: z.string(),
-})
+import { ZSchemaBrand } from '../schema/brand'
+
+export const ZStoreFetcherBrand = ZSchemaBrand
 
 export const ZStoreFetcherBrandsData = z.object({
   list: ZStoreFetcherBrand.array(),

@@ -8,9 +8,9 @@ export const ZProjectProject = z.object({
   description: z.string(),
   banner: z.url().optional(),
   bannerName: z.string().optional(),
-  bannerClass: z.string().optional(),
+  bannerClass: z.string().nullish(),
   thumbnail: z.url().optional(),
-  thumbnailClass: z.string().optional(),
+  thumbnailClass: z.string().nullish(),
   tags: z.string().array(),
 })
 export const ZProjectDetailsProps = z.intersection(ZProjectProject, z.object({ className: z.string().optional() }))
