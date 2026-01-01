@@ -3,6 +3,8 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TProjectsFetcherProps } from '@/services/fetcher/projects'
 
+import { ProjectMapper } from '_SRV/mapper/project-mapper'
+
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
@@ -14,10 +16,13 @@ export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
     const result = await this.api.query(
       'mark-xx:projects',
       ['mark-xx:projects', name, JSON.stringify(options.filter)],
-      options.filter,
+      {
+        return: 'all',
+        type: 'project',
+        fields: options.filter?.fields,
+      },
     )
-
-    this.projectsActions.setList(name, result)
+    this.projectsActions.setList(name, result.map(ProjectMapper.toStore))
 
     if (options.callback) options.callback()
   }

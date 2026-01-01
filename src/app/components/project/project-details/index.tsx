@@ -15,13 +15,12 @@ import { ProjectDetailsTag } from './project-details-tags'
 
 export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   const props = ZProjectDetailsProps.parse(data)
-
   const detailsRef = useRef<HTMLDivElement>(null)
   const CLOverlap = overlapController()
 
   useEffect(() => {
     CLOverlap.addElement(detailsRef.current, props.color)
-  }, [detailsRef.current])
+  }, [detailsRef.current, props])
 
   return (
     <div

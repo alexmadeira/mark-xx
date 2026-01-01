@@ -338,7 +338,7 @@ export interface ProjectDocumentDataTechnologiesItem {
 	 * - **API ID Path**: project.technologies[].technology
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
-	technology: prismic.ContentRelationshipField<"technologie">;
+	technology: prismic.ContentRelationshipField<"technology">;
 }
 
 /**
@@ -359,13 +359,13 @@ interface ProjectDocumentData {
 	/**
 	 * Descrição field in *Project*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.description
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	description: prismic.RichTextField;
+	description: prismic.KeyTextField;
 	
 	/**
 	 * Conteúdo field in *Project*
@@ -421,18 +421,60 @@ interface ProjectDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/color
 	 */
-	color: prismic.ColorField;
+	color: prismic.ColorField;/**
+	 * Nome field in *Project*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.banner_name
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_name: prismic.KeyTextField;
 	
 	/**
 	 * Banner field in *Project*
 	 *
-	 * - **Field Type**: Image
+	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.banner
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
-	banner: prismic.ImageField<"thumbnai">;/**
+	banner: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Banner classe field in *Project*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.banner_class
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_class: prismic.KeyTextField;
+	
+	/**
+	 * Thumbnail field in *Project*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.thumbnail
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	thumbnail: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * thumbnail classe field in *Project*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.thumbnail_class
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	thumbnail_class: prismic.KeyTextField;/**
 	 * De field in *Project*
 	 *
 	 * - **Field Type**: Date

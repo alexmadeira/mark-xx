@@ -58,10 +58,14 @@ export class PrismicRequesterApi extends RequesterApi<Client> {
 
   public async get<T>(...[type, config]: TApiPrismicRequestGetProps): Promise<T> {
     this.requestStarted(type)
+
     try {
       const filters = [filter.at('document.type', type)]
       if (config?.tags) filters.push(filter.at('document.tags', config.tags))
       if (config?.uid) filters.push(filter.at(`my.${type}.uid`, config.uid))
+      if (config?.fields) {
+        Object.entries(config.fields).forEach(([field, value]) => filters.push(filter.at(`my.${type}.${field}`, value)))
+      }
 
       const result = await this.api.get({
         filters,

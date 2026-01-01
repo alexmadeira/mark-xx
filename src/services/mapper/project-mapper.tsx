@@ -1,11 +1,13 @@
 import type { TMasonryContent } from '@/services/builder/masonry'
 import type { TSchemaProject } from '@/services/schema/project'
-import type { TStoreFetcherProjectsProjectProperties } from '@/services/store/fetcher-projects.ts'
+import type { TStoreFetcherProject } from '@/services/store/fetcher-projects.ts'
+
+import _ from 'lodash'
 
 export class ProjectMapper {
   protected constructor() {}
 
-  public static toMasonry(raw: TSchemaProject): TMasonryContent {
+  public static toMasonry(raw: TStoreFetcherProject): TMasonryContent<TStoreFetcherProject> {
     return {
       className: 'bg-black',
       link: `/project/${raw.slug}`,
@@ -14,24 +16,31 @@ export class ProjectMapper {
     }
   }
 
-  public static toStore(raw: TSchemaProject): TStoreFetcherProjectsProjectProperties {
+  public static toStore(raw: TSchemaProject): TStoreFetcherProject {
     return {
       id: raw.id,
-      name: raw.name,
-      slug: raw.slug,
-      role: raw.role,
-      color: raw.color,
-      company: raw.company,
-      teamSize: raw.teamSize,
-      bannerSrc: raw.bannerSrc,
-      highlight: raw.highlight,
-      bannerName: raw.bannerName,
-      description: raw.description,
-      bannerClass: raw.bannerClass,
-      tags: raw.tags.map((tag) => tag.name),
-      date: raw.date.start,
-      timeline: raw.timeline,
-      technologies: raw.technologies.map((tech) => tech.name),
+      slug: raw.uid,
+      tags: raw.tags,
+      name: _.presentsContent(_.get(raw, 'data.name')),
+      role: _.get(raw, 'data.role', ''),
+      color: _.get(raw, 'data.color', '#FFFFFF'),
+      teamSize: _.get(raw, 'data.team_size', ''),
+      highlight: _.get(raw, 'data.highlight', false),
+      banner: _.get(raw, 'data.banner.url'),
+      thumbnail: _.get(raw, 'data.thumbnail.url'),
+      bannerName: _.get(raw, 'data.banner_name', ''),
+      bannerClass: _.get(raw, 'data.banner_class', ''),
+      thumbnailClass: _.get(raw, 'data.banner_class', ''),
+      description: _.presentsContent(_.get(raw, 'data.description')),
+
+      company: 'Petland Brasil',
+
+      // date: new Date(_.get(raw, 'data.date', '')),
+      // timeline: {
+      //   start: new Date(_.get(raw, 'data.start_date', '')),
+      //   end: new Date(_.get(raw, 'data.end_date', '')),
+      // },
+      // technologies: ['test', 'teste 2'],
     }
   }
 }
