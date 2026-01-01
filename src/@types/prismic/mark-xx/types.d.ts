@@ -169,6 +169,44 @@ interface AwardDocumentData {
 export type AwardDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<AwardDocumentData>, "award", Lang>;
 
 /**
+ * Content for Brand documents
+ */
+interface BrandDocumentData {
+	/**
+	 * Nome field in *Brand*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: brand.name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * Logo field in *Brand*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: brand.logo
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	logo: prismic.ImageField<never>;
+}
+
+/**
+ * Brand document from Prismic
+ *
+ * - **API ID**: `brand`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BrandDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<BrandDocumentData>, "brand", Lang>;
+
+/**
  * Content for Company documents
  */
 interface CompanyDocumentData {
@@ -592,7 +630,7 @@ interface TechnologyDocumentData {
  */
 export type TechnologyDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<TechnologyDocumentData>, "technology", Lang>;
 
-export type AllDocumentTypes = AboutDocument | AwardDocument | CompanyDocument | HomeDocument | ProjectDocument | ProjectsDocument | TechnologyDocument;
+export type AllDocumentTypes = AboutDocument | AwardDocument | BrandDocument | CompanyDocument | HomeDocument | ProjectDocument | ProjectsDocument | TechnologyDocument;
 
 declare module "@prismicio/client" {
 	interface CreateClient {
@@ -613,6 +651,8 @@ declare module "@prismicio/client" {
 			AboutDocumentData,
 			AwardDocument,
 			AwardDocumentData,
+			BrandDocument,
+			BrandDocumentData,
 			CompanyDocument,
 			CompanyDocumentData,
 			HomeDocument,

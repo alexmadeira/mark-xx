@@ -34,7 +34,6 @@ export const markXXPaths = {
   },
   'mark-xx:brands': {
     method: 'get',
-    path: '/mark-xx/brands',
     schema: z.array(ZSchemaBrand),
   },
   'mark-xx:languages-usage': {
