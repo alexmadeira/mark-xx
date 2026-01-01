@@ -2,6 +2,7 @@ import { prismic, veronica } from '_SRV/api'
 
 import { AwardsFetcher } from './awards-fetcher'
 import { BrandsFetcher } from './brands-fetcher'
+import { CompaniesFetcher } from './companies-fetcher'
 import { PageFetcher } from './page-fetcher'
 import { PreFetcher } from './pre-fetcher'
 import { ProjectFetcher } from './project-fetcher'
@@ -11,10 +12,11 @@ import { UsageLanguagesFetcher } from './usage-languages-fetcher'
 
 let fetcherPre: PreFetcher
 let fetcherPage: PageFetcher
-let fetcherProject: ProjectFetcher
 let fetcherAwards: AwardsFetcher
 let fetcherBrands: BrandsFetcher
+let fetcherProject: ProjectFetcher
 let fetcherProjects: ProjectsFetcher
+let fetcherCompanies: CompaniesFetcher
 let fetcherTechnologies: TechnologiesFetcher
 let fetcherUsageLanguages: UsageLanguagesFetcher
 
@@ -38,6 +40,11 @@ export function brandsFetcher() {
 export function technologiesFetcher() {
   if (!fetcherTechnologies) fetcherTechnologies = new TechnologiesFetcher(prismic())
   return fetcherTechnologies
+}
+
+export function companiesFetcher() {
+  if (!fetcherCompanies) fetcherCompanies = new CompaniesFetcher(prismic())
+  return fetcherCompanies
 }
 export function pageFetcher() {
   if (!fetcherPage) fetcherPage = new PageFetcher(prismic())

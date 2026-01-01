@@ -4,6 +4,7 @@ import type { TStoreFetcherProject } from '@/services/store/fetcher-projects'
 
 import _ from 'lodash'
 
+import { CompanyMapper } from './company-mapper'
 import { TechnologyMapper } from './technology-mapper'
 
 export class ProjectMapper {
@@ -19,6 +20,8 @@ export class ProjectMapper {
   }
 
   public static toStore(raw: TRawSchemaProject): TStoreFetcherProject {
+    if (!raw.data.company.length) throw new Error(`Project ${raw.id} has no company associated.`)
+
     return {
       status: 'loading',
       id: raw.id,
@@ -41,7 +44,7 @@ export class ProjectMapper {
         end: new Date(_.get(raw, 'data.end_date', '')),
       },
       technologies: raw.data.technologies.map(TechnologyMapper.toStore),
-      company: 'Petland Brasil',
+      company: CompanyMapper.toStore(raw.data.company[0]),
     }
   }
 }

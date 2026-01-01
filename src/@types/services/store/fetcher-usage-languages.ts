@@ -1,8 +1,7 @@
 import { ZEFetcherStatus } from '@/enums/fetcher'
+import { ZSchemaUsageLanguage } from '@/services/schema/usage-language'
 
 import { z } from 'zod/v4'
-
-import { ZSchemaUsageLanguage } from '../schema/usage-language'
 
 export const ZStoreFetcherUsageLanguageList = z.array(ZSchemaUsageLanguage)
 export const ZStoreFetcherUsageLanguagesData = z.object({

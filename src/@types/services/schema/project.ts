@@ -2,6 +2,7 @@ import { ZPrismicDocumentProject } from '@/prismic/mark-xx'
 
 import { z } from 'zod/v4'
 
+import { ZSchemaCompany } from './company'
 import { ZSchemaTechnology } from './technology'
 
 export const ZRawSchemaProject = ZPrismicDocumentProject
@@ -13,7 +14,6 @@ export const ZSchemaProject = z.object({
   date: z.coerce.date(),
   tags: z.string().array(),
   color: z.string(),
-  company: z.string(),
   teamSize: z.string(),
   highlight: z.boolean(),
   description: z.string(),
@@ -23,12 +23,8 @@ export const ZSchemaProject = z.object({
   bannerClass: z.string().optional(),
   thumbnailClass: z.string().optional(),
   timeline: z.object({ start: z.coerce.date(), end: z.coerce.date() }),
+  company: ZSchemaCompany,
   technologies: ZSchemaTechnology.array(),
-})
-
-export const ZRawSchemaProjectPage = z.object({
-  // content: ZRawSchemaPageContent,
-  // properties: ZRawSchemaProject,
 })
 
 //
@@ -37,4 +33,4 @@ export const ZRawSchemaProjectPage = z.object({
 //
 
 export type TRawSchemaProject = z.infer<typeof ZRawSchemaProject>
-export type TRawSchemaProjectPage = z.infer<typeof ZRawSchemaProjectPage>
+export type tSchemaProject = z.infer<typeof ZSchemaProject>

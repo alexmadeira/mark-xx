@@ -2,8 +2,9 @@ import type { TRequesterPaths } from '@/services/builder/requester'
 
 import { ZRawSchemaAward } from '@/services/schema/award'
 import { ZRawSchemaBrand } from '@/services/schema/brand'
+import { ZRawSchemaCompany } from '@/services/schema/company'
 import { ZRawSchemaPage } from '@/services/schema/page'
-import { ZRawSchemaProject, ZRawSchemaProjectPage } from '@/services/schema/project'
+import { ZRawSchemaProject } from '@/services/schema/project'
 import { ZRawSchemaTechnology } from '@/services/schema/technology'
 import { ZRawSchemaUsageLanguage } from '@/services/schema/usage-language'
 
@@ -21,7 +22,7 @@ export const markXXPaths = {
   'mark-xx:project': {
     method: 'get',
     path: '/mark-xx/project',
-    schema: ZRawSchemaProjectPage,
+    schema: ZRawSchemaProject,
   },
   'mark-xx:page': {
     method: 'get',
@@ -34,6 +35,10 @@ export const markXXPaths = {
   'mark-xx:brands': {
     method: 'get',
     schema: z.array(ZRawSchemaBrand),
+  },
+  'mark-xx:companies': {
+    method: 'get',
+    schema: z.array(ZRawSchemaCompany),
   },
   'mark-xx:languages-usage': {
     method: 'get',

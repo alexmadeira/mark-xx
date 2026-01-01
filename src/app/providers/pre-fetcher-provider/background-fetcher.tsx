@@ -8,7 +8,10 @@ export function BackgroundFetcher() {
   const FProject = projectFetcher()
   const FPreFetcher = preFetcher()
 
-  BLoader.on('Loader:Finished', FPreFetcher.runBackground.bind(FPreFetcher))
+  BLoader.on('Loader:Finished', () => {
+    // console.log('BackgroundFetcher: Loader Finished - Starting background prefetching')
+    // FPreFetcher.runBackground.bind(FPreFetcher)
+  })
 
   const projects = useFetcherProjects((st) => st.data.list.projects) || []
   FPreFetcher.addBackgroundPrefetcher(projects.map((project) => FProject.prefetch(project.slug)))

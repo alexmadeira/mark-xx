@@ -97,7 +97,6 @@ export class PrismicRequesterApi extends RequesterApi<TApiPrismicInstance> {
 
       const result = await this.api.get({
         filters,
-        fetchLinks: ['technologies.technology.name'],
         fetchOptions: {
           signal: config?.signal,
         },

@@ -1,8 +1,7 @@
 import { ZEFetcherStatus } from '@/enums/fetcher'
+import { ZSchemaBrand } from '@/services/schema/brand'
 
 import { z } from 'zod/v4'
-
-import { ZSchemaBrand } from '../schema/brand'
 
 export const ZStoreFetcherBrand = ZSchemaBrand
 
