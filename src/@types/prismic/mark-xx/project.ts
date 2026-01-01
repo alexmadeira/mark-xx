@@ -2,6 +2,7 @@ import type { ProjectDocument, ProjectDocumentData } from './types'
 
 import { z } from 'zod/v4'
 
+import { ZPrismicDocumentCompany } from './company'
 import { ZPrismicDocumentTechnology } from './technology'
 
 export const ZPrismicDocumentProject = z.intersection(
@@ -9,6 +10,7 @@ export const ZPrismicDocumentProject = z.intersection(
   z.object({
     data: z.object({
       technologies: ZPrismicDocumentTechnology.array(),
+      company: ZPrismicDocumentCompany.array(),
     }),
   }),
 )

@@ -11,6 +11,7 @@ export * from './brand'
 export * from './about'
 export * from './award'
 export * from './project'
+export * from './company'
 export * from './projects'
 export * from './technology'
 

@@ -1,8 +1,8 @@
 import type { TTimer } from '../utils/timer'
 
-import { z } from 'zod/v4'
+import { ZSchemaTechnology } from '@/services/schema/technology'
 
-import { ZSchemaTechnology } from '../schema/technology'
+import { z } from 'zod/v4'
 
 export const ZHeroTimeout = z.custom<TTimer>().nullish()
 export const ZHeroControll = z.object({
