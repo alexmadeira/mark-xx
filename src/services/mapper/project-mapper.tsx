@@ -1,8 +1,10 @@
 import type { TMasonryContent } from '@/services/builder/masonry'
-import type { TSchemaProject } from '@/services/schema/project'
-import type { TStoreFetcherProject } from '@/services/store/fetcher-projects.ts'
+import type { TRawSchemaProject } from '@/services/schema/project'
+import type { TStoreFetcherProject } from '@/services/store/fetcher-projects'
 
 import _ from 'lodash'
+
+import { TechnologyMapper } from './technology-mapper'
 
 export class ProjectMapper {
   protected constructor() {}
@@ -16,11 +18,13 @@ export class ProjectMapper {
     }
   }
 
-  public static toStore(raw: TSchemaProject): TStoreFetcherProject {
+  public static toStore(raw: TRawSchemaProject): TStoreFetcherProject {
     return {
+      status: 'loading',
       id: raw.id,
       slug: raw.uid,
       tags: raw.tags,
+      date: new Date(_.get(raw, 'data.date', '')),
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
       color: _.get(raw, 'data.color', '#FFFFFF'),
@@ -32,15 +36,12 @@ export class ProjectMapper {
       bannerClass: _.get(raw, 'data.banner_class', ''),
       thumbnailClass: _.get(raw, 'data.banner_class', ''),
       description: _.presentsContent(_.get(raw, 'data.description')),
-
+      timeline: {
+        start: new Date(_.get(raw, 'data.start_date', '')),
+        end: new Date(_.get(raw, 'data.end_date', '')),
+      },
+      technologies: raw.data.technologies.map(TechnologyMapper.toStore),
       company: 'Petland Brasil',
-
-      // date: new Date(_.get(raw, 'data.date', '')),
-      // timeline: {
-      //   start: new Date(_.get(raw, 'data.start_date', '')),
-      //   end: new Date(_.get(raw, 'data.end_date', '')),
-      // },
-      // technologies: ['test', 'teste 2'],
     }
   }
 }

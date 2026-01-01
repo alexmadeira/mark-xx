@@ -1,10 +1,10 @@
-import type { TSchemaTechnology } from '@/services/schema/technology'
+import type { TRawSchemaTechnology } from '@/services/schema/technology'
 import type { TStoreFetcherTechnology } from '@/services/store/fetcher-technologies'
 
 import _ from 'lodash'
 
 export class TechnologyMapper {
-  public static toStore(raw: TSchemaTechnology): TStoreFetcherTechnology {
+  public static toStore(raw: TRawSchemaTechnology): TStoreFetcherTechnology {
     const baseData: TStoreFetcherTechnology = {
       id: raw.id,
       name: _.get(raw, 'data.name', ''),

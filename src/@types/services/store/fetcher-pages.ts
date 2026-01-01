@@ -4,18 +4,11 @@ import { ZEPageStatus } from '@/enums/page'
 
 import { z } from 'zod/v4'
 
-export const ZStoreFetcherPagesEmptyProperties = z.object({
-  status: ZEPageStatus.exclude(['loaded']),
-})
+import { ZSchemaPage } from '../schema/page'
 
 export const ZStoreFetcherPagesBaseProperties = z.object({
+  ...ZSchemaPage.shape,
   status: ZEPageStatus,
-  id: z.string(),
-  slug: z.string(),
-  color: z.string(),
-  title: z.string(),
-  description: z.string(),
-  subTitle: z.string().optional(),
 })
 
 export const ZStoreFetcherPagesHomeProperties = z.object({
@@ -57,7 +50,6 @@ export const ZStoreFetcherPages = z.object({
 //
 //
 
-export type TStoreFetcherPagesEmptyProperties = z.infer<typeof ZStoreFetcherPagesEmptyProperties>
 export type TStoreFetcherPagesBaseProperties = z.infer<typeof ZStoreFetcherPagesBaseProperties>
 export type TStoreFetcherPagesHomeProperties = z.infer<typeof ZStoreFetcherPagesHomeProperties>
 export type TStoreFetcherPagesAboutProperties = z.infer<typeof ZStoreFetcherPagesAboutProperties>

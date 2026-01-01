@@ -1,10 +1,10 @@
-import type { TSchemaAward } from '@/services/schema/award'
+import type { TRawSchemaAward } from '@/services/schema/award'
 import type { TStoreFetcherAward } from '@/services/store/fetcher-awards'
 
 import _ from 'lodash'
 
 export class AwardMapper {
-  public static toStore(raw: TSchemaAward): TStoreFetcherAward {
+  public static toStore(raw: TRawSchemaAward): TStoreFetcherAward {
     return {
       id: raw.id,
       name: _.get(raw, 'data.name', ''),

@@ -22,6 +22,7 @@ export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
         fields: options.filter?.fields,
       },
     )
+
     this.projectsActions.setList(name, result.map(ProjectMapper.toStore))
 
     if (options.callback) options.callback()

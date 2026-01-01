@@ -1,11 +1,11 @@
-import type { TSchemaPage } from '@/services/schema/page.ts'
+import type { TRawSchemaPage } from '@/services/schema/page.ts'
 import type { TStoreFetcherPagesAnyData } from '@/services/store/fetcher-pages.ts'
 
 import { asHTML } from '@prismicio/client'
 import _ from 'lodash'
 
 export class PageMapper {
-  public static toStore(raw: TSchemaPage): TStoreFetcherPagesAnyData {
+  public static toStore(raw: TRawSchemaPage): TStoreFetcherPagesAnyData {
     const baseData: TStoreFetcherPagesAnyData = {
       status: 'loading',
       id: raw.id,
