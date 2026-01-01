@@ -14,6 +14,7 @@ export const ZSchemaProject = z.object({
   date: z.coerce.date(),
   tags: z.string().array(),
   color: z.string(),
+  content: z.string(),
   teamSize: z.string(),
   highlight: z.boolean(),
   description: z.string(),

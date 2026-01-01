@@ -21,7 +21,6 @@ export const markXXPaths = {
   },
   'mark-xx:project': {
     method: 'get',
-    path: '/mark-xx/project',
     schema: ZRawSchemaProject,
   },
   'mark-xx:page': {

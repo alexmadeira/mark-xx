@@ -3,6 +3,8 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TProjectsFetcherProps } from '@/services/fetcher/projects'
 
+import _ from 'lodash'
+
 import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
@@ -19,6 +21,7 @@ export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
       {
         return: 'all',
         type: 'project',
+        tags: _.castArray(options.filter?.tags || []),
         fields: options.filter?.fields,
       },
     )

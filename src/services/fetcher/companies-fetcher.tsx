@@ -3,6 +3,8 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TCompaniesFetcherProps } from '@/services/fetcher/companies'
 
+import _ from 'lodash'
+
 import { CompanyMapper } from '_SRV/mapper/company-mapper'
 
 import { useFetcherCompanies } from '_STR/useFetcherCompanies'
@@ -18,6 +20,8 @@ export class CompaniesFetcher implements IFetcher<TCompaniesFetcherProps> {
       const result = await this.api.query('mark-xx:companies', ['mark-xx:companies', name], {
         return: 'all',
         type: 'company',
+        tags: _.castArray(options.filter?.tags || []),
+        fields: options.filter?.fields,
       })
 
       this.companiesActions.setList(result.map(CompanyMapper.toStore))

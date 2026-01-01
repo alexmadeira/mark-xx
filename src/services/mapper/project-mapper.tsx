@@ -2,6 +2,7 @@ import type { TMasonryContent } from '@/services/builder/masonry'
 import type { TRawSchemaProject } from '@/services/schema/project'
 import type { TStoreFetcherProject } from '@/services/store/fetcher-projects'
 
+import { asHTML } from '@prismicio/client'
 import _ from 'lodash'
 
 import { CompanyMapper } from './company-mapper'
@@ -31,14 +32,15 @@ export class ProjectMapper {
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
       color: _.get(raw, 'data.color', '#FFFFFF'),
+      banner: _.get(raw, 'data.banner.url'),
+      content: _.presentsContent(asHTML(_.get(raw, 'data.content'))),
       teamSize: _.get(raw, 'data.team_size', ''),
       highlight: _.get(raw, 'data.highlight', false),
-      banner: _.get(raw, 'data.banner.url'),
       thumbnail: _.get(raw, 'data.thumbnail.url'),
       bannerName: _.get(raw, 'data.banner_name', ''),
       bannerClass: _.get(raw, 'data.banner_class', ''),
-      thumbnailClass: _.get(raw, 'data.banner_class', ''),
       description: _.presentsContent(_.get(raw, 'data.description')),
+      thumbnailClass: _.get(raw, 'data.banner_class', ''),
       timeline: {
         start: new Date(_.get(raw, 'data.start_date', '')),
         end: new Date(_.get(raw, 'data.end_date', '')),

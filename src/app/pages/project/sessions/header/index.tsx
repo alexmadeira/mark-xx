@@ -44,7 +44,7 @@ export function Header() {
           <CalendarDays className="w-[clamp(1rem,1.5vw,2rem)]" /> {bornYear}
         </span>
         <span className="flex items-center justify-center gap-2">
-          <Building2 className="w-[clamp(1rem,1.3vw,2rem)]" /> {project.company.name}
+          <Building2 className="w-[clamp(1rem,1.3vw,2rem)]" /> {project.company?.name}
         </span>
       </p>
     </div>

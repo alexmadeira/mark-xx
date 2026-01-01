@@ -51,10 +51,8 @@ export class PrismicRequesterApi extends RequesterApi<TApiPrismicInstance> {
 
   private async returnType<T>(...[documents, returnType]: TApiPrismicRequestReturnTypeProps) {
     switch (returnType) {
-      case 'first':
+      case 'one':
         return await this.injectRelationships<T>(_.first(documents))
-      case 'last':
-        return await this.injectRelationships<T>(_.last(documents))
       case 'all':
       default:
         return await this.injectRelationships<T>(documents)

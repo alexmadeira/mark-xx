@@ -10,7 +10,7 @@ export function ProjectDetailsImage(props: TProjectDetailsContentProps) {
         data-src={props.thumbnail}
         alt={props.bannerName}
         className={twMerge(
-          'h-full min-h-full w-full min-w-full scale-[1.005] object-cover grayscale transition-all duration-[2s] group-hover/masonry-item:scale-120 group-hover/masonry-item:grayscale-0 group-hover/masonry-item:duration-[8s]',
+          'h-full min-h-full w-full min-w-full scale-[1.005] object-cover transition-all duration-[2s] group-hover/masonry-item:scale-120 group-hover/masonry-item:duration-[8s]',
           props.thumbnailClass,
         )}
       />
