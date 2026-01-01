@@ -3,6 +3,8 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TBrandsFetcherProps } from '@/services/fetcher/brands'
 
+import _ from 'lodash'
+
 import { BrandMapper } from '_SRV/mapper/brand-mapper'
 
 import { useFetcherBrands } from '_STR/useFetcherBrands'
@@ -18,6 +20,8 @@ export class BrandsFetcher implements IFetcher<TBrandsFetcherProps> {
       const result = await this.api.query('mark-xx:brands', ['mark-xx:brands', name], {
         return: 'all',
         type: 'brand',
+        tags: _.castArray(options.filter?.tags || []),
+        fields: options.filter?.fields,
       })
 
       this.brandsActions.setList(result.map(BrandMapper.toStore))

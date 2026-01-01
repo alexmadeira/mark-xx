@@ -21,6 +21,7 @@ export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> 
         return: 'all',
         type: 'technology',
         tags: _.castArray(options.filter?.tags || []),
+        fields: options.filter?.fields,
       })
 
       this.technologiesActions.setList(result.map(TechnologyMapper.toStore))

@@ -3,6 +3,8 @@ import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TAwardsFetcherProps } from '@/services/fetcher/awards'
 
+import _ from 'lodash'
+
 import { AwardMapper } from '_SRV/mapper/award-mapper'
 
 import { useFetcherAwards } from '_STR/useFetcherAwards'
@@ -18,6 +20,8 @@ export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
       const result = await this.api.query('mark-xx:awards', ['mark-xx:awards', name], {
         return: 'all',
         type: 'award',
+        tags: _.castArray(options.filter?.tags || []),
+        fields: options.filter?.fields,
       })
 
       this.awardsActions.setList(result.map(AwardMapper.toStore))

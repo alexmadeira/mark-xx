@@ -16,7 +16,7 @@ export class PageFetcher implements IFetcher<TPageFetcherProps, TEPrismicPageTyp
   public async fetch(slug: TEPrismicPageType, options: TPageFetcherProps = {}) {
     try {
       this.pagesActions.setPageStatus(slug, 'loading')
-      const result = await this.api.query('mark-xx:page', ['mark-xx:page', slug], { type: slug, return: 'first' })
+      const result = await this.api.query('mark-xx:page', ['mark-xx:page', slug], { type: slug, return: 'one' })
 
       if (options.callback) options.callback()
 
