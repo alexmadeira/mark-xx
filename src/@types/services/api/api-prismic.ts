@@ -12,6 +12,9 @@ export const ZApiPrismicRequestError = z.custom<PrismicError<unknown>>()
 export const ZApiPrismicRequestConfig = z.object({
   uid: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  fields: z
+    .record(z.string(), z.union([z.string(), z.number(), z.boolean(), z.coerce.date(), z.string().array()]))
+    .optional(),
   return: ZEPrismicReturnType.optional(),
   signal: z.custom<AbortSignalLike>().optional(),
 })

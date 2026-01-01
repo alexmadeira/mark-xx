@@ -16,7 +16,6 @@ export const markXXPaths = {
   },
   'mark-xx:projects': {
     method: 'get',
-    path: '/mark-xx/projects',
     schema: z.array(ZSchemaProject),
   },
   'mark-xx:project': {

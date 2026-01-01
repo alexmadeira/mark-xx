@@ -3,7 +3,7 @@ import {
   brandsFetcher,
   pageFetcher,
   preFetcher,
-  // projectsFetcher,
+  projectsFetcher,
   technologiesFetcher,
   // usageLanguagesFetcher,
 } from '_SRV/fetcher'
@@ -12,7 +12,7 @@ export function PreFetcher() {
   const FPage = pageFetcher()
   const FAwards = awardsFetcher()
   const FBrands = brandsFetcher()
-  // const FProjects = projectsFetcher()
+  const FProjects = projectsFetcher()
   const FTechnologies = technologiesFetcher()
 
   // const FUsageLanguages = usageLanguagesFetcher()
@@ -26,7 +26,7 @@ export function PreFetcher() {
     FAwards.prefetch('about:awards'),
     FBrands.prefetch('about:brands'),
     // FProjects.prefetch('projects'),
-    // FProjects.prefetch('home-projects', { filter: { highlight: true } }),
+    FProjects.prefetch('home:projects', { filter: { fields: { highlight: true } } }),
     FTechnologies.prefetch('banner:technologies', { filter: { tags: ['banner'] } }),
     // FUsageLanguages.prefetch('about:usage-languages'),
   ])

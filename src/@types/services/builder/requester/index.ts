@@ -31,6 +31,9 @@ export const ZRequesterPrismicQueryParams = z.object({
   return: ZEPrismicReturnType,
   uid: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  fields: z
+    .record(z.string(), z.union([z.string(), z.number(), z.boolean(), z.coerce.date(), z.string().array()]))
+    .optional(),
 })
 
 export const ZRequesterPrismicQueryData = ZRequesterBaseData.extend({
@@ -89,6 +92,9 @@ export function ZRequesterFetchProps<T extends z.infer<typeof ZRequesterPaths>, 
     config: z.object({
       uid: z.string().optional(),
       tags: z.array(z.string()).optional(),
+      fields: z
+        .record(z.string(), z.union([z.string(), z.number(), z.boolean(), z.coerce.date(), z.string().array()]))
+        .optional(),
       return: ZEPrismicReturnType.optional(),
       signal: z.custom<AbortSignal>().optional(),
       params: z.custom<z.infer<T[K]['params']>>().optional(),

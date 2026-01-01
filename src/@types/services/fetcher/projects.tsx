@@ -2,10 +2,10 @@ import { z } from 'zod/v4'
 
 export const ZProjectsFetcherCallback = z.custom<() => z.infer<z.ZodVoid>>().nullish()
 export const ZProjectsFetcherFilter = z.object({
-  role: z.string().optional(),
-  company: z.string().optional(),
-  highlight: z.boolean().optional(),
-  technologies: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  fields: z
+    .record(z.string(), z.union([z.string(), z.number(), z.boolean(), z.coerce.date(), z.string().array()]))
+    .optional(),
 })
 
 export const ZProjectsFetcherProps = z.object({
