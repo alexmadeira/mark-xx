@@ -12,7 +12,7 @@ import { Header } from './sessions/header'
 export function Projects() {
   const ProjectsMasonry = masonry('projects')
 
-  const projects = useFetcherProjects((st) => st.data.list.projects)
+  const projects = useFetcherProjects((st) => st.data.list['all:projects'])
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 
   return (

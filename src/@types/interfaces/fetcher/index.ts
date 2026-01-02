@@ -4,7 +4,7 @@ export type TFetcherPrefetch = {
   fetch: () => Promise<void>
 }
 
-export interface IFetcher<TOptions = unknown> {
-  fetch: (name: string, options: TOptions) => Promise<void>
-  prefetch: (name: string, options: TOptions) => TFetcherPrefetch
+export interface IFetcher<TOptions, TName extends string = string> {
+  fetch(name: TName, options: TOptions): Promise<void>
+  prefetch(name: TName, options: TOptions): TFetcherPrefetch
 }

@@ -1,15 +1,21 @@
 import { ZEFetcherStatus } from '@/enums/fetcher'
-import { ZSchemaTechnology } from '@/services/schema/technology'
 
 import { z } from 'zod/v4'
 
-export const ZStoreFetcherTechnologyList = z.array(ZSchemaTechnology)
+export const ZStoreFetcherTechnology = z.object({
+  id: z.string(),
+  name: z.string(),
+  color: z.string(),
+  type: z.string(),
+  banner: z.string().optional(),
+})
+
 export const ZStoreFetcherTechnologiesData = z.object({
-  list: ZStoreFetcherTechnologyList,
+  list: ZStoreFetcherTechnology.array(),
   status: ZEFetcherStatus,
 })
 export const ZStoreFetcherTechnologiesActions = z.object({
-  setList: z.custom<(awards: z.infer<typeof ZStoreFetcherTechnologyList>) => void>(),
+  setList: z.custom<(technologies: z.infer<typeof ZStoreFetcherTechnology>[]) => void>(),
   setStatus: z.custom<(status: z.infer<typeof ZEFetcherStatus>) => void>(),
 })
 export const ZStoreFetcherTechnologies = z.object({
@@ -22,7 +28,7 @@ export const ZStoreFetcherTechnologies = z.object({
 //
 //
 
-export type TStoreFetcherTechnologieList = z.infer<typeof ZStoreFetcherTechnologyList>
+export type TStoreFetcherTechnology = z.infer<typeof ZStoreFetcherTechnology>
 export type TStoreFetcherTechnologiesData = z.infer<typeof ZStoreFetcherTechnologiesData>
 export type TStoreFetcherTechnologiesActions = z.infer<typeof ZStoreFetcherTechnologiesActions>
 export type TStoreFetcherTechnologies = z.infer<typeof ZStoreFetcherTechnologies>

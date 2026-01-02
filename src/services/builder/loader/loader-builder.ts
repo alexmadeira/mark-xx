@@ -9,17 +9,18 @@ import type {
   TLoaderEventSubscribeProps,
   TLoaderProps,
 } from '@/services/builder/loader'
+import type { TLoaderAddInstanceProps } from '@/services/builder/loader/requests'
 
 import _ from 'lodash'
 
 import { useLoader } from '_STR/useLoader'
 
-export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TRequestInstance> {
+export class LoaderBuilder implements ILoader {
   private readonly loaderActions = useLoader.getState().actions
   private readonly listeners: TLoaderEventListeners
 
   constructor(
-    private readonly requestsLoader: ILoaderRequests<TRequestInstance>,
+    private readonly requestsLoader: ILoaderRequests,
     private readonly mediasLoader: ILoaderMedias,
     private readonly progressLoader: ILoaderProgress,
     private readonly _props: TLoaderProps,
@@ -129,7 +130,13 @@ export class LoaderBuilder<TRequestInstance = unknown> implements ILoader<TReque
     return () => this.listeners[type].delete(callback)
   }
 
-  public addInstance(instance: TRequestInstance) {
+  public addInstance(...[instance]: TLoaderAddInstanceProps) {
     this.requestsLoader.addInstance(instance)
   }
+
+  public requestError(_requestKey: string) {}
+
+  public requestStarted(_requestKey: string) {}
+
+  public requestFinished(_requestKey: string) {}
 }

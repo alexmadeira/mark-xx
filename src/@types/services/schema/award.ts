@@ -1,15 +1,15 @@
+import { ZPrismicDocumentAward } from '@/prismic/mark-xx'
+
 import { z } from 'zod/v4'
 
-export const ZSchemaAwardDate = z.object({ start: z.coerce.date() })
+export const ZRawSchemaAward = ZPrismicDocumentAward
 
 export const ZSchemaAward = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
+  date: z.coerce.date(),
   description: z.string(),
-  date: ZSchemaAwardDate,
-  createdAt: z.coerce.date(),
-  lastEdited: z.coerce.date(),
 })
 
 //
@@ -17,5 +17,5 @@ export const ZSchemaAward = z.object({
 //
 //
 
-export type TSchemaAwardDate = z.infer<typeof ZSchemaAwardDate>
+export type TRawSchemaAward = z.infer<typeof ZRawSchemaAward>
 export type TSchemaAward = z.infer<typeof ZSchemaAward>
