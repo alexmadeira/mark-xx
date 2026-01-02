@@ -1,45 +1,37 @@
-import { ZSchemaPageContent } from '@/services/schema/page.ts'
+import { ZPrismicDocumentProject } from '@/prismic/mark-xx'
 
 import { z } from 'zod/v4'
 
-export const ZSchemaProjectTag = z.object({ id: z.string(), name: z.string() })
-export const ZSchemaProjectDate = z.object({ start: z.coerce.date() })
-export const ZSchemaProjectTimeline = z.object({ start: z.coerce.date(), end: z.coerce.date() })
-export const ZSchemaProjectTechnology = z.object({ id: z.string(), name: z.string() })
+import { ZSchemaCompany } from './company'
+import { ZSchemaTechnology } from './technology'
 
+export const ZRawSchemaProject = ZPrismicDocumentProject
 export const ZSchemaProject = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
   role: z.string(),
+  date: z.coerce.date(),
+  tags: z.string().array(),
   color: z.string(),
-  company: z.string(),
+  content: z.string(),
   teamSize: z.string(),
-  bannerSrc: z.url(),
   highlight: z.boolean(),
-  bannerName: z.string(),
   description: z.string(),
+  banner: z.url().optional(),
+  thumbnail: z.url().optional(),
+  bannerName: z.string().optional(),
   bannerClass: z.string().optional(),
-  tags: z.array(ZSchemaProjectTag),
-  date: ZSchemaProjectDate,
-  timeline: ZSchemaProjectTimeline,
-  technologies: z.array(ZSchemaProjectTechnology),
-  createdAt: z.coerce.date(),
-  lastEdited: z.coerce.date(),
+  thumbnailClass: z.string().optional(),
+  timeline: z.object({ start: z.coerce.date(), end: z.coerce.date() }),
+  company: ZSchemaCompany,
+  technologies: ZSchemaTechnology.array(),
 })
 
-export const ZSchemaProjectPage = z.object({
-  content: ZSchemaPageContent,
-  properties: ZSchemaProject,
-})
 //
 //
 //
 //
 
-export type TSchemaProjectTag = z.infer<typeof ZSchemaProjectTag>
-export type TSchemaProjectDate = z.infer<typeof ZSchemaProjectDate>
-export type TSchemaProjectTimeline = z.infer<typeof ZSchemaProjectTimeline>
-export type TSchemaProjectTechnology = z.infer<typeof ZSchemaProjectTechnology>
-export type TSchemaProject = z.infer<typeof ZSchemaProject>
-export type TSchemaProjectPage = z.infer<typeof ZSchemaProjectPage>
+export type TRawSchemaProject = z.infer<typeof ZRawSchemaProject>
+export type tSchemaProject = z.infer<typeof ZSchemaProject>

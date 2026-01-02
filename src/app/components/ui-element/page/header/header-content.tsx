@@ -32,7 +32,7 @@ export function HeaderContent(props: TPageHeaderContentProps) {
           <div className="flex flex-col gap-20 lg:col-span-12 xl:col-span-9 2xl:col-span-9">
             <div
               className="flex flex-col gap-[clamp(1rem,2vw,2rem)] text-[clamp(1rem,2vw,1.5rem)] leading-[clamp(1.5rem,3vw,2rem)] font-light"
-              dangerouslySetInnerHTML={{ __html: page.content || '' }}
+              dangerouslySetInnerHTML={{ __html: page.description }}
             />
           </div>
         </div>

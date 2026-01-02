@@ -1,15 +1,14 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
+import type { Requester } from '_SRV/builder/requester'
 import type { IFetcher } from '@/interfaces/fetcher'
 import type { TUsageLanguageFetcherProps } from '@/services/fetcher/usage-language'
-
-import { ApiRequester } from '_SRV/api/api-requester'
 
 import { useFetcherUsageLanguages } from '_STR/useFetcherUsageLanguages'
 
 export class UsageLanguagesFetcher implements IFetcher<TUsageLanguageFetcherProps> {
   private readonly usageLanguageActions = useFetcherUsageLanguages.getState().actions
 
-  constructor(private readonly api: ApiRequester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TUsageLanguageFetcherProps = {}) {
     this.usageLanguageActions.setStatus('loading')

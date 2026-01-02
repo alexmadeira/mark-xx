@@ -1,2 +1,3 @@
 node_modules
 *.html
+src/@types/prismic/**/types.d.ts

@@ -13,7 +13,8 @@ import { Hero } from './sessions/hero'
 export function Home() {
   const HomeMasonry = masonry('home')
 
-  const projects = useFetcherProjects((st) => st.data.list['home-projects'])
+  const projects = useFetcherProjects((st) => st.data.list['home:projects'])
+
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
 
   return (

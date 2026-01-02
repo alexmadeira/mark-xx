@@ -204,7 +204,6 @@ export class MasonryBuilder {
       />
     )
   }
-  // 'md:
 
   public render({ contents, ...props }: TMasonryRenderProps) {
     this.setContents(contents)

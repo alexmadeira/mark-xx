@@ -1,26 +1,44 @@
+import type { ZEPrismicPageType } from '@/enums/prismic'
+
 import { ZEPageStatus } from '@/enums/page'
+import { ZSchemaPage } from '@/services/schema/page'
 
 import { z } from 'zod/v4'
 
-export const ZStoreFetcherPagesPageProperties = z.object({
-  id: z.string(),
-  name: z.string(),
-  slug: z.string(),
-  movie: z.string().optional(),
-  content: z.string().optional(),
-  subTitle: z.string().optional(),
-})
-export const ZStoreFetcherPagesPageMeta = z.object({
+export const ZStoreFetcherPagesBaseProperties = z.object({
+  ...ZSchemaPage.shape,
   status: ZEPageStatus,
 })
-export const ZStoreFetcherPagesPage = z.intersection(ZStoreFetcherPagesPageProperties, ZStoreFetcherPagesPageMeta)
 
-export const ZStoreFetcherPagesData = z.record(z.string(), ZStoreFetcherPagesPage)
-export const ZStoreFetcherPagesActions = z.object({
-  createPage: z.custom<(name: string) => void>(),
-  setPageStatus: z.custom<(name: string, status: z.infer<typeof ZEPageStatus>) => void>(),
-  setPage: z.custom<(name: string, content: z.infer<typeof ZStoreFetcherPagesPageProperties>) => void>(),
+export const ZStoreFetcherPagesHomeProperties = z.object({
+  ...ZStoreFetcherPagesBaseProperties.shape,
 })
+export const ZStoreFetcherPagesProjectsProperties = z.object({
+  ...ZStoreFetcherPagesBaseProperties.shape,
+})
+export const ZStoreFetcherPagesAboutProperties = z.object({
+  ...ZStoreFetcherPagesBaseProperties.shape,
+  movie: z.url(),
+})
+
+export const ZStoreFetcherPagesData = z.object({
+  home: ZStoreFetcherPagesHomeProperties,
+  about: ZStoreFetcherPagesAboutProperties,
+  projects: ZStoreFetcherPagesProjectsProperties,
+})
+
+export const ZStoreFetcherPagesAnyData = z.union([
+  ZStoreFetcherPagesHomeProperties,
+  ZStoreFetcherPagesAboutProperties,
+  ZStoreFetcherPagesProjectsProperties,
+])
+
+export const ZStoreFetcherPagesActions = z.object({
+  setPage:
+    z.custom<(name: z.infer<typeof ZEPrismicPageType>, content: z.infer<typeof ZStoreFetcherPagesAnyData>) => void>(),
+  setPageStatus: z.custom<(name: z.infer<typeof ZEPrismicPageType>, status: z.infer<typeof ZEPageStatus>) => void>(),
+})
+
 export const ZStoreFetcherPages = z.object({
   data: ZStoreFetcherPagesData,
   actions: ZStoreFetcherPagesActions,
@@ -31,9 +49,11 @@ export const ZStoreFetcherPages = z.object({
 //
 //
 
-export type TStoreFetcherPagesPageProperties = z.infer<typeof ZStoreFetcherPagesPageProperties>
-export type TStoreFetcherPagesPageMeta = z.infer<typeof ZStoreFetcherPagesPageMeta>
-export type TStoreFetcherPagesPage = z.infer<typeof ZStoreFetcherPagesPage>
+export type TStoreFetcherPagesBaseProperties = z.infer<typeof ZStoreFetcherPagesBaseProperties>
+export type TStoreFetcherPagesHomeProperties = z.infer<typeof ZStoreFetcherPagesHomeProperties>
+export type TStoreFetcherPagesAboutProperties = z.infer<typeof ZStoreFetcherPagesAboutProperties>
+export type TStoreFetcherPagesProjectsProperties = z.infer<typeof ZStoreFetcherPagesProjectsProperties>
 export type TStoreFetcherPagesData = z.infer<typeof ZStoreFetcherPagesData>
+export type TStoreFetcherPagesAnyData = z.infer<typeof ZStoreFetcherPagesAnyData>
 export type TStoreFetcherPagesActions = z.infer<typeof ZStoreFetcherPagesActions>
 export type TStoreFetcherPages = z.infer<typeof ZStoreFetcherPages>
