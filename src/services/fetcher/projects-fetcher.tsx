@@ -10,7 +10,7 @@ import { ProjectMapper } from '_SRV/mapper/project-mapper'
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
-  private readonly projectsActions = useFetcherProjects.getState().actions
+  private readonly fetcherProjectsActions = useFetcherProjects.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
@@ -26,7 +26,7 @@ export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
       },
     )
 
-    this.projectsActions.setList(name, result.map(ProjectMapper.toStore))
+    this.fetcherProjectsActions.setList(name, result.map(ProjectMapper.toStore))
 
     if (options.callback) options.callback()
   }

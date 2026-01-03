@@ -10,12 +10,12 @@ import { CompanyMapper } from '_SRV/mapper/company-mapper'
 import { useFetcherCompanies } from '_STR/useFetcherCompanies'
 
 export class CompaniesFetcher implements IFetcher<TCompaniesFetcherProps> {
-  private readonly companiesActions = useFetcherCompanies.getState().actions
+  private readonly fetcherCompaniesActions = useFetcherCompanies.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TCompaniesFetcherProps = {}) {
-    this.companiesActions.setStatus('loading')
+    this.fetcherCompaniesActions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:companies', ['mark-xx:companies', name], {
         return: 'all',
@@ -24,12 +24,12 @@ export class CompaniesFetcher implements IFetcher<TCompaniesFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.companiesActions.setList(result.map(CompanyMapper.toStore))
-      this.companiesActions.setStatus('loaded')
+      this.fetcherCompaniesActions.setList(result.map(CompanyMapper.toStore))
+      this.fetcherCompaniesActions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.companiesActions.setStatus('error')
+      this.fetcherCompaniesActions.setStatus('error')
       throw error
     }
   }

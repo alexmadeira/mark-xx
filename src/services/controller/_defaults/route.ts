@@ -1,9 +1,15 @@
 import type { TRouteProps } from '@/services/controller/route'
 
-import { routePages } from '_CFG/route/pages'
-import { routePaths } from '_CFG/route/paths'
+import { About } from '_APP/pages/about'
+import { Home } from '_APP/pages/home'
+import { Project } from '_APP/pages/project'
+import { Projects } from '_APP/pages/projects'
 
 export const defaultRouteProps = {
-  pages: routePages,
-  paths: routePaths,
+  paths: [
+    { pathname: '/', element: Home },
+    { pathname: '/about', element: About },
+    { pathname: '/projects', element: Projects },
+    { pathname: '/project/:slug', element: Project },
+  ],
 } satisfies TRouteProps

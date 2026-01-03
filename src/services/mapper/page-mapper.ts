@@ -1,4 +1,9 @@
-import type { TRawSchemaPage } from '@/services/schema/page.ts'
+import type {
+  TRawSchemaPage,
+  TRawSchemaPageConfig,
+  TSchemaPageConfig,
+  TSchemaPageMetaConfig,
+} from '@/services/schema/page.ts'
 import type { TStoreFetcherPagesAnyData } from '@/services/store/fetcher-pages.ts'
 
 import { asHTML } from '@prismicio/client'
@@ -20,5 +25,45 @@ export class PageMapper {
     }
 
     return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
+  }
+
+  public static config(raw: TRawSchemaPageConfig[]): TSchemaPageConfig {
+    const [rawConfig] = raw.filter((slice) => slice.slice_type === 'page_config')
+    if (!rawConfig) throw new Error('Page config slice not found')
+
+    const path = _.get(rawConfig, 'primary.seo_url')
+    if (!path) throw new Error('Page config path is missing')
+
+    return {
+      path,
+      meta: PageMapper.configMeta(rawConfig),
+      background: _.get(rawConfig, 'primary.background_color', '#FFFFFF'),
+    }
+  }
+
+  private static configMeta(raw: TRawSchemaPageConfig): TSchemaPageMetaConfig {
+    const rootTitle = _.get(raw, 'primary.seo_title')
+    const rootImage = _.get(raw, 'primary.og_image.url')
+    const rootDescription = _.get(raw, 'primary.seo_description')
+
+    return {
+      seo: {
+        title: rootTitle,
+        description: rootDescription,
+        url: _.get(raw, 'primary.seo_url'),
+      },
+      og: {
+        image: rootImage,
+        type: raw.primary.og_type,
+        title: _.get(raw, 'primary.og_title', rootTitle),
+        description: _.get(raw, 'primary.og_description', rootDescription),
+      },
+      twitter: {
+        card: raw.primary.twitter_card,
+        title: _.get(raw, 'primary.twitter_title', rootTitle),
+        image: _.get(raw, 'primary.twitter_image.url', rootImage),
+        description: _.get(raw, 'primary.twitter_description', rootDescription),
+      },
+    }
   }
 }

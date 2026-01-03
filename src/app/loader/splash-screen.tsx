@@ -51,8 +51,8 @@ export function SplashScreen() {
           id="loader"
           className={twMerge(
             'flex w-full flex-col items-center justify-center',
-            'mx-auto flex w-full max-w-[94rem] flex-col gap-0 px-8',
-            'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8))]',
+            'mx-auto flex w-full max-w-376 flex-col gap-0 px-8',
+            'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)]',
             'lg:px-x-container',
           )}
         >

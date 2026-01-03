@@ -5,12 +5,7 @@ import { router } from './routes'
 
 export function App() {
   return (
-    <Provider
-      helmetProps={{
-        titleTemplate: 'Alex Madeira | %s',
-        defaultTitle: 'Alex Madeira | Desenvolvedor Web',
-      }}
-    >
+    <Provider>
       <RouterProvider router={router} />
     </Provider>
   )

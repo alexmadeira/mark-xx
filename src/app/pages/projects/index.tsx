@@ -1,5 +1,3 @@
-import { Helmet } from 'react-helmet-async'
-
 import { ProjectDetails } from '_APP/components/project/project-details'
 
 import { masonry } from '_SRV/builder/masonry'
@@ -17,9 +15,8 @@ export function Projects() {
 
   return (
     <>
-      <Helmet title="Projetos" />
       <Header />
-      <div className="my-[clamp(1rem,_4vw,_5rem)] w-full">
+      <div className="my-[clamp(1rem,4vw,5rem)] w-full">
         <ProjectsMasonry.render contents={masonryProjects}>
           <ProjectDetails />
         </ProjectsMasonry.render>

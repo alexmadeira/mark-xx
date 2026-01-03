@@ -2,28 +2,20 @@ import { useLocation, useOutlet } from 'react-router-dom'
 
 import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
-import { BackgroundLoader } from '_APP/loader/background-loader.tsx'
+import { BackgroundLoader } from '_APP/loader/background-loader'
 import { SplashScreen } from '_APP/loader/splash-screen'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { colorController, routeController, scrollingController } from '_SRV/controller'
+import { routeController, scrollingController } from '_SRV/controller'
 
 export function BaseLayout() {
   const CLRoute = routeController()
   const CLScrolling = scrollingController()
-  const CLLogoColor = colorController('logo')
-  const CLTextColor = colorController('text')
-  const CLNavigationColor = colorController('navigation')
 
   const { pathname } = useLocation()
   const element = useOutlet()
 
   CLRoute.setRoute(pathname)
-
-  CLLogoColor.default = CLRoute.currentRoute.color.twVar
-  CLNavigationColor.default = CLRoute.currentRoute.color.twVar
-
-  CLTextColor.betterContrast('page', CLRoute.currentRoute.color.twVar)
 
   return (
     <>
@@ -39,7 +31,7 @@ export function BaseLayout() {
             transition={{ duration: 0.5 }}
             onAnimationStart={CLScrolling.none}
             onAnimationComplete={CLScrolling.start}
-            className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col text-[var(--page-foreground-color)]"
+            className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col text-(--page-foreground-color)"
           >
             <Header />
             {element}

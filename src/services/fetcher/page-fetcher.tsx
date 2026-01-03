@@ -7,23 +7,26 @@ import type { TPageFetcherProps } from '@/services/fetcher/page'
 import { PageMapper } from '_SRV/mapper/page-mapper.ts'
 
 import { useFetcherPages } from '_STR/useFetcherPages'
+import { usePageConfigs } from '_STR/usePageConfigs'
 
 export class PageFetcher implements IFetcher<TPageFetcherProps, TEPrismicPageType> {
-  private readonly pagesActions = useFetcherPages.getState().actions
+  private readonly fetcherPagesActions = useFetcherPages.getState().actions
+  private readonly pageConfigsActions = usePageConfigs.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(slug: TEPrismicPageType, options: TPageFetcherProps = {}) {
     try {
-      this.pagesActions.setPageStatus(slug, 'loading')
+      this.fetcherPagesActions.setPageStatus(slug, 'loading')
       const result = await this.api.query('mark-xx:page', ['mark-xx:page', slug], { type: slug, return: 'one' })
 
       if (options.callback) options.callback()
 
-      this.pagesActions.setPage(slug, PageMapper.toStore(result))
-      this.pagesActions.setPageStatus(slug, 'loaded')
+      this.pageConfigsActions.setPageConfig(PageMapper.config(result.data.body))
+      this.fetcherPagesActions.setPage(slug, PageMapper.toStore(result))
+      this.fetcherPagesActions.setPageStatus(slug, 'loaded')
     } catch (error) {
-      this.pagesActions.setPageStatus(slug, 'error')
+      this.fetcherPagesActions.setPageStatus(slug, 'error')
       throw error
     }
   }
