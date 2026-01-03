@@ -10,12 +10,12 @@ import { TechnologyMapper } from '_SRV/mapper/technology-mapper'
 import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 
 export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> {
-  private readonly technologiesActions = useFetcherTechnologies.getState().actions
+  private readonly fetcherTechnologiesActions = useFetcherTechnologies.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TTechnologiesFetcherProps = {}) {
-    this.technologiesActions.setStatus('loading')
+    this.fetcherTechnologiesActions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:technologies', ['mark-xx:technologies', name], {
         return: 'all',
@@ -24,12 +24,12 @@ export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> 
         fields: options.filter?.fields,
       })
 
-      this.technologiesActions.setList(result.map(TechnologyMapper.toStore))
-      this.technologiesActions.setStatus('loaded')
+      this.fetcherTechnologiesActions.setList(result.map(TechnologyMapper.toStore))
+      this.fetcherTechnologiesActions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.technologiesActions.setStatus('error')
+      this.fetcherTechnologiesActions.setStatus('error')
       throw error
     }
   }

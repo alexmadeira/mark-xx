@@ -4,7 +4,7 @@ import { produce } from 'immer'
 import _ from 'lodash'
 import { create } from 'zustand'
 
-import { fetcherPagesDefaultData } from './_defaults/fetcher-page'
+import { fetcherPagesDefaultData } from './_defaults/fetcher-pages'
 
 export const useFetcherPages = create<TStoreFetcherPages>((set) => ({
   data: fetcherPagesDefaultData,

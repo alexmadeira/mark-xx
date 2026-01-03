@@ -1,4 +1,4 @@
-import type { ProjectDocument, ProjectDocumentData } from './types'
+import type { ProjectDocument, ProjectDocumentData, ProjectDocumentDataBodySlice } from './types'
 
 import { z } from 'zod/v4'
 
@@ -15,6 +15,7 @@ export const ZPrismicDocumentProject = z.intersection(
   }),
 )
 export const ZPrismicDocumentProjectData = z.custom<ProjectDocumentData>()
+export const ZPrismicDocumentProjectConfig = z.custom<ProjectDocumentDataBodySlice>()
 
 //
 //
@@ -23,3 +24,4 @@ export const ZPrismicDocumentProjectData = z.custom<ProjectDocumentData>()
 
 export type TPrismicDocumentProject = z.infer<typeof ZPrismicDocumentProject>
 export type TPrismicDocumentProjectData = z.infer<typeof ZPrismicDocumentProjectData>
+export type TPrismicDocumentProjectConfig = z.infer<typeof ZPrismicDocumentProjectConfig>

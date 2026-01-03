@@ -1,5 +1,3 @@
-import { Helmet } from 'react-helmet-async'
-
 import { ProjectDetails } from '_APP/components/project/project-details'
 import _ from 'lodash'
 
@@ -19,7 +17,6 @@ export function Home() {
 
   return (
     <>
-      <Helmet title="Home" />
       <Hero />
       <HomeMasonry.render contents={masonryProjects}>
         <ProjectDetails />

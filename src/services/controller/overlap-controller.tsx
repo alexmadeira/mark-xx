@@ -15,7 +15,7 @@ export class OverlapController {
   private readonly targetMap = new Map<string, HTMLElement>()
   private readonly elementList = new Map<HTMLElement, TOverlapElementOption>()
 
-  protected constructor() {
+  constructor() {
     this.reset = this.reset.bind(this)
     this.setTarget = this.setTarget.bind(this)
     this.addElement = this.addElement.bind(this)
@@ -23,10 +23,6 @@ export class OverlapController {
     this.removeElement = this.removeElement.bind(this)
 
     requestAnimationFrame(this.checkCollision.bind(this))
-  }
-
-  public static create() {
-    return new OverlapController()
   }
 
   private checkCollision() {

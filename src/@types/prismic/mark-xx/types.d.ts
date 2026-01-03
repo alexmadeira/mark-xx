@@ -49,6 +49,140 @@ type ContentRelationshipFieldWithData<
 }[Exclude<TCustomType[number], string>["id"]];
 
 /**
+ * Primary content in *About → Slice zone → Page Config → Primary*
+ */
+export interface AboutDocumentDataBodySeoConfigSlicePrimary {
+	/**
+	 * Background field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.background_color
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	background_color: prismic.ColorField;
+	
+	/**
+	 * SEO Title field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.seo_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_title: prismic.KeyTextField;
+	
+	/**
+	 * SEO Description field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.seo_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_description: prismic.KeyTextField;
+	
+	/**
+	 * SEO URL field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.seo_url
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_url: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Type field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: website
+	 * - **API ID Path**: about.body[].seo_config.primary.og_type
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	og_type: prismic.SelectField<"website" | "article" | "product" | "profile" | "video.movie", "filled">;
+	
+	/**
+	 * Open Graph Title field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.og_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_title: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Description field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.og_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_description: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Image field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.og_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	og_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Twitter Card field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: summary_large_image
+	 * - **API ID Path**: about.body[].seo_config.primary.twitter_card
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	twitter_card: prismic.SelectField<"summary_large_image" | "summary" | "player" | "app", "filled">;
+	
+	/**
+	 * Twitter Title field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.twitter_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_title: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Description field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.twitter_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_description: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Image field in *About → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.body[].seo_config.primary.twitter_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	twitter_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Slice for *About → Slice zone*
+ */
+export type AboutDocumentDataBodySeoConfigSlice = prismic.Slice<"seo_config", Simplify<AboutDocumentDataBodySeoConfigSlicePrimary>, never>
+
+type AboutDocumentDataBodySlice = AboutDocumentDataBodySeoConfigSlice
+
+/**
  * Content for About documents
  */
 interface AboutDocumentData {
@@ -94,18 +228,16 @@ interface AboutDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
-	movie: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-	
-	/**
-	 * Cor field in *About*
+	movie: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;/**
+	 * Slice zone field in *About*
 	 *
-	 * - **Field Type**: Color
+	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.color
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 * - **API ID Path**: about.body[]
+	 * - **Tab**: Config
+	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	color: prismic.ColorField;
+	body: prismic.SliceZone<AboutDocumentDataBodySlice>;
 }
 
 /**
@@ -278,6 +410,140 @@ interface CompanyDocumentData {
 export type CompanyDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<CompanyDocumentData>, "company", Lang>;
 
 /**
+ * Primary content in *Home → Slice zone → Page Config → Primary*
+ */
+export interface HomeDocumentDataBodyPageConfigSlicePrimary {
+	/**
+	 * Background field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.background_color
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	background_color: prismic.ColorField;
+	
+	/**
+	 * SEO Title field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.seo_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_title: prismic.KeyTextField;
+	
+	/**
+	 * SEO Description field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.seo_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_description: prismic.KeyTextField;
+	
+	/**
+	 * SEO URL field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.seo_url
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_url: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Type field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: website
+	 * - **API ID Path**: home.body[].page_config.primary.og_type
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	og_type: prismic.SelectField<"website" | "article" | "product" | "profile" | "video.movie", "filled">;
+	
+	/**
+	 * Open Graph Title field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.og_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_title: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Description field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.og_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_description: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Image field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.og_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	og_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Twitter Card field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: summary_large_image
+	 * - **API ID Path**: home.body[].page_config.primary.twitter_card
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	twitter_card: prismic.SelectField<"summary_large_image" | "summary" | "player" | "app", "filled">;
+	
+	/**
+	 * Twitter Title field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.twitter_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_title: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Description field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.twitter_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_description: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Image field in *Home → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.body[].page_config.primary.twitter_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	twitter_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Slice for *Home → Slice zone*
+ */
+export type HomeDocumentDataBodyPageConfigSlice = prismic.Slice<"page_config", Simplify<HomeDocumentDataBodyPageConfigSlicePrimary>, never>
+
+type HomeDocumentDataBodySlice = HomeDocumentDataBodyPageConfigSlice
+
+/**
  * Content for Home documents
  */
 interface HomeDocumentData {
@@ -301,18 +567,16 @@ interface HomeDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
-	description: prismic.RichTextField;
-	
-	/**
-	 * Cor field in *Home*
+	description: prismic.RichTextField;/**
+	 * Slice zone field in *Home*
 	 *
-	 * - **Field Type**: Color
+	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: home.color
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 * - **API ID Path**: home.body[]
+	 * - **Tab**: Config
+	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	color: prismic.ColorField;
+	body: prismic.SliceZone<HomeDocumentDataBodySlice>;
 }
 
 /**
@@ -340,6 +604,140 @@ export interface ProjectDocumentDataTechnologiesItem {
 	 */
 	technology: prismic.ContentRelationshipField<"technology">;
 }
+
+/**
+ * Primary content in *Project → Slice zone → Page Config → Primary*
+ */
+export interface ProjectDocumentDataBodyPageConfigSlicePrimary {
+	/**
+	 * Background field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.background_color
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	background_color: prismic.ColorField;
+	
+	/**
+	 * SEO Title field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.seo_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_title: prismic.KeyTextField;
+	
+	/**
+	 * SEO Description field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.seo_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_description: prismic.KeyTextField;
+	
+	/**
+	 * SEO URL field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.seo_url
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_url: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Type field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: website
+	 * - **API ID Path**: project.body[].page_config.primary.og_type
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	og_type: prismic.SelectField<"website" | "article" | "product" | "profile" | "video.movie", "filled">;
+	
+	/**
+	 * Open Graph Title field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.og_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_title: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Description field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.og_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_description: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Image field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.og_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	og_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Twitter Card field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: summary_large_image
+	 * - **API ID Path**: project.body[].page_config.primary.twitter_card
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	twitter_card: prismic.SelectField<"summary_large_image" | "summary" | "player" | "app", "filled">;
+	
+	/**
+	 * Twitter Title field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.twitter_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_title: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Description field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.twitter_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_description: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Image field in *Project → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[].page_config.primary.twitter_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	twitter_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Slice for *Project → Slice zone*
+ */
+export type ProjectDocumentDataBodyPageConfigSlice = prismic.Slice<"page_config", Simplify<ProjectDocumentDataBodyPageConfigSlicePrimary>, never>
+
+type ProjectDocumentDataBodySlice = ProjectDocumentDataBodyPageConfigSlice
 
 /**
  * Content for Project documents
@@ -410,18 +808,7 @@ interface ProjectDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	technologies: prismic.GroupField<Simplify<ProjectDocumentDataTechnologiesItem>>;
-	
-	/**
-	 * Cor field in *Project*
-	 *
-	 * - **Field Type**: Color
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: project.color
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/color
-	 */
-	color: prismic.ColorField;/**
+	technologies: prismic.GroupField<Simplify<ProjectDocumentDataTechnologiesItem>>;/**
 	 * Nome field in *Project*
 	 *
 	 * - **Field Type**: Text
@@ -527,7 +914,16 @@ interface ProjectDocumentData {
 	 * - **Tab**: Details
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
-	company: prismic.ContentRelationshipField<"company">;
+	company: prismic.ContentRelationshipField<"company">;/**
+	 * Slice zone field in *Project*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.body[]
+	 * - **Tab**: Config
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	body: prismic.SliceZone<ProjectDocumentDataBodySlice>;
 }
 
 /**
@@ -540,6 +936,140 @@ interface ProjectDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ProjectDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectDocumentData>, "project", Lang>;
+
+/**
+ * Primary content in *Projects → Slice zone → Page Config → Primary*
+ */
+export interface ProjectsDocumentDataBodyPageConfigSlicePrimary {
+	/**
+	 * Background field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.background_color
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	background_color: prismic.ColorField;
+	
+	/**
+	 * SEO Title field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.seo_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_title: prismic.KeyTextField;
+	
+	/**
+	 * SEO Description field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.seo_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_description: prismic.KeyTextField;
+	
+	/**
+	 * SEO URL field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.seo_url
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	seo_url: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Type field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: website
+	 * - **API ID Path**: projects.body[].page_config.primary.og_type
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	og_type: prismic.SelectField<"website" | "article" | "product" | "profile" | "video.movie", "filled">;
+	
+	/**
+	 * Open Graph Title field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.og_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_title: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Description field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.og_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	og_description: prismic.KeyTextField;
+	
+	/**
+	 * Open Graph Image field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.og_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	og_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Twitter Card field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: summary_large_image
+	 * - **API ID Path**: projects.body[].page_config.primary.twitter_card
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	twitter_card: prismic.SelectField<"summary_large_image" | "summary" | "player" | "app", "filled">;
+	
+	/**
+	 * Twitter Title field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.twitter_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_title: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Description field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.twitter_description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	twitter_description: prismic.KeyTextField;
+	
+	/**
+	 * Twitter Image field in *Projects → Slice zone → Page Config → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.body[].page_config.primary.twitter_image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	twitter_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Slice for *Projects → Slice zone*
+ */
+export type ProjectsDocumentDataBodyPageConfigSlice = prismic.Slice<"page_config", Simplify<ProjectsDocumentDataBodyPageConfigSlicePrimary>, never>
+
+type ProjectsDocumentDataBodySlice = ProjectsDocumentDataBodyPageConfigSlice
 
 /**
  * Content for Projects documents
@@ -576,18 +1106,16 @@ interface ProjectsDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
-	description: prismic.RichTextField;
-	
-	/**
-	 * Cor field in *Projects*
+	description: prismic.RichTextField;/**
+	 * Slice zone field in *Projects*
 	 *
-	 * - **Field Type**: Color
+	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: projects.color
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 * - **API ID Path**: projects.body[]
+	 * - **Tab**: Config
+	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	color: prismic.ColorField;
+	body: prismic.SliceZone<ProjectsDocumentDataBodySlice>;
 }
 
 /**
@@ -691,6 +1219,8 @@ declare module "@prismicio/client" {
 		export type {
 			AboutDocument,
 			AboutDocumentData,
+			AboutDocumentDataBodySeoConfigSlicePrimary,
+			AboutDocumentDataBodySlice,
 			AwardDocument,
 			AwardDocumentData,
 			BrandDocument,
@@ -699,11 +1229,17 @@ declare module "@prismicio/client" {
 			CompanyDocumentData,
 			HomeDocument,
 			HomeDocumentData,
+			HomeDocumentDataBodyPageConfigSlicePrimary,
+			HomeDocumentDataBodySlice,
 			ProjectDocument,
 			ProjectDocumentData,
 			ProjectDocumentDataTechnologiesItem,
+			ProjectDocumentDataBodyPageConfigSlicePrimary,
+			ProjectDocumentDataBodySlice,
 			ProjectsDocument,
 			ProjectsDocumentData,
+			ProjectsDocumentDataBodyPageConfigSlicePrimary,
+			ProjectsDocumentDataBodySlice,
 			TechnologyDocument,
 			TechnologyDocumentData,
 			AllDocumentTypes

@@ -3,16 +3,16 @@ import { useRef } from 'react'
 import { Building2, CalendarDays } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'motion/react'
 
-import { routeController } from '_SRV/controller'
 import { dayJS } from '_SRV/lib'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
+import { useRoute } from '_STR/useRoute'
 
 export function Header() {
-  const CLRoute = routeController()
-
   const targetRef = useRef<HTMLDivElement>(null)
-  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug])
+
+  const projectSlug = useRoute((st) => st.data.params.slug)
+  const project = useFetcherProjects((st) => st.data.pages[projectSlug])
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -43,9 +43,11 @@ export function Header() {
         <span className="flex items-center justify-center gap-2">
           <CalendarDays className="w-[clamp(1rem,1.5vw,2rem)]" /> {bornYear}
         </span>
-        <span className="flex items-center justify-center gap-2">
-          <Building2 className="w-[clamp(1rem,1.3vw,2rem)]" /> {project.company?.name}
-        </span>
+        {project?.company && (
+          <span className="flex items-center justify-center gap-2">
+            <Building2 className="w-[clamp(1rem,1.3vw,2rem)]" /> {project.company.name}
+          </span>
+        )}
       </p>
     </div>
   )

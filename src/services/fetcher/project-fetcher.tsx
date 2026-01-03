@@ -5,18 +5,21 @@ import type { TProjectFetcherProps } from '@/services/fetcher/project'
 
 import _ from 'lodash'
 
+import { PageMapper } from '_SRV/mapper/page-mapper'
 import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
+import { usePageConfigs } from '_STR/usePageConfigs'
 
 export class ProjectFetcher implements IFetcher<TProjectFetcherProps> {
-  private readonly projectActions = useFetcherProjects.getState().actions
+  private readonly fetcherProjectActions = useFetcherProjects.getState().actions
+  private readonly pageConfigsActions = usePageConfigs.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(slug: string, options: TProjectFetcherProps = {}) {
     try {
-      this.projectActions.setProjectPageStatus(slug, 'loading')
+      this.fetcherProjectActions.setProjectPageStatus(slug, 'loading')
 
       const result = await this.api.query('mark-xx:project', ['mark-xx:project', slug], {
         type: 'project',
@@ -26,10 +29,11 @@ export class ProjectFetcher implements IFetcher<TProjectFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.projectActions.setProjectPage(slug, ProjectMapper.toStore(result))
-      this.projectActions.setProjectPageStatus(slug, 'loaded')
+      this.pageConfigsActions.setPageConfig(PageMapper.config(result.data.body))
+      this.fetcherProjectActions.setProjectPage(slug, ProjectMapper.toStore(result))
+      this.fetcherProjectActions.setProjectPageStatus(slug, 'loaded')
     } catch (error) {
-      this.projectActions.setProjectPageStatus(slug, 'error')
+      this.fetcherProjectActions.setProjectPageStatus(slug, 'error')
       throw error
     }
   }
