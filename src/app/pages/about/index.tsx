@@ -8,7 +8,7 @@ export function About() {
   return (
     <>
       <Header />
-      <div className="flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]">
+      <div className="flex w-full flex-col space-y-[clamp(1.5rem,10vw,6rem)]">
         <Movie />
         <Awards />
         <Languages />

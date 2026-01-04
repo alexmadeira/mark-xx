@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 
@@ -15,11 +15,16 @@ export function Project() {
   const FProject = projectFetcher()
   const FPreFetcher = preFetcher()
 
+  const slug = useRef<string | null>(null)
+
   const projectSlug = useRoute((st) => st.data.params.slug)
+  if (projectSlug) slug.current = projectSlug
 
   useEffect(() => {
-    FPreFetcher.fetch(FProject.prefetch(projectSlug))
-  }, [projectSlug])
+    if (!slug.current) return
+
+    FPreFetcher.fetch(FProject.prefetch(slug.current))
+  }, [slug.current])
 
   return (
     <>

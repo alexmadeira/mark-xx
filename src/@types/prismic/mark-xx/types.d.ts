@@ -51,13 +51,13 @@ type ContentRelationshipFieldWithData<
 /**
  * Primary content in *About → Slice zone → Page Config → Primary*
  */
-export interface AboutDocumentDataBodySeoConfigSlicePrimary {
+export interface AboutDocumentDataBodyPageConfigSlicePrimary {
 	/**
 	 * Background field in *About → Slice zone → Page Config → Primary*
 	 *
 	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.background_color
+	 * - **API ID Path**: about.body[].page_config.primary.background_color
 	 * - **Documentation**: https://prismic.io/docs/fields/color
 	 */
 	background_color: prismic.ColorField;
@@ -67,7 +67,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.seo_title
+	 * - **API ID Path**: about.body[].page_config.primary.seo_title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	seo_title: prismic.KeyTextField;
@@ -77,7 +77,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.seo_description
+	 * - **API ID Path**: about.body[].page_config.primary.seo_description
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	seo_description: prismic.KeyTextField;
@@ -87,7 +87,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.seo_url
+	 * - **API ID Path**: about.body[].page_config.primary.seo_url
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	seo_url: prismic.KeyTextField;
@@ -98,7 +98,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
 	 * - **Default Value**: website
-	 * - **API ID Path**: about.body[].seo_config.primary.og_type
+	 * - **API ID Path**: about.body[].page_config.primary.og_type
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	og_type: prismic.SelectField<"website" | "article" | "product" | "profile" | "video.movie", "filled">;
@@ -108,7 +108,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.og_title
+	 * - **API ID Path**: about.body[].page_config.primary.og_title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	og_title: prismic.KeyTextField;
@@ -118,7 +118,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.og_description
+	 * - **API ID Path**: about.body[].page_config.primary.og_description
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	og_description: prismic.KeyTextField;
@@ -128,7 +128,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.og_image
+	 * - **API ID Path**: about.body[].page_config.primary.og_image
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
 	og_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
@@ -139,7 +139,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
 	 * - **Default Value**: summary_large_image
-	 * - **API ID Path**: about.body[].seo_config.primary.twitter_card
+	 * - **API ID Path**: about.body[].page_config.primary.twitter_card
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	twitter_card: prismic.SelectField<"summary_large_image" | "summary" | "player" | "app", "filled">;
@@ -149,7 +149,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.twitter_title
+	 * - **API ID Path**: about.body[].page_config.primary.twitter_title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	twitter_title: prismic.KeyTextField;
@@ -159,7 +159,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.twitter_description
+	 * - **API ID Path**: about.body[].page_config.primary.twitter_description
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	twitter_description: prismic.KeyTextField;
@@ -169,7 +169,7 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.body[].seo_config.primary.twitter_image
+	 * - **API ID Path**: about.body[].page_config.primary.twitter_image
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
 	twitter_image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
@@ -178,9 +178,9 @@ export interface AboutDocumentDataBodySeoConfigSlicePrimary {
 /**
  * Slice for *About → Slice zone*
  */
-export type AboutDocumentDataBodySeoConfigSlice = prismic.Slice<"seo_config", Simplify<AboutDocumentDataBodySeoConfigSlicePrimary>, never>
+export type AboutDocumentDataBodyPageConfigSlice = prismic.Slice<"page_config", Simplify<AboutDocumentDataBodyPageConfigSlicePrimary>, never>
 
-type AboutDocumentDataBodySlice = AboutDocumentDataBodySeoConfigSlice
+type AboutDocumentDataBodySlice = AboutDocumentDataBodyPageConfigSlice
 
 /**
  * Content for About documents
@@ -1219,7 +1219,7 @@ declare module "@prismicio/client" {
 		export type {
 			AboutDocument,
 			AboutDocumentData,
-			AboutDocumentDataBodySeoConfigSlicePrimary,
+			AboutDocumentDataBodyPageConfigSlicePrimary,
 			AboutDocumentDataBodySlice,
 			AwardDocument,
 			AwardDocumentData,

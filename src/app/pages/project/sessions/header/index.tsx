@@ -9,16 +9,18 @@ import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
 export function Header() {
+  const slug = useRef<string | null>(null)
   const targetRef = useRef<HTMLDivElement>(null)
-
-  const projectSlug = useRoute((st) => st.data.params.slug)
-  const project = useFetcherProjects((st) => st.data.pages[projectSlug])
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start end', 'end start'],
   })
 
+  const projectSlug = useRoute((st) => st.data.params.slug)
+  if (projectSlug) slug.current = projectSlug
+
+  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
   const x = useTransform(scrollYProgress, [0, 0.2, 0.5], ['-50%', '-50%', '0%'])
   const y = useTransform(scrollYProgress, [0, 0.2, 0.5], ['-50%', '-50%', '0%'])
   const top = useTransform(scrollYProgress, [0, 0.2, 0.5], ['-60lvh', '-40lvh', '0lvh'])

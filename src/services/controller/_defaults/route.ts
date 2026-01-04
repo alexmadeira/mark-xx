@@ -8,7 +8,7 @@ import { Projects } from '_APP/pages/projects'
 export const defaultRouteProps = {
   paths: [
     { pathname: '/', element: Home },
-    { pathname: '/about', element: About },
+    { pathname: '/journey', element: About },
     { pathname: '/projects', element: Projects },
     { pathname: '/project/:slug', element: Project },
   ],
