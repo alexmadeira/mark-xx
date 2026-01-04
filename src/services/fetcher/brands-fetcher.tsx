@@ -10,12 +10,12 @@ import { BrandMapper } from '_SRV/mapper/brand-mapper'
 import { useFetcherBrands } from '_STR/useFetcherBrands'
 
 export class BrandsFetcher implements IFetcher<TBrandsFetcherProps> {
-  private readonly brandsActions = useFetcherBrands.getState().actions
+  private readonly fetcherBrandsActions = useFetcherBrands.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TBrandsFetcherProps = {}) {
-    this.brandsActions.setStatus('loading')
+    this.fetcherBrandsActions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:brands', ['mark-xx:brands', name], {
         return: 'all',
@@ -24,12 +24,12 @@ export class BrandsFetcher implements IFetcher<TBrandsFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.brandsActions.setList(result.map(BrandMapper.toStore))
-      this.brandsActions.setStatus('loaded')
+      this.fetcherBrandsActions.setList(result.map(BrandMapper.toStore))
+      this.fetcherBrandsActions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.brandsActions.setStatus('error')
+      this.fetcherBrandsActions.setStatus('error')
       throw error
     }
   }

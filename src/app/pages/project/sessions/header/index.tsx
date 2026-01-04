@@ -3,22 +3,24 @@ import { useRef } from 'react'
 import { Building2, CalendarDays } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'motion/react'
 
-import { routeController } from '_SRV/controller'
 import { dayJS } from '_SRV/lib'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
+import { useRoute } from '_STR/useRoute'
 
 export function Header() {
-  const CLRoute = routeController()
-
+  const slug = useRef<string | null>(null)
   const targetRef = useRef<HTMLDivElement>(null)
-  const project = useFetcherProjects((st) => st.data.pages[CLRoute.params.slug])
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start end', 'end start'],
   })
 
+  const projectSlug = useRoute((st) => st.data.params.slug)
+  if (projectSlug) slug.current = projectSlug
+
+  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
   const x = useTransform(scrollYProgress, [0, 0.2, 0.5], ['-50%', '-50%', '0%'])
   const y = useTransform(scrollYProgress, [0, 0.2, 0.5], ['-50%', '-50%', '0%'])
   const top = useTransform(scrollYProgress, [0, 0.2, 0.5], ['-60lvh', '-40lvh', '0lvh'])
@@ -43,9 +45,11 @@ export function Header() {
         <span className="flex items-center justify-center gap-2">
           <CalendarDays className="w-[clamp(1rem,1.5vw,2rem)]" /> {bornYear}
         </span>
-        <span className="flex items-center justify-center gap-2">
-          <Building2 className="w-[clamp(1rem,1.3vw,2rem)]" /> {project.company?.name}
-        </span>
+        {project?.company && (
+          <span className="flex items-center justify-center gap-2">
+            <Building2 className="w-[clamp(1rem,1.3vw,2rem)]" /> {project.company.name}
+          </span>
+        )}
       </p>
     </div>
   )

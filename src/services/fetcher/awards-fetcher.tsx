@@ -10,12 +10,12 @@ import { AwardMapper } from '_SRV/mapper/award-mapper'
 import { useFetcherAwards } from '_STR/useFetcherAwards'
 
 export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
-  private readonly awardsActions = useFetcherAwards.getState().actions
+  private readonly fetcherAwardsActions = useFetcherAwards.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TAwardsFetcherProps = {}) {
-    this.awardsActions.setStatus('loading')
+    this.fetcherAwardsActions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:awards', ['mark-xx:awards', name], {
         return: 'all',
@@ -24,12 +24,12 @@ export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.awardsActions.setList(result.map(AwardMapper.toStore))
-      this.awardsActions.setStatus('loaded')
+      this.fetcherAwardsActions.setList(result.map(AwardMapper.toStore))
+      this.fetcherAwardsActions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.awardsActions.setStatus('error')
+      this.fetcherAwardsActions.setStatus('error')
       throw error
     }
   }

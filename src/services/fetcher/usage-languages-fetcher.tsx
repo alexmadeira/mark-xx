@@ -6,22 +6,22 @@ import type { TUsageLanguageFetcherProps } from '@/services/fetcher/usage-langua
 import { useFetcherUsageLanguages } from '_STR/useFetcherUsageLanguages'
 
 export class UsageLanguagesFetcher implements IFetcher<TUsageLanguageFetcherProps> {
-  private readonly usageLanguageActions = useFetcherUsageLanguages.getState().actions
+  private readonly fetcherUsageLsageLanguageActions = useFetcherUsageLanguages.getState().actions
 
   constructor(private readonly api: Requester<typeof markXXPaths>) {}
 
   public async fetch(name: string, options: TUsageLanguageFetcherProps = {}) {
-    this.usageLanguageActions.setStatus('loading')
+    this.fetcherUsageLsageLanguageActions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:languages-usage', ['mark-xx:languages-usage', name])
 
-      this.usageLanguageActions.setTotal(result.total)
-      this.usageLanguageActions.setList(result.languages)
-      this.usageLanguageActions.setStatus('loaded')
+      this.fetcherUsageLsageLanguageActions.setTotal(result.total)
+      this.fetcherUsageLsageLanguageActions.setList(result.languages)
+      this.fetcherUsageLsageLanguageActions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.usageLanguageActions.setStatus('error')
+      this.fetcherUsageLsageLanguageActions.setStatus('error')
       throw error
     }
   }

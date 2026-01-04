@@ -4,7 +4,7 @@ import { produce } from 'immer'
 import _ from 'lodash'
 import { create } from 'zustand'
 
-import { fetcherProjectsDefaultData } from './_defaults/fetcher-project'
+import { fetcherProjectsDefaultData } from './_defaults/fetcher-projects'
 
 export const useFetcherProjects = create<TStoreFetcherProjects>((set) => ({
   data: fetcherProjectsDefaultData,
