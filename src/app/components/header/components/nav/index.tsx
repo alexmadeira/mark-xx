@@ -6,8 +6,8 @@ export function Nav() {
       <NavLink to="/projects" data-name="projects">
         Projetos
       </NavLink>
-      <NavLink to="/about" data-name="about">
-        Sobre
+      <NavLink to="/journey" data-name="about">
+        Trajetória
       </NavLink>
     </nav>
   )

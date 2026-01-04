@@ -7,30 +7,30 @@ export const ZRawSchemaPage = ZPrismicAnyPageDocument
 export const ZRawSchemaPageConfig = ZPrismicAnyPageDocumentConfig
 
 export const ZSchemaPageConfigSEO = z.object({
-  url: z.string().nullish(),
-  title: z.string().nullish(),
-  description: z.string().nullish(),
+  title: z.string(),
+  description: z.string(),
 })
 export const ZSchemaPageConfigOpenGraph = z.object({
   type: ZEPageOpenGraphType,
-  title: z.string().nullish(),
+  title: z.string(),
+  description: z.string(),
   image: z.string().nullish(),
-  description: z.string().nullish(),
 })
 export const ZSchemaPageConfigTwitter = z.object({
   card: ZEPageTwitterCardType,
+  title: z.string(),
+  description: z.string(),
   image: z.string().nullish(),
-  title: z.string().nullish(),
-  description: z.string().nullish(),
 })
 
 export const ZSchemaPageMetaConfig = z.object({
-  og: ZSchemaPageConfigOpenGraph,
   seo: ZSchemaPageConfigSEO,
   twitter: ZSchemaPageConfigTwitter,
+  openGraph: ZSchemaPageConfigOpenGraph,
 })
 export const ZSchemaPageConfig = z.object({
-  path: z.string(),
+  key: z.string(),
+  canonical: z.url(),
   background: z.string(),
   meta: ZSchemaPageMetaConfig,
 })
@@ -38,7 +38,6 @@ export const ZSchemaPageConfig = z.object({
 export const ZSchemaPage = z.object({
   id: z.string(),
   slug: z.string(),
-  color: z.string(),
   title: z.string(),
   description: z.string(),
   subTitle: z.string().optional(),

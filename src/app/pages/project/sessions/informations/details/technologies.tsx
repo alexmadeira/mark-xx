@@ -1,11 +1,17 @@
+import { useRef } from 'react'
+
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
 export function Technologies() {
-  const projectSlug = useRoute((st) => st.data.params.slug)
-  const project = useFetcherProjects((st) => st.data.pages[projectSlug])
+  const slug = useRef<string | null>(null)
 
-  if (!project?.technologies) return null
+  const projectSlug = useRoute((st) => st.data.params.slug)
+  if (projectSlug) slug.current = projectSlug
+
+  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
+
+  if (project?.status !== 'loaded') return null
   return (
     <div className="w-full rounded-lg border-[clamp(1px,0.2vw,3px)] border-current p-[clamp(1rem,2vw,2.5rem)]">
       <h2 className="text-[clamp(1.25rem,1.85vw,3.25rem)] leading-none font-medium">Tecnologias</h2>

@@ -12,8 +12,7 @@ export const usePageConfigs = create<TStorePageConfigs>((set) => ({
     setPageConfig: (config) =>
       set((state) =>
         produce(state, (draft) => {
-          if (!config.path) return
-          draft.data.list[config.path] = config
+          draft.data.list[config.key] = config
         }),
       ),
     setStatus: (status) =>
