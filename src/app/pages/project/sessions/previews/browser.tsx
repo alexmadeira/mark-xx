@@ -4,7 +4,7 @@ export function Browser() {
       {Array(4)
         .fill('')
         .map((_item) => (
-          <div className="3xl:min-w-[300px] flex flex-1 md:min-w-[300px] lg:min-w-[400px] xl:min-w-[400px] 2xl:min-w-[600px]">
+          <div className="3xl:min-w-75 flex flex-1 md:min-w-75 lg:min-w-100 xl:min-w-100 2xl:min-w-150">
             <img className="w-full" data-src="/img/temp/browser/chrome.png" alt="" />
           </div>
         ))}

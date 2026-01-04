@@ -15,12 +15,12 @@ export function HeaderContent(props: TPageHeaderContentProps) {
   const page = useFetcherPages((st) => st.data[pageName])
 
   return (
-    <div className={twMerge('mt-5 flex w-full flex-col space-y-[clamp(1.5rem,_10vw,_6rem)]', 'lg:mt-0')}>
+    <div className={twMerge('mt-5 flex w-full flex-col space-y-[clamp(1.5rem,10vw,6rem)]', 'lg:mt-0')}>
       <div className="w-full">
         <div
           className={twMerge(
             'mx-auto grid w-full grid-cols-1 flex-col gap-5 px-8',
-            'md:gap-10 md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8))]',
+            'md:gap-10 md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)]',
             'lg:px-x-container lg:grid-cols-12',
           )}
         >

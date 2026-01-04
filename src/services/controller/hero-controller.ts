@@ -17,15 +17,11 @@ export class HeroController {
   private typingInterval: THeroTimeout
   private typingWaitTimeout: THeroTimeout
 
-  protected constructor(private readonly _props: THeroProps) {
+  constructor(private readonly _props: THeroProps) {
     _.bindAll(this, ['write', 'erase', 'start', 'stop'])
 
     this.motionColor = motionValue('#00000000')
     this.controll = { hero: 0, letter: 0 }
-  }
-
-  public static create(props: THeroProps) {
-    return new HeroController(props)
   }
 
   private next() {
