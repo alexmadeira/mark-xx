@@ -8,11 +8,11 @@ import { QueryClientProvider } from './query-client-provider'
 export function Provider({ children, ...props }: TProviderProps) {
   return (
     <QueryClientProvider {...props.queryClientProps}>
-      <HelmetProvider {...props.helmetProps}>
-        <PreFetcherProvider>
+      <PreFetcherProvider>
+        <HelmetProvider {...props.helmetProps}>
           <MainProvider>{children}</MainProvider>
-        </PreFetcherProvider>
-      </HelmetProvider>
+        </HelmetProvider>
+      </PreFetcherProvider>
     </QueryClientProvider>
   )
 }
