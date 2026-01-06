@@ -23,7 +23,7 @@ export const Logo = memo(() => {
   return (
     <Link to="/" ref={logoRef} className="pointer-events-auto">
       <div>
-        <LogoSVG className="w-[clamp(3.5rem,6vw,9rem)] text-[var(--logo-foreground-color)]" />
+        <LogoSVG className="w-[clamp(3.5rem,6vw,9rem)] text-(--logo-foreground-color)" />
       </div>
     </Link>
   )

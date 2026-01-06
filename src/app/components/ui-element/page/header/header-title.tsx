@@ -18,7 +18,7 @@ export function HeaderTitle({ className, children, ...props }: TPageHeaderTitleP
       <div
         className={twMerge(
           'mx-auto flex w-full flex-col gap-0 px-8',
-          'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8))]',
+          'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)]',
           'lg:px-x-container',
         )}
       >
