@@ -7,7 +7,7 @@ export function Awards() {
 
   return (
     <div className="w-full">
-      <div className="md:px-x-container mx-auto flex max-w-[2000px] flex-col gap-[clamp(0.5rem,2vw,2.5rem)] px-8">
+      <div className="md:px-x-container mx-auto flex max-w-500 flex-col gap-[clamp(0.5rem,2vw,2.5rem)] px-8">
         <h2 className="mx-auto w-full text-center text-[clamp(1.5rem,3vw,2.75rem)] leading-[clamp(2rem,1.8vw,2.5rem)] text-black">
           Prêmios/ Reconhecimento
         </h2>
