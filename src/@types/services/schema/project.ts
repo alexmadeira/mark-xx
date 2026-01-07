@@ -18,6 +18,7 @@ export const ZSchemaProject = z.object({
   teamSize: z.string(),
   highlight: z.boolean(),
   description: z.string(),
+  logo: z.url().optional(),
   banner: z.url().optional(),
   thumbnail: z.url().optional(),
   bannerName: z.string().optional(),

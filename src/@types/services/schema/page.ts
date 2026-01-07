@@ -8,18 +8,18 @@ export const ZRawSchemaPageConfig = ZPrismicAnyPageDocumentConfig
 
 export const ZSchemaPageConfigSEO = z.object({
   title: z.string(),
-  description: z.string(),
+  description: z.string().nullish(),
 })
 export const ZSchemaPageConfigOpenGraph = z.object({
   type: ZEPageOpenGraphType,
   title: z.string(),
-  description: z.string(),
+  description: z.string().nullish(),
   image: z.string().nullish(),
 })
 export const ZSchemaPageConfigTwitter = z.object({
   card: ZEPageTwitterCardType,
   title: z.string(),
-  description: z.string(),
+  description: z.string().nullish(),
   image: z.string().nullish(),
 })
 
