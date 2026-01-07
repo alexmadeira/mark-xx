@@ -7,6 +7,7 @@
     "dev": "pnpm prismic:generate-types && vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "preview:build": "pnpm build && pnpm preview",
     "test": "dotenvx run -f .env -f .env.test --overload -- vitest run --coverage.enabled",
     "test:unit": "dotenvx run -f .env -f .env.test --overload -- vitest run --dir ./src/__tests__/unit/",
     "test:unit:watch": "dotenvx run -f .env -f .env.test --overload -- vitest --dir ./src/__tests__/unit/",
