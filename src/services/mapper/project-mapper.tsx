@@ -32,6 +32,7 @@ export class ProjectMapper {
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
       color: _.get(raw, 'data.color', '#FFFFFF'),
+      logo: _.get(raw, 'data.logo.url'),
       banner: _.get(raw, 'data.banner.url'),
       content: _.presentsContent(asHTML(_.get(raw, 'data.content'))),
       teamSize: _.get(raw, 'data.team_size', ''),

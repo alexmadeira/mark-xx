@@ -17,6 +17,7 @@ export function PageColors() {
   const pages = usePageConfigs((st) => st.data.list)
   const background = location.pathname ? pages[location.pathname]?.background || '#FFFFFF' : '#FFFFFF'
 
+  console.log('Page background color:', pages)
   useEffect(() => {
     animate(scope.current, { background }, { duration: 0.5 })
 

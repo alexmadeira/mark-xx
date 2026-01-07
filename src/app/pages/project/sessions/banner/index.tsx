@@ -18,7 +18,7 @@ export function Banner() {
   if (projectSlug) slug.current = projectSlug
 
   const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
-  const scale = useTransform(scrollYProgress, [0, 0.7], [1, 1.3])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 2])
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
 
   return (
@@ -36,3 +36,16 @@ export function Banner() {
     </div>
   )
 }
+
+// <motion.video
+//   style={{ opacity }}
+//   className="h-full w-full object-cover lg:object-top"
+//   loop
+//   muted
+//   autoPlay
+//   playsInline
+//   preload="metadata"
+//   poster="https://garage.im/wp-content/uploads/2025/04/thumb_megabanner_home.jpg"
+//   bv-data-src={project.banner}
+//   src={project.banner}
+// />

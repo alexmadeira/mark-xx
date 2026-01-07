@@ -32,12 +32,12 @@ export class PageMapper {
     const [rawConfig] = raw.filter((slice) => slice.slice_type === 'page_config')
     if (!rawConfig) throw new Error('Page config slice not found')
 
-    const key = _.get(rawConfig, 'primary.seo_url')
-    if (!key) throw new Error('Page config path is missing')
+    const path = _.get(rawConfig, 'primary.seo_url')
+    if (!path) throw new Error('Page config path is missing')
 
     return {
-      key,
-      canonical: new URL(key, env.VITE_ROOT_URL).toString(),
+      key: `/${_.trimStart(path, '/')}`,
+      canonical: new URL(path, env.VITE_ROOT_URL).toString(),
       meta: PageMapper.configMeta(rawConfig),
       background: _.get(rawConfig, 'primary.background_color', '#FFFFFF'),
     }
