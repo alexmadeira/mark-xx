@@ -809,6 +809,17 @@ interface ProjectDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	technologies: prismic.GroupField<Simplify<ProjectDocumentDataTechnologiesItem>>;/**
+	 * Logo field in *Project*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.logo
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	logo: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
 	 * Nome field in *Project*
 	 *
 	 * - **Field Type**: Text
