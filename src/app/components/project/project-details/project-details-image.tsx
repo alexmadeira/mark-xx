@@ -14,6 +14,7 @@ export function ProjectDetailsImage(props: TProjectDetailsContentProps) {
           props.thumbnailClass,
         )}
       />
+      <img data-src={props.banner} alt="" role="presentation" className="hidden" />
     </div>
   )
 }
