@@ -1,4 +1,11 @@
-import type { ProjectDocument, ProjectDocumentData, ProjectDocumentDataBodySlice } from './types'
+import type {
+  ProjectDocument,
+  ProjectDocumentData,
+  ProjectDocumentDataBlocksBlocoFullImageSlice,
+  ProjectDocumentDataBlocksBlocoImagemGridSlice,
+  ProjectDocumentDataBlocksSlice,
+  ProjectDocumentDataBodySlice,
+} from './types'
 
 import { z } from 'zod/v4'
 
@@ -16,6 +23,9 @@ export const ZPrismicDocumentProject = z.intersection(
 )
 export const ZPrismicDocumentProjectData = z.custom<ProjectDocumentData>()
 export const ZPrismicDocumentProjectConfig = z.custom<ProjectDocumentDataBodySlice>()
+export const ZPrismicDocumentProjectContentFullImage = z.custom<ProjectDocumentDataBlocksBlocoFullImageSlice>()
+export const ZPrismicDocumentProjectContentImagemGrid = z.custom<ProjectDocumentDataBlocksBlocoImagemGridSlice>()
+export const ZPrismicDocumentProjectContents = z.custom<ProjectDocumentDataBlocksSlice>()
 
 //
 //
@@ -25,3 +35,6 @@ export const ZPrismicDocumentProjectConfig = z.custom<ProjectDocumentDataBodySli
 export type TPrismicDocumentProject = z.infer<typeof ZPrismicDocumentProject>
 export type TPrismicDocumentProjectData = z.infer<typeof ZPrismicDocumentProjectData>
 export type TPrismicDocumentProjectConfig = z.infer<typeof ZPrismicDocumentProjectConfig>
+export type TPrismicDocumentProjectContentFullImage = z.infer<typeof ZPrismicDocumentProjectContentFullImage>
+export type TPrismicDocumentProjectContentImagemGrid = z.infer<typeof ZPrismicDocumentProjectContentImagemGrid>
+export type TPrismicDocumentProjectContents = z.infer<typeof ZPrismicDocumentProjectContents>

@@ -606,6 +606,115 @@ export interface ProjectDocumentDataTechnologiesItem {
 }
 
 /**
+ * Primary content in *Project → Slice zone → Bloco Full Image → Primary*
+ */
+export interface ProjectDocumentDataBlocksBlocoFullImageSlicePrimary {
+	/**
+	 * Cor field in *Project → Slice zone → Bloco Full Image → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_full_image.primary.color
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	color: prismic.ColorField;
+	
+	/**
+	 * Imagem field in *Project → Slice zone → Bloco Full Image → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_full_image.primary.image
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	image: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Tamanho field in *Project → Slice zone → Bloco Full Image → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: full
+	 * - **API ID Path**: project.blocks[].bloco_full_image.primary.size
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	size: prismic.SelectField<"full" | "center", "filled">;
+}
+
+/**
+ * Slice for *Project → Slice zone*
+ */
+export type ProjectDocumentDataBlocksBlocoFullImageSlice = prismic.Slice<"bloco_full_image", Simplify<ProjectDocumentDataBlocksBlocoFullImageSlicePrimary>, never>
+
+/**
+ * Primary content in *Project → Slice zone → Bloco Imagem Grid → Primary*
+ */
+export interface ProjectDocumentDataBlocksBlocoImagemGridSlicePrimary {
+	/**
+	 * Numero de colunas field in *Project → Slice zone → Bloco Imagem Grid → Primary*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.columns
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	columns: prismic.NumberField;
+	
+	/**
+	 * Espaçamento field in *Project → Slice zone → Bloco Imagem Grid → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: true
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.gap
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	gap: prismic.BooleanField;
+}
+
+/**
+ * Item content in *Project → Slice zone → Bloco Imagem Grid → Items*
+ */
+export interface ProjectDocumentDataBlocksBlocoImagemGridSliceItem {
+	/**
+	 * Imagem field in *Project → Slice zone → Bloco Imagem Grid → Items*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.items.grid_image_url
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	grid_image_url: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Cor field in *Project → Slice zone → Bloco Imagem Grid → Items*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.items.grid_image_color
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	grid_image_color: prismic.ColorField;
+	
+	/**
+	 * Nome field in *Project → Slice zone → Bloco Imagem Grid → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.items.grid_image_name
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	grid_image_name: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Project → Slice zone*
+ */
+export type ProjectDocumentDataBlocksBlocoImagemGridSlice = prismic.Slice<"bloco_imagem_grid", Simplify<ProjectDocumentDataBlocksBlocoImagemGridSlicePrimary>, Simplify<ProjectDocumentDataBlocksBlocoImagemGridSliceItem>>
+
+type ProjectDocumentDataBlocksSlice = ProjectDocumentDataBlocksBlocoFullImageSlice | ProjectDocumentDataBlocksBlocoImagemGridSlice
+
+/**
  * Primary content in *Project → Slice zone → Page Config → Primary*
  */
 export interface ProjectDocumentDataBodyPageConfigSlicePrimary {
@@ -809,6 +918,17 @@ interface ProjectDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	technologies: prismic.GroupField<Simplify<ProjectDocumentDataTechnologiesItem>>;/**
+	 * Nome field in *Project*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.banner_name
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_name: prismic.KeyTextField;
+	
+	/**
 	 * Logo field in *Project*
 	 *
 	 * - **Field Type**: Link
@@ -820,15 +940,15 @@ interface ProjectDocumentData {
 	logo: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 	
 	/**
-	 * Nome field in *Project*
+	 * Cor do logo field in *Project*
 	 *
-	 * - **Field Type**: Text
+	 * - **Field Type**: Color
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: project.banner_name
+	 * - **API ID Path**: project.logo_color
 	 * - **Tab**: Banner
-	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 * - **Documentation**: https://prismic.io/docs/fields/color
 	 */
-	banner_name: prismic.KeyTextField;
+	logo_color: prismic.ColorField;
 	
 	/**
 	 * Banner field in *Project*
@@ -873,12 +993,21 @@ interface ProjectDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	thumbnail_class: prismic.KeyTextField;/**
+	 * Slice zone field in *Project*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[]
+	 * - **Tab**: Blocos
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	blocks: prismic.SliceZone<ProjectDocumentDataBlocksSlice>;/**
 	 * De field in *Project*
 	 *
 	 * - **Field Type**: Date
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.start_date
-	 * - **Tab**: Details
+	 * - **Tab**: Detalhes
 	 * - **Documentation**: https://prismic.io/docs/fields/date
 	 */
 	start_date: prismic.DateField;
@@ -889,7 +1018,7 @@ interface ProjectDocumentData {
 	 * - **Field Type**: Date
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.end_date
-	 * - **Tab**: Details
+	 * - **Tab**: Detalhes
 	 * - **Documentation**: https://prismic.io/docs/fields/date
 	 */
 	end_date: prismic.DateField;
@@ -900,7 +1029,7 @@ interface ProjectDocumentData {
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.team_size
-	 * - **Tab**: Details
+	 * - **Tab**: Detalhes
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	team_size: prismic.SelectField<"1" | "2 - 10" | "10 - 50" | "50 - 100" | "+ 100">;
@@ -911,7 +1040,7 @@ interface ProjectDocumentData {
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.role
-	 * - **Tab**: Details
+	 * - **Tab**: Detalhes
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	role: prismic.KeyTextField;
@@ -922,7 +1051,7 @@ interface ProjectDocumentData {
 	 * - **Field Type**: Content Relationship
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: project.company
-	 * - **Tab**: Details
+	 * - **Tab**: Detalhes
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
 	company: prismic.ContentRelationshipField<"company">;/**
@@ -1245,6 +1374,10 @@ declare module "@prismicio/client" {
 			ProjectDocument,
 			ProjectDocumentData,
 			ProjectDocumentDataTechnologiesItem,
+			ProjectDocumentDataBlocksBlocoFullImageSlicePrimary,
+			ProjectDocumentDataBlocksBlocoImagemGridSlicePrimary,
+			ProjectDocumentDataBlocksBlocoImagemGridSliceItem,
+			ProjectDocumentDataBlocksSlice,
 			ProjectDocumentDataBodyPageConfigSlicePrimary,
 			ProjectDocumentDataBodySlice,
 			ProjectsDocument,
