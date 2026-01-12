@@ -22,21 +22,25 @@ export class ProjectMapper {
   private static contentFullImage(raw: TRawSchemaProjectContentFullImage): TSchemaProjectContentFullImage {
     return {
       type: 'full_image',
+      url: _.get(raw, 'primary.image.url'),
       size: raw.primary.size || 'full',
       color: _.get(raw, 'primary.color', '#FFFFFF'),
-      url: _.get(raw, 'primary.image.url'),
     }
   }
 
   private static contentImageGrid(raw: TRawSchemaProjectContentImagemGrid): TSchemaProjectContentImageGrid {
     return {
       type: 'image_grid',
-      gap: _.get(raw, 'primary.gap', true),
-      columns: _.get(raw, 'primary.columns', 4),
+      gap: _.get(raw, 'primary.grid_image_gap', true),
+      columns: _.get(raw, 'primary.grid_image_columns', 4),
+      hoverStyle: raw.primary.grid_image_hover_style,
       images: _.map(raw.items, (image) => ({
+        id: _.get(image, 'grid_image_url.key', ''),
         url: _.get(image, 'grid_image_url.url'),
         name: _.toString(_.get(image, 'grid_image_name', '')),
         color: _.toString(_.get(image, 'grid_image_color', '#000000')),
+        rows: _.toNumber(_.get(image, 'grid_image_rows', 1)),
+        cols: _.toNumber(_.get(image, 'grid_image_cols', 1)),
       })),
     }
   }
@@ -67,6 +71,7 @@ export class ProjectMapper {
 
   public static toStore(raw: TRawSchemaProject): TStoreFetcherProject {
     if (!raw.data.company.length) throw new Error(`Project ${raw.id} has no company associated.`)
+    if (raw.uid === 'drinkfinity') console.log(raw)
     return {
       status: 'loading',
       id: raw.id,

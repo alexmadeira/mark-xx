@@ -46,18 +46,18 @@ export function Header() {
       <motion.h1
         ref={logoRef}
         style={{ scale, top, x, y, left, opacity }}
-        className="relative w-fit pl-[clamp(0.375rem,1vw,0.5rem)] text-[clamp(2.25rem,7vw,12rem)] leading-[clamp(2.5rem,7vw,12rem)] text-nowrap"
+        className="relative w-fit text-[clamp(2.25rem,7vw,12rem)] leading-[clamp(2.5rem,7vw,12rem)] text-nowrap"
       >
         {project?.logo && (
           <img
             alt={project?.name}
             data-src={project?.logo}
-            className="relative max-w-[clamp(12rem,35vw,60rem)] object-contain pl-[clamp(0rem,0.3vw,1rem)]"
+            className="relative max-w-[clamp(12rem,35vw,60rem)] object-contain"
           />
         )}
         {!project?.logo && project?.name}
       </motion.h1>
-      <p className="flex flex-wrap gap-[clamp(1rem,1.25vw,1.85rem)] pl-[clamp(0.375rem,0.85vw,1rem)] text-[clamp(0.8rem,1vw,1.5rem)] leading-[clamp(1.333rem,1vw,1.555rem)]">
+      <p className="flex flex-wrap gap-[clamp(1rem,1.25vw,1.85rem)] text-[clamp(0.8rem,1vw,1.5rem)] leading-[clamp(1.333rem,1vw,1.555rem)]">
         <span className="flex items-center justify-center gap-2">
           <CalendarDays className="w-[clamp(1rem,1.5vw,2rem)]" /> {bornYear}
         </span>

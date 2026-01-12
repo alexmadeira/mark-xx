@@ -655,10 +655,21 @@ export interface ProjectDocumentDataBlocksBlocoImagemGridSlicePrimary {
 	 *
 	 * - **Field Type**: Number
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.columns
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.grid_image_columns
 	 * - **Documentation**: https://prismic.io/docs/fields/number
 	 */
-	columns: prismic.NumberField;
+	grid_image_columns: prismic.NumberField;
+	
+	/**
+	 * Estilo do hover field in *Project → Slice zone → Bloco Imagem Grid → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: none
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.grid_image_hover_style
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	grid_image_hover_style: prismic.SelectField<"none" | "scale" | "sepia" | "grayscale" | "scale-sepia" | "scale-grayscale", "filled">;
 	
 	/**
 	 * Espaçamento field in *Project → Slice zone → Bloco Imagem Grid → Primary*
@@ -666,10 +677,10 @@ export interface ProjectDocumentDataBlocksBlocoImagemGridSlicePrimary {
 	 * - **Field Type**: Boolean
 	 * - **Placeholder**: *None*
 	 * - **Default Value**: true
-	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.gap
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.primary.grid_image_gap
 	 * - **Documentation**: https://prismic.io/docs/fields/boolean
 	 */
-	gap: prismic.BooleanField;
+	grid_image_gap: prismic.BooleanField;
 }
 
 /**
@@ -705,6 +716,26 @@ export interface ProjectDocumentDataBlocksBlocoImagemGridSliceItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	grid_image_name: prismic.KeyTextField;
+	
+	/**
+	 * Linhas field in *Project → Slice zone → Bloco Imagem Grid → Items*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.items.grid_image_rows
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	grid_image_rows: prismic.NumberField;
+	
+	/**
+	 * Colunas field in *Project → Slice zone → Bloco Imagem Grid → Items*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.blocks[].bloco_imagem_grid.items.grid_image_cols
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	grid_image_cols: prismic.NumberField;
 }
 
 /**

@@ -12,7 +12,7 @@ export function BlockFullImage(props: TProjectBlockFullImageProps) {
         'data-[size=full]:px-0 data-[size=full]:md:px-0',
       )}
     >
-      <div className="h-full w-full overflow-clip rounded-lg border border-zinc-400/20 shadow-lg group-data-[size=full]:rounded-none group-data-[size=full]:border-x-0">
+      <div className="h-full w-full overflow-clip rounded-lg shadow-lg group-data-[size=full]:rounded-none group-data-[size=full]:border-x-0">
         {props.url && <img alt="" className="w-full" data-src={props.url} />}
       </div>
     </div>
