@@ -1,4 +1,4 @@
-import { ZEProjectBlockFullImageSize } from '@/enums/project'
+import { ZEProjectBlockFullImageSize, ZEProjectBlockImageGridHoverStyle } from '@/enums/project'
 import {
   ZPrismicDocumentProject,
   ZPrismicDocumentProjectContentFullImage,
@@ -27,10 +27,14 @@ export const ZSchemaProjectContentImageGrid = z.object({
   type: z.literal('image_grid'),
   gap: z.boolean(),
   columns: z.number(),
+  hoverStyle: ZEProjectBlockImageGridHoverStyle,
   images: z.array(
     z.object({
+      id: z.string(),
       name: z.string(),
       color: z.string(),
+      rows: z.number(),
+      cols: z.number(),
       url: z.url().optional(),
     }),
   ),
