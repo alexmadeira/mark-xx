@@ -7,9 +7,9 @@ import { preFetcher, projectFetcher } from '_SRV/fetcher'
 import { useRoute } from '_STR/useRoute'
 
 import { Banner } from './sessions/banner'
+import { Blocks } from './sessions/blocks'
 import { Header } from './sessions/header'
 import { Informations } from './sessions/informations'
-import { Previews } from './sessions/previews'
 
 export function Project() {
   const FProject = projectFetcher()
@@ -29,10 +29,10 @@ export function Project() {
   return (
     <>
       <Banner />
-      <div className={twMerge('relative top-0 left-0 z-2 w-full space-y-[clamp(2.5rem,3vw,8rem)]', 'mt-32')}>
+      <div className={twMerge('relative top-0 left-0 z-2 w-full space-y-[clamp(2.5rem,3vw,8rem)]')}>
         <Header />
         <Informations />
-        <Previews />
+        <Blocks />
       </div>
     </>
   )
