@@ -71,7 +71,6 @@ export class ProjectMapper {
 
   public static toStore(raw: TRawSchemaProject): TStoreFetcherProject {
     if (!raw.data.company.length) throw new Error(`Project ${raw.id} has no company associated.`)
-    if (raw.uid === 'drinkfinity') console.log(raw)
     return {
       status: 'loading',
       id: raw.id,

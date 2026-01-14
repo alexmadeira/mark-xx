@@ -5,9 +5,11 @@ const basePageData = {
   slug: 'not-set',
   title: 'Error',
   movie: '',
+  status: 'idle',
   subTitle: 'Error Loading Page',
   description: '<p>There was an error loading this page. Please try again later.</p>',
-  status: 'idle',
+  awardsTitle: 'Error Loading Awards Title',
+  awardsSubtitle: 'Error Loading Awards Subtitle',
 } satisfies TStoreFetcherPagesAnyData
 
 export const fetcherPagesDefaultData = {
