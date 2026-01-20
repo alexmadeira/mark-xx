@@ -50,11 +50,15 @@ export class PageMapper {
       id: raw.id,
       slug: raw.uid,
       title: _.presentsContent(_.get(raw, 'data.title', '')).replace(/\s+/g, '\u00A0'),
+      quote: _.presentsContent(_.get(raw, 'data.quote', null)),
       subTitle: _.presentsContent(_.get(raw, 'data.sub_title')),
       description: _.presentsContent(asHTML(_.get(raw, 'data.description'))),
     }
+
     const extraData = {
       movie: _.get(raw, 'data.movie.url'),
+      awardsTitle: _.get(raw, 'data.awards_title', ''),
+      awardsSubtitle: _.get(raw, 'data.awards_subtitle', ''),
     }
 
     return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
