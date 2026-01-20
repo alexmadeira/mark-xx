@@ -220,6 +220,17 @@ interface AboutDocumentData {
 	description: prismic.RichTextField;
 	
 	/**
+	 * Citação field in *About*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.quote
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	quote: prismic.KeyTextField;
+	
+	/**
 	 * Video field in *About*
 	 *
 	 * - **Field Type**: Link
@@ -237,7 +248,27 @@ interface AboutDocumentData {
 	 * - **Tab**: Config
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	body: prismic.SliceZone<AboutDocumentDataBodySlice>;
+	body: prismic.SliceZone<AboutDocumentDataBodySlice>;/**
+	 * Prêmios Título field in *About*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.awards_title
+	 * - **Tab**: Detalhes
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	awards_title: prismic.KeyTextField;
+	
+	/**
+	 * Prêmios Subtítulo field in *About*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.awards_subtitle
+	 * - **Tab**: Detalhes
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	awards_subtitle: prismic.KeyTextField;
 }
 
 /**
@@ -276,6 +307,28 @@ interface AwardDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/date
 	 */
 	date: prismic.DateField;
+	
+	/**
+	 * Por field in *Award*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: award.by
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	by: prismic.KeyTextField;
+	
+	/**
+	 * Tipo field in *Award*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: award.type
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	type: prismic.SelectField<"Prêmio" | "Menção honrosa" | "Destaque" | "Matéria">;
 	
 	/**
 	 * Descrição field in *Award*
@@ -1277,7 +1330,18 @@ interface ProjectsDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
-	description: prismic.RichTextField;/**
+	description: prismic.RichTextField;
+	
+	/**
+	 * Citação field in *Projects*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects.quote
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	quote: prismic.KeyTextField;/**
 	 * Slice zone field in *Projects*
 	 *
 	 * - **Field Type**: Slice Zone
