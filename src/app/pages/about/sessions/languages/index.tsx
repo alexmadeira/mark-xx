@@ -15,8 +15,8 @@ export function Languages() {
   if (width < 950) return null
 
   return (
-    <div className="bg-mark-50/50 w-full">
-      <div className="md:px-x-container mx-auto flex max-w-500 flex-col gap-[clamp(0.5rem,1vw,2rem)] px-8 py-[clamp(2rem,4vw,5rem)]">
+    <div className="bg-mark-50/50 w-full py-[clamp(1.5rem,10vw,6rem)]">
+      <div className="md:px-x-container mx-auto flex max-w-500 flex-col gap-[clamp(0.5rem,1vw,2rem)] px-8">
         <h2 className="relative w-full text-4xl text-[clamp(1.5rem,3vw,2.75rem)] leading-[clamp(2rem,1.8vw,2.5rem)] text-black">
           {about.languagesTitle}
         </h2>
