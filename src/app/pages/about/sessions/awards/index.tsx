@@ -8,13 +8,13 @@ export function Awards() {
   const awards = useFetcherAwards((st) => st.data.list)
 
   return (
-    <div className="w-full">
+    <div className="w-full py-[clamp(1.5rem,10vw,6rem)]">
       <div className="md:px-x-container mx-auto flex max-w-500 flex-col gap-[clamp(0.5rem,1vw,2rem)] px-8">
-        <h2 className="mx-auto w-full text-[clamp(1.5rem,2vw,3.5rem)] leading-[clamp(1.825rem,2vw,4rem)] font-normal">
+        <h2 className="relative w-full text-4xl text-[clamp(1.5rem,3vw,2.75rem)] leading-[clamp(2rem,1.8vw,2.5rem)] text-black">
           {about.awardsTitle}
         </h2>
         <div
-          className="w-[clamp(18rem,70vw,55rem)] text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
+          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
           dangerouslySetInnerHTML={{ __html: about?.awardsSubtitle }}
         />
 

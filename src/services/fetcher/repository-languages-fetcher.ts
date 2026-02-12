@@ -9,19 +9,25 @@ import { RepositoryLanguageMapper } from '_SRV/mapper/repository-language-mapper
 
 import { useFetcherRepositoryLanguages } from '_STR/useFetcherRepositoryLanguages'
 
+import { env } from '~/env'
+
 export class RepositoryLanguagesFetcher implements IFetcher<TLanguagesFetcherProps> {
   private readonly fetcherRepositoryLanguagesActions = useFetcherRepositoryLanguages.getState().actions
 
   constructor(private readonly api: Requester<typeof githubPaths>) {}
 
   private async fetchLanguages(name: string, options: TLanguagesFetcherProps) {
-    return await this.api.query('github:repository-languages', ['github:repository-languages', name], {
+    const result = await this.api.query('github:repository-languages', ['github:repository-languages', name], {
       owner: options.params.owner,
       repo: options.params.name,
     })
+
+    return _.omit(result, env.VITE_GITHUB_OMIT_LANGUAGES)
   }
 
   private async fetchPackages(name: string, options: TLanguagesFetcherProps): Promise<Record<string, string>> {
+    if (env.VITE_GITHUB_OMIT_REPOSITORY.includes(options.params.name)) return {}
+
     try {
       const { content } = await this.api.query('github:repository-packages', ['github:repository-packages', name], {
         owner: options.params.owner,
@@ -38,9 +44,15 @@ export class RepositoryLanguagesFetcher implements IFetcher<TLanguagesFetcherPro
     }
   }
 
+  private isEnabledRepo(options: TLanguagesFetcherProps) {
+    if (options.params.owner === options.params.name) return false
+    if (env.VITE_GITHUB_OMIT_REPOSITORY.includes(options.params.name)) return false
+    return true
+  }
+
   public async fetch(name: string, options: TLanguagesFetcherProps) {
     this.fetcherRepositoryLanguagesActions.setStatus('loading')
-    if (options.params.owner === options.params.name) return this.fetcherRepositoryLanguagesActions.setStatus('loaded')
+    if (!this.isEnabledRepo(options)) return this.fetcherRepositoryLanguagesActions.setStatus('loaded')
 
     try {
       const [result, packages] = await Promise.all([
