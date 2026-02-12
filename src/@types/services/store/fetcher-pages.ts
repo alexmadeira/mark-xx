@@ -21,6 +21,8 @@ export const ZStoreFetcherPagesAboutProperties = z.object({
   movie: z.url(),
   awardsTitle: z.string(),
   awardsSubtitle: z.string(),
+  languagesTitle: z.string(),
+  languagesSubtitle: z.string(),
 })
 
 export const ZStoreFetcherPagesData = z.object({
