@@ -1,9 +1,9 @@
 import type {
   TRequesterFetchProps,
-  // TRequesterMutateProps,
   TRequesterPathParams,
   TRequesterPaths,
   TRequesterPathSchema,
+  TRequesterPrepareRequestProps,
   TRequesterPrismicQueryParams,
   TRequesterProps,
   TRequesterQueryDataToFetchProps,
@@ -23,7 +23,7 @@ export class Requester<TPaths extends TRequesterPaths> {
     const httpParams = params as TRequesterPathParams<TPaths, K>
     const prismicParams = params as TRequesterPrismicQueryParams
 
-    const request = queryData.path || prismicParams.type
+    const request = this.prepareRequest(queryData.path || prismicParams.type, httpParams)
     if (!request) throw new Error('Requester: path or type is required in the request configuration.')
 
     return {
@@ -40,6 +40,15 @@ export class Requester<TPaths extends TRequesterPaths> {
         return: prismicParams?.return,
       },
     }
+  }
+
+  private prepareRequest<K extends keyof TPaths>(...[request, params]: TRequesterPrepareRequestProps<TPaths, K>) {
+    return _.replace(request, /:([a-zA-Z0-9_]+)/g, (__, key) => {
+      if (!params) throw new Error(`Requester: missing parameters for path '${request}'.`)
+      if (!_.has(params, key)) throw new Error(`Requester: missing parameter '${key}' for path '${request}'.`)
+
+      return _.toPlainObject(params)[key]
+    })
   }
 
   private async fetch<TResponse, K extends keyof TPaths>(props: TRequesterFetchProps<TPaths, K>): Promise<TResponse> {

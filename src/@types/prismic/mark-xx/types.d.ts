@@ -262,13 +262,35 @@ interface AboutDocumentData {
 	/**
 	 * Prêmios Subtítulo field in *About*
 	 *
-	 * - **Field Type**: Text
+	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: about.awards_subtitle
 	 * - **Tab**: Detalhes
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	awards_subtitle: prismic.RichTextField;
+	
+	/**
+	 * Ferramentas Título field in *About*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.languages_title
+	 * - **Tab**: Detalhes
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	awards_subtitle: prismic.KeyTextField;
+	languages_title: prismic.KeyTextField;
+	
+	/**
+	 * Ferramentas Subtítulo field in *About*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.languages_subtitle
+	 * - **Tab**: Detalhes
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	languages_subtitle: prismic.RichTextField;
 }
 
 /**

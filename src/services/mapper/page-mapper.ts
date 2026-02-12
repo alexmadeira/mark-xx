@@ -58,7 +58,9 @@ export class PageMapper {
     const extraData = {
       movie: _.get(raw, 'data.movie.url'),
       awardsTitle: _.get(raw, 'data.awards_title', ''),
-      awardsSubtitle: _.get(raw, 'data.awards_subtitle', ''),
+      awardsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.awards_subtitle'))),
+      languagesTitle: _.get(raw, 'data.languages_title', ''),
+      languagesSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.languages_subtitle'))),
     }
 
     return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
