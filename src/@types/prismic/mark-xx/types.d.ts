@@ -291,6 +291,28 @@ interface AboutDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	languages_subtitle: prismic.RichTextField;
+	
+	/**
+	 * Marcas Título field in *About*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.brands_title
+	 * - **Tab**: Detalhes
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	brands_title: prismic.KeyTextField;
+	
+	/**
+	 * Marcas Subtítulo field in *About*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about.brands_subtitle
+	 * - **Tab**: Detalhes
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	brands_subtitle: prismic.RichTextField;
 }
 
 /**

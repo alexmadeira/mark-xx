@@ -26,6 +26,7 @@ export const ZEnvClient = ZEnvGlobal.extend({
   VITE_GITHUB_ACCESS_TOKEN: z.string(),
   VITE_GITHUB_OMIT_LANGUAGES: ZStringArray,
   VITE_GITHUB_OMIT_REPOSITORY: ZStringArray,
+  VITE_GITHUB_TOTAL_REPOSITORIES: z.coerce.number().default(20),
 
   VITE_STORAGE_KEY: z.string().default('ALEX_MADEIRA::storage'),
   VITE_QUERY_GC_TIME: z.coerce.number().default(1000 * 60 * 60 * 24), // 24 hours
