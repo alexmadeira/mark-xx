@@ -6,7 +6,6 @@ import { ZRawSchemaCompany } from '@/services/schema/company'
 import { ZRawSchemaPage } from '@/services/schema/page'
 import { ZRawSchemaProject } from '@/services/schema/project'
 import { ZRawSchemaTechnology } from '@/services/schema/technology'
-import { ZRawSchemaUsageLanguage } from '@/services/schema/usage-language'
 
 import z from 'zod'
 
@@ -38,13 +37,5 @@ export const markXXPaths = {
   'mark-xx:companies': {
     method: 'get',
     schema: z.array(ZRawSchemaCompany),
-  },
-  'mark-xx:languages-usage': {
-    method: 'get',
-    path: '/mark-xx/languages-usage',
-    schema: z.object({
-      total: z.number(),
-      languages: z.array(ZRawSchemaUsageLanguage),
-    }),
   },
 } as const satisfies TRequesterPaths

@@ -4,8 +4,8 @@ import {
   pageFetcher,
   preFetcher,
   projectsFetcher,
+  repositoriesFetcher,
   technologiesFetcher,
-  // usageLanguagesFetcher,
 } from '_SRV/fetcher'
 
 export function PreFetcher() {
@@ -14,6 +14,7 @@ export function PreFetcher() {
   const FBrands = brandsFetcher()
   const FProjects = projectsFetcher()
   const FTechnologies = technologiesFetcher()
+  const FRepositories = repositoriesFetcher()
 
   // const FUsageLanguages = usageLanguagesFetcher()
 
@@ -28,7 +29,8 @@ export function PreFetcher() {
     FProjects.prefetch('all:projects'),
     FProjects.prefetch('home:projects', { filter: { fields: { highlight: true } } }),
     FTechnologies.prefetch('banner:technologies', { filter: { tags: ['banner'] } }),
-    // FUsageLanguages.prefetch('about:usage-languages'),
+    //
+    FRepositories.prefetch('about:repositories', { params: { perPage: 20 } }),
   ])
 
   return null

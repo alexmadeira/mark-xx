@@ -83,6 +83,10 @@ export function ZRequesterQueryDataToFetchProps<T extends z.infer<typeof ZReques
   ])
 }
 
+export function ZRequesterPrepareRequestProps<T extends z.infer<typeof ZRequesterPaths>, K extends keyof T>() {
+  return z.tuple([z.string(), z.custom<z.infer<T[K]['params']>>()])
+}
+
 export function ZRequesterFetchProps<T extends z.infer<typeof ZRequesterPaths>, K extends keyof T>() {
   return z.object({
     request: z.string(),
@@ -157,6 +161,11 @@ export type TRequesterPathParams<T extends TRequesterPaths, K extends keyof T> =
 export type TRequesterQueryDataToFetchProps<T extends TRequesterPaths, K extends keyof T> = z.inferGeneric<
   typeof ZRequesterQueryDataToFetchProps<T, K>
 >
+
+export type TRequesterPrepareRequestProps<T extends TRequesterPaths, K extends keyof T> = z.inferGeneric<
+  typeof ZRequesterPrepareRequestProps<T, K>
+>
+
 export type TRequesterFetchProps<T extends TRequesterPaths, K extends keyof T> = z.inferGeneric<
   typeof ZRequesterFetchProps<T, K>
 >
