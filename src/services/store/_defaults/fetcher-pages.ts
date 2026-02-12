@@ -12,6 +12,8 @@ const basePageData = {
   awardsSubtitle: 'Error Loading Awards Subtitle',
   languagesTitle: 'Error Loading Languages Subtitle',
   languagesSubtitle: 'Error Loading Languages Subtitle',
+  brandsTitle: 'Error Loading Brands Subtitle',
+  brandsSubtitle: 'Error Loading Brands Subtitle',
 } satisfies TStoreFetcherPagesAnyData
 
 export const fetcherPagesDefaultData = {
