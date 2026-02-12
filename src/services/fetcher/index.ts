@@ -1,4 +1,4 @@
-import { prismic, veronica } from '_SRV/api'
+import { github, prismic } from '_SRV/api'
 
 import { AwardsFetcher } from './awards-fetcher'
 import { BrandsFetcher } from './brands-fetcher'
@@ -7,8 +7,9 @@ import { PageFetcher } from './page-fetcher'
 import { PreFetcher } from './pre-fetcher'
 import { ProjectFetcher } from './project-fetcher'
 import { ProjectsFetcher } from './projects-fetcher'
+import { RepositoriesFetcher } from './repositories-fetcher'
+import { RepositoryLanguagesFetcher } from './repository-languages-fetcher'
 import { TechnologiesFetcher } from './technologies-fetcher'
-import { UsageLanguagesFetcher } from './usage-languages-fetcher'
 
 let fetcherPre: PreFetcher
 let fetcherPage: PageFetcher
@@ -18,7 +19,13 @@ let fetcherProject: ProjectFetcher
 let fetcherProjects: ProjectsFetcher
 let fetcherCompanies: CompaniesFetcher
 let fetcherTechnologies: TechnologiesFetcher
-let fetcherUsageLanguages: UsageLanguagesFetcher
+let fetcherRepositories: RepositoriesFetcher
+let fetcherRepositoryLanguages: RepositoryLanguagesFetcher
+
+export function preFetcher() {
+  if (!fetcherPre) fetcherPre = new PreFetcher()
+  return fetcherPre
+}
 
 export function projectsFetcher() {
   if (!fetcherProjects) fetcherProjects = new ProjectsFetcher(prismic())
@@ -28,7 +35,6 @@ export function projectFetcher() {
   if (!fetcherProject) fetcherProject = new ProjectFetcher(prismic())
   return fetcherProject
 }
-
 export function awardsFetcher() {
   if (!fetcherAwards) fetcherAwards = new AwardsFetcher(prismic())
   return fetcherAwards
@@ -51,12 +57,11 @@ export function pageFetcher() {
   return fetcherPage
 }
 
-export function usageLanguagesFetcher() {
-  if (!fetcherUsageLanguages) fetcherUsageLanguages = new UsageLanguagesFetcher(veronica())
-  return fetcherUsageLanguages
+export function repositoriesFetcher() {
+  if (!fetcherRepositories) fetcherRepositories = new RepositoriesFetcher(github())
+  return fetcherRepositories
 }
-
-export function preFetcher() {
-  if (!fetcherPre) fetcherPre = new PreFetcher()
-  return fetcherPre
+export function repositoryLanguagesFetcher() {
+  if (!fetcherRepositoryLanguages) fetcherRepositoryLanguages = new RepositoryLanguagesFetcher(github())
+  return fetcherRepositoryLanguages
 }

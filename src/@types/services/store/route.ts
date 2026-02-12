@@ -9,7 +9,7 @@ export const ZStoreRouteData = z.object({
 
 export const ZStoreRouteActions = z.object({
   setCurrent: z.custom<(path: string) => void>(),
-  setParams: z.custom<(params: z.Infer<typeof ZStoreRouteParams>) => void>(),
+  setParams: z.custom<(params: z.infer<typeof ZStoreRouteParams>) => void>(),
 })
 
 export const ZStoreRoute = z.object({
