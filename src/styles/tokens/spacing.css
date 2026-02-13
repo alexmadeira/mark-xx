@@ -17,4 +17,6 @@
     7.6vw,
     8rem
   );
+
+  --spacing-session: clamp(3rem, 4.5vw, 9rem);
 }

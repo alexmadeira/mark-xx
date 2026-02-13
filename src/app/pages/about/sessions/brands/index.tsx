@@ -10,7 +10,7 @@ export function Brands() {
   const brands = useFetcherBrands((st) => st.data.list)
 
   return (
-    <div className="w-full py-[clamp(1.5rem,10vw,6rem)]">
+    <div className="py-session w-full">
       <div className="md:px-x-container mx-auto flex max-w-500 flex-col gap-[clamp(0.5rem,1vw,2rem)] px-8">
         <h2 className="relative w-full text-4xl text-[clamp(1.5rem,3vw,2.75rem)] leading-[clamp(2rem,1.8vw,2.5rem)] text-black">
           {about.brandsTitle}
@@ -20,9 +20,9 @@ export function Brands() {
           dangerouslySetInnerHTML={{ __html: about?.brandsSubtitle }}
         />
 
-        <div className="mt-[clamp(1rem,1.25vw,1.75rem)] flex w-full flex-wrap items-center justify-center">
-          {brands.map((brand) => (
-            <Brand key={brand.id} name={brand.name} logo={brand.logo} />
+        <div className="mt-[calc(clamp(0.5rem,1vw,2rem)*2)] flex w-full items-center">
+          {brands.map((brand, i) => (
+            <Brand key={brand.id} name={brand.name} logo={brand.logo} index={i} />
           ))}
         </div>
       </div>

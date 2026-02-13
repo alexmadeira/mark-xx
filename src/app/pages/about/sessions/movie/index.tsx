@@ -15,7 +15,7 @@ export function Movie() {
   }, [videoRef.current])
 
   return (
-    <div className="3xl:h-[50vh] h-[40vh] min-h-75 w-full pt-[clamp(1.5rem,10vw,6rem)]">
+    <div className="h-[clamp(38rem,63vw,90rem)] w-full">
       <div className="relative h-full w-full">
         <div className="absolute top-0 left-0 z-1 h-full w-full bg-zinc-800/70" />
         <div ref={videoRef} className="h-full w-full object-cover object-center">
