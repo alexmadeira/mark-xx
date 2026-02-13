@@ -13,9 +13,9 @@ export function BackgroundFetcher() {
   BLoader.on('Loader:Finished', FPreFetcher.runBackground.bind(FPreFetcher))
 
   const projects = useFetcherProjects((st) => st.data.list['all:projects']) || []
-  FPreFetcher.addBackgroundPrefetcher(projects.map((project) => FProject.prefetch(project.slug)))
-
   const repositories = useFetcherRepositories((st) => st.data.list)
+
+  FPreFetcher.addBackgroundPrefetcher(projects.map((project) => FProject.prefetch(project.slug)))
   FPreFetcher.addBackgroundPrefetcher(
     repositories.map((repository) =>
       FRepositoryLanguages.prefetch(repository.name, {
@@ -23,8 +23,6 @@ export function BackgroundFetcher() {
       }),
     ),
   )
-
-  // FPreFetcher.addBackgroundPrefetcher(projects.map((project) => FProject.prefetch(project.slug)))
 
   return null
 }
