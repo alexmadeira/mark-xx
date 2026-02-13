@@ -16,7 +16,7 @@ export function Projects() {
   return (
     <>
       <Header />
-      <div className="my-[clamp(1rem,4vw,5rem)] w-full">
+      <div className="mt-session flex w-full flex-col">
         <ProjectsMasonry.render contents={masonryProjects}>
           <ProjectDetails />
         </ProjectsMasonry.render>

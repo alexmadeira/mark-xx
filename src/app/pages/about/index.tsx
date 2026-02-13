@@ -8,7 +8,7 @@ export function About() {
   return (
     <>
       <Header />
-      <div className="flex w-full flex-col">
+      <div className="mt-session flex w-full flex-col">
         <Movie />
         <Awards />
         <Languages />
