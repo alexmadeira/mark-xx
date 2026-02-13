@@ -75,15 +75,6 @@ export class Requester<TPaths extends TRequesterPaths> {
     return this.props.queryClient
   }
 
-  // public async mutate<K extends keyof TPaths>(request: K, ...[body]: TRequesterMutateProps) {
-  //   // await useRequester.waitFor('cache.restoreStatus', 'restored')
-  //   // return await this.fetch<TRequesterPathSchema<TPaths, K>, K>({
-  //   //   req: this.paths[request],
-  //   //   body,
-  //   //   // params,
-  //   // })
-  // }
-
   public async query<K extends keyof TPaths>(request: K, ...[queryKey, params]: TRequesterQueryProps<TPaths, K>) {
     await useRequester.waitFor('cache.restoreStatus', 'restored')
 
