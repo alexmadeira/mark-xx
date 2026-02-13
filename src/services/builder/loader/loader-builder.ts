@@ -9,7 +9,6 @@ import type {
   TLoaderEventSubscribeProps,
   TLoaderProps,
 } from '@/services/builder/loader'
-import type { TLoaderAddInstanceProps } from '@/services/builder/loader/requests'
 
 import _ from 'lodash'
 
@@ -23,7 +22,7 @@ export class LoaderBuilder implements ILoader {
     private readonly requestsLoader: ILoaderRequests,
     private readonly mediasLoader: ILoaderMedias,
     private readonly progressLoader: ILoaderProgress,
-    private readonly _props: TLoaderProps,
+    private readonly props: TLoaderProps,
   ) {
     this.listeners = {
       'Loader:Finished': new Set(),
@@ -99,7 +98,7 @@ export class LoaderBuilder implements ILoader {
   }
 
   private get once() {
-    return this._props.once
+    return this.props.once
   }
 
   private autoLoaded() {
@@ -130,13 +129,15 @@ export class LoaderBuilder implements ILoader {
     return () => this.listeners[type].delete(callback)
   }
 
-  public addInstance(...[instance]: TLoaderAddInstanceProps) {
-    this.requestsLoader.addInstance(instance)
+  public requestError(requestKey: string) {
+    this.requestsLoader.requestError(requestKey)
   }
 
-  public requestError(_requestKey: string) {}
+  public requestStarted(requestKey: string) {
+    this.requestsLoader.requestStarted(requestKey)
+  }
 
-  public requestStarted(_requestKey: string) {}
-
-  public requestFinished(_requestKey: string) {}
+  public requestFinished(requestKey: string) {
+    this.requestsLoader.requestFinished(requestKey)
+  }
 }
