@@ -1,6 +1,5 @@
 import type { ILoaderRequests } from '@/interfaces/loader/requests'
 import type {
-  TLoaderAddInstanceProps,
   TLoaderLoadedRequests,
   TLoaderLoadingRequests,
   TLoaderRequestErrorProps,
@@ -35,30 +34,30 @@ export class LoaderRequests implements ILoaderRequests {
     return new LoaderRequests()
   }
 
-  private requestStarted(...[config]: TLoaderRequestStartedProps) {
-    this.loadingRequests.add(config.url!)
+  public requestStarted(...[path]: TLoaderRequestStartedProps) {
+    this.loadingRequests.add(path)
+
     this.notifyListeners('REQUEST:Update')
-    this.notifyListeners('REQUEST:Started', config.url)
-    return config
+    this.notifyListeners('REQUEST:Started', path)
   }
 
-  private requestFinished(...[response]: TLoaderRequestFinishedProps) {
-    this.loadedRequests.add(response.config.url!)
+  public requestFinished(...[path]: TLoaderRequestFinishedProps) {
+    this.loadedRequests.add(path)
 
     this.notifyListeners('REQUEST:Update')
-    this.notifyListeners('REQUEST:Finished', response.config.url)
+    this.notifyListeners('REQUEST:Finished', path)
+
     this.checkAllFinished()
-    return response
   }
 
-  private requestError(...[error]: TLoaderRequestErrorProps) {
-    this.loadedRequests.add(error.config!.url!)
+  public requestError(...[path]: TLoaderRequestErrorProps) {
+    this.loadedRequests.add(path)
 
     this.notifyListeners('REQUEST:Update')
-    this.notifyListeners('REQUEST:Error', error.config!.url)
-    this.notifyListeners('REQUEST:Finished', error.config!.url)
+    this.notifyListeners('REQUEST:Error', path)
+    this.notifyListeners('REQUEST:Finished', path)
+
     this.checkAllFinished()
-    return Promise.reject(error)
   }
 
   private notifyListeners(...[type, payload]: TLoaderRequestNotifyListenersProps) {
@@ -69,11 +68,6 @@ export class LoaderRequests implements ILoaderRequests {
 
   private checkAllFinished() {
     if (!this.finished) this.notifyListeners('REQUEST:AllFinished')
-  }
-
-  public addInstance(...[instance]: TLoaderAddInstanceProps) {
-    instance.interceptors.request.use(this.requestStarted, this.requestError)
-    instance.interceptors.response.use(this.requestFinished, this.requestError)
   }
 
   public subscribe(...[type, callback]: TLoaderRequestSubscribeProps) {
