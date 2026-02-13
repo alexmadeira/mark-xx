@@ -8,6 +8,8 @@ import {
   technologiesFetcher,
 } from '_SRV/fetcher'
 
+import { env } from '~/env'
+
 export function PreFetcher() {
   const FPage = pageFetcher()
   const FAwards = awardsFetcher()
@@ -15,8 +17,6 @@ export function PreFetcher() {
   const FProjects = projectsFetcher()
   const FTechnologies = technologiesFetcher()
   const FRepositories = repositoriesFetcher()
-
-  // const FUsageLanguages = usageLanguagesFetcher()
 
   const FPreFetcher = preFetcher()
 
@@ -30,7 +30,7 @@ export function PreFetcher() {
     FProjects.prefetch('home:projects', { filter: { fields: { highlight: true } } }),
     FTechnologies.prefetch('banner:technologies', { filter: { tags: ['banner'] } }),
     //
-    FRepositories.prefetch('about:repositories', { params: { perPage: 20 } }),
+    FRepositories.prefetch('about:repositories', { params: { perPage: env.VITE_GITHUB_TOTAL_REPOSITORIES } }),
   ])
 
   return null

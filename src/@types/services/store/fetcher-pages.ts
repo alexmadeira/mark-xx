@@ -23,6 +23,8 @@ export const ZStoreFetcherPagesAboutProperties = z.object({
   awardsSubtitle: z.string(),
   languagesTitle: z.string(),
   languagesSubtitle: z.string(),
+  brandsTitle: z.string(),
+  brandsSubtitle: z.string(),
 })
 
 export const ZStoreFetcherPagesData = z.object({
