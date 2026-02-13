@@ -61,6 +61,8 @@ export class PageMapper {
       awardsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.awards_subtitle'))),
       languagesTitle: _.get(raw, 'data.languages_title', ''),
       languagesSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.languages_subtitle'))),
+      brandsTitle: _.get(raw, 'data.brands_title', ''),
+      brandsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.brands_subtitle'))),
     }
 
     return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
