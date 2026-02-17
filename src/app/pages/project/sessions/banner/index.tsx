@@ -23,13 +23,13 @@ export function Banner() {
 
   return (
     <div ref={targetRef} className="fixed top-0 left-0 h-screen max-h-[200vw] min-h-100 w-full">
-      <div className="relative h-full w-full overflow-hidden">
+      <div className="relative h-screen w-screen overflow-hidden">
         {!!project?.banner && (
           <motion.img
             style={{ opacity, scale }}
             data-src={project.banner}
             alt={project.bannerName || ''}
-            className="h-full w-full object-cover lg:object-top"
+            className="absolute top-1/2 h-full w-full -translate-y-1/2 object-cover md:top-0 md:translate-y-0 lg:object-top"
           />
         )}
       </div>
