@@ -65,7 +65,7 @@ export class LoaderMedias implements ILoaderMedias {
   private buildMediaMonitor() {
     new MutationObserver(async (mutations) => {
       for (const mutation of mutations) {
-        if (mutation.target === document.body) continue
+        // if (mutation.target === document.body) continue
         if (mutation.type === 'childList') {
           this.loadMedias()
         }

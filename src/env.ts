@@ -22,6 +22,8 @@ export const ZEnvClient = ZEnvGlobal.extend({
 
   VITE_VERONICA_API: z.url().default('http://localhost:3001/api/'),
 
+  VITE_EASTERE_EGG_RESET_DELAY: z.coerce.number().default(1000),
+
   VITE_GITHUB_API: z.url().default('https://api.github.com/'),
   VITE_GITHUB_ACCESS_TOKEN: z.string(),
   VITE_GITHUB_OMIT_LANGUAGES: ZStringArray,
