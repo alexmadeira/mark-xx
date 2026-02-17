@@ -11,6 +11,7 @@ export function MainProvider({ children }: TMainProviderProps) {
 
   useEffect(() => {
     CLMouse.init()
+
     return () => CLMouse.init()
   }, [])
 

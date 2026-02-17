@@ -74,6 +74,9 @@ importers:
       motion:
         specifier: 12.23.12
         version: 12.23.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      mousetrap:
+        specifier: 1.6.5
+        version: 1.6.5
       mustache:
         specifier: 4.2.0
         version: 4.2.0
@@ -110,6 +113,9 @@ importers:
       tailwindcss:
         specifier: 4.1.18
         version: 4.1.18
+      use-sound:
+        specifier: 5.0.0
+        version: 5.0.0(react@19.1.1)
       vite-plugin-package-version:
         specifier: 1.1.0
         version: 1.1.0(vite@7.1.5(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))
@@ -135,6 +141,9 @@ importers:
       '@types/lodash':
         specifier: 4.17.20
         version: 4.17.20
+      '@types/mousetrap':
+        specifier: 1.6.15
+        version: 1.6.15
       '@types/mustache':
         specifier: 4.2.6
         version: 4.2.6
@@ -1082,6 +1091,9 @@ packages:
 
   '@types/minimist@1.2.5':
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
+
+  '@types/mousetrap@1.6.15':
+    resolution: {integrity: sha512-qL0hyIMNPow317QWW/63RvL1x5MVMV+Ru3NaY9f/CuEpCqrmb7WeuK2071ZY5hczOnm38qExWM2i2WtkXLSqFw==}
 
   '@types/mustache@4.2.6':
     resolution: {integrity: sha512-t+8/QWTAhOFlrF1IVZqKnMRJi84EgkIK5Kh0p2JV4OLywUvCwJPFxbJAl7XAow7DVIHsF+xW9f1MVzg0L6Szjw==}
@@ -2292,6 +2304,9 @@ packages:
     resolution: {integrity: sha512-HVJyzUrLIL1c0QmviVh5E8VGyUS7xCFPS6yydaVd1UegW+ibV/CohqTH9MkOLDp5o+rb82DMo77PTuc9F/8GKw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
+  howler@2.2.4:
+    resolution: {integrity: sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==}
+
   human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
@@ -2901,6 +2916,9 @@ packages:
         optional: true
       react-dom:
         optional: true
+
+  mousetrap@1.6.5:
+    resolution: {integrity: sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==}
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
@@ -3766,6 +3784,11 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
+
+  use-sound@5.0.0:
+    resolution: {integrity: sha512-MNHT3FFC5HxNCrgZtrnpIMJI2cw/0D2xismcrtyht8BTuF5FhFhb57xO/jlQr2xJaFrc/0btzRQvGyHQwB7PVA==}
+    peerDependencies:
+      react: '>=16.8'
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -4842,6 +4865,8 @@ snapshots:
   '@types/lodash@4.17.20': {}
 
   '@types/minimist@1.2.5': {}
+
+  '@types/mousetrap@1.6.15': {}
 
   '@types/mustache@4.2.6': {}
 
@@ -6319,6 +6344,8 @@ snapshots:
     dependencies:
       lru-cache: 7.18.3
 
+  howler@2.2.4: {}
+
   human-signals@2.1.0: {}
 
   husky@9.1.7: {}
@@ -6865,6 +6892,8 @@ snapshots:
     optionalDependencies:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
+
+  mousetrap@1.6.5: {}
 
   ms@2.1.3: {}
 
@@ -7721,6 +7750,11 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  use-sound@5.0.0(react@19.1.1):
+    dependencies:
+      howler: 2.2.4
+      react: 19.1.1
 
   util-deprecate@1.0.2: {}
 
