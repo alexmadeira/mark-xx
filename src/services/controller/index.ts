@@ -7,6 +7,7 @@ import {
   defaultSEOProps,
 } from './_defaults'
 import { ColorController } from './color-controller'
+import { EasterEggController } from './easter-egg-controller'
 import { ElementController } from './element-controller'
 import { HeroController } from './hero-controller'
 import { MouseController } from './mouse-controller'
@@ -21,6 +22,7 @@ let controllerRoute: RouteController
 let controllerMouse: MouseController
 let controllerOverlap: OverlapController
 let controllerScrolling: ScrollingController
+let controllerEasterEgg: EasterEggController
 
 const controllersColor: Record<string, ColorController<keyof typeof defaultColorProps>> = {}
 const controllersElement: Record<string, ElementController> = {}
@@ -53,6 +55,11 @@ export function overlapController() {
 export function scrollingController() {
   if (!controllerScrolling) controllerScrolling = ScrollingController.create(defaultScrollingProps)
   return controllerScrolling
+}
+
+export function easterEggController() {
+  if (!controllerEasterEgg) controllerEasterEgg = new EasterEggController()
+  return controllerEasterEgg
 }
 
 export function colorController(color: keyof typeof defaultColorProps) {

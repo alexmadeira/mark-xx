@@ -2,6 +2,7 @@ import { useLocation, useOutlet } from 'react-router-dom'
 
 import { Footer } from '_APP/components/footer'
 import { Header } from '_APP/components/header'
+import { EasterEggs } from '_APP/easter-eggs'
 import { BackgroundLoader } from '_APP/loader/background-loader'
 import { SplashScreen } from '_APP/loader/splash-screen'
 import { AnimatePresence, motion } from 'motion/react'
@@ -21,10 +22,11 @@ export function BaseLayout() {
     <>
       <SplashScreen />
       <BackgroundLoader />
+      <EasterEggs />
       <div className="relative flex min-h-screen flex-col antialiased">
         <AnimatePresence mode="sync" initial={false}>
           <motion.div
-            key={CLRoute.currentRoute.pathname}
+            key={pathname}
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

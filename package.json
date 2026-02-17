@@ -51,6 +51,7 @@
     "lottie-react": "2.4.1",
     "lucide-react": "0.543.0",
     "motion": "12.23.12",
+    "mousetrap": "1.6.5",
     "mustache": "4.2.0",
     "potpack": "2.1.0",
     "react": "19.1.1",
@@ -63,6 +64,7 @@
     "rxjs": "7.8.2",
     "tailwind-merge": "3.3.1",
     "tailwindcss": "4.1.18",
+    "use-sound": "5.0.0",
     "vite-plugin-package-version": "1.1.0",
     "zod": "4.1.5",
     "zustand": "5.0.9"
@@ -73,6 +75,7 @@
     "@prismicio/types": "0.2.9",
     "@types/bin-pack": "1.0.3",
     "@types/lodash": "4.17.20",
+    "@types/mousetrap": "1.6.15",
     "@types/mustache": "4.2.6",
     "@types/node": "25.0.3",
     "@types/qs": "6.14.0",
