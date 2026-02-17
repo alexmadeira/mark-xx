@@ -30,15 +30,30 @@ export function Content() {
             alex.c.madeira@gmail.com
           </a>
           <div className="flex w-full items-center justify-center gap-x-3 sm:justify-end">
-            <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.linkedin.com/in/alex-madeira"
+              className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline"
+            >
               Linkedin
             </a>
-            <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/alexmadeira"
+              className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline"
+            >
               Github
             </a>
-            <a href="#" className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline">
+            {/* <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="#"
+              className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline"
+            >
               Instagram
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
