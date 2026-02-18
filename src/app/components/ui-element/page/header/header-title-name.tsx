@@ -23,7 +23,7 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
         role="heading"
         aria-label={page.title}
         className={twMerge(
-          'flex w-full items-center text-[clamp(2rem,10vw,17rem)] leading-[clamp(4rem,12vw,19rem)] font-medium tracking-widest',
+          'flex w-full items-center text-[clamp(2rem,10vw,17rem)] leading-[clamp(4rem,12vw,20rem)] font-medium tracking-widest',
         )}
       >
         {isLoaded &&

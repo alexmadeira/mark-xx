@@ -6,7 +6,7 @@ import { HeaderTitleName } from './header-title-name'
 
 export function HeaderTitle({ className, children, ...props }: TPageHeaderTitleProps) {
   return (
-    <div {...props} className={twMerge('mb-[clamp(3rem,6vw,10rem)] w-full', className)}>
+    <div {...props} className={twMerge('mb-[clamp(1rem,4vw,6rem)] w-full', className)}>
       <div
         className={twMerge(
           'mx-auto flex w-full flex-col gap-0 px-8',

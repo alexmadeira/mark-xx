@@ -16,7 +16,7 @@ export function HeaderContent(props: TPageHeaderContentProps) {
   const page = useFetcherPages((st) => st.data[pageName])
 
   return (
-    <div className={twMerge('mt-5 flex w-full flex-col space-y-[clamp(1.5rem,10vw,6rem)]', 'lg:mt-0')}>
+    <div className={twMerge('flex w-full flex-col space-y-[clamp(1.5rem,10vw,6rem)]')}>
       <div
         data-quote={!!page?.quote}
         className={twMerge(

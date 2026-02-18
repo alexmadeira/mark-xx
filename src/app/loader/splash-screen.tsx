@@ -45,14 +45,14 @@ export function SplashScreen() {
 
   return (
     <div ref={scope}>
-      <div id="overlay" className="fixed z-10 flex h-screen w-screen bg-black" />
-      <div className="fixed z-11 flex h-screen w-screen justify-between bg-white mix-blend-screen">
+      <div id="overlay" className="fixed z-18 flex h-screen w-screen bg-black" />
+      <div className="fixed z-19 flex h-full w-full justify-between bg-white mix-blend-screen">
         <div
           id="loader"
           className={twMerge(
             'flex w-full flex-col items-center justify-center',
             'mx-auto flex w-full max-w-376 flex-col gap-0 px-8',
-            'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)]',
+            'md:px-[max(calc(var(--spacing-safe-area-x)+1rem,2rem))]',
             'lg:px-x-container',
           )}
         >
