@@ -4,7 +4,6 @@ import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function Content() {
   const home = useFetcherPages((st) => st.data.home)
-  //  1.75rem 5rem
   return (
     <div className={twMerge('relative z-1 mt-auto w-full pb-[clamp(1.75rem,5vw,5rem)]')}>
       <div
