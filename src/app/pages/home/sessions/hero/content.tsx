@@ -4,20 +4,14 @@ import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function Content() {
   const home = useFetcherPages((st) => st.data.home)
-
+  //  1.75rem 5rem
   return (
-    <div
-      className={twMerge(
-        'relative z-1 mt-auto w-full pb-7',
-        'sm:pb-[clamp(calc(var(--spacing)*6),3vw,calc(var(--spacing)*10))]',
-        'lg:pb-[clamp(calc(var(--spacing)*6),8vw,calc(var(--spacing)*20))]',
-      )}
-    >
+    <div className={twMerge('relative z-1 mt-auto w-full pb-[clamp(1.75rem,5vw,5rem)]')}>
       <div
         className={twMerge(
           'flex h-full w-full flex-1 flex-col items-start justify-between gap-4 px-8 text-(--hero-contrast-color)',
           'sm:flex-row sm:items-end',
-          'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)',
+          'md:px-[max(calc(var(--spacing-safe-area-x)+1rem),2rem)',
           'lg:px-x-container',
         )}
       >

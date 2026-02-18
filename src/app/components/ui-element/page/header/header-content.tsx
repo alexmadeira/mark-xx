@@ -21,7 +21,7 @@ export function HeaderContent(props: TPageHeaderContentProps) {
         data-quote={!!page?.quote}
         className={twMerge(
           'group relative mx-auto grid w-full grid-cols-1 flex-col gap-5 px-8',
-          'md:gap-10 md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)]',
+          'md:gap-10 md:px-[max(calc(var(--spacing-safe-area-x)+1rem),2rem)]',
           'lg:px-x-container lg:grid-cols-12',
         )}
       >

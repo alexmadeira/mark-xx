@@ -21,19 +21,14 @@ export function Header() {
   }, [props])
 
   return (
-    <div ref={headerRef} className="pointer-events-none fixed top-0 left-0 z-10 w-full">
+    <div ref={headerRef} className="pointer-events-none fixed top-0 left-0 z-9 w-full">
       <div
-        className={twMerge(
-          'h-full w-full pt-6 pb-8',
-          'sm:pt-6 sm:pb-7',
-          'lg:pt-[clamp(calc(var(--spacing)*6),3vw,calc(var(--spacing)*10))] lg:pb-[clamp(calc(var(--spacing)*6),6vw,calc(var(--spacing)*20))]',
-          headerClassName,
-        )}
+        className={twMerge('h-full w-full pt-[clamp(2rem,3vw,5rem)] pb-[clamp(1.5rem,2vw,2.5rem)]', headerClassName)}
       >
         <div
           className={twMerge(
             'mx-auto flex w-full flex-row items-center gap-[clamp(0.5rem,2vw,2.5rem)] px-8',
-            'md:px-[max(calc(var(--spacing-safe-area-x)+var(--spacing)*4),var(--spacing)*8)]',
+            'md:px-[max(calc(var(--spacing-safe-area-x)+1rem),2rem)]',
             'lg:px-x-container',
           )}
         >
