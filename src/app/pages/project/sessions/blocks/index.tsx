@@ -5,8 +5,6 @@ import { useRoute } from '_STR/useRoute'
 
 import { BlockFullImage } from './block-full-image'
 import { BlockImageGrid } from './block-image-grid'
-// import { Browser } from './browser'
-// import { Masonry } from './masonry'
 
 export function Blocks() {
   const slug = useRef<string | null>(null)

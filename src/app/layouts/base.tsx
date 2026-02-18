@@ -31,8 +31,8 @@ export function BaseLayout() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            onAnimationStart={CLScrolling.none}
-            onAnimationComplete={CLScrolling.start}
+            onAnimationStart={CLScrolling.fromStart}
+            onAnimationComplete={CLScrolling.resize}
             className="absolute top-0 left-0 z-5 flex min-h-full w-full flex-col text-(--page-foreground-color)"
           >
             <Header />

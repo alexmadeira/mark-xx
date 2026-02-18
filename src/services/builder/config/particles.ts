@@ -16,7 +16,6 @@ const configAboutParticles = {
     shape: {
       type: 'circle',
     },
-    // colors: _.map(technologies, 'color'),
     number: {
       value: 3,
       density: true,

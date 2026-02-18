@@ -26,7 +26,7 @@ export function Hero() {
   return (
     <PageHeader.Root
       page="home"
-      className={twMerge('relative flex h-[70vh] flex-col items-center bg-white', 'sm:h-[85vh]', 'lg:h-[90vh]')}
+      className={twMerge('relative flex h-fit min-h-[clamp(1.75rem,70vw,95vh)] flex-col items-center bg-white')}
     >
       <Title />
       <Banner />
