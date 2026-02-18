@@ -18,15 +18,12 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
 
   const isLoaded = page.status === 'loaded'
   return (
-    <div className="my-2 h-fit w-full overflow-hidden">
+    <div className="h-fit w-full overflow-hidden">
       <h1
         role="heading"
         aria-label={page.title}
         className={twMerge(
-          'flex w-full items-center text-4xl leading-[120%] font-medium tracking-widest',
-          'sm:text-5xl',
-          'md:text-[clamp(2rem,9vw,8rem)]',
-          '4xl:text-[clamp(13rem,10vw,17rem)]',
+          'flex w-full items-center text-[clamp(2rem,10vw,17rem)] leading-[clamp(4rem,12vw,19rem)] font-medium tracking-widest',
         )}
       >
         {isLoaded &&
@@ -39,10 +36,11 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
               transition={{ duration: 0.2, ease: 'easeInOut', delay: i * 0.03 }}
               aria-hidden="true"
               children={char}
-              className="flex"
+              className="flex justify-start"
             />
           ))}
       </h1>
     </div>
   )
 }
+// 0.25
