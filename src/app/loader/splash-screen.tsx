@@ -8,15 +8,11 @@ import { twMerge } from 'tailwind-merge'
 
 import { logoMotion } from '_CFG/motion/logo'
 
-import { scrollingController } from '_SRV/controller'
-
 import { useLoader } from '_STR/useLoader'
 
 import { SplashScreenLoadingCountUp } from './splash-screen-loading-countup'
 
 export function SplashScreen() {
-  const CLScrolling = scrollingController()
-
   const logoRef = useRef<LottieRefCurrentProps>(null)
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
@@ -34,12 +30,9 @@ export function SplashScreen() {
     await animate('#overlay', { opacity: 0 }, { delay: 1, ease: 'easeIn', duration: 0.5 })
     await animate('#loader', { scale: 55 }, { ease: 'circIn', duration: 1 })
     await animate(scope.current, { display: 'none' }, { duration: 0 })
-
-    CLScrolling.start()
   }
 
   useEffect(() => {
-    CLScrolling.none()
     if (onceFinished) onComplete().then()
   }, [onceFinished])
 
