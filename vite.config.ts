@@ -25,6 +25,20 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,mp3,mp4,json}'],
         runtimeCaching: [
           {
+            urlPattern: /^https:\/\/fonts.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
             urlPattern: /^https:\/\/api\.github\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
