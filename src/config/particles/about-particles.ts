@@ -2,7 +2,7 @@ import type { TParticleProps } from '@/services/builder/particle'
 
 import _ from 'lodash'
 
-const configAboutParticles = {
+export const aboutParticles = {
   id: 'about',
   fullScreen: false,
   autoPlay: true,
@@ -62,7 +62,3 @@ const configAboutParticles = {
     },
   },
 } satisfies TParticleProps
-
-export const configParticles = {
-  about: configAboutParticles,
-}

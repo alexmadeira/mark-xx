@@ -1,7 +1,6 @@
 import type { TELoaderStatus } from '@/enums/loader'
 import type { ILoader } from '@/interfaces/loader'
 import type { ILoaderMedias } from '@/interfaces/loader/medias'
-import type { ILoaderProgress } from '@/interfaces/loader/progress'
 import type { ILoaderRequests } from '@/interfaces/loader/requests'
 import type {
   TLoaderEventListeners,
@@ -21,7 +20,6 @@ export class LoaderBuilder implements ILoader {
   constructor(
     private readonly requestsLoader: ILoaderRequests,
     private readonly mediasLoader: ILoaderMedias,
-    private readonly progressLoader: ILoaderProgress,
     private readonly props: TLoaderProps,
   ) {
     this.listeners = {
@@ -54,7 +52,6 @@ export class LoaderBuilder implements ILoader {
     if (useLoader.getState().data.status === 'loading') return
 
     this.updateLoaderStatus()
-    this.progressLoader.start()
   }
 
   private checkAutoLoad() {
@@ -72,7 +69,6 @@ export class LoaderBuilder implements ILoader {
 
     if (!useLoader.getState().data.once) {
       this.loaderActions.setLoaded(loadingProgress)
-      this.progressLoader.set(loadingProgress)
     }
 
     this.updateLoaderStatus()
@@ -84,13 +80,11 @@ export class LoaderBuilder implements ILoader {
   private finishCheck() {
     if (this.currentStatus === 'loading') return
 
-    this.progressLoader.done()
     this.finish()
   }
 
   private finish() {
     this.updateLoaderStatus('finished')
-    this.progressLoader.done()
 
     if (this.once) this.loaderActions.onceFinished()
 
