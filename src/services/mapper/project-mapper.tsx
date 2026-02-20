@@ -64,7 +64,7 @@ export class ProjectMapper {
     return {
       className: 'bg-black',
       link: `/project/${raw.slug}`,
-      color: raw.color,
+      color: raw.thumbnailColor,
       metaData: raw,
     }
   }
@@ -80,7 +80,6 @@ export class ProjectMapper {
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
       logo: _.get(raw, 'data.logo.url'),
-      color: _.get(raw, 'data.color', '#FFFFFF'),
       banner: _.get(raw, 'data.banner.url'),
       company: CompanyMapper.toStore(raw.data.company[0]),
       content: _.presentsContent(asHTML(_.get(raw, 'data.content'))),
@@ -88,6 +87,7 @@ export class ProjectMapper {
       logoColor: _.get(raw, 'data.logo_color', '#000000'),
       highlight: _.get(raw, 'data.highlight', false),
       thumbnail: _.get(raw, 'data.thumbnail.url'),
+      thumbnailColor: _.get(raw, 'data.thumbnail_color', '#FFFFFF'),
       bannerName: _.get(raw, 'data.banner_name', ''),
       bannerClass: _.get(raw, 'data.banner_class', ''),
       description: _.presentsContent(_.get(raw, 'data.description')),

@@ -12,7 +12,6 @@ export function Projects() {
 
   const projects = useFetcherProjects((st) => st.data.list['all:projects'])
   const masonryProjects = projects?.map(ProjectMapper.toMasonry)
-
   return (
     <>
       <Header />

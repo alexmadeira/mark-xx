@@ -1,6 +1,5 @@
 import type { githubPaths } from '_CFG/requester/paths/github'
 import type { Requester } from '_SRV/builder/requester'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TLanguagesFetcherProps } from '@/services/fetcher/languages'
 
 import _ from 'lodash'
@@ -11,10 +10,14 @@ import { useFetcherRepositoryLanguages } from '_STR/useFetcherRepositoryLanguage
 
 import { env } from '~/env'
 
-export class RepositoryLanguagesFetcher implements IFetcher<TLanguagesFetcherProps> {
+import { Fetcher } from './fetcher'
+
+export class RepositoryLanguagesFetcher extends Fetcher<TLanguagesFetcherProps> {
   private readonly fetcherRepositoryLanguagesActions = useFetcherRepositoryLanguages.getState().actions
 
-  constructor(private readonly api: Requester<typeof githubPaths>) {}
+  constructor(private readonly api: Requester<typeof githubPaths>) {
+    super()
+  }
 
   private async fetchLanguages(name: string, options: TLanguagesFetcherProps) {
     const result = await this.api.query('github:repository-languages', ['github:repository-languages', name], {
@@ -75,6 +78,8 @@ export class RepositoryLanguagesFetcher implements IFetcher<TLanguagesFetcherPro
   }
 
   public prefetch(name: string, options: TLanguagesFetcherProps) {
+    this.refetch(name, options)
+
     return {
       tags: ['languages'],
       name,

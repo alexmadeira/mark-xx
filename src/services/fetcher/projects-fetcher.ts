@@ -1,6 +1,5 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { Requester } from '_SRV/builder/requester'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TProjectsFetcherProps } from '@/services/fetcher/projects'
 
 import _ from 'lodash'
@@ -9,10 +8,14 @@ import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
-export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
+import { Fetcher } from './fetcher'
+
+export class ProjectsFetcher extends Fetcher<TProjectsFetcherProps> {
   private readonly fetcherProjectsActions = useFetcherProjects.getState().actions
 
-  constructor(private readonly api: Requester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {
+    super()
+  }
 
   public async fetch(name: string, options: TProjectsFetcherProps = {}) {
     const result = await this.api.query(
@@ -32,6 +35,8 @@ export class ProjectsFetcher implements IFetcher<TProjectsFetcherProps> {
   }
 
   public prefetch(name: string, options: TProjectsFetcherProps = {}) {
+    this.refetch(name, options)
+
     return {
       tags: ['projects'],
       name,

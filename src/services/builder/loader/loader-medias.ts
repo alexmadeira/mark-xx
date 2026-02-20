@@ -32,6 +32,7 @@ export class LoaderMedias implements ILoaderMedias {
       'MEDIA:Update': new Set(),
       'MEDIA:AllFinished': new Set(),
       'MEDIA:CheckDocument': new Set(),
+      'MEDIA:ReCheckDocument': new Set(),
       'MEDIA:VIDEO:Error': new Set(),
       'MEDIA:VIDEO:Started': new Set(),
       'MEDIA:VIDEO:Finished': new Set(),
@@ -45,13 +46,14 @@ export class LoaderMedias implements ILoaderMedias {
     }
 
     this.buildMediaMonitor()
+    this.setupOnlineListener()
   }
 
   static create() {
     return new LoaderMedias()
   }
 
-  private fetchMedia = _.memoize(async (...[src]: TLoaderFetchMediaProps) => {
+  private async fetchMedia(...[src]: TLoaderFetchMediaProps) {
     const cachedUrl = await this.getCachedMedia(src)
     if (cachedUrl) return cachedUrl
 
@@ -60,17 +62,22 @@ export class LoaderMedias implements ILoaderMedias {
     await set(src, blob)
 
     return URL.createObjectURL(blob)
-  })
+  }
 
   private buildMediaMonitor() {
     new MutationObserver(async (mutations) => {
       for (const mutation of mutations) {
-        // if (mutation.target === document.body) continue
         if (mutation.type === 'childList') {
           this.loadMedias()
         }
       }
     }).observe(document.body, { childList: true, subtree: true })
+  }
+
+  private setupOnlineListener() {
+    window.addEventListener('online', () => {
+      this.reloadUncachedMedias()
+    })
   }
 
   private async getCachedMedia(...[src]: TLoaderGetCachedMediaProps) {
@@ -142,24 +149,49 @@ export class LoaderMedias implements ILoaderMedias {
     this.notifyListeners('MEDIA:IMAGE:Started', img.dataset.src)
     this.notifyListeners('MEDIA:IMAGE:Update', this.medias.size)
 
-    const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(img))
-    this.loadedMedias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image', cacheUrl })
+    try {
+      const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(img))
+      this.loadedMedias.set(this.getMediaOriginalSrc(img), { el: img, type: 'image', cacheUrl })
 
-    this.updateImagesSrc()
-    this.mediaLoaded(this.getMediaOriginalSrc(img))
+      this.updateImagesSrc()
+      this.mediaLoaded(this.getMediaOriginalSrc(img))
+    } catch (error) {
+      console.error('Error loading image:', error)
+    }
   }
 
   private async videoLoader(video: HTMLVideoElement) {
     this.notifyListeners('MEDIA:VIDEO:Started', video.src)
     this.notifyListeners('MEDIA:VIDEO:Update', this.medias.size)
 
-    const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(video))
-    this.loadedMedias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video', cacheUrl })
+    try {
+      const cacheUrl = await this.saveMediaToCache(this.getMediaOriginalSrc(video))
+      this.loadedMedias.set(this.getMediaOriginalSrc(video), { el: video, type: 'video', cacheUrl })
 
-    video.load()
+      video.load()
 
-    this.updateVideoSrc()
-    this.mediaLoaded(this.getMediaOriginalSrc(video))
+      this.updateVideoSrc()
+      this.mediaLoaded(this.getMediaOriginalSrc(video))
+    } catch (error) {
+      console.error('Error loading video:', error)
+    }
+  }
+
+  private reloadUncachedMedias() {
+    this.notifyListeners('MEDIA:ReCheckDocument')
+    this.medias.forEach((media, src) => {
+      const isCached = this.loadedMedias.has(src)
+      if (!isCached) {
+        switch (media.type) {
+          case 'image':
+            this.imageLoader(media.el)
+            break
+          case 'video':
+            this.videoLoader(media.el)
+            break
+        }
+      }
+    })
   }
 
   private loadMedias() {
