@@ -10,9 +10,7 @@ import Particles, { initParticlesEngine } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
 import _ from 'lodash'
 
-import { AutoBind } from '_SRV/utils/auto-bind'
-
-export class ParticlesBuilder extends AutoBind {
+export class ParticlesBuilder {
   private _container: Container | undefined
 
   protected constructor(
@@ -20,7 +18,6 @@ export class ParticlesBuilder extends AutoBind {
     private readonly _id: string,
     private readonly _autoPush?: TParticleAutoPush,
   ) {
-    super()
     this.init()
   }
 

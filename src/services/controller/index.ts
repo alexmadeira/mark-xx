@@ -1,7 +1,8 @@
+import { timer } from '_SRV/utils'
+
 import {
   defaultColorProps,
   defaultElementProps,
-  defaultHeroProps,
   defaultRouteProps,
   defaultScrollingProps,
   defaultSEOProps,
@@ -33,7 +34,7 @@ export function seoController() {
 }
 
 export function heroController() {
-  if (!controllerHero) controllerHero = new HeroController(defaultHeroProps)
+  if (!controllerHero) controllerHero = new HeroController(timer())
   return controllerHero
 }
 
