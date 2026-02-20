@@ -20,6 +20,7 @@ export class LoaderMedias implements ILoaderMedias {
   private readonly medias: TLoaderMedias
   private readonly listeners: TLoaderMediaListeners
   private readonly loadedMedias: TLoaderLoadedMedias
+  private readonly pendingFetches = new Map<string, Promise<string>>()
 
   protected constructor() {
     this.medias = new Map()
@@ -54,14 +55,29 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   private async fetchMedia(...[src]: TLoaderFetchMediaProps) {
-    const cachedUrl = await this.getCachedMedia(src)
-    if (cachedUrl) return cachedUrl
+    if (this.pendingFetches.has(src)) return this.pendingFetches.get(src)!
 
-    const response = await fetch(src)
-    const blob = await response.blob()
-    await set(src, blob)
+    const fetchPromise = (async () => {
+      try {
+        const cachedUrl = await this.getCachedMedia(src)
+        if (cachedUrl) return cachedUrl
 
-    return URL.createObjectURL(blob)
+        const response = await fetch(src)
+
+        if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`)
+
+        const blob = await response.blob()
+        await set(src, blob)
+
+        return URL.createObjectURL(blob)
+      } finally {
+        this.pendingFetches.delete(src)
+      }
+    })()
+
+    this.pendingFetches.set(src, fetchPromise)
+
+    return fetchPromise
   }
 
   private buildMediaMonitor() {
