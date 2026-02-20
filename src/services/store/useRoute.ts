@@ -20,5 +20,11 @@ export const useRoute = create<TStoreRoute>((set) => ({
           draft.data.params = params
         }),
       ),
+    setPageReady: (isReady) =>
+      set((state) =>
+        produce(state, (draft) => {
+          draft.data.pageReady = isReady
+        }),
+      ),
   },
 }))

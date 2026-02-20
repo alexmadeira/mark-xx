@@ -1,4 +1,4 @@
-import type { TRouteParams, TRoutePathname, TRouteProps } from '@/services/controller/route'
+import type { TRouteIsReadyProps, TRouteParams, TRoutePathname, TRouteProps } from '@/services/controller/route'
 
 import _ from 'lodash'
 
@@ -43,6 +43,10 @@ export class RouteController {
     }
 
     throw new Error(`Route not found: ${pathname}`)
+  }
+
+  public isReady(...[isReady]: TRouteIsReadyProps) {
+    this.routeActions.setPageReady(isReady)
   }
 
   public get params() {

@@ -1,9 +1,4 @@
-import type {
-  TScrollingCreateProps,
-  TScrollingProps,
-  TScrollingTarget,
-  TScrollingToOption,
-} from '@/services/controller/scrolling'
+import type { TScrollingCreateProps, TScrollingProps, TScrollingScrollToProps } from '@/services/controller/scrolling'
 
 import Lenis from 'lenis'
 import _ from 'lodash'
@@ -13,8 +8,8 @@ import { useScrolling } from '_STR/useScrolling'
 export class ScrollingController {
   private readonly _actions = useScrolling.getState().actions
 
-  protected constructor(private readonly _props: TScrollingProps) {
-    this._actions.setDetails(this._props.lenis)
+  protected constructor(private readonly props: TScrollingProps) {
+    this._actions.setDetails(this.props.lenis)
     this.ev.on('scroll', this.setDetails.bind(this))
 
     _.bindAll(this, ['stop', 'start', 'restart', 'none', 'resize', 'fromStart', 'scrollTo'])
@@ -41,7 +36,7 @@ export class ScrollingController {
   }
 
   public stop() {
-    this._props.lenis.stop()
+    this.props.lenis.stop()
   }
 
   public none() {
@@ -55,28 +50,53 @@ export class ScrollingController {
     document.documentElement.style.removeProperty('overflow')
     document.getElementsByTagName('body')[0].style.removeProperty('overflow')
 
-    this._props.lenis.start()
-    this._props.lenis.resize()
+    this.props.lenis.start()
+    this.props.lenis.resize()
   }
 
   public restart() {
-    this.fromStart()
-    this.resize()
+    this.props.lenis.stop()
+    this.props.lenis.start()
   }
 
   public resize() {
-    this._props.lenis.resize()
+    this.props.lenis.resize()
   }
 
   public fromStart() {
-    this._props.lenis.scrollTo(0, { immediate: true })
+    this.props.lenis.scrollTo(0, { immediate: true })
   }
 
-  public scrollTo(target: TScrollingTarget, options?: TScrollingToOption) {
-    this._props.lenis.scrollTo(target, options)
+  public scrollTo(...[target, duration = 1.2]: TScrollingScrollToProps) {
+    const lenis = this.props.lenis
+
+    let cancelled = false
+
+    const cancel = () => {
+      cancelled = true
+      lenis.stop()
+      lenis.start()
+      window.removeEventListener('wheel', cancel)
+      window.removeEventListener('touchstart', cancel)
+    }
+
+    window.addEventListener('wheel', cancel, { passive: true })
+    window.addEventListener('touchstart', cancel, { passive: true })
+
+    lenis.scrollTo(target, {
+      duration,
+      easing: (t: number) => 1 - Math.pow(1 - t, 3),
+
+      onComplete: () => {
+        if (!cancelled) {
+          window.removeEventListener('wheel', cancel)
+          window.removeEventListener('touchstart', cancel)
+        }
+      },
+    })
   }
 
   public get ev() {
-    return this._props.lenis
+    return this.props.lenis
   }
 }

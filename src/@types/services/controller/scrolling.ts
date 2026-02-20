@@ -7,6 +7,7 @@ export const ZScrollingTarget = z.union([z.number(), z.string(), z.custom<HTMLEl
 
 export const ZScrollingToOption = z.custom<ScrollToOptions>()
 
+export const ZScrollingScrollToProps = z.tuple([ZScrollingTarget, z.number().optional()])
 export const ZScrollingProps = z.object({ lenis: z.custom<Lenis>() })
 export const ZScrollingCreateProps = z.custom<LenisOptions>()
 
@@ -18,5 +19,6 @@ export const ZScrollingCreateProps = z.custom<LenisOptions>()
 export type TScrollingTarget = z.infer<typeof ZScrollingTarget>
 export type TScrollingToOption = z.infer<typeof ZScrollingToOption>
 
+export type TScrollingScrollToProps = z.infer<typeof ZScrollingScrollToProps>
 export type TScrollingProps = z.infer<typeof ZScrollingProps>
 export type TScrollingCreateProps = z.infer<typeof ZScrollingCreateProps>
