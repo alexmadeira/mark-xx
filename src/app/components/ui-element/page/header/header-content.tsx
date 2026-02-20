@@ -43,10 +43,13 @@ export function HeaderContent(props: TPageHeaderContentProps) {
         />
         {page?.quote && (
           <div className="sticky top-(--header-measure-height) col-span-3 col-start-10 my-[clamp(1rem,1.5vw,3rem)] hidden h-fit gap-[clamp(0.75rem,1vw,2rem)] xl:flex">
-            <QuoteSVG className="absolute -top-[calc(clamp(2.25rem,2.825vw,3.75rem)/2.5)] -left-[clamp(2.25rem,2.825vw,3.75rem)*1.05] h-[clamp(2.25rem,2.825vw,3.75rem)] w-[clamp(2.25rem,2.825vw,3.75rem)] text-current/30" />
-            <span className="text-[clamp(1.5rem,2vw,2.5rem)] leading-[clamp(1.825rem,2vw,2.75rem)] font-normal text-current/60">
-              {page.quote}
-            </span>
+            <div className="relative">
+              <span className="relative text-[clamp(1.5rem,2vw,2.5rem)] leading-[clamp(1.825rem,2vw,2.75rem)] font-normal text-current/60">
+                <QuoteSVG className="absolute -top-[calc(clamp(2.25rem,2.825vw,3.75rem)/2.5)] -left-[clamp(2.25rem,2.825vw,3.75rem)*1.05] h-[clamp(2.25rem,2.825vw,3.75rem)] w-[clamp(2.25rem,2.825vw,3.75rem)] text-current/30" />
+                {page.quote}
+                <QuoteSVG className="absolute -right-[clamp(2.25rem,2.825vw,3.75rem)*1.05] -bottom-[calc(clamp(2.25rem,2.825vw,3.75rem)/2.5)] h-[clamp(2.25rem,2.825vw,3.75rem)] w-[clamp(2.25rem,2.825vw,3.75rem)] rotate-180 text-current/30" />
+              </span>
+            </div>
           </div>
         )}
       </div>
