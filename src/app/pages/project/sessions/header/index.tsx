@@ -52,9 +52,10 @@ export function Header() {
           <img
             alt={project?.name}
             data-src={project?.logo}
-            className="relative max-w-[clamp(12rem,35vw,60rem)] object-contain"
+            className="relative max-h-[clamp(4rem,10vw,25rem)] max-w-[clamp(12rem,35vw,60rem)] object-contain"
           />
         )}
+
         {!project?.logo && project?.name}
       </motion.h1>
       <p className="flex flex-wrap gap-[clamp(1rem,1.25vw,1.85rem)] text-[clamp(0.8rem,1vw,1.5rem)] leading-[clamp(1.333rem,1vw,1.555rem)]">
