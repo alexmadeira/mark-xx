@@ -15,6 +15,7 @@ export * from './project'
 export * from './company'
 export * from './projects'
 export * from './technology'
+export * from './network'
 
 export const ZPrismicAnyDocument = z.custom<AllDocumentTypes>()
 

@@ -3,6 +3,7 @@ import { z } from 'zod/v4'
 export const ZStoreRouteParams = z.record(z.string(), z.string())
 
 export const ZStoreRouteData = z.object({
+  pageReady: z.boolean(),
   current: z.string().optional(),
   params: ZStoreRouteParams,
 })
@@ -10,6 +11,7 @@ export const ZStoreRouteData = z.object({
 export const ZStoreRouteActions = z.object({
   setCurrent: z.custom<(path: string) => void>(),
   setParams: z.custom<(params: z.infer<typeof ZStoreRouteParams>) => void>(),
+  setPageReady: z.custom<(isReady: boolean) => void>(),
 })
 
 export const ZStoreRoute = z.object({

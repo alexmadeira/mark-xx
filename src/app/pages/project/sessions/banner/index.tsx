@@ -1,11 +1,16 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
+import _ from 'lodash'
 import { motion, useScroll, useTransform } from 'motion/react'
+
+import { scrollingController } from '_SRV/controller'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
 export function Banner() {
+  const CLScrolling = scrollingController()
+
   const slug = useRef<string | null>(null)
   const targetRef = useRef<HTMLDivElement>(null)
 
@@ -15,11 +20,20 @@ export function Banner() {
   })
 
   const projectSlug = useRoute((st) => st.data.params.slug)
+  const pageIsReady = useRoute((st) => st.data.pageReady)
+
   if (projectSlug) slug.current = projectSlug
 
   const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
+
   const scale = useTransform(scrollYProgress, [0, 1], [1, 2])
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
+
+  useEffect(() => {
+    if (!pageIsReady) return
+    const timeout = setTimeout(() => CLScrolling.scrollTo(window.innerHeight, 2.5), 250)
+    return () => clearTimeout(timeout)
+  }, [pageIsReady])
 
   return (
     <div ref={targetRef} className="fixed top-0 left-0 h-screen max-h-[200vw] min-h-100 w-full">

@@ -3,6 +3,7 @@ import { github, prismic } from '_SRV/api'
 import { AwardsFetcher } from './awards-fetcher'
 import { BrandsFetcher } from './brands-fetcher'
 import { CompaniesFetcher } from './companies-fetcher'
+import { NetworksFetcher } from './networks-fetcher'
 import { PageFetcher } from './page-fetcher'
 import { PreFetcher } from './pre-fetcher'
 import { ProjectFetcher } from './project-fetcher'
@@ -17,6 +18,7 @@ let fetcherAwards: AwardsFetcher
 let fetcherBrands: BrandsFetcher
 let fetcherProject: ProjectFetcher
 let fetcherProjects: ProjectsFetcher
+let fetcherNetworks: NetworksFetcher
 let fetcherCompanies: CompaniesFetcher
 let fetcherTechnologies: TechnologiesFetcher
 let fetcherRepositories: RepositoriesFetcher
@@ -38,6 +40,10 @@ export function projectFetcher() {
 export function awardsFetcher() {
   if (!fetcherAwards) fetcherAwards = new AwardsFetcher(prismic())
   return fetcherAwards
+}
+export function networksFetcher() {
+  if (!fetcherNetworks) fetcherNetworks = new NetworksFetcher(prismic())
+  return fetcherNetworks
 }
 export function brandsFetcher() {
   if (!fetcherBrands) fetcherBrands = new BrandsFetcher(prismic())
