@@ -9,9 +9,17 @@ import { fetcherProjectsDefaultData } from './_defaults/fetcher-projects'
 export const useFetcherProjects = create<TStoreFetcherProjects>((set) => ({
   data: fetcherProjectsDefaultData,
   actions: {
+    setProjectPageStatus: (slug, status) =>
+      set((state) =>
+        produce(state, (draft) => {
+          if (state.data.pages[slug]?.status === 'loaded') return
+          _.set(draft.data.pages, [slug, 'status'], status)
+        }),
+      ),
     setList: (name, projects) =>
       set((state) =>
         produce(state, (draft) => {
+          if (_.isEqual(state.data.list[name], projects)) return
           draft.data.list[name] = projects
         }),
       ),
@@ -22,12 +30,6 @@ export const useFetcherProjects = create<TStoreFetcherProjects>((set) => ({
             ...(state.data.pages[slug] || {}),
             ...project,
           }
-        }),
-      ),
-    setProjectPageStatus: (slug, status) =>
-      set((state) =>
-        produce(state, (draft) => {
-          _.set(draft.data.pages, [slug, 'status'], status)
         }),
       ),
   },

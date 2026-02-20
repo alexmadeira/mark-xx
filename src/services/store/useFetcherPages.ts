@@ -12,12 +12,14 @@ export const useFetcherPages = create<TStoreFetcherPages>((set) => ({
     setPageStatus: (name, status) =>
       set((state) =>
         produce(state, (draft) => {
+          if (state.data[name].status === 'loaded') return
           draft.data[name].status = status
         }),
       ),
     setPage: (name, content) =>
       set((state) =>
         produce(state, (draft) => {
+          if (_.isEqual(state.data[name], content)) return
           Object.assign(draft.data[name], _.cloneDeep(content))
         }),
       ),

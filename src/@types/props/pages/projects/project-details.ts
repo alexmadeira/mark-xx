@@ -4,12 +4,12 @@ export const ZProjectProject = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
-  color: z.string(),
   description: z.string(),
   banner: z.url().optional(),
   bannerName: z.string().optional(),
   bannerClass: z.string().nullish(),
   thumbnail: z.url().optional(),
+  thumbnailColor: z.string(),
   thumbnailClass: z.string().nullish(),
   tags: z.string().array(),
 })

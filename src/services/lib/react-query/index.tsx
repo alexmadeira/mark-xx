@@ -16,6 +16,9 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: env.VITE_QUERY_CLIENT_STALE_TIME,
       gcTime: env.VITE_QUERY_GC_TIME,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMount: true,
     },
   },
 })

@@ -1120,7 +1120,18 @@ interface ProjectDocumentData {
 	 * - **Tab**: Banner
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	thumbnail_class: prismic.KeyTextField;/**
+	thumbnail_class: prismic.KeyTextField;
+	
+	/**
+	 * thumbnail Color field in *Project*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project.thumbnail_color
+	 * - **Tab**: Banner
+	 * - **Documentation**: https://prismic.io/docs/fields/color
+	 */
+	thumbnail_color: prismic.ColorField;/**
 	 * Slice zone field in *Project*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -1408,6 +1419,19 @@ interface ProjectsDocumentData {
  */
 export type ProjectsDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectsDocumentData>, "projects", Lang>;
 
+interface SocialNetworkDocumentData {}
+
+/**
+ * Social Network document from Prismic
+ *
+ * - **API ID**: `social_network`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SocialNetworkDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SocialNetworkDocumentData>, "social_network", Lang>;
+
 /**
  * Content for Technology documents
  */
@@ -1479,7 +1503,7 @@ interface TechnologyDocumentData {
  */
 export type TechnologyDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<TechnologyDocumentData>, "technology", Lang>;
 
-export type AllDocumentTypes = AboutDocument | AwardDocument | BrandDocument | CompanyDocument | HomeDocument | ProjectDocument | ProjectsDocument | TechnologyDocument;
+export type AllDocumentTypes = AboutDocument | AwardDocument | BrandDocument | CompanyDocument | HomeDocument | ProjectDocument | ProjectsDocument | SocialNetworkDocument | TechnologyDocument;
 
 declare module "@prismicio/client" {
 	interface CreateClient {
@@ -1523,6 +1547,8 @@ declare module "@prismicio/client" {
 			ProjectsDocumentData,
 			ProjectsDocumentDataBodyPageConfigSlicePrimary,
 			ProjectsDocumentDataBodySlice,
+			SocialNetworkDocument,
+			SocialNetworkDocumentData,
 			TechnologyDocument,
 			TechnologyDocumentData,
 			AllDocumentTypes

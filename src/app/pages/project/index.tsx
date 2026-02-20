@@ -22,7 +22,6 @@ export function Project() {
 
   useEffect(() => {
     if (!slug.current) return
-
     FPreFetcher.fetch(FProject.prefetch(slug.current))
   }, [slug.current])
 

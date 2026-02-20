@@ -1,6 +1,5 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { Requester } from '_SRV/builder/requester'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TAwardsFetcherProps } from '@/services/fetcher/awards'
 
 import _ from 'lodash'
@@ -9,10 +8,14 @@ import { AwardMapper } from '_SRV/mapper/award-mapper'
 
 import { useFetcherAwards } from '_STR/useFetcherAwards'
 
-export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
+import { Fetcher } from './fetcher'
+
+export class AwardsFetcher extends Fetcher<TAwardsFetcherProps> {
   private readonly fetcherAwardsActions = useFetcherAwards.getState().actions
 
-  constructor(private readonly api: Requester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {
+    super()
+  }
 
   public async fetch(name: string, options: TAwardsFetcherProps = {}) {
     this.fetcherAwardsActions.setStatus('loading')
@@ -35,6 +38,7 @@ export class AwardsFetcher implements IFetcher<TAwardsFetcherProps> {
   }
 
   public prefetch(name: string, options: TAwardsFetcherProps = {}) {
+    this.refetch(name, options)
     return {
       tags: ['awards'],
       name,

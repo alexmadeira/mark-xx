@@ -1,6 +1,5 @@
 import type { githubPaths } from '_CFG/requester/paths/github'
 import type { Requester } from '_SRV/builder/requester'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TRepositoriesFetcherProps } from '@/services/fetcher/repositories'
 
 import _ from 'lodash'
@@ -9,10 +8,14 @@ import { RepositoryMapper } from '_SRV/mapper/repository-mapper'
 
 import { useFetcherRepositories } from '_STR/useFetcherRepositories'
 
-export class RepositoriesFetcher implements IFetcher<TRepositoriesFetcherProps> {
+import { Fetcher } from './fetcher'
+
+export class RepositoriesFetcher extends Fetcher<TRepositoriesFetcherProps> {
   private readonly fetcherRepositoriesActions = useFetcherRepositories.getState().actions
 
-  constructor(private readonly api: Requester<typeof githubPaths>) {}
+  constructor(private readonly api: Requester<typeof githubPaths>) {
+    super()
+  }
 
   public async fetch(name: string, options: TRepositoriesFetcherProps = {}) {
     this.fetcherRepositoriesActions.setStatus('loading')
@@ -37,6 +40,8 @@ export class RepositoriesFetcher implements IFetcher<TRepositoriesFetcherProps> 
   }
 
   public prefetch(name: string, options: TRepositoriesFetcherProps = {}) {
+    this.refetch(name, options)
+
     return {
       tags: ['repositories'],
       name,
