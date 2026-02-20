@@ -11,6 +11,7 @@ export const ZRoutePath = z.object({
   element: ZRoutePage,
 })
 
+export const ZRouteIsReadyProps = z.tuple([z.boolean()])
 export const ZRouteProps = z.object({
   paths: z.array(ZRoutePath),
 })
@@ -26,4 +27,5 @@ export type TRoutePathname = z.infer<typeof ZRoutePathname>
 
 export type TRoutePath = z.infer<typeof ZRoutePath>
 
+export type TRouteIsReadyProps = z.infer<typeof ZRouteIsReadyProps>
 export type TRouteProps = z.infer<typeof ZRouteProps>

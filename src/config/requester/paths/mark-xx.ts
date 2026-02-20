@@ -3,6 +3,7 @@ import type { TRequesterPaths } from '@/services/builder/requester'
 import { ZRawSchemaAward } from '@/services/schema/award'
 import { ZRawSchemaBrand } from '@/services/schema/brand'
 import { ZRawSchemaCompany } from '@/services/schema/company'
+import { ZRawSchemaNetwork } from '@/services/schema/network'
 import { ZRawSchemaPage } from '@/services/schema/page'
 import { ZRawSchemaProject } from '@/services/schema/project'
 import { ZRawSchemaTechnology } from '@/services/schema/technology'
@@ -29,6 +30,10 @@ export const markXXPaths = {
   'mark-xx:awards': {
     method: 'get',
     schema: z.array(ZRawSchemaAward),
+  },
+  'mark-xx:networks': {
+    method: 'get',
+    schema: z.array(ZRawSchemaNetwork),
   },
   'mark-xx:brands': {
     method: 'get',
