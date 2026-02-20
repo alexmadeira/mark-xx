@@ -1,6 +1,5 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { Requester } from '_SRV/builder/requester'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TTechnologiesFetcherProps } from '@/services/fetcher/technologies'
 
 import _ from 'lodash'
@@ -9,10 +8,14 @@ import { TechnologyMapper } from '_SRV/mapper/technology-mapper'
 
 import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 
-export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> {
+import { Fetcher } from './fetcher'
+
+export class TechnologiesFetcher extends Fetcher<TTechnologiesFetcherProps> {
   private readonly fetcherTechnologiesActions = useFetcherTechnologies.getState().actions
 
-  constructor(private readonly api: Requester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {
+    super()
+  }
 
   public async fetch(name: string, options: TTechnologiesFetcherProps = {}) {
     this.fetcherTechnologiesActions.setStatus('loading')
@@ -35,6 +38,8 @@ export class TechnologiesFetcher implements IFetcher<TTechnologiesFetcherProps> 
   }
 
   public prefetch(name: string, options: TTechnologiesFetcherProps = {}) {
+    this.refetch(name, options)
+
     return {
       tags: ['technologies'],
       name,

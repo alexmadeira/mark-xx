@@ -46,7 +46,7 @@ export class PageMapper {
 
   public static toStore(raw: TRawSchemaPage): TStoreFetcherPagesAnyData {
     const baseData: TStoreFetcherPagesAnyData = {
-      status: 'loading',
+      status: 'loaded',
       id: raw.id,
       slug: raw.uid,
       title: _.presentsContent(_.get(raw, 'data.title', '')).replace(/\s+/g, '\u00A0'),

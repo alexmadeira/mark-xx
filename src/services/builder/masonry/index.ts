@@ -7,7 +7,7 @@ const buildersMasonry: Record<string, MasonryBuilder> = {}
 
 export function masonry(name: string) {
   if (!buildersMasonry[name]) {
-    buildersMasonry[name] = MasonryBuilder.create(_.get(masonryConfig, name, masonryConfig.default))
+    buildersMasonry[name] = new MasonryBuilder(_.get(masonryConfig, name, masonryConfig.default))
   }
 
   return buildersMasonry[name]

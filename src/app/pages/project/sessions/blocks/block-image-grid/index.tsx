@@ -6,7 +6,6 @@ import { twMerge } from 'tailwind-merge'
 import { BlockImageGridImage } from './block-image-grid-image'
 
 export function BlockImageGrid(props: TProjectBlockImageGridProps) {
-  console.log('BlockImageGrid props:', props)
   return (
     <div
       style={{

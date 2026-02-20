@@ -19,7 +19,7 @@ export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   const CLOverlap = overlapController()
 
   useEffect(() => {
-    CLOverlap.addElement(detailsRef.current, props.color)
+    CLOverlap.addElement(detailsRef.current, props.thumbnailColor)
   }, [detailsRef.current, props])
 
   return (

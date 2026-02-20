@@ -6,7 +6,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
+    "types": ["vite-plugin-pwa/react"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -30,8 +30,8 @@
       "_SRV/*": ["./src/services/*"],
       "_CFG/*": ["./src/config/*"],
       "_AST/*": ["./src/_assets_/*"],
-      "~/*": ["./src/*"]
-    }
+      "~/*": ["./src/*"],
+    },
   },
-  "include": ["src"]
+  "include": ["src"],
 }
