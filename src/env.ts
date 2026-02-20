@@ -35,6 +35,10 @@ export const ZEnvClient = ZEnvGlobal.extend({
   VITE_PRISMIC_REPOSITORY_NAME: z.string(),
   VITE_PRISMIC_ACCESS_TOKEN: z.string(),
 
+  VITE_HERO_WAIT: z.coerce.number().default(4000),
+  VITE_HERO_TYPING_SPEED: z.coerce.number().default(120),
+  VITE_HERO_DELETION_SPEED: z.coerce.number().default(60),
+
   BASE_URL: z.string(),
   DEV: z.coerce.boolean(),
   MODE: z.enum(['development', 'production']),

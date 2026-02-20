@@ -1,18 +1,10 @@
-//
-//
-//
+export type TTimerCancel = () => void
+export type TTimerCallbackFunction = (...args: unknown[]) => void | Promise<void>
 
-export type TUDelayWait = number
-export type TUDelayCallbackFunction = (...args: unknown[]) => void | Promise<void>
-
-export type TUDelayProps<T extends unknown[]> = [TUDelayCallbackFunction, TUDelayWait, ...T]
-export type TUIntervalProps<T extends unknown[]> = [TUDelayCallbackFunction, TUDelayWait, ...T]
-
-export type TTimer = {
-  cancel(): void
-}
+export type TTimerDelayProps<T extends unknown[]> = [fn: TTimerCallbackFunction, wait: number, ...args: T]
+export type TTimerIntervalProps<T extends unknown[]> = [fn: TTimerCallbackFunction, wait: number, ...args: T]
 
 export interface ITimer {
-  delay<T extends unknown[]>(...[fn, wait, ...args]: TUDelayProps<T>): TTimer
-  interval<T extends unknown[]>(...[fn, wait, ...args]: TUIntervalProps<T>): TTimer
+  delay: <T extends unknown[]>(...props: TTimerDelayProps<T>) => TTimerCancel
+  interval: <T extends unknown[]>(...props: TTimerIntervalProps<T>) => TTimerCancel
 }
