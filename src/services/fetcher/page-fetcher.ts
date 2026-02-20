@@ -1,7 +1,6 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { Requester } from '_SRV/builder/requester'
 import type { TEPrismicPageType } from '@/enums/prismic'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TPageFetcherProps } from '@/services/fetcher/page'
 
 import { PageMapper } from '_SRV/mapper/page-mapper.ts'
@@ -9,11 +8,15 @@ import { PageMapper } from '_SRV/mapper/page-mapper.ts'
 import { useFetcherPages } from '_STR/useFetcherPages'
 import { usePageConfigs } from '_STR/usePageConfigs'
 
-export class PageFetcher implements IFetcher<TPageFetcherProps, TEPrismicPageType> {
+import { Fetcher } from './fetcher'
+
+export class PageFetcher extends Fetcher<TPageFetcherProps> {
   private readonly fetcherPagesActions = useFetcherPages.getState().actions
   private readonly pageConfigsActions = usePageConfigs.getState().actions
 
-  constructor(private readonly api: Requester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {
+    super()
+  }
 
   public async fetch(slug: TEPrismicPageType, options: TPageFetcherProps = {}) {
     try {
@@ -32,6 +35,8 @@ export class PageFetcher implements IFetcher<TPageFetcherProps, TEPrismicPageTyp
   }
 
   public prefetch(name: TEPrismicPageType, options: TPageFetcherProps = {}) {
+    this.refetch(name, options)
+
     return {
       tags: ['page'],
       name,

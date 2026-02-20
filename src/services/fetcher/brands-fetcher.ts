@@ -1,6 +1,5 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { Requester } from '_SRV/builder/requester'
-import type { IFetcher } from '@/interfaces/fetcher'
 import type { TBrandsFetcherProps } from '@/services/fetcher/brands'
 
 import _ from 'lodash'
@@ -9,10 +8,14 @@ import { BrandMapper } from '_SRV/mapper/brand-mapper'
 
 import { useFetcherBrands } from '_STR/useFetcherBrands'
 
-export class BrandsFetcher implements IFetcher<TBrandsFetcherProps> {
+import { Fetcher } from './fetcher'
+
+export class BrandsFetcher extends Fetcher<TBrandsFetcherProps> {
   private readonly fetcherBrandsActions = useFetcherBrands.getState().actions
 
-  constructor(private readonly api: Requester<typeof markXXPaths>) {}
+  constructor(private readonly api: Requester<typeof markXXPaths>) {
+    super()
+  }
 
   public async fetch(name: string, options: TBrandsFetcherProps = {}) {
     this.fetcherBrandsActions.setStatus('loading')
@@ -35,6 +38,7 @@ export class BrandsFetcher implements IFetcher<TBrandsFetcherProps> {
   }
 
   public prefetch(name: string, options: TBrandsFetcherProps = {}) {
+    this.refetch(name, options)
     return {
       tags: ['brands'],
       name,

@@ -22,6 +22,8 @@ import { twMerge } from 'tailwind-merge'
 import { DataList } from '_SRV/utils/data-list'
 
 export class MasonryBuilder {
+  private gridBuilt = false
+  private contentsKey = ''
   private contents: TMasonryContent[] = []
   private currentArea: TMasonryCurrentArea = { maxArea: 0, items: 0, size: 0 }
   private avaliableGridSizes: TMasonryAvaliableGridSizes = {} as TMasonryAvaliableGridSizes
@@ -29,14 +31,8 @@ export class MasonryBuilder {
   private readonly grid = new DataList<TMasonryGridSize>()
   private readonly gridContents = new DataList<TMasonryContent>()
 
-  protected constructor(private readonly _props: TMasonryProps) {
-    this.build()
-
+  constructor(private readonly props: TMasonryProps) {
     _.bindAll(this, ['render'])
-  }
-
-  static create(props: TMasonryProps) {
-    return new MasonryBuilder(props)
   }
 
   private build() {
@@ -44,6 +40,7 @@ export class MasonryBuilder {
     this.buildCurrentArea()
     this.buildAvaliableSizes()
     this.buildGrid()
+    this.gridBuilt = true
   }
 
   private buildPrepare() {
@@ -161,33 +158,42 @@ export class MasonryBuilder {
   }
 
   private get maxArea() {
-    return this._props.area || 0
+    return this.props.area || 0
   }
 
   private get name() {
-    return this._props.name
+    return this.props.name
   }
 
   private get fill() {
-    return this._props.fill
+    return this.props.fill
   }
 
   private get sizes() {
-    return _.cloneDeep(this._props.sizes)
+    return _.cloneDeep(this.props.sizes)
   }
 
   private get required() {
-    return this._props.required
+    return this.props.required
   }
 
   private get random() {
-    return this._props.random
+    return this.props.random
+  }
+
+  private generateKey(contents: TMasonryContent[]) {
+    return contents.map((c) => c.link ?? c.link ?? '').join('|')
   }
 
   private setContents(contents: TMasonrySetContentsProps) {
     if (!contents) return
 
+    const newKey = this.generateKey(contents)
+    if (this.contentsKey === newKey && this.gridBuilt) return
+
+    this.contentsKey = newKey
     this.contents = contents
+
     this.build()
   }
 
@@ -206,13 +212,13 @@ export class MasonryBuilder {
   }
 
   public render({ contents, ...props }: TMasonryRenderProps) {
-    this.setContents(contents)
+    if (contents && this.contents !== contents) this.setContents(contents)
 
     return (
       <div
         key={this.name}
         className={twMerge(
-          'group/masonry grid h-full w-full flex-1 grid-flow-row-dense gap-4 px-[max(var(--spacing-safe-area-x),var(--spacing)*4))] py-4',
+          'group/masonry grid h-full w-full flex-1 grid-flow-row-dense gap-4 px-[max(var(--spacing-safe-area-x),1rem)] py-4',
           'sm:auto-rows-[calc((100vw-1rem*11)/12)] sm:grid-cols-12',
           'lg:px-4',
         )}

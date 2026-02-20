@@ -12,12 +12,15 @@ export const useFetcherRepositoryLanguages = create<TStoreFetcherRepositoryLangu
     setStatus: (status) =>
       set((state) =>
         produce(state, (draft) => {
+          if (state.data.status === 'loaded') return
           draft.data.status = status
         }),
       ),
     setList: (repository, languages) =>
       set((state) =>
         produce(state, (draft) => {
+          if (_.isEqual(state.data.list[repository], languages)) return
+
           draft.data.list[repository] = languages
           const languageUsage = _.chain(current(draft.data.list))
             .values()

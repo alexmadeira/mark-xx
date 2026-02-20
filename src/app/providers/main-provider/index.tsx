@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 import { mouseController } from '_SRV/controller'
 
+// import { queryClient } from '_SRV/lib'
 import { PageColors } from './page-colors'
 
 export function MainProvider({ children }: TMainProviderProps) {

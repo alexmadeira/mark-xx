@@ -18,6 +18,7 @@ export const LOADER_MEDIA_LISTENER_TYPES = [
   'MEDIA:AllFinished',
   'MEDIA:Update',
   'MEDIA:CheckDocument',
+  'MEDIA:ReCheckDocument',
   'MEDIA:VIDEO:Error',
   'MEDIA:VIDEO:Started',
   'MEDIA:VIDEO:Finished',
