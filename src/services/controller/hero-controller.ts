@@ -1,31 +1,40 @@
-import type { THeroControll, THeroProps, THeroTimeout } from '@/services/controller/hero-controller'
+import type { THeroControll, THeroSettings, THeroTimeout } from '@/services/controller/hero-controller'
+import type { ITimer } from '@/services/utils/timer'
 
 import _ from 'lodash'
 import { animate, MotionValue, motionValue } from 'motion'
 
-import { timer } from '_SRV/utils/timer'
-
 import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 import { useHero } from '_STR/useHero'
 
+import { env } from '~/env'
+
 export class HeroController {
   private isRunning = false
-  private readonly motionColor: MotionValue<string>
   private readonly controll: THeroControll
+  private readonly settings: THeroSettings
+  private readonly motionColor: MotionValue<string>
   private readonly heroActions = useHero.getState().actions
 
   private typingInterval: THeroTimeout
   private typingWaitTimeout: THeroTimeout
 
-  constructor(private readonly _props: THeroProps) {
+  constructor(private readonly timer: ITimer) {
     _.bindAll(this, ['write', 'erase', 'start', 'stop'])
 
-    this.motionColor = motionValue('#00000000')
+    this.settings = {
+      wait: env.VITE_HERO_WAIT,
+      typingSpeed: env.VITE_HERO_TYPING_SPEED,
+      deletionSpeed: env.VITE_HERO_DELETION_SPEED,
+    }
     this.controll = { hero: 0, letter: 0 }
+    this.motionColor = motionValue('#00000000')
   }
 
   private next() {
-    this.controll.hero = (this.controll.hero + 1) % this.heroContent.length
+    const heroContent = useFetcherTechnologies.getState().data.list
+
+    this.controll.hero = (this.controll.hero + 1) % heroContent.length
     this.heroActions.setCurrent(this.currentHero)
     this.updateColor(this.currentHero.color)
     this.write()
@@ -34,20 +43,20 @@ export class HeroController {
   private write() {
     this.clearTimer()
 
-    this.typingInterval = timer.interval(() => {
+    this.typingInterval = this.timer.interval(() => {
       this.controll.letter++
       this.heroActions.setTyping(this.currentHero.type.slice(0, this.controll.letter))
       if (this.controll.letter >= this.currentHero.type.length) {
         this.clearTimer()
-        this.typingWaitTimeout = timer.delay(this.erase, this.settings.delay)
+        this.typingWaitTimeout = this.timer.delay(this.erase, this.settings.wait)
       }
-    }, this.settings.speed)
+    }, this.settings.typingSpeed)
   }
 
   private erase() {
     this.clearTimer()
 
-    this.typingInterval = timer.interval(() => {
+    this.typingInterval = this.timer.interval(() => {
       this.controll.letter--
       this.heroActions.setTyping(this.currentHero.type.slice(0, this.controll.letter))
       if (this.controll.letter <= 0) {
@@ -76,24 +85,12 @@ export class HeroController {
   }
 
   private clearTimer() {
-    if (this.typingWaitTimeout) this.typingWaitTimeout.cancel()
-    if (this.typingInterval) this.typingInterval.cancel()
-  }
-
-  private get settings() {
-    return {
-      delay: this._props.delay,
-      speed: this._props.speed,
-      deletionSpeed: this._props.deletionSpeed,
-    }
-  }
-
-  private get heroContent() {
-    return useFetcherTechnologies.getState().data.list
+    if (this.typingWaitTimeout) this.typingWaitTimeout()
+    if (this.typingInterval) this.typingInterval()
   }
 
   private get currentHero() {
-    return this.heroContent[this.controll.hero]
+    return useFetcherTechnologies.getState().data.list[this.controll.hero]
   }
 
   public start() {

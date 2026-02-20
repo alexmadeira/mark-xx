@@ -22,7 +22,7 @@ export class LoaderMedias implements ILoaderMedias {
   private readonly loadedMedias: TLoaderLoadedMedias
   private readonly pendingFetches = new Map<string, Promise<string>>()
 
-  protected constructor() {
+  constructor() {
     this.medias = new Map()
     this.loadedMedias = new Map()
 
@@ -48,10 +48,6 @@ export class LoaderMedias implements ILoaderMedias {
 
     this.buildMediaMonitor()
     this.setupOnlineListener()
-  }
-
-  static create() {
-    return new LoaderMedias()
   }
 
   private async fetchMedia(...[src]: TLoaderFetchMediaProps) {

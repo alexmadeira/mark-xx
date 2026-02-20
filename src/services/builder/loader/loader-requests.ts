@@ -17,7 +17,7 @@ export class LoaderRequests implements ILoaderRequests {
   private readonly loadedRequests: TLoaderLoadedRequests
   private readonly listeners: TLoaderRequestListeners
 
-  protected constructor() {
+  constructor() {
     this.loadingRequests = new Set()
     this.loadedRequests = new Set()
     this.listeners = {
@@ -28,10 +28,6 @@ export class LoaderRequests implements ILoaderRequests {
       'REQUEST:AllFinished': new Set(),
     }
     _.bindAll(this, ['requestStarted', 'requestFinished', 'requestError', 'notifyListeners'])
-  }
-
-  static create() {
-    return new LoaderRequests()
   }
 
   public requestStarted(...[path]: TLoaderRequestStartedProps) {

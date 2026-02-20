@@ -4,9 +4,12 @@ import copy from 'copy-to-clipboard'
 import _ from 'lodash'
 import useSound from 'use-sound'
 
+import { timer } from '_SRV/utils'
+
 import { useFetcherNetworks } from '_STR/useFetcherNetworks'
 
 export function Email() {
+  const UTimer = timer()
   const [copied, setCopied] = useState(false)
 
   const networks = useFetcherNetworks((st) => st.data.list)
@@ -32,7 +35,7 @@ export function Email() {
         copy(email?.path || '')
         play()
         setCopied(true)
-        _.delay(() => setCopied(false), 1000)
+        UTimer.delay(() => setCopied(false), 1000)
       }}
     >
       {!copied ? email?.name : 'E-mail copiado!'}
