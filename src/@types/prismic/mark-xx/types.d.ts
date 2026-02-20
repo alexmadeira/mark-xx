@@ -1419,13 +1419,61 @@ interface ProjectsDocumentData {
  */
 export type ProjectsDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectsDocumentData>, "projects", Lang>;
 
-interface SocialNetworkDocumentData {}
+/**
+ * Content for Social Network documents
+ */
+interface SocialNetworkDocumentData {
+	/**
+	 * Nome field in *Social Network*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: social_network.network_name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	network_name: prismic.KeyTextField;
+	
+	/**
+	 * Path field in *Social Network*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: social_network.network_path
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	network_path: prismic.KeyTextField;
+	
+	/**
+	 * Tipo field in *Social Network*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: link
+	 * - **API ID Path**: social_network.network_type
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	network_type: prismic.SelectField<"link" | "copy", "filled">;
+	
+	/**
+	 * Icone field in *Social Network*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: social_network.network_icon
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	network_icon: prismic.SelectField<"email" | "linkedin" | "github" | "instagram">;
+}
 
 /**
  * Social Network document from Prismic
  *
  * - **API ID**: `social_network`
- * - **Repeatable**: `false`
+ * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
