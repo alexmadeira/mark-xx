@@ -4,12 +4,14 @@ import _ from 'lodash'
 import { motion, useScroll, useTransform } from 'motion/react'
 
 import { scrollingController } from '_SRV/controller'
+import { timer } from '_SRV/utils'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
 export function Banner() {
   const CLScrolling = scrollingController()
+  const UTimer = timer()
 
   const slug = useRef<string | null>(null)
   const targetRef = useRef<HTMLDivElement>(null)
@@ -31,8 +33,8 @@ export function Banner() {
 
   useEffect(() => {
     if (!pageIsReady) return
-    const timeout = setTimeout(() => CLScrolling.scrollTo(window.innerHeight, 2.5), 250)
-    return () => clearTimeout(timeout)
+    const cancelTimer = UTimer.delay(() => CLScrolling.scrollTo(window.innerHeight, 2.5), 250)
+    return cancelTimer
   }, [pageIsReady])
 
   return (

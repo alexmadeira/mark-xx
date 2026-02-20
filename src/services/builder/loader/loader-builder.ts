@@ -8,6 +8,7 @@ import type {
   TLoaderEventSubscribeProps,
   TLoaderProps,
 } from '@/services/builder/loader'
+import type { ITimer } from '@/services/utils/timer'
 
 import _ from 'lodash'
 
@@ -18,8 +19,9 @@ export class LoaderBuilder implements ILoader {
   private readonly listeners: TLoaderEventListeners
 
   constructor(
-    private readonly requestsLoader: ILoaderRequests,
     private readonly mediasLoader: ILoaderMedias,
+    private readonly requestsLoader: ILoaderRequests,
+    private readonly timer: ITimer,
     private readonly props: TLoaderProps,
   ) {
     this.listeners = {
@@ -27,8 +29,8 @@ export class LoaderBuilder implements ILoader {
     }
 
     _.bindAll(this, ['startLoading', 'checkAutoLoad', 'updateLoading', 'finishCheck', 'finish'])
-    _.delay(this.checkAutoLoad, 1000)
 
+    this.timer.delay(this.checkAutoLoad, 1000)
     this.build()
   }
 
