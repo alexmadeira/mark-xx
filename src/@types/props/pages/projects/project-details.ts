@@ -1,18 +1,9 @@
+import { ZSchemaProject } from '@/services/schema/project'
+
 import { z } from 'zod/v4'
 
-export const ZProjectProject = z.object({
-  id: z.string(),
-  name: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  banner: z.url().optional(),
-  bannerName: z.string().optional(),
-  bannerClass: z.string().nullish(),
-  thumbnail: z.url().optional(),
-  thumbnailColor: z.string(),
-  thumbnailClass: z.string().nullish(),
-  tags: z.string().array(),
-})
+export const ZProjectProject = ZSchemaProject
+
 export const ZProjectDetailsProps = z.intersection(ZProjectProject, z.object({ className: z.string().optional() }))
 export const ZProjectDetailsContentProps = ZProjectProject
 

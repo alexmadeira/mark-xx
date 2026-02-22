@@ -1,3 +1,4 @@
+import { mediaEvent } from '_SRV/lib/event'
 import { timer } from '_SRV/utils'
 
 import { LoaderBuilder } from './loader-builder'
@@ -9,7 +10,7 @@ let requestsLoader: LoaderRequests
 let builderLoader: LoaderBuilder
 
 function loaderMedias() {
-  if (!mediasLoader) mediasLoader = new LoaderMedias()
+  if (!mediasLoader) mediasLoader = new LoaderMedias(mediaEvent())
   return mediasLoader
 }
 

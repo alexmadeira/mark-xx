@@ -5,6 +5,7 @@ import type {
   TLoaderGetMediaOriginalSrcProps,
   TLoaderIsBlobProps,
   TLoaderLoadedMedias,
+  TLoaderMediaEvents,
   TLoaderMediaListeners,
   TLoaderMediaLoadedProps,
   TLoaderMediaNotifyListenersProps,
@@ -12,6 +13,7 @@ import type {
   TLoaderMediaSubscribeProps,
   TLoaderSaveMediaToCacheProps,
 } from '@/services/builder/loader/medias'
+import type { IEmitter } from '@/services/lib/event/emitter'
 
 import { get, set } from 'idb-keyval'
 import _ from 'lodash'
@@ -22,7 +24,7 @@ export class LoaderMedias implements ILoaderMedias {
   private readonly loadedMedias: TLoaderLoadedMedias
   private readonly pendingFetches = new Map<string, Promise<string>>()
 
-  constructor() {
+  constructor(private readonly emitter: IEmitter<TLoaderMediaEvents>) {
     this.medias = new Map()
     this.loadedMedias = new Map()
 
@@ -167,8 +169,9 @@ export class LoaderMedias implements ILoaderMedias {
 
       this.updateImagesSrc()
       this.mediaLoaded(this.getMediaOriginalSrc(img))
-    } catch (error) {
-      console.error('Error loading image:', error)
+    } catch (_error) {
+      this.notifyListeners('MEDIA:Error')
+      this.notifyListeners('MEDIA:IMAGE:Error', img.dataset.src)
     }
   }
 
@@ -184,8 +187,9 @@ export class LoaderMedias implements ILoaderMedias {
 
       this.updateVideoSrc()
       this.mediaLoaded(this.getMediaOriginalSrc(video))
-    } catch (error) {
-      console.error('Error loading video:', error)
+    } catch (_error) {
+      this.notifyListeners('MEDIA:Error')
+      this.notifyListeners('MEDIA:VIDEO:Error', video.src)
     }
   }
 
@@ -259,6 +263,8 @@ export class LoaderMedias implements ILoaderMedias {
   }
 
   private notifyListeners(...[type, payload]: TLoaderMediaNotifyListenersProps) {
+    this.emitter.emit(type, payload)
+
     for (const listener of this.listeners[type]) {
       listener(payload)
     }

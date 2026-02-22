@@ -13,16 +13,20 @@ import type { TStoreFetcherProject } from '@/services/store/fetcher-projects'
 import { asHTML } from '@prismicio/client'
 import _ from 'lodash'
 
+import { imageCloudinary } from '_SRV/lib/image'
+
 import { CompanyMapper } from './company-mapper'
 import { TechnologyMapper } from './technology-mapper'
 
 export class ProjectMapper {
+  private static readonly cloudinaryImage = imageCloudinary()
+
   protected constructor() {}
 
   private static contentFullImage(raw: TRawSchemaProjectContentFullImage): TSchemaProjectContentFullImage {
     return {
       type: 'full_image',
-      url: _.get(raw, 'primary.image.url'),
+      url: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'primary.image.url')),
       size: raw.primary.size || 'full',
       color: _.get(raw, 'primary.color', '#FFFFFF'),
     }
@@ -36,7 +40,7 @@ export class ProjectMapper {
       hoverStyle: raw.primary.grid_image_hover_style,
       images: _.map(raw.items, (image) => ({
         id: _.get(image, 'grid_image_url.key', ''),
-        url: _.get(image, 'grid_image_url.url'),
+        url: ProjectMapper.cloudinaryImage.resize(_.get(image, 'grid_image_url.url')),
         name: _.toString(_.get(image, 'grid_image_name', '')),
         color: _.toString(_.get(image, 'grid_image_color', '#000000')),
         rows: _.toNumber(_.get(image, 'grid_image_rows', 1)),
@@ -62,7 +66,7 @@ export class ProjectMapper {
 
   public static toMasonry(raw: TStoreFetcherProject): TMasonryContent<TStoreFetcherProject> {
     return {
-      className: 'bg-black',
+      className: raw.thumbnailClass,
       link: `/project/${raw.slug}`,
       color: raw.thumbnailColor,
       metaData: raw,
@@ -71,6 +75,7 @@ export class ProjectMapper {
 
   public static toStore(raw: TRawSchemaProject): TStoreFetcherProject {
     if (!raw.data.company.length) throw new Error(`Project ${raw.id} has no company associated.`)
+
     return {
       status: 'loading',
       id: raw.id,
@@ -80,19 +85,19 @@ export class ProjectMapper {
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
       logo: _.get(raw, 'data.logo.url'),
-      banner: _.get(raw, 'data.banner.url'),
-      company: CompanyMapper.toStore(raw.data.company[0]),
       content: _.presentsContent(asHTML(_.get(raw, 'data.content'))),
       teamSize: _.get(raw, 'data.team_size', ''),
       logoColor: _.get(raw, 'data.logo_color', '#000000'),
       highlight: _.get(raw, 'data.highlight', false),
-      thumbnail: _.get(raw, 'data.thumbnail.url'),
       thumbnailColor: _.get(raw, 'data.thumbnail_color', '#FFFFFF'),
       bannerName: _.get(raw, 'data.banner_name', ''),
       bannerClass: _.get(raw, 'data.banner_class', ''),
       description: _.presentsContent(_.get(raw, 'data.description')),
       technologies: raw.data.technologies.map(TechnologyMapper.toStore),
       thumbnailClass: _.get(raw, 'data.banner_class', ''),
+      company: CompanyMapper.toStore(raw.data.company[0]),
+      banner: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.banner.url')),
+      thumbnail: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.thumbnail.url')),
       contents: ProjectMapper.content(raw.data.blocks),
       timeline: {
         end: new Date(_.get(raw, 'data.end_date', '')),

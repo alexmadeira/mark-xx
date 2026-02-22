@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 
+import { Image } from '_APP/components/ui-element/image'
 import _ from 'lodash'
 import { motion, useScroll, useTransform } from 'motion/react'
 
@@ -41,12 +42,12 @@ export function Banner() {
     <div ref={targetRef} className="fixed top-0 left-0 h-screen max-h-[200vw] min-h-100 w-full">
       <div className="relative h-screen w-screen overflow-hidden">
         {!!project?.banner && (
-          <motion.img
+          <motion.div
             style={{ opacity, scale }}
-            data-src={project.banner}
-            alt={project.bannerName || ''}
-            className="absolute top-1/2 h-full w-full -translate-y-1/2 object-cover md:top-0 md:translate-y-0 lg:object-top"
-          />
+            className="absolute top-1/2 h-full w-full -translate-y-1/2 md:top-0 md:translate-y-0 lg:object-top"
+          >
+            <Image src={project.banner} alt={project.bannerName || ''} className="h-full w-full object-cover" />
+          </motion.div>
         )}
       </div>
     </div>
