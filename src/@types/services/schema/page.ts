@@ -40,8 +40,8 @@ export const ZSchemaPage = z.object({
   slug: z.string(),
   title: z.string(),
   description: z.string(),
-  quote: z.string().optional(),
-  subTitle: z.string().optional(),
+  quote: z.string().nullish(),
+  subTitle: z.string().nullish(),
 })
 
 //

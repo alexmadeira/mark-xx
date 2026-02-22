@@ -9,6 +9,7 @@ import {
 import { z } from 'zod/v4'
 
 import { ZSchemaCompany } from './company'
+import { ZSchemaUIImageSRC } from './image'
 import { ZSchemaTechnology } from './technology'
 
 export const ZRawSchemaProject = ZPrismicDocumentProject
@@ -19,7 +20,7 @@ export const ZRawSchemaProjectContentImagemGrid = ZPrismicDocumentProjectContent
 export const ZSchemaProjectContentFullImage = z.object({
   type: z.literal('full_image'),
   color: z.string(),
-  url: z.url().optional(),
+  url: ZSchemaUIImageSRC,
   size: ZEProjectBlockFullImageSize,
 })
 
@@ -35,7 +36,7 @@ export const ZSchemaProjectContentImageGrid = z.object({
       color: z.string(),
       rows: z.number(),
       cols: z.number(),
-      url: z.url().optional(),
+      url: ZSchemaUIImageSRC,
     }),
   ),
 })
@@ -57,17 +58,17 @@ export const ZSchemaProject = z.object({
   teamSize: z.string(),
   highlight: z.boolean(),
   description: z.string(),
-  logo: z.url().optional(),
-  banner: z.url().optional(),
-  thumbnail: z.url().optional(),
+  logo: z.url().nullish(),
   thumbnailColor: z.string(),
-  logoColor: z.string().optional(),
+  logoColor: z.string().nullish(),
   bannerName: z.string().optional(),
-  bannerClass: z.string().optional(),
-  thumbnailClass: z.string().optional(),
+  bannerClass: z.string().nullish(),
+  thumbnailClass: z.string().nullish(),
   timeline: z.object({ start: z.coerce.date(), end: z.coerce.date() }),
   company: ZSchemaCompany,
   contents: ZSchemaProjectContents,
+  banner: ZSchemaUIImageSRC,
+  thumbnail: ZSchemaUIImageSRC,
   technologies: ZSchemaTechnology.array(),
 })
 
