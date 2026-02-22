@@ -3,7 +3,11 @@ import type { TStoreFetcherTechnology } from '@/services/store/fetcher-technolog
 
 import _ from 'lodash'
 
+import { imageCloudinary } from '_SRV/lib/image'
+
 export class TechnologyMapper {
+  private static readonly cloudinaryImage = imageCloudinary()
+
   public static toStore(raw: TRawSchemaTechnology): TStoreFetcherTechnology {
     const baseData: TStoreFetcherTechnology = {
       id: raw.id,
@@ -12,7 +16,7 @@ export class TechnologyMapper {
       type: _.get(raw, 'data.type', _.get(raw, 'data.name', '')),
     }
     const extraData = {
-      banner: _.get(raw, 'data.banner.url'),
+      banner: TechnologyMapper.cloudinaryImage.resize(_.get(raw, 'data.banner.url')),
     }
 
     return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherTechnology

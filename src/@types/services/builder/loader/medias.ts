@@ -21,6 +21,27 @@ export const ZLoaderLoadedMediaVideo = z.object({
   cacheUrl: z.url(),
 })
 
+export const ZLoaderMediaEventPayload = z.union([z.string(), z.number()]).optional()
+export const ZLoaderMediaEvents = z.object({
+  'MEDIA:Error': z.void(),
+  'MEDIA:Started': z.string(),
+  'MEDIA:Finished': z.string(),
+  'MEDIA:AllFinished': z.void(),
+  'MEDIA:Update': z.number(),
+  'MEDIA:CheckDocument': z.void(),
+  'MEDIA:ReCheckDocument': z.void(),
+  'MEDIA:VIDEO:Error': z.string(),
+  'MEDIA:VIDEO:Started': z.string(),
+  'MEDIA:VIDEO:Finished': z.string(),
+  'MEDIA:VIDEO:Update': z.number(),
+  'MEDIA:VIDEO:AllFinished': z.void(),
+  'MEDIA:IMAGE:Error': z.string(),
+  'MEDIA:IMAGE:Started': z.string(),
+  'MEDIA:IMAGE:Finished': z.string(),
+  'MEDIA:IMAGE:Update': z.number(),
+  'MEDIA:IMAGE:AllFinished': z.void(),
+})
+
 export const ZLoaderMedia = z.discriminatedUnion('type', [ZLoaderMediaImage, ZLoaderMediaVideo])
 export const ZLoaderLoadedMedia = z.discriminatedUnion('type', [ZLoaderLoadedMediaImage, ZLoaderLoadedMediaVideo])
 export const ZLoaderLoadedMedias = z.map(z.string(), ZLoaderLoadedMedia)
@@ -35,7 +56,7 @@ export const ZLoaderSaveMediaToCacheProps = z.tuple([z.url()])
 export const ZLoaderGetMediaOriginalSrcProps = z.tuple([z.union([ZLoaderElementImage, ZLoaderElementVideo])])
 export const ZLoaderIsBlobProps = z.tuple([z.url()])
 
-export const ZLoaderMediaNotifyListenersProps = z.tuple([ZELoaderListenerMediaType, z.unknown().optional()])
+export const ZLoaderMediaNotifyListenersProps = z.tuple([ZELoaderListenerMediaType, ZLoaderMediaEventPayload])
 export const ZLoaderMediaSubscribeProps = z.tuple([ZELoaderListenerMediaType, ZLoaderMediaCallback])
 
 //
@@ -45,7 +66,10 @@ export const ZLoaderMediaSubscribeProps = z.tuple([ZELoaderListenerMediaType, ZL
 export type TLoaderMediaImage = z.infer<typeof ZLoaderMediaImage>
 export type TLoaderMediaVideo = z.infer<typeof ZLoaderMediaVideo>
 
+export type TLoaderMediaEventPayload = z.infer<typeof ZLoaderMediaEventPayload>
+
 export type TLoaderMedia = z.infer<typeof ZLoaderMedia>
+export type TLoaderMediaEvents = z.infer<typeof ZLoaderMediaEvents>
 export type TLoaderLoadedMedia = z.infer<typeof ZLoaderLoadedMedia>
 export type TLoaderLoadedMedias = z.infer<typeof ZLoaderLoadedMedias>
 export type TLoaderMedias = z.infer<typeof ZLoaderMedias>

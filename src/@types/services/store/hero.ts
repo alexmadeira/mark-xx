@@ -1,11 +1,13 @@
 import { z } from 'zod/v4'
 
+import { ZSchemaUIImageSRC } from '../schema/image'
+
 export const ZStoreHeroCurrentProps = z.object({
   id: z.string(),
   name: z.string(),
   color: z.string(),
   type: z.string(),
-  banner: z.string().optional(),
+  banner: ZSchemaUIImageSRC.optional(),
 })
 
 export const ZStoreHeroData = z.object({
