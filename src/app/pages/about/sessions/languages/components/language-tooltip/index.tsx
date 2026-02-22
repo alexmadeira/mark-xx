@@ -45,8 +45,8 @@ export function LanguageUsageTooltip({ className, language, ...props }: TLanguag
   if (!language || !isHovered) return null
 
   return (
-    <AnimatePresence>
-      <Portal>
+    <Portal>
+      <AnimatePresence>
         <motion.div
           key={props.id}
           style={{ left: smoothMouseX, top: smoothMouseY }}
@@ -72,7 +72,7 @@ export function LanguageUsageTooltip({ className, language, ...props }: TLanguag
             ))}
           </div>
         </motion.div>
-      </Portal>
-    </AnimatePresence>
+      </AnimatePresence>
+    </Portal>
   )
 }
