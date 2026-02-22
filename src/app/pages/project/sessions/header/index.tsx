@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 
+import { Image } from '_APP/components/ui-element/image'
 import { Building2, CalendarDays } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'motion/react'
 
@@ -41,19 +42,13 @@ export function Header() {
   return (
     <div
       ref={targetRef}
-      className="md:px-x-container relative mt-[110lvh] flex w-full flex-col gap-[clamp(0.5rem,1vw,2rem)] overflow-x-clip px-8"
+      className="md:px-x-container relative mt-[110lvh] flex w-full flex-col gap-[clamp(0.5rem,1vw,2rem)] px-8"
     >
-      <motion.h1
-        ref={logoRef}
-        style={{ scale, top, x, y, left, opacity }}
-        className="relative w-fit text-[clamp(2.25rem,7vw,12rem)] leading-[clamp(2.5rem,7vw,12rem)] text-nowrap"
-      >
+      <motion.h1 ref={logoRef} style={{ scale, top, x, y, left, opacity }} className="relative w-fit text-nowrap">
         {project?.logo && (
-          <img
-            alt={project?.name}
-            data-src={project?.logo}
-            className="relative max-h-[clamp(4rem,10vw,25rem)] max-w-[clamp(12rem,35vw,60rem)] object-contain"
-          />
+          <div className="h-[clamp(4rem,10vw,25rem)] max-w-[clamp(12rem,35vw,60rem)]">
+            <Image src={project?.logo} alt={project?.name} className="object-contain" />
+          </div>
         )}
 
         {!project?.logo && project?.name}

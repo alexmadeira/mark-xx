@@ -46,7 +46,7 @@ export function Banner() {
             style={{ opacity, scale }}
             className="absolute top-1/2 h-full w-full -translate-y-1/2 md:top-0 md:translate-y-0 lg:object-top"
           >
-            <Image src={project.banner} alt={project.bannerName || ''} className="h-full w-full object-cover" />
+            <Image src={project.banner} alt={project.bannerName || ''} className="object-cover" />
           </motion.div>
         )}
       </div>
