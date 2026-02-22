@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 
+import { Image } from '_APP/components/ui-element/image'
 import { AnimatePresence, motion, usePresence } from 'motion/react'
 
 import { uiConfigHero } from '_CFG/ui/hero'
@@ -33,14 +34,14 @@ export function Banner() {
       className="group absolute top-0 left-0 h-full w-full overflow-clip"
     >
       <AnimatePresence mode="sync">
-        {content && (
-          <motion.img
-            key={content.id}
-            alt={content.name}
-            data-src={content.banner}
+        {content?.banner && (
+          <motion.div
             {...uiConfigHero.banner}
-            className="absolute top-0 left-0 h-full w-full object-cover object-top"
-          />
+            key={content.id}
+            className="absolute top-1/2 h-full w-full -translate-y-1/2 md:top-0 md:translate-y-0 lg:object-top"
+          >
+            <Image src={content.banner} alt={content.name} className="h-full w-full object-cover" />
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>

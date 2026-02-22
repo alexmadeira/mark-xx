@@ -25,8 +25,9 @@ export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
   return (
     <div
       ref={detailsRef}
+      style={{ '--thumbnail-background': props.thumbnailColor }}
       className={twMerge(
-        'relative flex h-full w-full flex-1 items-center justify-center overflow-hidden',
+        'relative flex h-full w-full flex-1 items-center justify-center overflow-hidden bg-(--thumbnail-background)',
         props.className,
       )}
     >

@@ -1,13 +1,14 @@
 import type { HTMLAttributes } from 'react'
 
 import { ZEProjectBlockFullImageSize, ZEProjectBlockImageGridHoverStyle } from '@/enums/project'
+import { ZSchemaUIImageSRC } from '@/services/schema/image'
 
 import { z } from 'zod/v4'
 
 export const ZProjectBlockFullImageProps = z.intersection(
   z.custom<Omit<HTMLAttributes<HTMLDivElement>, 'children'>>(),
   z.object({
-    url: z.url().optional(),
+    url: ZSchemaUIImageSRC,
     color: z.string(),
     size: ZEProjectBlockFullImageSize,
   }),
@@ -19,7 +20,7 @@ export const ZProjectBlockImageGridImageProps = z.object({
   rows: z.number(),
   cols: z.number(),
   color: z.string(),
-  url: z.url().optional(),
+  url: ZSchemaUIImageSRC,
 })
 export const ZProjectBlockImageGridProps = z.intersection(
   z.custom<Omit<HTMLAttributes<HTMLDivElement>, 'children'>>(),

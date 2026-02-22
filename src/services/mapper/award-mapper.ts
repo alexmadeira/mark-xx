@@ -3,7 +3,7 @@ import type { TStoreFetcherAward } from '@/services/store/fetcher-awards'
 
 import _ from 'lodash'
 
-import { AwardType } from '_SRV/parser/award'
+import { AwardType } from '_SRV/parser/award-type'
 
 export class AwardMapper {
   public static toStore(raw: TRawSchemaAward): TStoreFetcherAward {

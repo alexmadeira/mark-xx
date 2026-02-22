@@ -21,7 +21,7 @@ export function ZMasonryContent<T extends z.infer<typeof ZMasonryContentMeta>>()
     color: z.string(),
     link: z.string().optional(),
     metaData: z.custom<T>().optional(),
-    className: z.string().optional(),
+    className: z.string().nullish(),
   })
 }
 

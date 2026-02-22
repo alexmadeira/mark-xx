@@ -2,12 +2,14 @@ import { ZEFetcherStatus } from '@/enums/fetcher'
 
 import { z } from 'zod/v4'
 
+import { ZSchemaUIImageSRC } from '../schema/image'
+
 export const ZStoreFetcherTechnology = z.object({
   id: z.string(),
   name: z.string(),
   color: z.string(),
   type: z.string(),
-  banner: z.string().optional(),
+  banner: ZSchemaUIImageSRC.optional(),
 })
 
 export const ZStoreFetcherTechnologiesData = z.object({
