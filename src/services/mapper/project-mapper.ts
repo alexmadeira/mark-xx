@@ -84,7 +84,7 @@ export class ProjectMapper {
       date: new Date(_.get(raw, 'data.date', '')),
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
-      logo: _.get(raw, 'data.logo.url'),
+      logo: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.logo.url')),
       content: _.presentsContent(asHTML(_.get(raw, 'data.content'))),
       teamSize: _.get(raw, 'data.team_size', ''),
       logoColor: _.get(raw, 'data.logo_color', '#000000'),

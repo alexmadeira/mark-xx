@@ -25,17 +25,26 @@ export function Image({ className, ...props }: TPageImageProps) {
   }, [props.src])
 
   return (
-    <div data-loaded={isLoaded} className={twMerge('group relative', className)}>
-      <img data-src={props.src.blur} className="relative h-full w-full scale-120 object-cover blur-lg" />
+    <div data-loaded={isLoaded} className="group relative h-full w-full">
+      <img
+        data-src={props.src.blur}
+        className={twMerge(
+          'relative h-full w-full scale-120 blur-lg transition-opacity duration-500',
+          'group-data-[loaded=true]:opacity-0',
+          'group-data-[loaded=false]:scale-100 group-data-[loaded=false]:opacity-100',
+          className,
+        )}
+      />
       <img
         ref={imgRef}
         alt={props.alt}
         loading="lazy"
         data-src={props.src.original}
         className={twMerge(
-          'absolute top-0 left-0 z-1 h-full w-full object-cover opacity-100 transition-opacity duration-500',
+          'absolute top-0 left-0 h-full w-full object-contain opacity-100 transition-opacity duration-500',
           'group-data-[loaded=true]:opacity-100',
           'group-data-[loaded=false]:opacity-0',
+          className,
         )}
       />
     </div>
