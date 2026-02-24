@@ -1,30 +1,35 @@
-import { useLocation, useOutlet } from 'react-router-dom'
+// import { useLocation, useOutlet } from 'react-router-dom'
 
-import { Footer } from '_APP/components/footer'
-import { Header } from '_APP/components/header'
+// import { Footer } from '_APP/components/footer'
+// import { Header } from '_APP/components/header'
 import { EasterEggs } from '_APP/easter-eggs'
-import { BackgroundLoader } from '_APP/loader/background-loader'
-import { SplashScreen } from '_APP/loader/splash-screen'
-import { AnimatePresence, motion } from 'motion/react'
+import { SnakeGame } from '_APP/games/snake'
 
-import { routeController, scrollingController } from '_SRV/controller'
+// import { BackgroundLoader } from '_APP/loader/background-loader'
+// import { SplashScreen } from '_APP/loader/splash-screen'
+// import { AnimatePresence, motion } from 'motion/react'
+// import { routeController, scrollingController } from '_SRV/controller'
 
 export function BaseLayout() {
-  const CLRoute = routeController()
-  const CLScrolling = scrollingController()
+  // const CLRoute = routeController()
+  // const CLScrolling = scrollingController()
 
-  const { pathname } = useLocation()
-  const element = useOutlet()
+  // const { pathname } = useLocation()
+  // const element = useOutlet()
 
-  CLRoute.setRoute(pathname)
+  // CLRoute.setRoute(pathname)
 
   return (
     <>
-      <SplashScreen />
-      <BackgroundLoader />
+      {/* <SplashScreen />
+      <BackgroundLoader /> */}
       <EasterEggs />
       <div className="relative flex min-h-screen flex-col antialiased">
-        <AnimatePresence mode="sync" initial={false}>
+        <div className="absolute top-1/2 left-1/2 z-50 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+          <SnakeGame />
+        </div>
+
+        {/* <AnimatePresence mode="sync" initial={false}>
           <motion.div
             key={pathname}
             exit={{ opacity: 0 }}
@@ -46,7 +51,7 @@ export function BaseLayout() {
             {element}
             <Footer />
           </motion.div>
-        </AnimatePresence>
+        </AnimatePresence> */}
       </div>
     </>
   )
