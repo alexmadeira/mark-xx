@@ -53,6 +53,7 @@
     "motion": "12.23.12",
     "mousetrap": "1.6.5",
     "mustache": "4.2.0",
+    "phaser": "3.90.0",
     "potpack": "2.1.0",
     "react": "19.1.1",
     "react-countup": "6.5.3",
