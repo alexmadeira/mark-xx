@@ -1,19 +1,19 @@
-import type { Nullish } from '@/utils/nullish'
-import type {
-  TKeyActionOf,
-  TKeyActionSetActionProps,
-  TKeyActionSetEventActionProps,
-  TKeyMap,
-} from '@GAMETypes/core/keyboard-action'
-import type { IInputAction } from '@GAMETypes/interfaces/input-action'
+import type { TKeyActionSetEventActionProps } from '@GAMETypes/core/keyboard-action'
+import type { ICommandQueue } from '@GAMETypes/interfaces/value-object/command-queue'
 
 import _ from 'lodash'
 
-export abstract class KeyboardAction<TKeyboardMap extends TKeyMap> implements IInputAction<TKeyActionOf<TKeyboardMap>> {
-  private currentAction: Nullish<TKeyActionOf<TKeyboardMap>>
+import { CommandQueue } from './value-object/command-queue'
 
-  constructor(protected readonly keyMap: TKeyboardMap) {
-    _.bindAll(this, ['setEventAction', 'setAction'])
+type TKeyMap<T> = Record<string, T>
+
+export abstract class KeyboardAction<T> {
+  protected readonly queue: ICommandQueue<T>
+
+  constructor(protected readonly keyMap: TKeyMap<T>) {
+    this.queue = new CommandQueue<T>()
+
+    _.bindAll(this, ['setEventAction', 'consume'])
   }
 
   abstract init(...args: unknown[]): void
@@ -21,19 +21,13 @@ export abstract class KeyboardAction<TKeyboardMap extends TKeyMap> implements II
   abstract destroy(): void
 
   protected setEventAction(...[event]: TKeyActionSetEventActionProps) {
-    const action = this.keyMap[event.key as keyof TKeyboardMap]
+    const action = this.keyMap[event.key]
     if (!action) return
 
-    this.setAction(action)
+    this.queue.enqueue(action)
   }
 
-  protected setAction(...[action]: TKeyActionSetActionProps<TKeyboardMap>) {
-    this.currentAction = action
-  }
-
-  public get action() {
-    const action = this.currentAction
-    this.currentAction = null
-    return action
+  public consume() {
+    return this.queue.dequeue()
   }
 }
