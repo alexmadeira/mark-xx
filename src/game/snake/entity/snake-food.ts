@@ -1,12 +1,11 @@
-import type { IPool } from '@GAMETypes/interfaces/value-object/pool'
+import type { IPool } from '@GAMETypes/interfaces/infra/pool'
 import type { TSnakeFood, TSnakeFoodProps } from '@GAMETypes/snake/entity/snake-food'
 import type { TSnakePlayerInitProps } from '@GAMETypes/snake/entity/snake-player'
 
+import { Pool } from '_GAME/core/infra/pool'
 import { Objective } from '_GAME/core/objective'
-import { Pool } from '_GAME/core/value-object/pool'
 import { Position } from '_GAME/core/value-object/position'
-import { Food } from '_GAME/snake/pool/food'
-import _ from 'lodash'
+import { Food } from '_GAME/snake/infra/pool/food'
 
 export class SnakeFood extends Objective<TSnakeFoodProps> {
   private foodPool!: IPool<TSnakeFood>
@@ -15,7 +14,7 @@ export class SnakeFood extends Objective<TSnakeFoodProps> {
     super({
       ...props,
       active: true,
-      position: new Position({ x: -1, y: -1 }),
+      position: new Position(-1, -1),
     })
   }
 
@@ -27,7 +26,8 @@ export class SnakeFood extends Objective<TSnakeFoodProps> {
   }
 
   public respawn() {
-    const position = new Position(this.randomPosition())
+    const { x, y } = this.randomPosition()
+    const position = new Position(x, y)
     this.spawn(position)
   }
 

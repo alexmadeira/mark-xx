@@ -1,4 +1,4 @@
-import type { IPool, TPoolItem } from '@GAMETypes/interfaces/value-object/pool'
+import type { IPool, IPoolItem } from '@GAMETypes/interfaces/infra/pool'
 
 import _ from 'lodash'
 
@@ -6,7 +6,7 @@ export class Pool<T> implements IPool<T> {
   private pool: T[] = []
   private items: T[] = []
 
-  constructor(private readonly item: TPoolItem<T>) {
+  constructor(private readonly item: IPoolItem<T>) {
     _.bindAll(this, ['acquire', 'release', 'sync'])
   }
 

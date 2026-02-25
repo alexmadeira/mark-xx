@@ -1,4 +1,4 @@
-import type { ICommandQueue } from '@GAMETypes/interfaces/value-object/command-queue'
+import type { ICommandQueue } from '@GAMETypes/interfaces/core/application/command'
 
 import _ from 'lodash'
 

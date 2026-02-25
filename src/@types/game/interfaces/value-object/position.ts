@@ -1,8 +1,6 @@
-export type TPosition = { x: number; y: number }
-
 export interface IPosition {
-  value: TPosition
-  x: TPosition['x']
-  y: TPosition['y']
-  equals(position: IPosition | TPosition): boolean
+  readonly x: number
+  readonly y: number
+  equals(position: IPosition): boolean
+  move(dx: number, dy: number): IPosition
 }

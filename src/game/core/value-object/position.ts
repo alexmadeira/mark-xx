@@ -1,27 +1,16 @@
-import type { IPosition, TPosition } from '@GAMETypes/interfaces/value-object/position'
-
-import _ from 'lodash'
+import type { IPosition } from '@GAMETypes/interfaces/value-object/position'
 
 export class Position implements IPosition {
-  private readonly positionValue: TPosition
+  constructor(
+    public readonly x: number,
+    public readonly y: number,
+  ) {}
 
-  constructor(position: TPosition) {
-    this.positionValue = position
+  public move(dx: number, dy: number) {
+    return new Position(this.x + dx, this.y + dy)
   }
 
-  public get value() {
-    return this.positionValue
-  }
-
-  public get x() {
-    return this.positionValue.x
-  }
-
-  public get y() {
-    return this.positionValue.y
-  }
-
-  public equals(position: Position | TPosition) {
-    return position.x === this.x && position.y === this.y
+  public equals(other: Position) {
+    return this.x === other.x && this.y === other.y
   }
 }

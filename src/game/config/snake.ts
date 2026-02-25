@@ -1,4 +1,4 @@
-import type { TSnakeKeyActions } from '@GAMETypes/snake/controller/snake-keyboard-action'
+import type { TSnakeKeyActions } from '@GAMETypes/snake/application/input/snake-keyboard-input'
 
 export const snakeKeyAction = {
   ArrowUp: 'UP',
@@ -6,3 +6,10 @@ export const snakeKeyAction = {
   ArrowLeft: 'LEFT',
   ArrowRight: 'RIGHT',
 } as const satisfies TSnakeKeyActions
+
+export const oppositeDirection = {
+  UP: 'DOWN',
+  DOWN: 'UP',
+  LEFT: 'RIGHT',
+  RIGHT: 'LEFT',
+} as const

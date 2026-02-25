@@ -3,14 +3,14 @@ import { ZESnakeAction } from '@GAMETypes/enums/snake'
 import { ZSnakeGameInput } from '@GAMETypes/snake/game'
 import { z } from 'zod/v4'
 
-export const ZSnakeKeyboardActionKeyboard = ZSnakeGameInput
+export const ZSnakeKeyboardInput = ZSnakeGameInput
 export const ZSnakeKeyActions = z.partialRecord(ZEkeyboardAllKey, ZESnakeAction)
-export const ZSnakeKeyboardActionInitProps = z.tuple([ZSnakeKeyboardActionKeyboard])
+export const ZSnakeKeyboardInputInitProps = z.tuple([ZSnakeKeyboardInput])
 
 //
 //
 //
 
-export type TSnakeKeyboardActionKeyboard = z.infer<typeof ZSnakeKeyboardActionKeyboard>
+export type TSnakeKeyboardInput = z.infer<typeof ZSnakeKeyboardInput>
 export type TSnakeKeyActions = z.infer<typeof ZSnakeKeyActions>
-export type TSnakeKeyboardActionInitProps = z.infer<typeof ZSnakeKeyboardActionInitProps>
+export type TSnakeKeyboardInputInitProps = z.infer<typeof ZSnakeKeyboardInputInitProps>
