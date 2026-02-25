@@ -1,4 +1,4 @@
-import type { IPool } from '@GAMETypes/interfaces/value-object/pool'
+import type { IPool } from '@GAMETypes/interfaces/infra/pool'
 import type {
   TSnakePlayerAction,
   TSnakePlayerBodySegments,
@@ -11,23 +11,17 @@ import type {
   TSnakePlayerSetPositionProps,
 } from '@GAMETypes/snake/entity/snake-player'
 
+import { oppositeDirection } from '_GAME/config/snake'
+import { Pool } from '_GAME/core/infra/pool'
 import { Palyer } from '_GAME/core/palyer'
-import { Pool } from '_GAME/core/value-object/pool'
 import { Position } from '_GAME/core/value-object/position'
-import { SnakeSegment } from '_GAME/snake/pool/snake-segment'
+import { SnakeSegment } from '_GAME/snake/infra/pool/snake-segment'
 import { ZESnakeDirection } from '@GAMETypes/enums/snake'
 import _ from 'lodash'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   private readonly bodySegments: TSnakePlayerBodySegments
   private segmentPool!: IPool<TSnakePlayerSegment>
-
-  private readonly opposite = {
-    UP: 'DOWN',
-    DOWN: 'UP',
-    LEFT: 'RIGHT',
-    RIGHT: 'LEFT',
-  } as const
 
   constructor(props: TSnakePlayerProps) {
     super(props)
@@ -38,28 +32,32 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     return ZESnakeDirection.safeParse(action).success
   }
 
-  private computeNextPosition() {
+  private get direction() {
+    return this.props.direction || 'RIGHT'
+  }
+
+  private get nextPosition() {
     const { x, y } = this.position
 
-    switch (this.props.direction) {
+    switch (this.direction) {
       case 'UP':
-        return new Position({ x, y: y - 1 })
+        return new Position(x, y - 1)
       case 'DOWN':
-        return new Position({ x, y: y + 1 })
+        return new Position(x, y + 1)
       case 'LEFT':
-        return new Position({ x: x - 1, y })
+        return new Position(x - 1, y)
       case 'RIGHT':
-        return new Position({ x: x + 1, y })
+        return new Position(x + 1, y)
     }
   }
 
   public move() {
     if (!this.position) return
-    this.props.position = this.computeNextPosition()
+    this.props.position = this.nextPosition
   }
 
-  public setPosition(...[position]: TSnakePlayerSetPositionProps) {
-    this.props.position = new Position(position)
+  public setPosition(...[x, y]: TSnakePlayerSetPositionProps) {
+    this.props.position = new Position(x, y)
   }
 
   public setAction(...[action]: TSnakePlayerSetActionProps) {
@@ -67,13 +65,13 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   }
 
   public setDirection(...[direction]: TSnakePlayerSetDirectionProps) {
-    if (direction === this.opposite[this.props.direction]) return
+    if (direction === oppositeDirection[this.direction]) return
     this.props.direction = direction
   }
 
   public grow() {
     const tail = this.bodySegments[this.bodySegments.length - 1]
-    this.bodySegments.push({ ...tail })
+    this.bodySegments.push(tail)
   }
 
   public init(...[scene]: TSnakePlayerInitProps) {
@@ -99,11 +97,15 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     this.segmentPool.actives.forEach((segment) => segment.destroy())
   }
 
-  public get body() {
-    return this.bodySegments
-  }
-
   public get tail() {
     return _.tail(this.bodySegments)
+  }
+
+  public get head() {
+    return this.bodySegments[0]
+  }
+
+  public get body() {
+    return this.bodySegments
   }
 }

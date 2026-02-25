@@ -1,11 +1,9 @@
-import type { TESnakeDirection } from '@GAMETypes/enums/snake'
-
 import { Position } from '_GAME/core/value-object/position'
-import { SnakeCollisionController } from '_GAME/snake/controller/snake-collision-controller'
-import { SnakeKeyboardActionController } from '_GAME/snake/controller/snake-keyboard-action-controller'
+import { SnakeKeyboardInput } from '_GAME/snake/application/input/snake-keyboard-input'
 import { SnakeScore } from '_GAME/snake/controller/snake-score'
 import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
+import { SnakeCollisionService } from '_GAME/snake/services/snake-collision-service'
 import _ from 'lodash'
 import Phaser from 'phaser'
 
@@ -14,26 +12,24 @@ export class GameScene extends Phaser.Scene {
   private tileCount = 20
 
   private food!: SnakeFood
-  private player!: SnakePlayer
-  private collision!: SnakeCollisionController
   private score!: SnakeScore
-  private actionController!: SnakeKeyboardActionController
+  private player!: SnakePlayer
+  private collision!: SnakeCollisionService
+  private keyboardInput!: SnakeKeyboardInput
 
   private moveTime = 0
-  private speed = 150
+  private speed = 100
 
   constructor() {
     super('GameScene')
   }
 
-  init(data: { direction?: TESnakeDirection }) {
-    const startPosition = new Position({
-      x: Math.floor(this.tileCount / 2),
-      y: Math.floor(this.tileCount / 2),
-    })
+  init() {
+    const startPosition = new Position(Math.floor(this.tileCount / 2), Math.floor(this.tileCount / 2))
 
     this.score = new SnakeScore({ defaultPointValue: 1 })
-    this.actionController = new SnakeKeyboardActionController()
+    this.keyboardInput = new SnakeKeyboardInput()
+
     this.food = new SnakeFood({
       tileSize: this.tileSize,
       gridWidth: this.tileCount,
@@ -43,24 +39,24 @@ export class GameScene extends Phaser.Scene {
     this.player = new SnakePlayer({
       position: startPosition,
       tileSize: this.tileSize,
-      direction: data.direction || 'RIGHT',
     })
 
-    this.collision = new SnakeCollisionController({
-      gridWidth: this.tileCount,
-      gridHeight: this.tileCount,
+    this.collision = new SnakeCollisionService({
+      snake: this.player,
+      maxWidth: this.tileCount,
+      maxHeight: this.tileCount,
     })
   }
 
   create() {
+    this.moveTime = this.time.now
     this.cameras.main.setBackgroundColor('#00f')
 
     this.food.init(this)
     this.score.init(this)
     this.player.init(this)
-    this.actionController.init(this.input.keyboard!)
+    this.keyboardInput.init(this.input.keyboard!)
 
-    this.moveTime = this.time.now
     this.render()
   }
 
@@ -69,7 +65,7 @@ export class GameScene extends Phaser.Scene {
     if (time < this.moveTime) return
     this.moveTime = time + this.speed
 
-    const action = this.actionController.consume()
+    const action = this.keyboardInput.consume()
     if (action) this.player.setAction(action)
 
     this.step()
@@ -90,24 +86,19 @@ export class GameScene extends Phaser.Scene {
   }
 
   private collide() {
-    if (this.collision.whithObstacle(this.player.position)) {
-      this.player.kill()
-      this.gameOver()
-    }
+    if (this.collision.checkSelfCollision()) this.endGame()
   }
 
   private step() {
     this.player.move()
+    this.collide()
 
-    if (this.player.position.x < 0) this.player.setPosition({ x: this.tileCount - 1, y: this.player.position.y })
-    if (this.player.position.y < 0) this.player.setPosition({ x: this.player.position.x, y: this.tileCount - 1 })
-    if (this.player.position.x >= this.tileCount) this.player.setPosition({ x: 0, y: this.player.position.y })
-    if (this.player.position.y >= this.tileCount) this.player.setPosition({ x: this.player.position.x, y: 0 })
-
-    this.collision.updateObstacle(this.player.tail)
+    if (this.player.position.x < 0) this.player.setPosition(this.tileCount - 1, this.player.position.y)
+    if (this.player.position.y < 0) this.player.setPosition(this.player.position.x, this.tileCount - 1)
+    if (this.player.position.x >= this.tileCount) this.player.setPosition(0, this.player.position.y)
+    if (this.player.position.y >= this.tileCount) this.player.setPosition(this.player.position.x, 0)
 
     this.eatFood()
-    this.collide()
 
     this.player.update()
     this.render()
@@ -116,6 +107,11 @@ export class GameScene extends Phaser.Scene {
   private render() {
     this.player.render()
     this.food.render()
+  }
+
+  private endGame() {
+    this.player.kill()
+    this.gameOver()
   }
 
   private gameOver() {

@@ -1,4 +1,4 @@
-import type { IPosition, TPosition } from '@GAMETypes/interfaces/value-object/position'
+import type { IPosition } from '@GAMETypes/interfaces/value-object/position'
 
 import { ZPlayerProps } from '@GAMETypes/core/palyer'
 import { ZESnakeAction, ZESnakeDirection } from '@GAMETypes/enums/snake'
@@ -13,13 +13,13 @@ export const ZSnakePlayerPosition = z.custom<IPosition>()
 export const ZSnakePlayerBodySegments = ZSnakePlayerPosition.array()
 
 export const ZSnakePlayerInitProps = z.tuple([ZSnakeGameScene])
-export const ZSnakePlayerSetPositionProps = z.tuple([z.custom<TPosition>()])
+export const ZSnakePlayerSetPositionProps = z.tuple([z.number(), z.number()])
 export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction])
 export const ZSnakePlayerSetDirectionProps = z.tuple([ZSnakePlayerDirection])
 
 export const ZSnakePlayerProps = z.object({
   ...ZPlayerProps.shape,
-  direction: ZSnakePlayerDirection,
+  direction: ZSnakePlayerDirection.optional(),
 })
 
 //
