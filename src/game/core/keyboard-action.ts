@@ -1,11 +1,9 @@
-import type { TKeyActionSetEventActionProps } from '@GAMETypes/core/keyboard-action'
+import type { TKeyActionSetEventActionProps, TKeyMap } from '@GAMETypes/core/keyboard-action'
 import type { ICommandQueue } from '@GAMETypes/interfaces/value-object/command-queue'
 
 import _ from 'lodash'
 
 import { CommandQueue } from './value-object/command-queue'
-
-type TKeyMap<T> = Record<string, T>
 
 export abstract class KeyboardAction<T> {
   protected readonly queue: ICommandQueue<T>
@@ -24,7 +22,7 @@ export abstract class KeyboardAction<T> {
     const action = this.keyMap[event.key]
     if (!action) return
 
-    this.queue.enqueue(action)
+    if (this.queue.size <= 3) this.queue.enqueue(action)
   }
 
   public consume() {
