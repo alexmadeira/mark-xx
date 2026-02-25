@@ -1,24 +1,17 @@
+import type { TESnakeAction } from '@GAMETypes/enums/snake'
 import type {
   TSnakeKeyboardActionInitProps,
   TSnakeKeyboardActionKeyboard,
-  TSnakeKeyboardActionSetActionProps,
-  TSnakeOppositeDirection,
 } from '@GAMETypes/snake/controller/snake-keyboard-action'
 
-import { snakeKeyAction, snakeOppositeDirection } from '_GAME/config/snake'
+import { snakeKeyAction } from '_GAME/config/snake'
 import { KeyboardAction } from '_GAME/core/keyboard-action'
 
-export class SnakeKeyboardActionController extends KeyboardAction<typeof snakeKeyAction> {
+export class SnakeKeyboardActionController extends KeyboardAction<TESnakeAction> {
   private keyboard?: TSnakeKeyboardActionKeyboard
-  private opposite: TSnakeOppositeDirection<typeof snakeKeyAction> = snakeOppositeDirection
 
   constructor() {
     super(snakeKeyAction)
-  }
-
-  protected setAction(...[action]: TSnakeKeyboardActionSetActionProps<typeof snakeKeyAction>) {
-    if (this.action && this.opposite[this.action] === action) return
-    super.setAction(action)
   }
 
   public init(...[keyboard]: TSnakeKeyboardActionInitProps) {

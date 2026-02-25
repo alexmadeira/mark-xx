@@ -63,15 +63,13 @@ export class GameScene extends Phaser.Scene {
 
   update(time: number) {
     if (!this.player.alive) return
-    const action = this.actionController.action
+    if (time < this.moveTime) return
+    this.moveTime = time + this.speed
 
-    if (action) {
-      this.player.setDirection(action)
-    }
-    if (time >= this.moveTime) {
-      this.step()
-      this.moveTime = time + this.speed
-    }
+    const action = this.actionController.consume()
+    if (action) this.player.setAction(action)
+
+    this.step()
   }
 
   private eatFood() {
