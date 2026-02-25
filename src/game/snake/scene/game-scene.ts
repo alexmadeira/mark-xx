@@ -2,12 +2,12 @@ import type { TESnakeDirection } from '@GAMETypes/enums/snake'
 
 import { Position } from '_GAME/core/value-object/position'
 import { SnakeCollisionController } from '_GAME/snake/controller/snake-collision-controller'
+import { SnakeKeyboardActionController } from '_GAME/snake/controller/snake-keyboard-action-controller'
+import { SnakeScore } from '_GAME/snake/controller/snake-score'
 import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import _ from 'lodash'
 import Phaser from 'phaser'
-
-import { SnakeKeyboardActionController } from '../controller/snake-keyboard-action-controller'
 
 export class GameScene extends Phaser.Scene {
   private tileSize = 20
@@ -16,6 +16,7 @@ export class GameScene extends Phaser.Scene {
   private food!: SnakeFood
   private player!: SnakePlayer
   private collision!: SnakeCollisionController
+  private score!: SnakeScore
   private actionController!: SnakeKeyboardActionController
 
   private moveTime = 0
@@ -31,6 +32,7 @@ export class GameScene extends Phaser.Scene {
       y: Math.floor(this.tileCount / 2),
     })
 
+    this.score = new SnakeScore({ defaultPointValue: 1 })
     this.actionController = new SnakeKeyboardActionController()
     this.food = new SnakeFood({
       tileSize: this.tileSize,
@@ -54,6 +56,7 @@ export class GameScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#00f')
 
     this.food.init(this)
+    this.score.init(this)
     this.player.init(this)
     this.actionController.init(this.input.keyboard!)
 
@@ -75,6 +78,12 @@ export class GameScene extends Phaser.Scene {
   private eatFood() {
     if (!this.player.position.equals(this.food.position)) return
 
+    this.score.addPoint()
+    this.score.update()
+
+    if (this.score.total === 5) {
+      this.score.setPointValue(5)
+    }
     this.player.grow()
     this.food.consume()
     this.food.respawn()
