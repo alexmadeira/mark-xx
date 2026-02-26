@@ -1,24 +1,15 @@
 import type { TMainProviderProps } from '@/providers/main'
 
-import { useEffect } from 'react'
-
-import { mouseController } from '_SRV/controller'
-
-// import { queryClient } from '_SRV/lib'
+import { Analytics } from './analytics'
+import { MouseTrack } from './mouseTrack'
 import { PageColors } from './page-colors'
 
 export function MainProvider({ children }: TMainProviderProps) {
-  const CLMouse = mouseController()
-
-  useEffect(() => {
-    CLMouse.init()
-
-    return () => CLMouse.init()
-  }, [])
-
   return (
     <>
+      <Analytics />
       <PageColors />
+      <MouseTrack />
       {children}
     </>
   )

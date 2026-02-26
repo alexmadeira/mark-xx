@@ -95,6 +95,9 @@ importers:
       react-helmet-async:
         specifier: 2.0.5
         version: 2.0.5(react@19.1.1)
+      react-microsoft-clarity:
+        specifier: 2.0.0
+        version: 2.0.0
       react-router-dom:
         specifier: 7.8.2
         version: 7.8.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -3927,6 +3930,9 @@ packages:
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+
+  react-microsoft-clarity@2.0.0:
+    resolution: {integrity: sha512-Hnbmiv+/vHSekS+Diho7SzvigNLNm+wayZMhxS4otaxPBlN3ccpY7k+PJd2Ytg3F6umU3JZzFtLzvK1WmfdhpA==}
 
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
@@ -8823,6 +8829,8 @@ snapshots:
       shallowequal: 1.1.0
 
   react-is@16.13.1: {}
+
+  react-microsoft-clarity@2.0.0: {}
 
   react-refresh@0.17.0: {}
 
