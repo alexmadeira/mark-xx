@@ -1,4 +1,4 @@
-import { mediaEvent } from '_SRV/lib/event'
+import { mediaEvent } from '_SRV/builder/event'
 import { timer } from '_SRV/utils'
 
 import { LoaderBuilder } from './loader-builder'
