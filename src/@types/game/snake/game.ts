@@ -9,6 +9,12 @@ export const ZSnakeGameInput = z.custom<Input.Keyboard.KeyboardPlugin>()
 export const ZSnakeGamePlayer = z.custom<GameObjects.Rectangle>()
 export const ZSnakeGamePlayerSegment = z.custom<GameObjects.Rectangle>()
 
+export const ZSnakeGameEvents = z.object({
+  'SNAKE:ScoreUpdated': z.number(),
+  'SNAKE:gameOver': z.undefined(),
+  'SNAKE:gameStart': z.undefined(),
+})
+
 //
 //
 //
@@ -20,3 +26,4 @@ export type TSnakeGameFood = z.infer<typeof ZSnakeGameFood>
 export type TSnakeGameInput = z.infer<typeof ZSnakeGameInput>
 export type TSnakeGamePlayer = z.infer<typeof ZSnakeGamePlayer>
 export type TSnakeGamePlayerSegment = z.infer<typeof ZSnakeGamePlayerSegment>
+export type TSnakeGameEvents = z.infer<typeof ZSnakeGameEvents>

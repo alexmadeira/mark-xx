@@ -8,8 +8,6 @@ import { twMerge } from 'tailwind-merge'
 import { mediaEvent } from '_SRV/builder/event'
 
 export function Image({ className, ...props }: TPageImageProps) {
-  const EVMedia = mediaEvent()
-
   const imgRef = useRef<HTMLImageElement>(null)
   const [isLoaded, setIsLoaded] = useState<boolean | null>(null)
 
@@ -20,8 +18,8 @@ export function Image({ className, ...props }: TPageImageProps) {
       if (src === props.src.original) setIsLoaded(true)
     }
 
-    EVMedia.on('MEDIA:IMAGE:Finished', handler)
-    return () => EVMedia.off('MEDIA:IMAGE:Finished', handler)
+    mediaEvent.on('MEDIA:IMAGE:Finished', handler)
+    return () => mediaEvent.off('MEDIA:IMAGE:Finished', handler)
   }, [props.src])
 
   return (

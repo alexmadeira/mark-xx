@@ -10,7 +10,7 @@ let requestsLoader: LoaderRequests
 let builderLoader: LoaderBuilder
 
 function loaderMedias() {
-  if (!mediasLoader) mediasLoader = new LoaderMedias(mediaEvent())
+  if (!mediasLoader) mediasLoader = new LoaderMedias(mediaEvent)
   return mediasLoader
 }
 
