@@ -10,7 +10,7 @@ export class MouseController {
   private readonly mouseActions = useMouse.getState().actions
 
   constructor() {
-    _.bindAll(this, ['mouseMove'])
+    _.bindAll(this, ['init', 'setElement', 'mouseMove'])
   }
 
   private mouseMove(event: MouseEvent) {
