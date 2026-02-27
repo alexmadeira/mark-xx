@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import _ from 'lodash'
 import { twMerge } from 'tailwind-merge'
 
-import { mediaEvent } from '_SRV/lib/event'
+import { mediaEvent } from '_SRV/builder/event'
 
 export function Image({ className, ...props }: TPageImageProps) {
   const EVMedia = mediaEvent()
