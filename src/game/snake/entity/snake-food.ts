@@ -1,4 +1,4 @@
-import type { IPool } from '@GAMETypes/interfaces/infra/pool'
+import type { IPool } from '@/interfaces/game/infra/pool'
 import type { TSnakeFood, TSnakeFoodProps } from '@GAMETypes/snake/entity/snake-food'
 import type { TSnakePlayerInitProps } from '@GAMETypes/snake/entity/snake-player'
 

@@ -1,4 +1,4 @@
-import type { IPosition } from '@GAMETypes/interfaces/value-object/position'
+import type { IPosition } from '@/interfaces/game/value-object/position'
 
 export class Position implements IPosition {
   constructor(

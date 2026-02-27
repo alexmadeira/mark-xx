@@ -1,4 +1,4 @@
-import type { TESnakeAction } from '@GAMETypes/enums/snake'
+import type { TESnakeAction } from '@/enums/game/snake'
 import type {
   TSnakeKeyboardInput,
   TSnakeKeyboardInputInitProps,

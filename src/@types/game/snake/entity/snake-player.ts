@@ -1,7 +1,7 @@
-import type { IPosition } from '@GAMETypes/interfaces/value-object/position'
+import type { IPosition } from '@/interfaces/game/value-object/position'
 
-import { ZPlayerProps } from '@GAMETypes/core/palyer'
-import { ZESnakeAction, ZESnakeDirection } from '@GAMETypes/enums/snake'
+import { ZESnakeAction, ZESnakeDirection } from '@/enums/game/snake'
+
 import { ZSnakeGamePlayer, ZSnakeGameScene } from '@GAMETypes/snake/game'
 import { z } from 'zod/v4'
 
@@ -18,7 +18,6 @@ export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction])
 export const ZSnakePlayerSetDirectionProps = z.tuple([ZSnakePlayerDirection])
 
 export const ZSnakePlayerProps = z.object({
-  ...ZPlayerProps.shape,
   direction: ZSnakePlayerDirection.optional(),
 })
 

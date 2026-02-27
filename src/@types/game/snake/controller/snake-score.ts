@@ -1,12 +1,11 @@
-import { ZScoreProps } from '@GAMETypes/core/score'
+import type { TScoreProps } from '@/interfaces/game/entity/score'
+
 import { z } from 'zod/v4'
 
 import { ZSnakeGameScene } from '../game'
 
 export const ZSnakeScoreInitProps = z.tuple([ZSnakeGameScene])
-export const ZSnakeScoreProps = z.object({
-  ...ZScoreProps.shape,
-})
+export const ZSnakeScoreProps = z.custom<TScoreProps>()
 //
 //
 //

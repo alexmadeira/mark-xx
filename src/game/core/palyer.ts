@@ -1,13 +1,13 @@
-import type { TPlayerProps } from '@GAMETypes/core/palyer'
+import type { TPlayerProps } from '@/interfaces/game/entity/player'
 
 import _ from 'lodash'
 
 import { Entity } from './entity'
 
-export abstract class Palyer<TProps> extends Entity<TProps & TPlayerProps> {
+export abstract class Palyer<TProps> extends Entity<TPlayerProps<TProps>> {
   private isAlive: boolean
 
-  protected constructor(props: TProps & TPlayerProps) {
+  protected constructor(props: TPlayerProps<TProps>) {
     super(props)
     this.isAlive = true
   }

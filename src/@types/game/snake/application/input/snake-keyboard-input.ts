@@ -1,5 +1,6 @@
-import { ZEkeyboardAllKey } from '@GAMETypes/enums/keyboard'
-import { ZESnakeAction } from '@GAMETypes/enums/snake'
+import { ZEkeyboardAllKey } from '@/enums/game/keyboard'
+import { ZESnakeAction } from '@/enums/game/snake'
+
 import { ZSnakeGameInput } from '@GAMETypes/snake/game'
 import { z } from 'zod/v4'
 
