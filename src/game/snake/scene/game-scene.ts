@@ -7,6 +7,8 @@ import { SnakeCollisionService } from '_GAME/snake/services/snake-collision-serv
 import _ from 'lodash'
 import Phaser from 'phaser'
 
+import { snakeEvent } from '_SRV/builder/event'
+
 export class GameScene extends Phaser.Scene {
   private tileSize = 20
   private tileCount = 20
@@ -46,6 +48,7 @@ export class GameScene extends Phaser.Scene {
       maxWidth: this.tileCount,
       maxHeight: this.tileCount,
     })
+    snakeEvent.emit('SNAKE:gameStart')
   }
 
   create() {
@@ -116,6 +119,7 @@ export class GameScene extends Phaser.Scene {
 
   private gameOver() {
     this.input.keyboard?.removeAllListeners()
+    snakeEvent.emit('SNAKE:gameOver')
     this.scene.start('StartScene')
   }
 }

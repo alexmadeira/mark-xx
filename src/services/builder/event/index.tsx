@@ -1,11 +1,8 @@
 import type { IEvent } from '@/interfaces/event'
 import type { TLoaderMediaEvents } from '@/services/builder/loader/medias'
+import type { TSnakeGameEvents } from '@GAMETypes/snake/game'
 
 import { Mitt } from './mitt'
 
-let eventMedia: IEvent<TLoaderMediaEvents>
-
-export function mediaEvent() {
-  if (!eventMedia) eventMedia = new Mitt<TLoaderMediaEvents>()
-  return eventMedia
-}
+export const mediaEvent: IEvent<TLoaderMediaEvents> = new Mitt<TLoaderMediaEvents>()
+export const snakeEvent: IEvent<TSnakeGameEvents> = new Mitt<TSnakeGameEvents>()
