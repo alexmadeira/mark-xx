@@ -1,4 +1,4 @@
-import type { IPool, IPoolItem } from '@GAMETypes/interfaces/infra/pool'
+import type { IPool, IPoolItem } from '@/interfaces/game/infra/pool'
 
 import _ from 'lodash'
 

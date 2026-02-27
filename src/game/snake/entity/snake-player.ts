@@ -1,4 +1,5 @@
-import type { IPool } from '@GAMETypes/interfaces/infra/pool'
+import type { TPlayerProps } from '@/interfaces/game/entity/player'
+import type { IPool } from '@/interfaces/game/infra/pool'
 import type {
   TSnakePlayerAction,
   TSnakePlayerBodySegments,
@@ -11,19 +12,20 @@ import type {
   TSnakePlayerSetPositionProps,
 } from '@GAMETypes/snake/entity/snake-player'
 
+import { ZESnakeDirection } from '@/enums/game/snake'
+
 import { oppositeDirection } from '_GAME/config/snake'
 import { Pool } from '_GAME/core/infra/pool'
 import { Palyer } from '_GAME/core/palyer'
 import { Position } from '_GAME/core/value-object/position'
 import { SnakeSegment } from '_GAME/snake/infra/pool/snake-segment'
-import { ZESnakeDirection } from '@GAMETypes/enums/snake'
 import _ from 'lodash'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   private readonly bodySegments: TSnakePlayerBodySegments
   private segmentPool!: IPool<TSnakePlayerSegment>
 
-  constructor(props: TSnakePlayerProps) {
+  constructor(props: TPlayerProps<TSnakePlayerProps>) {
     super(props)
     this.bodySegments = [props.position]
   }

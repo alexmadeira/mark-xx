@@ -2,7 +2,7 @@ import type {
   TKeyboardInputMap,
   TKeyboardInputProps,
   TKeyboardInputSetEventActionProps,
-} from '@GAMETypes/core/application/input/keyboard-input'
+} from '@/services/game/input/keyboard-input'
 
 import _ from 'lodash'
 

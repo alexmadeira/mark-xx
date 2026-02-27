@@ -1,5 +1,4 @@
-import type { TScoreProps, TScoreSetPointValueProps } from '@GAMETypes/core/score'
-import type { IScore } from '@GAMETypes/interfaces/score'
+import type { IScore, TScoreProps, TScoreSetPointValueProps } from '@/interfaces/game/entity/score'
 
 export abstract class Score implements IScore {
   private pointValue: number

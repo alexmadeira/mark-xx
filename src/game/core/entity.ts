@@ -1,14 +1,9 @@
-import type { IEntity } from '@/game/interfaces/entity'
-import type { TEntityProps } from '@GAMETypes/core/entity'
-
-import { UniqueEntityID } from './unique-entity-id'
+import type { IEntity, TEntityProps } from '@/interfaces/game/entity/entity'
 
 export abstract class Entity<TProps> implements IEntity {
-  private readonly _id: UniqueEntityID
-  protected readonly props: TProps & TEntityProps
+  protected readonly props: TEntityProps<TProps>
 
-  protected constructor(props: TProps & TEntityProps, id?: UniqueEntityID) {
-    this._id = id ?? new UniqueEntityID()
+  protected constructor(props: TEntityProps<TProps>) {
     this.props = props
   }
 
@@ -16,17 +11,6 @@ export abstract class Entity<TProps> implements IEntity {
   abstract update(...args: unknown[]): void
   abstract render(...args: unknown[]): void
   abstract destroy(...args: unknown[]): void
-
-  public equals(entity: Entity<unknown>) {
-    if (entity === this) return true
-    if (entity.id === this._id) return true
-
-    return false
-  }
-
-  public get id() {
-    return this._id
-  }
 
   public get position() {
     return this.props.position

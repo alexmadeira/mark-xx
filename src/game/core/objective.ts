@@ -1,11 +1,10 @@
-import type { TObjectiveProps, TObjectiveSpawnProps } from '@GAMETypes/core/objective'
+import type { TObjectiveProps, TObjectiveSpawnProps } from '@/interfaces/game/entity/objective'
 
 import { Entity } from './entity'
-import { UniqueEntityID } from './unique-entity-id'
 
-export abstract class Objective<TProps> extends Entity<TObjectiveProps & TProps> {
-  protected constructor(props: TObjectiveProps & TProps, id?: UniqueEntityID) {
-    super(props, id)
+export abstract class Objective<TProps> extends Entity<TObjectiveProps<TProps>> {
+  protected constructor(props: TObjectiveProps<TProps>) {
+    super(props)
   }
 
   public get active() {

@@ -1,5 +1,7 @@
-import type { IPosition } from './value-object/position'
+import type { IPosition } from '@/interfaces/game/value-object/position'
 import type { Scene } from 'phaser'
+
+export type TEntityProps<T> = { position: IPosition } & T
 
 export interface IEntity {
   position: IPosition
