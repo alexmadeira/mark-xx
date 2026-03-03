@@ -4,10 +4,10 @@ import { z } from 'zod/v4'
 
 export const ZSnakeGameScene = z.custom<Scene>()
 
-export const ZSnakeGameFood = z.custom<GameObjects.Rectangle>()
+export const ZSnakeGameFood = z.custom<GameObjects.Sprite>()
 export const ZSnakeGameInput = z.custom<Input.Keyboard.KeyboardPlugin>()
-export const ZSnakeGamePlayer = z.custom<GameObjects.Rectangle>()
-export const ZSnakeGamePlayerSegment = z.custom<GameObjects.Rectangle>()
+export const ZSnakeGamePlayer = z.custom<GameObjects.Sprite>()
+export const ZSnakeGamePlayerSegment = z.custom<GameObjects.Sprite>()
 
 export const ZSnakeGameEvents = z.object({
   'SNAKE:ScoreUpdated': z.number(),

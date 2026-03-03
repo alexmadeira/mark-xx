@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import { Entity } from './entity'
 
-export abstract class Palyer<TProps> extends Entity<TPlayerProps<TProps>> {
+export abstract class Palyer<TProps = unknown> extends Entity<TPlayerProps<TProps>> {
   private isAlive: boolean
 
   protected constructor(props: TPlayerProps<TProps>) {

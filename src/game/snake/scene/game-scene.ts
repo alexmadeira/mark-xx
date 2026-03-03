@@ -1,6 +1,5 @@
 import { Position } from '_GAME/core/value-object/position'
 import { SnakeKeyboardInput } from '_GAME/snake/application/input/snake-keyboard-input'
-import { SnakeScore } from '_GAME/snake/controller/snake-score'
 import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import { SnakeCollisionService } from '_GAME/snake/services/snake-collision-service'
@@ -9,27 +8,28 @@ import Phaser from 'phaser'
 
 import { snakeEvent } from '_SRV/builder/event'
 
-export class GameScene extends Phaser.Scene {
-  private tileSize = 20
-  private tileCount = 20
+import { SnakeRenderService } from '../services/snake-render.service'
 
+export class GameScene extends Phaser.Scene {
   private food!: SnakeFood
-  private score!: SnakeScore
   private player!: SnakePlayer
   private collision!: SnakeCollisionService
   private keyboardInput!: SnakeKeyboardInput
+  private renderService!: SnakeRenderService
 
   private moveTime = 0
   private speed = 100
 
-  constructor() {
+  constructor(
+    private readonly tileSize: number,
+    private readonly tileCount: number,
+  ) {
     super('GameScene')
   }
 
   init() {
     const startPosition = new Position(Math.floor(this.tileCount / 2), Math.floor(this.tileCount / 2))
 
-    this.score = new SnakeScore({ defaultPointValue: 1 })
     this.keyboardInput = new SnakeKeyboardInput()
 
     this.food = new SnakeFood({
@@ -53,11 +53,11 @@ export class GameScene extends Phaser.Scene {
 
   create() {
     this.moveTime = this.time.now
-    this.cameras.main.setBackgroundColor('#00f')
+    this.cameras.main.setBackgroundColor('#000022')
 
-    this.food.init(this)
-    this.score.init(this)
-    this.player.init(this)
+    this.renderService = new SnakeRenderService(this, this.food, this.player, this.tileSize)
+    this.renderService.init()
+
     this.keyboardInput.init(this.input.keyboard!)
 
     this.render()
@@ -77,12 +77,6 @@ export class GameScene extends Phaser.Scene {
   private eatFood() {
     if (!this.player.position.equals(this.food.position)) return
 
-    this.score.addPoint()
-    this.score.update()
-
-    if (this.score.total === 5) {
-      this.score.setPointValue(5)
-    }
     this.player.grow()
     this.food.consume()
     this.food.respawn()
@@ -104,12 +98,12 @@ export class GameScene extends Phaser.Scene {
     this.eatFood()
 
     this.player.update()
+    this.food.respawn()
     this.render()
   }
 
   private render() {
-    this.player.render()
-    this.food.render()
+    this.renderService.render()
   }
 
   private endGame() {

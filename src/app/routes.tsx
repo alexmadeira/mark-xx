@@ -4,6 +4,8 @@ import { BaseLayout } from '_LAY/base'
 
 import { routeController } from '_SRV/controller'
 
+import { Empty } from './pages/empty'
+
 const RouteController = routeController()
 
 export const router = createBrowserRouter([
@@ -14,5 +16,9 @@ export const router = createBrowserRouter([
       ...Route,
       element: <Route.component />,
     })),
+  },
+  {
+    path: '/empty',
+    element: <Empty />,
   },
 ])

@@ -11,12 +11,16 @@ export function SnakeGame() {
   useEffect(() => {
     if (!gameRef.current) return
 
+    const { clientWidth, clientHeight } = gameRef.current
+    const tileCount = 30
+    const tileSize = Math.floor(Math.min(clientWidth, clientHeight) / tileCount)
+
     phaserGame.current = new Phaser.Game({
       type: Phaser.AUTO,
-      width: 400,
-      height: 400,
+      width: tileSize * tileCount,
+      height: tileSize * tileCount,
       parent: gameRef.current,
-      scene: [StartScene, GameScene],
+      scene: [StartScene, new GameScene(tileSize, tileCount)],
     })
 
     return () => {
@@ -25,5 +29,5 @@ export function SnakeGame() {
     }
   }, [])
 
-  return <div ref={gameRef} />
+  return <div ref={gameRef} className="h-300 w-300" />
 }

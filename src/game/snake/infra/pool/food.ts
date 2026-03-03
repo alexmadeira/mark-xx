@@ -3,13 +3,10 @@ import type { TSnakeGameFood, TSnakeGameScene } from '@GAMETypes/snake/game'
 import type { TFoodOnAcquireProps, TFoodOnReleaseProps } from '@GAMETypes/snake/infra/pool/food'
 
 export class Food implements IPoolItem<TSnakeGameFood> {
-  constructor(
-    private scene: TSnakeGameScene,
-    private tileSize: number,
-  ) {}
+  constructor(private scene: TSnakeGameScene) {}
 
-  create() {
-    return this.scene.add.rectangle(0, 0, this.tileSize, this.tileSize, 0xff0000).setOrigin(0)
+  create(textureKey = 'food') {
+    return this.scene.add.sprite(0, 0, textureKey).setOrigin(0).setVisible(false)
   }
 
   onAcquire(...[segment]: TFoodOnAcquireProps) {

@@ -4,7 +4,7 @@ import type {
   TSnakePlayerAction,
   TSnakePlayerBodySegments,
   TSnakePlayerDirection,
-  TSnakePlayerInitProps,
+  // TSnakePlayerInitProps,
   TSnakePlayerProps,
   TSnakePlayerSegment,
   TSnakePlayerSetActionProps,
@@ -15,10 +15,10 @@ import type {
 import { ZESnakeDirection } from '@/enums/game/snake'
 
 import { oppositeDirection } from '_GAME/config/snake'
-import { Pool } from '_GAME/core/infra/pool'
+// import { Pool } from '_GAME/core/infra/pool'
 import { Palyer } from '_GAME/core/palyer'
 import { Position } from '_GAME/core/value-object/position'
-import { SnakeSegment } from '_GAME/snake/infra/pool/snake-segment'
+// import { SnakeSegment } from '_GAME/snake/infra/pool/snake-segment'
 import _ from 'lodash'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
@@ -34,7 +34,7 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     return ZESnakeDirection.safeParse(action).success
   }
 
-  private get direction() {
+  public get direction() {
     return this.props.direction || 'RIGHT'
   }
 
@@ -76,9 +76,7 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     this.bodySegments.push(tail)
   }
 
-  public init(...[scene]: TSnakePlayerInitProps) {
-    this.segmentPool = new Pool(new SnakeSegment(scene, this.props.tileSize))
-  }
+  public init() {}
 
   public update() {
     this.bodySegments.unshift(this.position)
@@ -86,12 +84,11 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   }
 
   public render() {
-    if (!this.segmentPool) return
-    this.segmentPool.sync(this.bodySegments.length)
-
-    this.bodySegments.forEach((segment, index) => {
-      this.segmentPool.actives[index].setPosition(segment.x * this.props.tileSize, segment.y * this.props.tileSize)
-    })
+    // if (!this.segmentPool) return
+    // this.segmentPool.sync(this.bodySegments.length)
+    // this.bodySegments.forEach((segment, index) => {
+    //   this.segmentPool.actives[index].setPosition(segment.x * this.props.tileSize, segment.y * this.props.tileSize)
+    // })
   }
 
   public destroy() {

@@ -34,7 +34,11 @@ export class Pool<T> implements IPool<T> {
     return this.items
   }
 
-  get actives() {
+  public get actives() {
     return this.items
+  }
+
+  public get head() {
+    return this.items[0]
   }
 }
