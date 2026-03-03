@@ -29,5 +29,5 @@ export function SnakeGame() {
     }
   }, [])
 
-  return <div ref={gameRef} className="h-300 w-300" />
+  return <div ref={gameRef} className="h-200 w-200" />
 }

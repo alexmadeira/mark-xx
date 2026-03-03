@@ -48,6 +48,7 @@ export class GameScene extends Phaser.Scene {
       maxWidth: this.tileCount,
       maxHeight: this.tileCount,
     })
+    this.renderService = new SnakeRenderService(this, this.food, this.player, this.tileSize)
     snakeEvent.emit('SNAKE:gameStart')
   }
 
@@ -55,7 +56,6 @@ export class GameScene extends Phaser.Scene {
     this.moveTime = this.time.now
     this.cameras.main.setBackgroundColor('#000022')
 
-    this.renderService = new SnakeRenderService(this, this.food, this.player, this.tileSize)
     this.renderService.init()
 
     this.keyboardInput.init(this.input.keyboard!)

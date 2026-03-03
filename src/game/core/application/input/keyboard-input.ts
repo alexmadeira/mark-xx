@@ -14,7 +14,7 @@ export abstract class KeyboardInput<T> {
     private readonly props: TKeyboardInputProps<T> = {},
   ) {
     this.props.queue = props.queue ?? new CommandQueue<T>()
-    this.props.queueLimit = props.queueLimit ?? 4
+    this.props.queueLimit = props.queueLimit ?? 3
 
     _.bindAll(this, ['setEventAction', 'consume'])
   }
