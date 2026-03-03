@@ -6,13 +6,10 @@ import type {
 } from '@GAMETypes/snake/infra/pool/snake-segment'
 
 export class SnakeSegment implements IPoolItem<TSnakeGamePlayerSegment> {
-  constructor(
-    private scene: TSnakeGameScene,
-    private tileSize: number,
-  ) {}
+  constructor(private scene: TSnakeGameScene) {}
 
-  create() {
-    return this.scene.add.rectangle(0, 0, this.tileSize, this.tileSize, 0x00ff00).setOrigin(0)
+  create(frame = 4) {
+    return this.scene.add.sprite(0, 0, 'snake-body', frame).setOrigin(0).setVisible(false)
   }
 
   onAcquire(...[segment]: TSnakeSegmentOnAcquireProps) {

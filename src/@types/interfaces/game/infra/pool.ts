@@ -3,6 +3,7 @@ export interface IPool<T> {
   release(item: T): void
   sync(count: number): T[]
   readonly actives: T[]
+  readonly head: T
 }
 
 export interface IPoolItem<T> {
