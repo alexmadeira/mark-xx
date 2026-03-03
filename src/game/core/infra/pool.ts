@@ -1,44 +1,45 @@
-import type { IPool, IPoolItem } from '@/interfaces/game/infra/pool'
+import type { IGameObject } from './game-object'
+import type { IPool } from '@/interfaces/game/infra/pool'
 
 import _ from 'lodash'
 
 export class Pool<T> implements IPool<T> {
   private pool: T[] = []
-  private items: T[] = []
+  private objects: T[] = []
 
-  constructor(private readonly item: IPoolItem<T>) {
+  constructor(private readonly object: IGameObject<T>) {
     _.bindAll(this, ['acquire', 'release', 'sync'])
   }
 
   public acquire() {
-    const item = this.pool.pop() ?? this.item.create()
+    const object = this.pool.pop() ?? this.object.create().object
 
-    this.item.onAcquire?.(item)
-    this.items.push(item)
+    this.object.onAcquire?.(object)
+    this.objects.push(object)
 
-    return item
+    return object
   }
 
-  public release(item: T) {
-    const index = this.items.indexOf(item)
-    if (index >= 0) this.items.splice(index, 1)
+  public release(object: T) {
+    const index = this.objects.indexOf(object)
+    if (index >= 0) this.objects.splice(index, 1)
 
-    this.item.onRelease?.(item)
-    this.pool.push(item)
+    this.object.onRelease?.(object)
+    this.pool.push(object)
   }
 
   public sync(count: number) {
-    while (this.items.length < count) this.acquire()
-    while (this.items.length > count) this.release(this.items[this.items.length - 1])
+    while (this.objects.length < count) this.acquire()
+    while (this.objects.length > count) this.release(this.objects[this.objects.length - 1])
 
-    return this.items
+    return this.objects
   }
 
   public get actives() {
-    return this.items
+    return this.objects
   }
 
   public get head() {
-    return this.items[0]
+    return this.objects[0]
   }
 }
