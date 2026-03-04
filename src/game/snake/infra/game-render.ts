@@ -8,19 +8,18 @@ import { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import { FoodObject } from '_GAME/snake/infra/game-object/food-object'
 import { GridObject } from '_GAME/snake/infra/game-object/grid-object'
 import { SnakeObject } from '_GAME/snake/infra/game-object/snake-object'
-import Phaser from 'phaser'
+import { Scene } from 'phaser'
 
-export class SnakeRenderService {
-  private scoreText!: Phaser.GameObjects.Text
-  private snakePool!: IPool<TSnakePlayerSegment>
-  private foodPool!: IPool<TSnakeFood>
+export class GameRender {
+  private foodPool: IPool<TSnakeFood>
+  private snakePool: IPool<TSnakePlayerSegment>
 
   private readonly gridObject: GridObject
   private readonly foodObject: FoodObject
   private readonly snakeObject: SnakeObject
 
   constructor(
-    private readonly scene: Phaser.Scene,
+    private readonly scene: Scene,
     private readonly food: SnakeFood,
     private readonly snake: SnakePlayer,
     private readonly tileSize: number,
@@ -86,9 +85,5 @@ export class SnakeRenderService {
     this.snake.body.forEach((segment, index) => {
       this.snakePool.actives[index].setPosition(segment.x * this.tileSize, segment.y * this.tileSize)
     })
-  }
-
-  updateScore(score: number) {
-    this.scoreText.setText(`SCORE: ${score}`)
   }
 }

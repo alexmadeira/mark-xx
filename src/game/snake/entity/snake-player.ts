@@ -1,12 +1,9 @@
 import type { TPlayerProps } from '@/interfaces/game/entity/player'
-import type { IPool } from '@/interfaces/game/infra/pool'
 import type {
   TSnakePlayerAction,
   TSnakePlayerBodySegments,
   TSnakePlayerDirection,
-  // TSnakePlayerInitProps,
   TSnakePlayerProps,
-  TSnakePlayerSegment,
   TSnakePlayerSetActionProps,
   TSnakePlayerSetDirectionProps,
   TSnakePlayerSetPositionProps,
@@ -23,7 +20,6 @@ import _ from 'lodash'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   private readonly bodySegments: TSnakePlayerBodySegments
-  private segmentPool!: IPool<TSnakePlayerSegment>
 
   constructor(props: TPlayerProps<TSnakePlayerProps>) {
     super(props)
@@ -38,24 +34,12 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     return this.props.direction || 'RIGHT'
   }
 
-  private get nextPosition() {
-    const { x, y } = this.position
-
-    switch (this.direction) {
-      case 'UP':
-        return new Position(x, y - 1)
-      case 'DOWN':
-        return new Position(x, y + 1)
-      case 'LEFT':
-        return new Position(x - 1, y)
-      case 'RIGHT':
-        return new Position(x + 1, y)
-    }
-  }
-
   public move() {
     if (!this.position) return
     this.props.position = this.nextPosition
+
+    this.bodySegments.unshift(this.position)
+    this.bodySegments.pop()
   }
 
   public setPosition(...[x, y]: TSnakePlayerSetPositionProps) {
@@ -76,35 +60,30 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     this.bodySegments.push(tail)
   }
 
-  public init() {}
-
-  public update() {
-    this.bodySegments.unshift(this.position)
-    this.bodySegments.pop()
-  }
-
-  public render() {
-    // if (!this.segmentPool) return
-    // this.segmentPool.sync(this.bodySegments.length)
-    // this.bodySegments.forEach((segment, index) => {
-    //   this.segmentPool.actives[index].setPosition(segment.x * this.props.tileSize, segment.y * this.props.tileSize)
-    // })
-  }
-
-  public destroy() {
-    if (!this.segmentPool) return
-    this.segmentPool.actives.forEach((segment) => segment.destroy())
-  }
-
   public get tail() {
     return _.tail(this.bodySegments)
+  }
+
+  public get body() {
+    return this.bodySegments
   }
 
   public get head() {
     return this.bodySegments[0]
   }
 
-  public get body() {
-    return this.bodySegments
+  public get nextPosition() {
+    const { x, y } = this.position
+
+    switch (this.direction) {
+      case 'UP':
+        return new Position(x, y - 1)
+      case 'DOWN':
+        return new Position(x, y + 1)
+      case 'LEFT':
+        return new Position(x - 1, y)
+      case 'RIGHT':
+        return new Position(x + 1, y)
+    }
   }
 }

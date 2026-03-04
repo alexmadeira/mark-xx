@@ -7,11 +7,6 @@ export abstract class Entity<TProps> implements IEntity {
     this.props = props
   }
 
-  abstract init(...args: unknown[]): void
-  abstract update(...args: unknown[]): void
-  abstract render(...args: unknown[]): void
-  abstract destroy(...args: unknown[]): void
-
   public get position() {
     return this.props.position
   }
