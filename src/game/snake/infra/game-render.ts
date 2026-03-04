@@ -5,73 +5,47 @@ import type { TSnakePlayerSegment } from '@GAMETypes/snake/entity/snake-player'
 import { Pool } from '_GAME/core/infra/pool'
 import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
-import { FoodObject } from '_GAME/snake/infra/game-object/food-object'
-import { GridObject } from '_GAME/snake/infra/game-object/grid-object'
-import { SnakeObject } from '_GAME/snake/infra/game-object/snake-object'
+import { FoodObject } from '_GAME/snake/infra/game-objects/food-object'
+import { GridObject } from '_GAME/snake/infra/game-objects/grid-object'
+import { SnakeObject } from '_GAME/snake/infra/game-objects/snake-object'
 import { Scene } from 'phaser'
 
+import { FoodTexture } from './game-textures/food-texture'
+import { GridTexture } from './game-textures/grid-texture'
+import { SnakeTexture } from './game-textures/snake-texture'
+
 export class GameRender {
-  private foodPool: IPool<TSnakeFood>
-  private snakePool: IPool<TSnakePlayerSegment>
+  private readonly gridTexture: GridTexture
+  private readonly foodTexture: FoodTexture
+  private readonly snakeTexture: SnakeTexture
 
   private readonly gridObject: GridObject
   private readonly foodObject: FoodObject
   private readonly snakeObject: SnakeObject
 
+  private readonly foodPool: IPool<TSnakeFood>
+  private readonly snakePool: IPool<TSnakePlayerSegment>
+
   constructor(
-    private readonly scene: Scene,
+    scene: Scene,
     private readonly food: SnakeFood,
     private readonly snake: SnakePlayer,
     private readonly tileSize: number,
   ) {
-    this.gridObject = new GridObject({ scene, texture: 'grid' })
-    this.foodObject = new FoodObject({ scene, texture: 'food' })
-    this.snakeObject = new SnakeObject({ scene, texture: 'snake' })
+    this.gridTexture = new GridTexture('grid', { scene, tileSize })
+    this.foodTexture = new FoodTexture('food', { scene, tileSize })
+    this.snakeTexture = new SnakeTexture('snake', { scene, tileSize })
+
+    this.gridObject = new GridObject(this.gridTexture, { scene })
+    this.foodObject = new FoodObject(this.foodTexture, { scene })
+    this.snakeObject = new SnakeObject(this.snakeTexture, { scene })
 
     this.foodPool = new Pool(this.foodObject)
     this.snakePool = new Pool(this.snakeObject)
   }
 
   public init() {
-    this.createTextures()
     this.gridObject.create()
-  }
-
-  private createTextures() {
-    const size = this.tileSize
-    const graphics = this.scene.make.graphics({ x: 0, y: 0 }, false)
-
-    // Snake
-    graphics.fillStyle(0x00ff00)
-    graphics.fillRect(0, 0, size, size)
-    graphics.lineStyle(2, 0x003300)
-    graphics.strokeRect(0, 0, size, size)
-    graphics.generateTexture('snake', size, size)
-    graphics.clear()
-
-    // Food
-    graphics.fillStyle(0xff0000)
-    graphics.fillRect(0, 0, size, size)
-    graphics.lineStyle(2, 0xff0000, 0.5)
-    graphics.strokeRect(0, 0, size, size)
-    graphics.generateTexture('food', size, size)
-    graphics.clear()
-
-    const width = this.scene.scale.width
-    const height = this.scene.scale.height
-
-    graphics.lineStyle(1, 0x00ff00, 0.2)
-
-    for (let x = 0; x <= width; x += this.tileSize) {
-      graphics.lineBetween(x, 0, x, height)
-    }
-
-    for (let y = 0; y <= height; y += this.tileSize) {
-      graphics.lineBetween(0, y, width, y)
-    }
-
-    graphics.generateTexture('grid', width, height)
-    graphics.destroy()
   }
 
   public render() {
