@@ -5,24 +5,16 @@ import { GameObject } from '_GAME/core/infra/game-object'
 
 type TSnakeObjectProps = {
   scene: Scene
-  texture: string
 }
 type TSnakeObjectOnAcquireProps = [TSnakeGamePlayer]
 type TSnakeObjectOnReleaseProps = [TSnakeGamePlayer]
 
 export class SnakeObject extends GameObject<TSnakeGamePlayer, TSnakeObjectProps> {
-  constructor(props: TSnakeObjectProps) {
-    super(props)
-  }
-
   public create() {
-    const snakeObject = new SnakeObject(this.props)
-    snakeObject.object = snakeObject.props.scene.add
-      .image(0, 0, snakeObject.props.texture)
-      .setOrigin(0)
-      .setVisible(false)
+    const snake = new SnakeObject(this.texture, this.props)
+    snake.object = snake.props.scene.add.image(0, 0, snake.textureName).setOrigin(0).setVisible(false)
 
-    return snakeObject
+    return snake
   }
 
   public destroy() {

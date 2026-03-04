@@ -1,3 +1,5 @@
+import type { IGameTexture } from './game-texture'
+
 export interface IGameObject<T> {
   readonly object: T
   create(...args: unknown[]): IGameObject<T>
@@ -9,7 +11,10 @@ export interface IGameObject<T> {
 export abstract class GameObject<T, TProps> implements IGameObject<T> {
   protected gameObject!: T
 
-  protected constructor(protected readonly props: TProps) {
+  constructor(
+    protected readonly texture: IGameTexture,
+    protected readonly props: TProps,
+  ) {
     this.init()
   }
 
@@ -27,5 +32,9 @@ export abstract class GameObject<T, TProps> implements IGameObject<T> {
 
   public get object() {
     return this.gameObject
+  }
+
+  protected get textureName() {
+    return this.texture.name
   }
 }

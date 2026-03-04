@@ -5,22 +5,17 @@ import { GameObject } from '_GAME/core/infra/game-object'
 
 type TFoodObjectProps = {
   scene: Scene
-  texture: string
 }
 
 type TSnakeObjectOnAcquireProps = [TSnakeGameFood]
 type TSnakeObjectOnReleaseProps = [TSnakeGameFood]
 
 export class FoodObject extends GameObject<TSnakeGameFood, TFoodObjectProps> {
-  constructor(props: TFoodObjectProps) {
-    super(props)
-  }
-
   public create() {
-    const foodObject = new FoodObject(this.props)
-    foodObject.object = foodObject.props.scene.add.image(0, 0, foodObject.props.texture).setOrigin(0).setVisible(false)
+    const food = new FoodObject(this.texture, this.props)
+    food.object = food.props.scene.add.image(0, 0, food.textureName).setOrigin(0).setVisible(false)
 
-    return foodObject
+    return food
   }
 
   public destroy() {
