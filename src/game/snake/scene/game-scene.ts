@@ -2,20 +2,21 @@ import { Position } from '_GAME/core/value-object/position'
 import { SnakeKeyboardInput } from '_GAME/snake/application/input/snake-keyboard-input'
 import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
+import { GameRender } from '_GAME/snake/infra/game-render'
 import { SnakeCollisionService } from '_GAME/snake/services/snake-collision-service'
 import _ from 'lodash'
 import Phaser from 'phaser'
 
 import { snakeEvent } from '_SRV/builder/event'
 
-import { SnakeRenderService } from '../services/snake-render.service'
+// import { SnakeRenderService } from '../services/snake-render-service'
 
 export class GameScene extends Phaser.Scene {
   private food!: SnakeFood
   private player!: SnakePlayer
   private collision!: SnakeCollisionService
   private keyboardInput!: SnakeKeyboardInput
-  private renderService!: SnakeRenderService
+  private renderService!: GameRender
 
   private moveTime = 0
   private speed = 100
@@ -48,7 +49,7 @@ export class GameScene extends Phaser.Scene {
       maxWidth: this.tileCount,
       maxHeight: this.tileCount,
     })
-    this.renderService = new SnakeRenderService(this, this.food, this.player, this.tileSize)
+    this.renderService = new GameRender(this, this.food, this.player, this.tileSize)
     snakeEvent.emit('SNAKE:gameStart')
   }
 
@@ -84,6 +85,7 @@ export class GameScene extends Phaser.Scene {
 
   private collide() {
     if (this.collision.checkSelfCollision()) this.endGame()
+    // if (this.collision.checkWallCollision()) this.endGame()
   }
 
   private step() {
@@ -97,7 +99,7 @@ export class GameScene extends Phaser.Scene {
 
     this.eatFood()
 
-    this.player.update()
+    // this.player.update()
     this.food.respawn()
     this.render()
   }

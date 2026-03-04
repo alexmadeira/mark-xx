@@ -14,10 +14,13 @@ export class SnakeCollisionService extends CollisionService<TSnakeCollisionServi
   }
 
   public checkSelfCollision() {
-    return this.collidesWithSelf(this.props.snake.head, this.props.snake.tail)
+    return (
+      this.collidesWithSelf(this.props.snake.nextPosition, this.props.snake.tail) ||
+      this.collidesWithSelf(this.props.snake.head, this.props.snake.tail)
+    )
   }
 
   public checkWallCollision() {
-    return this.isOutOfBounds(this.props.snake.head, this.props.maxWidth, this.props.maxHeight)
+    return this.isOutOfBounds(this.props.snake.nextPosition, this.props.maxWidth, this.props.maxHeight)
   }
 }
