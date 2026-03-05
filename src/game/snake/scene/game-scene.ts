@@ -1,24 +1,22 @@
 import { Position } from '_GAME/core/value-object/position'
 import { SnakeKeyboardInput } from '_GAME/snake/application/input/snake-keyboard-input'
+import { SnakeGame } from '_GAME/snake/application/snake-game'
 import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import { GameRender } from '_GAME/snake/infra/game-render'
-import { SnakeCollisionService } from '_GAME/snake/services/snake-collision-service'
-import _ from 'lodash'
-import Phaser from 'phaser'
+import { SnakeCollision } from '_GAME/snake/services/snake-collision'
+import { Scene } from 'phaser'
 
 import { snakeEvent } from '_SRV/builder/event'
 
-// import { SnakeRenderService } from '../services/snake-render-service'
-
-export class GameScene extends Phaser.Scene {
+export class GameScene extends Scene {
   private food!: SnakeFood
   private player!: SnakePlayer
-  private collision!: SnakeCollisionService
+  private collision!: SnakeCollision
   private keyboardInput!: SnakeKeyboardInput
   private renderService!: GameRender
+  private gameLogic!: SnakeGame
 
-  private moveTime = 0
   private speed = 100
 
   constructor(
@@ -44,78 +42,42 @@ export class GameScene extends Phaser.Scene {
       tileSize: this.tileSize,
     })
 
-    this.collision = new SnakeCollisionService({
+    this.collision = new SnakeCollision({
       snake: this.player,
       maxWidth: this.tileCount,
       maxHeight: this.tileCount,
     })
-    this.renderService = new GameRender(this, this.food, this.player, this.tileSize)
+
+    this.gameLogic = new SnakeGame(this.food, this.player, this.collision, this.keyboardInput)
+    this.renderService = new GameRender(this, this.gameLogic, this.tileSize)
+
     snakeEvent.emit('SNAKE:gameStart')
   }
 
   create() {
-    this.moveTime = this.time.now
     this.cameras.main.setBackgroundColor('#000022')
 
     this.renderService.init()
-
     this.keyboardInput.init(this.input.keyboard!)
 
-    this.render()
+    this.time.addEvent({
+      delay: this.speed,
+      loop: true,
+      callback: () => {
+        this.gameLogic.update()
+        this.renderService.update()
+      },
+    })
   }
 
-  update(time: number) {
-    if (!this.player.alive) return
-    if (time < this.moveTime) return
-    this.moveTime = time + this.speed
+  // private endGame() {
+  //   this.player.kill()
+  //   this.gameOver()
+  // }
 
-    const action = this.keyboardInput.consume()
-    if (action) this.player.setAction(action)
-
-    this.step()
-  }
-
-  private eatFood() {
-    if (!this.player.position.equals(this.food.position)) return
-
-    this.player.grow()
-    this.food.consume()
-    this.food.respawn()
-  }
-
-  private collide() {
-    if (this.collision.checkSelfCollision()) this.endGame()
-    // if (this.collision.checkWallCollision()) this.endGame()
-  }
-
-  private step() {
-    this.player.move()
-    this.collide()
-
-    if (this.player.position.x < 0) this.player.setPosition(this.tileCount - 1, this.player.position.y)
-    if (this.player.position.y < 0) this.player.setPosition(this.player.position.x, this.tileCount - 1)
-    if (this.player.position.x >= this.tileCount) this.player.setPosition(0, this.player.position.y)
-    if (this.player.position.y >= this.tileCount) this.player.setPosition(this.player.position.x, 0)
-
-    this.eatFood()
-
-    // this.player.update()
-    this.food.respawn()
-    this.render()
-  }
-
-  private render() {
-    this.renderService.render()
-  }
-
-  private endGame() {
-    this.player.kill()
-    this.gameOver()
-  }
-
-  private gameOver() {
-    this.input.keyboard?.removeAllListeners()
-    snakeEvent.emit('SNAKE:gameOver')
-    this.scene.start('StartScene')
-  }
+  // private gameOver() {
+  //   this.input.keyboard?.removeAllListeners()
+  //   snakeEvent.emit('SNAKE:gameOver')
+  //   this.scene.start('StartScene')
+  // }
 }

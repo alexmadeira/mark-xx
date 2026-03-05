@@ -12,10 +12,8 @@ import type {
 import { ZESnakeDirection } from '@/enums/game/snake'
 
 import { oppositeDirection } from '_GAME/config/snake'
-// import { Pool } from '_GAME/core/infra/pool'
 import { Palyer } from '_GAME/core/palyer'
 import { Position } from '_GAME/core/value-object/position'
-// import { SnakeSegment } from '_GAME/snake/infra/pool/snake-segment'
 import _ from 'lodash'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
@@ -28,10 +26,6 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
 
   private isSnakeDirection(action: TSnakePlayerAction): action is TSnakePlayerDirection {
     return ZESnakeDirection.safeParse(action).success
-  }
-
-  public get direction() {
-    return this.props.direction || 'RIGHT'
   }
 
   public move() {
@@ -47,6 +41,8 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   }
 
   public setAction(...[action]: TSnakePlayerSetActionProps) {
+    if (!action) return
+    if (!this.alive) return
     if (this.isSnakeDirection(action)) this.setDirection(action)
   }
 
@@ -70,6 +66,10 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
 
   public get head() {
     return this.bodySegments[0]
+  }
+
+  public get direction() {
+    return this.props.direction || 'RIGHT'
   }
 
   public get nextPosition() {
