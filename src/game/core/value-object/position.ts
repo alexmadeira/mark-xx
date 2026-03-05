@@ -13,4 +13,8 @@ export class Position implements IPosition {
   public equals(other: Position) {
     return this.x === other.x && this.y === other.y
   }
+
+  public toJSON() {
+    return { x: this.x, y: this.y }
+  }
 }

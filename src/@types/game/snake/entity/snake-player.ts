@@ -14,7 +14,7 @@ export const ZSnakePlayerBodySegments = ZSnakePlayerPosition.array()
 
 export const ZSnakePlayerInitProps = z.tuple([ZSnakeGameScene])
 export const ZSnakePlayerSetPositionProps = z.tuple([z.number(), z.number()])
-export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction])
+export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction.optional()])
 export const ZSnakePlayerSetDirectionProps = z.tuple([ZSnakePlayerDirection])
 
 export const ZSnakePlayerProps = z.object({

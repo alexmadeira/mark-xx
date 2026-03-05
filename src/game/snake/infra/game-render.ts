@@ -3,8 +3,7 @@ import type { TSnakeFood } from '@GAMETypes/snake/entity/snake-food'
 import type { TSnakePlayerSegment } from '@GAMETypes/snake/entity/snake-player'
 
 import { Pool } from '_GAME/core/infra/pool'
-import { SnakeFood } from '_GAME/snake/entity/snake-food'
-import { SnakePlayer } from '_GAME/snake/entity/snake-player'
+import { SnakeGame } from '_GAME/snake/application/snake-game'
 import { FoodObject } from '_GAME/snake/infra/game-objects/food-object'
 import { GridObject } from '_GAME/snake/infra/game-objects/grid-object'
 import { SnakeObject } from '_GAME/snake/infra/game-objects/snake-object'
@@ -28,8 +27,7 @@ export class GameRender {
 
   constructor(
     scene: Scene,
-    private readonly food: SnakeFood,
-    private readonly snake: SnakePlayer,
+    private readonly game: SnakeGame,
     private readonly tileSize: number,
   ) {
     this.gridTexture = new GridTexture('grid', { scene, tileSize })
@@ -44,11 +42,19 @@ export class GameRender {
     this.snakePool = new Pool(this.snakeObject)
   }
 
+  private get food() {
+    return this.game.food
+  }
+
+  private get snake() {
+    return this.game.snake
+  }
+
   public init() {
     this.gridObject.create()
   }
 
-  public render() {
+  public update() {
     if (!this.snakePool || !this.foodPool) return
 
     this.snakePool.sync(this.snake.body.length)
