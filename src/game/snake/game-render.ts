@@ -63,7 +63,7 @@ export class GameRender {
   }
 
   public create() {
-    // this.gridObject.create()
+    this.gridObject.create()
   }
 
   public update() {
