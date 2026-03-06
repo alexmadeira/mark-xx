@@ -1,14 +1,13 @@
 import type { TSnakeFoodProps } from '@GAMETypes/snake/entity/snake-food'
 
 import { Objective } from '_GAME/core/objective'
-import { Position } from '_GAME/core/value-object/position'
 
 export class SnakeFood extends Objective<TSnakeFoodProps> {
   constructor(props: TSnakeFoodProps) {
     super({
       ...props,
       active: false,
-      position: new Position(-1, -1),
+      position: { x: -1, y: -1 },
     })
   }
 
@@ -19,11 +18,13 @@ export class SnakeFood extends Objective<TSnakeFoodProps> {
     }
   }
 
+  public init() {
+    this.setPosition({ x: -1, y: -1 })
+    this.props.active = false
+  }
+
   public respawn() {
     if (this.active) return
-
-    const { x, y } = this.randomPosition()
-    const position = new Position(x, y)
-    this.spawn(position)
+    this.spawn(this.randomPosition())
   }
 }

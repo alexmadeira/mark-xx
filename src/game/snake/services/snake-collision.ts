@@ -37,6 +37,6 @@ export class SnakeCollision extends CollisionService<TSnakeCollisionProps> {
     if (this.snake.nextPosition.x >= this.props.maxWidth) result.x = -1
     if (this.snake.nextPosition.y >= this.props.maxHeight) result.y = -1
 
-    return [result.x, result.y] as const
+    return result
   }
 }

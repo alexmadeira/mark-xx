@@ -1,8 +1,10 @@
+import type { GameState } from '_GAME/snake/game-state'
+
 import Phaser from 'phaser'
 
-export class StartScene extends Phaser.Scene {
-  constructor() {
-    super('StartScene')
+export class MenuScene extends Phaser.Scene {
+  constructor(private readonly gameState: GameState) {
+    super('MENU')
   }
 
   create() {
@@ -36,7 +38,9 @@ export class StartScene extends Phaser.Scene {
       const direction = keyMap[event.key]
 
       if (direction) {
-        this.scene.start('GameScene', { direction })
+        // this.scene.start('GAME')
+
+        this.gameState.transition('RUNNING')
       }
     })
   }

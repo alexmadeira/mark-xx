@@ -1,7 +1,8 @@
-import type { IPosition } from '@/interfaces/game/value-object/position'
+import type { IPosition, TPosition } from '@/interfaces/game/value-object/position'
 
-export type TEntityProps<T> = { position: IPosition } & T
+export type TEntityProps<T> = { position: TPosition } & T
 
 export interface IEntity {
-  position: IPosition
+  readonly position: IPosition
+  setPosition: (position: TPosition) => void
 }
