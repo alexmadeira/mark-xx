@@ -1,7 +1,7 @@
 import type { IEntity, TEntityProps } from './entity'
-import type { IPosition } from '@/interfaces/game/value-object/position'
+import type { TPosition } from '@/interfaces/game/value-object/position'
 
-export type TObjectiveSpawnProps = [IPosition]
+export type TObjectiveSpawnProps = [TPosition]
 
 export type TObjectiveProps<T> = TEntityProps<
   T & {

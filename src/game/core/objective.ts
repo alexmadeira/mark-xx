@@ -7,16 +7,16 @@ export abstract class Objective<TProps> extends Entity<TObjectiveProps<TProps>> 
     super(props)
   }
 
-  public get active() {
-    return this.props.active
+  protected spawn(...[position]: TObjectiveSpawnProps) {
+    this.setPosition(position)
+    this.props.active = true
   }
 
   public consume() {
     this.props.active = false
   }
 
-  protected spawn(...[position]: TObjectiveSpawnProps) {
-    this.props.position = position
-    this.props.active = true
+  public get active() {
+    return this.props.active
   }
 }

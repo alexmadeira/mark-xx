@@ -6,7 +6,6 @@ import type {
   TSnakePlayerProps,
   TSnakePlayerSetActionProps,
   TSnakePlayerSetDirectionProps,
-  TSnakePlayerSetPositionProps,
 } from '@GAMETypes/snake/entity/snake-player'
 
 import { ZESnakeDirection } from '@/enums/game/snake'
@@ -21,23 +20,29 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
 
   constructor(props: TPlayerProps<TSnakePlayerProps>) {
     super(props)
-    this.bodySegments = [props.position]
+    this.bodySegments = [this.position]
   }
 
   private isSnakeDirection(action: TSnakePlayerAction): action is TSnakePlayerDirection {
     return ZESnakeDirection.safeParse(action).success
   }
 
-  public move() {
-    if (!this.position) return
-    this.props.position = this.nextPosition
-
-    this.bodySegments.unshift(this.position)
-    this.bodySegments.pop()
+  public init() {
+    this.isAlive = true
+    // this.setAction('LEFT')
+    // this.setPosition(this.startPosition)
+    // console.log(this.startPosition)
+    // console.log(this.bodySegments, this.bodySegments.length)
   }
 
-  public setPosition(...[x, y]: TSnakePlayerSetPositionProps) {
-    this.props.position = new Position(x, y)
+  public move() {
+    if (!this.alive) return
+    if (!this.position) return
+
+    console.log('Moving snake...')
+    this.setPosition(this.nextPosition)
+    this.bodySegments.unshift(this.position)
+    this.bodySegments.pop()
   }
 
   public setAction(...[action]: TSnakePlayerSetActionProps) {

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-import { GameScene } from '_GAME/snake/scene/game-scene'
-import { StartScene } from '_GAME/snake/scene/start-scene'
+import { snakeGame } from '_GAME/games'
 import Phaser from 'phaser'
 
 export function SnakeGame() {
@@ -11,17 +10,10 @@ export function SnakeGame() {
   useEffect(() => {
     if (!gameRef.current) return
 
-    const { clientWidth, clientHeight } = gameRef.current
-    const tileCount = 20
-    const tileSize = Math.floor(Math.min(clientWidth, clientHeight) / tileCount)
+    const tileCount = 30
+    const tileSize = Math.floor(Math.min(gameRef.current.clientWidth, gameRef.current.clientHeight) / tileCount)
 
-    phaserGame.current = new Phaser.Game({
-      type: Phaser.AUTO,
-      width: tileSize * tileCount,
-      height: tileSize * tileCount,
-      parent: gameRef.current,
-      scene: [StartScene, new GameScene(tileSize, tileCount)],
-    })
+    phaserGame.current = snakeGame(gameRef.current, tileSize, tileCount)
 
     return () => {
       phaserGame.current?.destroy(true)

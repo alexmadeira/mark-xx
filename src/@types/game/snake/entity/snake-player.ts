@@ -13,7 +13,6 @@ export const ZSnakePlayerPosition = z.custom<IPosition>()
 export const ZSnakePlayerBodySegments = ZSnakePlayerPosition.array()
 
 export const ZSnakePlayerInitProps = z.tuple([ZSnakeGameScene])
-export const ZSnakePlayerSetPositionProps = z.tuple([z.number(), z.number()])
 export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction.optional()])
 export const ZSnakePlayerSetDirectionProps = z.tuple([ZSnakePlayerDirection])
 
@@ -34,7 +33,6 @@ export type TSnakePlayerPosition = z.infer<typeof ZSnakePlayerPosition>
 export type TSnakePlayerBodySegments = z.infer<typeof ZSnakePlayerBodySegments>
 
 export type TSnakePlayerInitProps = z.infer<typeof ZSnakePlayerInitProps>
-export type TSnakePlayerSetPositionProps = z.infer<typeof ZSnakePlayerSetPositionProps>
 export type TSnakePlayerSetActionProps = z.infer<typeof ZSnakePlayerSetActionProps>
 export type TSnakePlayerSetDirectionProps = z.infer<typeof ZSnakePlayerSetDirectionProps>
 
