@@ -41,4 +41,8 @@ export abstract class KeyboardInput<T> {
   public consume() {
     return this.queue.dequeue()
   }
+
+  public clear() {
+    return this.queue.clear()
+  }
 }

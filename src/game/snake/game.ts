@@ -1,14 +1,15 @@
+import type { GameController } from './game-controller'
 import type { SnakeKeyboardInput } from '_GAME/snake/application/input/snake-keyboard-input'
 import type { SnakeFood } from '_GAME/snake/entity/snake-food'
 import type { SnakePlayer } from '_GAME/snake/entity/snake-player'
-import type { GameState } from '_GAME/snake/game-state'
 import type { SnakeCollision } from '_GAME/snake/services/snake-collision'
 
 import { GameLogic } from '_GAME/core/application/game-logic'
 
 export class Game extends GameLogic {
+  private controller!: GameController
+
   constructor(
-    private readonly gameState: GameState,
     private readonly collision: SnakeCollision,
     private readonly keyboardInput: SnakeKeyboardInput,
     public readonly food: SnakeFood,
@@ -18,7 +19,7 @@ export class Game extends GameLogic {
   }
 
   private collisionHandler() {
-    if (this.collision.checkSelfCollision()) this.gameOver('checkSelfCollision')
+    if (this.collision.checkSelfCollision()) this.gameOver()
     // if (this.collision.checkWallCollision()) this.gameOver('checkWallCollision')
     if (this.collision.checkWallCollision()) this.snake.setPosition(this.collision.contrarySide)
   }
@@ -36,38 +37,38 @@ export class Game extends GameLogic {
     this.snake.move()
   }
 
-  private gameOver(reson: string) {
-    if (!this.snake.alive) return
-    console.log(`Game Over! Reason: ${reson}`)
+  private gameOver() {
     this.snake.kill()
-    this.gameState.transition('MENU')
+    this.controller.gameOver()
   }
 
   private actionsHandler() {
     const action = this.keyboardInput.consume()
     if (!action) return
+    this.snake.setAction(action)
 
-    switch (this.gameState.state) {
-      case 'MENU':
-        this.restart()
-        this.gameState.transition('RUNNING')
-        break
-      case 'RUNNING':
-        this.snake.setAction(action)
-        break
-      case 'GAME_OVER':
-        break
-    }
+    // switch (this.gameState.state) {
+    //   case 'MENU':
+    //     this.restart()
+    //     this.gameState.transition('RUNNING')
+    //     break
+    //   case 'RUNNING':
+    //     break
+    //   case 'GAME_OVER':
+    //     break
+    // }
+  }
+
+  public setController(controller: GameController) {
+    this.controller = controller
   }
 
   public restart() {
-    console.log('Restarting game...')
     this.food.init()
     this.snake.init()
   }
 
   public update() {
-    console.log('Updating game logic...')
     this.actionsHandler()
     this.collisionHandler()
 

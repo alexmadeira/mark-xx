@@ -16,7 +16,7 @@ import { Position } from '_GAME/core/value-object/position'
 import _ from 'lodash'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
-  private readonly bodySegments: TSnakePlayerBodySegments
+  private bodySegments: TSnakePlayerBodySegments
 
   constructor(props: TPlayerProps<TSnakePlayerProps>) {
     super(props)
@@ -29,17 +29,15 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
 
   public init() {
     this.isAlive = true
-    // this.setAction('LEFT')
-    // this.setPosition(this.startPosition)
-    // console.log(this.startPosition)
-    // console.log(this.bodySegments, this.bodySegments.length)
+    this.setDirection('LEFT')
+    this.setPosition(this.startPosition)
+    this.bodySegments = [this.startPosition]
   }
 
   public move() {
     if (!this.alive) return
     if (!this.position) return
 
-    console.log('Moving snake...')
     this.setPosition(this.nextPosition)
     this.bodySegments.unshift(this.position)
     this.bodySegments.pop()

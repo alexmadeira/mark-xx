@@ -3,17 +3,15 @@ import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import { Game } from '_GAME/snake/game'
 import { GameRender } from '_GAME/snake/game-render'
-import { GameState } from '_GAME/snake/game-state'
+// import { GameState } from '_GAME/snake/game-state'
 import { SnakeCollision } from '_GAME/snake/services/snake-collision'
 
 import { BootScene } from './scene/boot-scene'
-import { EndScene } from './scene/end-scene'
-import { GameScene } from './scene/game-scene'
-import { MenuScene } from './scene/menu-scene'
+import { MainScene } from './scene/main-scene'
 import { GameController } from './game-controller'
 
 export class Snake {
-  private readonly gameState!: GameState
+  // private readonly gameState!: GameState
   private readonly gameLogic!: Game
   private readonly food!: SnakeFood
   private readonly player!: SnakePlayer
@@ -30,11 +28,11 @@ export class Snake {
 
     this.keyboardInput = new SnakeKeyboardInput()
 
-    this.gameState = new GameState('MENU', {
-      MENU: ['RUNNING'],
-      RUNNING: ['GAME_OVER', 'MENU'],
-      GAME_OVER: ['MENU', 'RUNNING'],
-    })
+    // this.gameState = new GameState('MENU', {
+    //   MENU: ['RUNNING'],
+    //   RUNNING: ['GAME_OVER', 'MENU'],
+    //   GAME_OVER: ['MENU', 'RUNNING'],
+    // })
 
     this.keyboardInput = new SnakeKeyboardInput()
 
@@ -55,17 +53,22 @@ export class Snake {
       maxHeight: this.tileCount,
     })
 
-    this.gameLogic = new Game(this.gameState, this.collision, this.keyboardInput, this.food, this.player)
+    this.gameLogic = new Game(this.collision, this.keyboardInput, this.food, this.player)
     this.gameRender = new GameRender(this.gameLogic, this.tileSize)
-    this.gameController = new GameController()
+    this.gameController = new GameController(this.gameLogic, this.keyboardInput)
+
+    this.gameLogic.setController(this.gameController)
   }
 
+  // public scenes() {
+  //   return [
+  //     new BootScene(this.gameController, this.keyboardInput),
+  //     new GameScene(this.gameLogic, this.gameRender),
+  //     new MenuScene(this.gameState),
+  //     new EndScene(this.gameState),
+  //   ]
+  // }
   public scenes() {
-    return [
-      new BootScene(this.gameController, this.keyboardInput),
-      new GameScene(this.gameLogic, this.gameRender),
-      new MenuScene(this.gameState),
-      new EndScene(this.gameState),
-    ]
+    return [new BootScene(), new MainScene(this.gameController, this.gameLogic, this.gameRender, this.keyboardInput)]
   }
 }
