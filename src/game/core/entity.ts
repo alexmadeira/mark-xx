@@ -4,11 +4,9 @@ import type { IPosition, TPosition } from '@/interfaces/game/value-object/positi
 import { Position } from './value-object/position'
 
 export abstract class Entity<TProps> implements IEntity {
-  protected readonly startPosition: IPosition
   private entityPosition: IPosition
 
   protected constructor(protected readonly props: TEntityProps<TProps>) {
-    this.startPosition = new Position(props.position.x, props.position.y)
     this.entityPosition = new Position(props.position.x, props.position.y)
   }
 

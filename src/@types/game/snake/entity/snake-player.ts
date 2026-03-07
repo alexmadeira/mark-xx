@@ -17,6 +17,11 @@ export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction.optional()
 export const ZSnakePlayerSetDirectionProps = z.tuple([ZSnakePlayerDirection])
 
 export const ZSnakePlayerProps = z.object({
+  tileSize: z.number(),
+  startPosition: z.object({
+    x: z.number(),
+    y: z.number(),
+  }),
   direction: ZSnakePlayerDirection.optional(),
 })
 

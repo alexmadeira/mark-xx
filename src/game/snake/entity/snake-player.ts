@@ -1,4 +1,3 @@
-import type { TPlayerProps } from '@/interfaces/game/entity/player'
 import type {
   TSnakePlayerAction,
   TSnakePlayerBodySegments,
@@ -18,8 +17,11 @@ import _ from 'lodash'
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   private bodySegments: TSnakePlayerBodySegments
 
-  constructor(props: TPlayerProps<TSnakePlayerProps>) {
-    super(props)
+  constructor(props: TSnakePlayerProps) {
+    super({
+      ...props,
+      position: { x: -1, y: -1 },
+    })
     this.bodySegments = [this.position]
   }
 
@@ -27,10 +29,15 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
     return ZESnakeDirection.safeParse(action).success
   }
 
+  private get startPosition() {
+    return new Position(this.props.startPosition.x, this.props.startPosition.y)
+  }
+
   public init() {
     this.isAlive = true
-    this.setDirection('LEFT')
+    this.props.direction = 'RIGHT'
     this.setPosition(this.startPosition)
+
     this.bodySegments = [this.startPosition]
   }
 

@@ -26,6 +26,7 @@ export class Game extends GameLogic {
 
   private updateFood() {
     if (this.snake.position.equals(this.food.position) || this.snake.nextPosition.equals(this.food.position)) {
+      this.controller.playEatSound()
       this.food.consume()
       this.snake.grow()
     }
@@ -46,6 +47,7 @@ export class Game extends GameLogic {
     const action = this.keyboardInput.consume()
     if (!action) return
     this.snake.setAction(action)
+    this.controller.playMoveSound()
 
     // switch (this.gameState.state) {
     //   case 'MENU':

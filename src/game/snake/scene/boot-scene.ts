@@ -37,6 +37,12 @@ export class BootScene extends Phaser.Scene {
     super('BOOT')
   }
 
+  preload() {
+    this.load.audio('eat', '/game/eat.mp3')
+    this.load.audio('move', '/game/move.mp3')
+    this.load.audio('music', '/game/bg-music-1.mp3')
+  }
+
   create() {
     this.scene.start('MAIN')
   }

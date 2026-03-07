@@ -1,59 +1,9 @@
-// import type { Game } from 'phaser'
-
 import type { SnakeKeyboardInput } from './application/input/snake-keyboard-input'
 import type { Game } from './game'
-import type { Scene } from 'phaser'
+import type { Scene, Sound } from 'phaser'
 
 import { GameUI } from './ui/game-ui'
 import { GameOverUI } from './ui/gameover-ui'
-// export class GameController {
-//   private initialized = false
-//   init(game: Game) {
-//     if (this.initialized) return
-//     this.initialized = true
-//     game.scene.start('MENU')
-//     snakeEvent.on('SNAKE:GAME_STATE:transition', (state) => {
-//       console.log('Transitioning to state:', state)
-//       switch (state) {
-//         case 'MENU':
-//           game.scene.stop('GAME')
-//           game.scene.start('MENU')
-//           break
-//         // case 'GAME_OVER':
-//         //   game.scene.stop('GAME')
-//         //   game.scene.start('GAME')
-//         //   break
-//         case 'RUNNING':
-//           game.scene.stop('MENU')
-//           game.scene.start('GAME')
-//           break
-//       }
-//     })
-//   }
-// }
-// export class GameController {
-//   public state: 'MENU' | 'RUNNING' | 'GAME_OVER' = 'MENU'
-//   private scene!: Phaser.Scene
-//   private initialized = false
-//   public init(scene: Phaser.Scene) {
-//     if (this.initialized) return
-//     this.initialized = true
-//     this.scene = scene
-//     snakeEvent.on('SNAKE:GAME_STATE:transition', (state) => {
-//       this.state = state
-//     })
-//   }
-//   public update() {
-//     switch (this.state) {
-//       case 'MENU':
-//         break
-//       case 'RUNNING':
-//         break
-//       case 'GAME_OVER':
-//         break
-//     }
-//   }
-// }
 import { MenuUI } from './ui/menu-ui'
 
 export class GameController {
@@ -62,6 +12,9 @@ export class GameController {
   private menuUI!: MenuUI
   private gameUI!: GameUI
   private gameOverUI!: GameOverUI
+  private bgMusic?: Sound.BaseSound
+  private eatSound?: Sound.BaseSound
+  private moveSound?: Sound.BaseSound
 
   constructor(
     private gameLogic: Game,
@@ -81,7 +34,22 @@ export class GameController {
     this.gameOverUI.create(0)
     this.gameOverUI.setVisible(false)
 
-    // Inicializa controle de teclado para iniciar o jogo
+    this.bgMusic = scene.sound.add('music', {
+      loop: true,
+      volume: 0.2,
+    })
+
+    this.eatSound = scene.sound.add('eat', {
+      volume: 0.2,
+    })
+    this.moveSound = scene.sound.add('move', {
+      volume: 0.01,
+    })
+
+    this.eatSound = scene.sound.add('eat', {
+      volume: 0.2,
+    })
+
     scene.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (['MENU', 'GAME_OVER'].includes(this.state)) {
         this.keyboardInput?.clear()
@@ -112,16 +80,31 @@ export class GameController {
     }
   }
 
+  playEatSound() {
+    this.eatSound?.play({
+      rate: Phaser.Math.FloatBetween(0.9, 1.1),
+    })
+  }
+
+  playMoveSound() {
+    this.moveSound?.play({
+      rate: Phaser.Math.FloatBetween(0.95, 1.05),
+    })
+  }
+
   startGame() {
     this.state = 'RUNNING'
+    this.bgMusic?.play()
     this.gameLogic.restart()
   }
 
   gameOver() {
+    this.bgMusic?.stop()
     this.state = 'GAME_OVER'
   }
 
   backToMenu() {
+    this.bgMusic?.stop()
     this.state = 'MENU'
   }
 }
