@@ -43,7 +43,7 @@ export class Snake {
     })
 
     this.player = new SnakePlayer({
-      position: startPosition,
+      startPosition,
       tileSize: this.tileSize,
     })
 
@@ -60,14 +60,6 @@ export class Snake {
     this.gameLogic.setController(this.gameController)
   }
 
-  // public scenes() {
-  //   return [
-  //     new BootScene(this.gameController, this.keyboardInput),
-  //     new GameScene(this.gameLogic, this.gameRender),
-  //     new MenuScene(this.gameState),
-  //     new EndScene(this.gameState),
-  //   ]
-  // }
   public scenes() {
     return [new BootScene(), new MainScene(this.gameController, this.gameLogic, this.gameRender, this.keyboardInput)]
   }

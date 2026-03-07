@@ -47,8 +47,7 @@ export class GameRender {
   private buildObjects(scene: Scene) {
     if (!this.gridObject) this.gridObject = new GridObject(this.gridTexture, { scene })
     if (!this.foodObject) this.foodObject = new FoodObject(this.foodTexture, { scene })
-    // if (!this.snakeObject)
-    this.snakeObject = new SnakeObject(this.snakeTexture, { scene })
+    if (!this.snakeObject) this.snakeObject = new SnakeObject(this.snakeTexture, { scene })
   }
 
   private buildPools() {
