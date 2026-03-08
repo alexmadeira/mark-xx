@@ -7,6 +7,9 @@ import type { SnakeCollision } from '_GAME/snake/services/snake-collision'
 import { GameLogic } from '_GAME/core/application/game-logic'
 
 export class Game extends GameLogic {
+  private speed = 150
+  private minInterval = 50
+
   private controller!: GameController
 
   constructor(
@@ -18,17 +21,27 @@ export class Game extends GameLogic {
     super()
   }
 
+  private increaseSpeed() {
+    this.speed = Math.max(this.minInterval, this.speed - 5)
+    // const score = this.snake.length
+
+    //  this.tickInterval = Math.max(
+    //    this.minInterval,
+    //    120 - score * 2
+    //  )
+  }
+
   private collisionHandler() {
     if (this.collision.checkSelfCollision()) this.gameOver()
-    // if (this.collision.checkWallCollision()) this.gameOver('checkWallCollision')
-    if (this.collision.checkWallCollision()) this.snake.setPosition(this.collision.contrarySide)
+    if (this.collision.checkWallCollision()) this.gameOver()
+    // if (this.collision.checkWallCollision()) this.snake.setPosition(this.collision.contrarySide)
   }
 
   private updateFood() {
     if (this.snake.position.equals(this.food.position) || this.snake.nextPosition.equals(this.food.position)) {
-      this.controller.playEatSound()
       this.food.consume()
       this.snake.grow()
+      this.increaseSpeed()
     }
 
     this.food.respawn()
@@ -47,18 +60,6 @@ export class Game extends GameLogic {
     const action = this.keyboardInput.consume()
     if (!action) return
     this.snake.setAction(action)
-    this.controller.playMoveSound()
-
-    // switch (this.gameState.state) {
-    //   case 'MENU':
-    //     this.restart()
-    //     this.gameState.transition('RUNNING')
-    //     break
-    //   case 'RUNNING':
-    //     break
-    //   case 'GAME_OVER':
-    //     break
-    // }
   }
 
   public setController(controller: GameController) {
@@ -66,6 +67,7 @@ export class Game extends GameLogic {
   }
 
   public restart() {
+    this.speed = 150
     this.food.init()
     this.snake.init()
   }
@@ -76,5 +78,9 @@ export class Game extends GameLogic {
 
     this.updateFood()
     this.updateSnake()
+  }
+
+  public get tickInterval() {
+    return this.speed
   }
 }

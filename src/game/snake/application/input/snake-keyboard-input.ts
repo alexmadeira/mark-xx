@@ -11,7 +11,9 @@ export class SnakeKeyboardInput extends KeyboardInput<TESnakeAction> {
   private input?: TSnakeKeyboardInput
 
   constructor() {
-    super(snakeKeyAction)
+    super(snakeKeyAction, {
+      queueLimit: 3,
+    })
   }
 
   public init(...[input]: TSnakeKeyboardInputInitProps) {

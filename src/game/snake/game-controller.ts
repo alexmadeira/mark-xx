@@ -1,6 +1,8 @@
 import type { SnakeKeyboardInput } from './application/input/snake-keyboard-input'
 import type { Game } from './game'
-import type { Scene, Sound } from 'phaser'
+import type { Scene } from 'phaser'
+
+import { snakeEvent } from '_SRV/builder/event'
 
 import { GameUI } from './ui/game-ui'
 import { GameOverUI } from './ui/gameover-ui'
@@ -12,10 +14,6 @@ export class GameController {
   private menuUI!: MenuUI
   private gameUI!: GameUI
   private gameOverUI!: GameOverUI
-  private bgMusic?: Sound.BaseSound
-  private eatSound?: Sound.BaseSound
-  private moveSound?: Sound.BaseSound
-
   constructor(
     private gameLogic: Game,
     private readonly keyboardInput: SnakeKeyboardInput,
@@ -33,22 +31,6 @@ export class GameController {
     this.gameOverUI = new GameOverUI(scene)
     this.gameOverUI.create(0)
     this.gameOverUI.setVisible(false)
-
-    this.bgMusic = scene.sound.add('music', {
-      loop: true,
-      volume: 0.2,
-    })
-
-    this.eatSound = scene.sound.add('eat', {
-      volume: 0.2,
-    })
-    this.moveSound = scene.sound.add('move', {
-      volume: 0.01,
-    })
-
-    this.eatSound = scene.sound.add('eat', {
-      volume: 0.2,
-    })
 
     scene.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (['MENU', 'GAME_OVER'].includes(this.state)) {
@@ -80,31 +62,19 @@ export class GameController {
     }
   }
 
-  playEatSound() {
-    this.eatSound?.play({
-      rate: Phaser.Math.FloatBetween(0.9, 1.1),
-    })
-  }
-
-  playMoveSound() {
-    this.moveSound?.play({
-      rate: Phaser.Math.FloatBetween(0.95, 1.05),
-    })
-  }
-
   startGame() {
     this.state = 'RUNNING'
-    this.bgMusic?.play()
     this.gameLogic.restart()
+    snakeEvent.emit('SNAKE:GAME_STATE:transition', this.state)
   }
 
   gameOver() {
-    this.bgMusic?.stop()
     this.state = 'GAME_OVER'
+    snakeEvent.emit('SNAKE:GAME_STATE:transition', this.state)
   }
 
   backToMenu() {
-    this.bgMusic?.stop()
     this.state = 'MENU'
+    snakeEvent.emit('SNAKE:GAME_STATE:transition', this.state)
   }
 }
