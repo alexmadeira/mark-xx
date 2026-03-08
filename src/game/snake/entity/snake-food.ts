@@ -2,6 +2,8 @@ import type { TSnakeFoodProps } from '@GAMETypes/snake/entity/snake-food'
 
 import { Objective } from '_GAME/core/objective'
 
+import { snakeEvent } from '_SRV/builder/event'
+
 export class SnakeFood extends Objective<TSnakeFoodProps> {
   constructor(props: TSnakeFoodProps) {
     super({
@@ -16,6 +18,11 @@ export class SnakeFood extends Objective<TSnakeFoodProps> {
       y: Math.floor(Math.random() * this.props.gridHeight),
       x: Math.floor(Math.random() * this.props.gridWidth),
     }
+  }
+
+  public consume() {
+    snakeEvent.emit('SNAKE:FOOD:consume')
+    super.consume()
   }
 
   public init() {

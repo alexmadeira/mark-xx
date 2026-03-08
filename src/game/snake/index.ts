@@ -3,20 +3,20 @@ import { SnakeFood } from '_GAME/snake/entity/snake-food'
 import { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import { Game } from '_GAME/snake/game'
 import { GameRender } from '_GAME/snake/game-render'
-// import { GameState } from '_GAME/snake/game-state'
 import { SnakeCollision } from '_GAME/snake/services/snake-collision'
 
 import { BootScene } from './scene/boot-scene'
 import { MainScene } from './scene/main-scene'
 import { GameController } from './game-controller'
+import { SoundSystem } from './sound-system'
 
 export class Snake {
-  // private readonly gameState!: GameState
   private readonly gameLogic!: Game
   private readonly food!: SnakeFood
   private readonly player!: SnakePlayer
   private readonly collision!: SnakeCollision
   private readonly gameRender!: GameRender
+  private readonly soundSystem!: SoundSystem
   private readonly keyboardInput!: SnakeKeyboardInput
   private readonly gameController!: GameController
 
@@ -27,12 +27,6 @@ export class Snake {
     const startPosition = { x: Math.floor(this.tileCount / 2), y: Math.floor(this.tileCount / 2) }
 
     this.keyboardInput = new SnakeKeyboardInput()
-
-    // this.gameState = new GameState('MENU', {
-    //   MENU: ['RUNNING'],
-    //   RUNNING: ['GAME_OVER', 'MENU'],
-    //   GAME_OVER: ['MENU', 'RUNNING'],
-    // })
 
     this.keyboardInput = new SnakeKeyboardInput()
 
@@ -55,12 +49,16 @@ export class Snake {
 
     this.gameLogic = new Game(this.collision, this.keyboardInput, this.food, this.player)
     this.gameRender = new GameRender(this.gameLogic, this.tileSize)
+    this.soundSystem = new SoundSystem()
     this.gameController = new GameController(this.gameLogic, this.keyboardInput)
 
     this.gameLogic.setController(this.gameController)
   }
 
   public scenes() {
-    return [new BootScene(), new MainScene(this.gameController, this.gameLogic, this.gameRender, this.keyboardInput)]
+    return [
+      new BootScene(),
+      new MainScene(this.gameController, this.gameLogic, this.gameRender, this.soundSystem, this.keyboardInput),
+    ]
   }
 }
