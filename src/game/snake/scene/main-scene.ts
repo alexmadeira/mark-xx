@@ -1,5 +1,6 @@
 import type { SnakeKeyboardInput } from '../application/input/snake-keyboard-input'
-import type { SoundSystem } from '../sound-system'
+import type { ScoreSystem } from '../systems/score-system'
+import type { SoundSystem } from '../systems/sound-system'
 
 import { Game } from '_GAME/snake/game'
 import { GameRender } from '_GAME/snake/game-render'
@@ -15,6 +16,7 @@ export class MainScene extends Scene {
     private readonly gameLogic: Game,
     private readonly gameRender: GameRender,
     private readonly soundSystem: SoundSystem,
+    private readonly scoreSystem: ScoreSystem,
     private readonly keyboardInput: SnakeKeyboardInput,
   ) {
     super('MAIN')
@@ -28,9 +30,11 @@ export class MainScene extends Scene {
     this.cameras.main.setBackgroundColor('#000022')
 
     this.gameRender.init(this)
-    this.gameRender.create()
-
     this.keyboardInput.init(this.input.keyboard!)
+
+    this.gameRender.create()
+    this.scoreSystem.create()
+
     this.controller.create(this)
     this.soundSystem.create(this)
 

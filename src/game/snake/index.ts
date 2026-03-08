@@ -7,8 +7,9 @@ import { SnakeCollision } from '_GAME/snake/services/snake-collision'
 
 import { BootScene } from './scene/boot-scene'
 import { MainScene } from './scene/main-scene'
+import { ScoreSystem } from './systems/score-system'
+import { SoundSystem } from './systems/sound-system'
 import { GameController } from './game-controller'
-import { SoundSystem } from './sound-system'
 
 export class Snake {
   private readonly gameLogic!: Game
@@ -17,6 +18,7 @@ export class Snake {
   private readonly collision!: SnakeCollision
   private readonly gameRender!: GameRender
   private readonly soundSystem!: SoundSystem
+  private readonly scoreSystem!: ScoreSystem
   private readonly keyboardInput!: SnakeKeyboardInput
   private readonly gameController!: GameController
 
@@ -27,8 +29,8 @@ export class Snake {
     const startPosition = { x: Math.floor(this.tileCount / 2), y: Math.floor(this.tileCount / 2) }
 
     this.keyboardInput = new SnakeKeyboardInput()
-
-    this.keyboardInput = new SnakeKeyboardInput()
+    this.soundSystem = new SoundSystem()
+    this.scoreSystem = new ScoreSystem()
 
     this.food = new SnakeFood({
       tileSize: this.tileSize,
@@ -47,9 +49,8 @@ export class Snake {
       maxHeight: this.tileCount,
     })
 
-    this.gameLogic = new Game(this.collision, this.keyboardInput, this.food, this.player)
+    this.gameLogic = new Game(this.scoreSystem, this.collision, this.keyboardInput, this.food, this.player)
     this.gameRender = new GameRender(this.gameLogic, this.tileSize)
-    this.soundSystem = new SoundSystem()
     this.gameController = new GameController(this.gameLogic, this.keyboardInput)
 
     this.gameLogic.setController(this.gameController)
@@ -58,7 +59,14 @@ export class Snake {
   public scenes() {
     return [
       new BootScene(),
-      new MainScene(this.gameController, this.gameLogic, this.gameRender, this.soundSystem, this.keyboardInput),
+      new MainScene(
+        this.gameController,
+        this.gameLogic,
+        this.gameRender,
+        this.soundSystem,
+        this.scoreSystem,
+        this.keyboardInput,
+      ),
     ]
   }
 }

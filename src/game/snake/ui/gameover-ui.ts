@@ -1,12 +1,14 @@
 export class GameOverUI {
   private container!: Phaser.GameObjects.Container
+  private text!: Phaser.GameObjects.Text
+
   constructor(private scene: Phaser.Scene) {}
 
-  create(score: number) {
+  create() {
     const { width, height } = this.scene.scale
 
-    const text = this.scene.add
-      .text(width / 2, height / 2, `Game Over!\nScore: ${score}`, {
+    this.text = this.scene.add
+      .text(width / 2, height / 2, `Game Over!\nScore: 0`, {
         fontSize: '32px',
         color: '#ff0000',
         fontFamily: 'monospace',
@@ -14,11 +16,15 @@ export class GameOverUI {
       })
       .setOrigin(0.5)
 
-    this.container = this.scene.add.container(0, 0, [text])
-    this.container?.setVisible(false)
+    this.container = this.scene.add.container(0, 0, [this.text])
+    this.container.setVisible(false)
+  }
+
+  update(score: number) {
+    this.text.setText(`Game Over!\nScore: ${score}`)
   }
 
   setVisible(visible: boolean) {
-    this.container?.setVisible(visible)
+    this.container.setVisible(visible)
   }
 }

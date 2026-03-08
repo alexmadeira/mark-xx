@@ -14,6 +14,7 @@ export class GameController {
   private menuUI!: MenuUI
   private gameUI!: GameUI
   private gameOverUI!: GameOverUI
+
   constructor(
     private gameLogic: Game,
     private readonly keyboardInput: SnakeKeyboardInput,
@@ -29,7 +30,7 @@ export class GameController {
     this.gameUI.setVisible(false)
 
     this.gameOverUI = new GameOverUI(scene)
-    this.gameOverUI.create(0)
+    this.gameOverUI.create()
     this.gameOverUI.setVisible(false)
 
     scene.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
@@ -52,11 +53,13 @@ export class GameController {
       case 'RUNNING':
         this.menuUI.setVisible(false)
         this.gameUI.setVisible(true)
+        this.gameUI.update(this.gameLogic.score)
         this.gameOverUI.setVisible(false)
         break
       case 'GAME_OVER':
         this.menuUI.setVisible(false)
         this.gameUI.setVisible(false)
+        this.gameOverUI.update(this.gameLogic.score)
         this.gameOverUI.setVisible(true)
         break
     }
