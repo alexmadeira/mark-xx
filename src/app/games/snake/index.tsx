@@ -11,7 +11,7 @@ export function SnakeGame() {
     if (!gameRef.current) return
 
     const tileCount = 30
-    const tileSize = Math.floor(Math.min(gameRef.current.clientWidth, gameRef.current.clientHeight) / tileCount)
+    const tileSize = Math.min(gameRef.current.clientWidth, gameRef.current.clientHeight) / tileCount
 
     phaserGame.current = snakeGame(gameRef.current, tileSize, tileCount)
 
@@ -21,5 +21,5 @@ export function SnakeGame() {
     }
   }, [])
 
-  return <div ref={gameRef} className="h-200 w-200" />
+  return <div ref={gameRef} className="aspect-square h-full w-full" />
 }

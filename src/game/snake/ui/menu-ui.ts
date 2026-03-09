@@ -15,7 +15,7 @@ export class MenuUI {
       .setOrigin(0.5)
 
     const subtitle = this.scene.add
-      .text(width / 2, height / 2 + 20, 'Pressione uma seta para iniciar', {
+      .text(width / 2, height / 2 + 20, 'Pressione Enter para iniciar', {
         fontSize: '18px',
         color: '#ffffff',
       })
