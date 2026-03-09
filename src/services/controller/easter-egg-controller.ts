@@ -15,6 +15,11 @@ export class EasterEggController {
 
   constructor() {
     _.bindAll(this, ['readEgg', 'addEgg', 'addEggs'])
+    Mousetrap.bind('escape', () => {
+      Object.entries(useEasterEgg.getState().data.eggs).forEach(([name]) => {
+        this.readEgg(name)
+      })
+    })
   }
 
   private dispatchEgg(...[name]: TEasterEggDispatchEggProps) {

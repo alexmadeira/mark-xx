@@ -23,6 +23,7 @@ export function BaseLayout() {
       <SplashScreen />
       <BackgroundLoader />
       <EasterEggs />
+
       <div className="relative flex min-h-screen flex-col antialiased">
         <AnimatePresence mode="sync" initial={false}>
           <motion.div

@@ -21,6 +21,7 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
+      "@GAMETypes/*": ["./src/@types/game/*"],
       "@/*": ["./src/@types/*"],
       "_APP/*": ["./src/app/*"],
       "_LAY/*": ["./src/app/layouts/*"],
@@ -30,6 +31,7 @@
       "_SRV/*": ["./src/services/*"],
       "_CFG/*": ["./src/config/*"],
       "_AST/*": ["./src/_assets_/*"],
+      "_GAME/*": ["./src/game/*"],
       "~/*": ["./src/*"],
     },
   },

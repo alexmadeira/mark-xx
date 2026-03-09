@@ -1,6 +1,7 @@
 import path from 'node:path'
 
 export const alias = {
+  '@GAMETypes': path.resolve(__dirname, './src/@types/game'),
   '@': path.resolve(__dirname, './src/@types'),
   _APP: path.resolve(__dirname, './src/app'),
   _LAY: path.resolve(__dirname, './src/app/layouts'),
@@ -9,5 +10,6 @@ export const alias = {
   _SRV: path.resolve(__dirname, './src/services'),
   _CFG: path.resolve(__dirname, './src/config'),
   _AST: path.resolve(__dirname, './src/_assets_'),
+  _GAME: path.resolve(__dirname, './src/game'),
   '~': path.resolve(__dirname, './src'),
 }
