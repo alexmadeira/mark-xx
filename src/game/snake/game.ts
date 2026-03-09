@@ -33,7 +33,7 @@ export class Game extends GameLogic {
 
   private collisionHandler() {
     if (this.collision.checkSelfCollision()) this.gameOver()
-    if (this.collision.checkWallCollision()) this.gameOver()
+    if (this.collision.checkWallCollision()) this.snake.setPosition(this.collision.contrarySide)
   }
 
   private updateFood() {
@@ -73,7 +73,6 @@ export class Game extends GameLogic {
   }
 
   public update() {
-    console.log(this.speed)
     this.actionsHandler()
     this.collisionHandler()
 

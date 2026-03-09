@@ -4,6 +4,7 @@ import { globalEggs } from '_CFG/easter-eggs/global-eggs'
 
 import { easterEggController } from '_SRV/controller'
 
+import { SnakeEgg } from './egg/snake-egg'
 import { ToastyEgg } from './egg/toasty-egg'
 
 export function EasterEggs() {
@@ -16,6 +17,7 @@ export function EasterEggs() {
   return (
     <div>
       <ToastyEgg />
+      <SnakeEgg />
     </div>
   )
 }
