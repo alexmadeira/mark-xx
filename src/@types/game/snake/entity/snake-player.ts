@@ -1,0 +1,44 @@
+import type { IPosition } from '@/interfaces/game/value-object/position'
+
+import { ZESnakeAction, ZESnakeDirection } from '@/enums/game/snake'
+
+import { ZSnakeGamePlayer, ZSnakeGameScene } from '@GAMETypes/snake/game'
+import { z } from 'zod/v4'
+
+export const ZSnakePlayerAction = ZESnakeAction
+export const ZSnakePlayerSegment = ZSnakeGamePlayer
+export const ZSnakePlayerDirection = ZESnakeDirection
+
+export const ZSnakePlayerPosition = z.custom<IPosition>()
+export const ZSnakePlayerBodySegments = ZSnakePlayerPosition.array()
+
+export const ZSnakePlayerInitProps = z.tuple([ZSnakeGameScene])
+export const ZSnakePlayerSetActionProps = z.tuple([ZSnakePlayerAction.optional()])
+export const ZSnakePlayerSetDirectionProps = z.tuple([ZSnakePlayerDirection])
+
+export const ZSnakePlayerProps = z.object({
+  tileSize: z.number(),
+  startPosition: z.object({
+    x: z.number(),
+    y: z.number(),
+  }),
+  direction: ZSnakePlayerDirection.optional(),
+})
+
+//
+//
+//
+//
+
+export type TSnakePlayerAction = z.infer<typeof ZSnakePlayerAction>
+export type TSnakePlayerSegment = z.infer<typeof ZSnakePlayerSegment>
+export type TSnakePlayerDirection = z.infer<typeof ZSnakePlayerDirection>
+
+export type TSnakePlayerPosition = z.infer<typeof ZSnakePlayerPosition>
+export type TSnakePlayerBodySegments = z.infer<typeof ZSnakePlayerBodySegments>
+
+export type TSnakePlayerInitProps = z.infer<typeof ZSnakePlayerInitProps>
+export type TSnakePlayerSetActionProps = z.infer<typeof ZSnakePlayerSetActionProps>
+export type TSnakePlayerSetDirectionProps = z.infer<typeof ZSnakePlayerSetDirectionProps>
+
+export type TSnakePlayerProps = z.infer<typeof ZSnakePlayerProps>
