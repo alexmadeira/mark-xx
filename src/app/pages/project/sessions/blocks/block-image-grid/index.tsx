@@ -21,7 +21,7 @@ export function BlockImageGrid(props: TProjectBlockImageGridProps) {
       data-gap={props.gap}
       data-hover={props.hoverStyle}
       className={twMerge(
-        'md:px-x-container group pointer-events-none grid h-full w-full flex-1 grid-flow-row-dense grid-cols-1 p-4 px-8 py-[clamp(2rem,3vw,5rem)]',
+        'md:px-x-container group pointer-events-none grid h-full w-full flex-1 grid-flow-row-dense grid-cols-1 p-4 px-8 py-0',
         '3xl:grid-cols-(--3xl-grid-cols) sm:grid-cols-(--sm-grid-cols) md:grid-cols-(--md-grid-cols) xl:grid-cols-(--xl-grid-cols)',
         'data-[gap=true]:gap-4',
       )}
