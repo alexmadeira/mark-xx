@@ -1,6 +1,8 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 
 import { Portal } from '@radix-ui/react-portal'
+
+import { analytics } from '_SRV/builder/analytics'
 
 import { useEasterEgg } from '_STR/useEasterEgg'
 
@@ -9,6 +11,13 @@ const SnakeGame = lazy(() => import('_APP/games/snake').then((m) => ({ default: 
 export function SnakeEgg() {
   const snakeEgg = useEasterEgg((state) => state.data.eggs.snake)
   const showSnakeEgg = snakeEgg?.status === 'called'
+
+  const BAnalytics = analytics()
+
+  useEffect(() => {
+    if (snakeEgg?.status !== 'called') return
+    BAnalytics.trackEvent('EASTER_EGG_FOUND:Snake')
+  }, [snakeEgg?.status])
 
   if (!showSnakeEgg) return null
 

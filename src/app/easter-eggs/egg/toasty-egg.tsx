@@ -4,6 +4,7 @@ import { Portal } from '@radix-ui/react-portal'
 import { AnimatePresence, motion } from 'motion/react'
 import useSound from 'use-sound'
 
+import { analytics } from '_SRV/builder/analytics'
 import { easterEggController } from '_SRV/controller'
 import { timer } from '_SRV/utils'
 
@@ -11,6 +12,7 @@ import { useEasterEgg } from '_STR/useEasterEgg'
 
 export function ToastyEgg() {
   const UTimer = timer()
+  const BAnalytics = analytics()
   const CLEasterEgg = easterEggController()
 
   const toastyEgg = useEasterEgg((state) => state.data.eggs.toasty)
@@ -25,6 +27,7 @@ export function ToastyEgg() {
   useEffect(() => {
     if (toastyEgg?.status !== 'called') return
     play()
+    BAnalytics.trackEvent('EASTER_EGG_FOUND:toasty')
     UTimer.delay(() => CLEasterEgg.readEgg('toasty'), 1000)
   }, [toastyEgg?.status, play])
 
