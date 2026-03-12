@@ -27,7 +27,7 @@ export function SnakeEgg() {
     <Portal className="pointer-events-none select-none">
       <div
         key="snake-egg"
-        className="fixed top-1/2 left-1/2 z-20 flex aspect-square min-h-[70vmin] min-w-[70vmin] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-clip"
+        className="_overflow-clip fixed top-1/2 left-1/2 z-20 flex aspect-square min-h-[70vmin] min-w-[70vmin] -translate-x-1/2 -translate-y-1/2 items-center justify-center"
       >
         <Suspense fallback={null}>
           <SnakeGame />

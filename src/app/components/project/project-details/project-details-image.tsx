@@ -6,7 +6,7 @@ import { twMerge } from 'tailwind-merge'
 
 export function ProjectDetailsImage(props: TProjectDetailsContentProps) {
   return (
-    <div className={twMerge('relative h-full w-full overflow-clip', props.thumbnailClass)}>
+    <div className={twMerge('_overflow-clip relative h-full w-full', props.thumbnailClass)}>
       <Image src={props.thumbnail} alt={props.bannerName} className="object-cover" />
     </div>
   )

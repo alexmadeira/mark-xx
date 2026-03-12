@@ -31,7 +31,7 @@ export function Banner() {
     <motion.div
       ref={heroRef}
       style={{ background }}
-      className="group absolute top-0 left-0 h-full w-full overflow-clip"
+      className="group _overflow-clip absolute top-0 left-0 h-full w-full"
     >
       <AnimatePresence mode="sync">
         {content?.banner && (
