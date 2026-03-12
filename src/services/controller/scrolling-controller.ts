@@ -6,10 +6,10 @@ import _ from 'lodash'
 import { useScrolling } from '_STR/useScrolling'
 
 export class ScrollingController {
-  private readonly _actions = useScrolling.getState().actions
+  private readonly scrollingActions = useScrolling.getState().actions
 
   protected constructor(private readonly props: TScrollingProps) {
-    this._actions.setDetails(this.props.lenis)
+    this.scrollingActions.setDetails(this.props.lenis)
     this.ev.on('scroll', this.setDetails.bind(this))
 
     _.bindAll(this, ['stop', 'start', 'restart', 'none', 'resize', 'fromStart', 'scrollTo'])
@@ -22,7 +22,7 @@ export class ScrollingController {
   }
 
   private setDetails(details: Lenis) {
-    this._actions.setDetails({
+    this.scrollingActions.setDetails({
       limit: details.limit,
       isHorizontal: details.isHorizontal,
       actualScroll: details.actualScroll,
@@ -51,12 +51,12 @@ export class ScrollingController {
     document.getElementsByTagName('body')[0].style.removeProperty('overflow')
 
     this.props.lenis.start()
-    this.props.lenis.resize()
   }
 
   public restart() {
     this.props.lenis.stop()
     this.props.lenis.start()
+    this.props.lenis.resize()
   }
 
   public resize() {

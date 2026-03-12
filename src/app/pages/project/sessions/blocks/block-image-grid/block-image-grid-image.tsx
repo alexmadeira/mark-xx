@@ -24,7 +24,7 @@ export function BlockImageGridImage(props: TProjectBlockImageGridImageProps) {
         '--ratio': `${props.cols}/${props.rows}`,
       }}
       className={twMerge(
-        'pointer-events-auto col-span-1 row-span-(--rows) aspect-(--ratio) h-full w-full overflow-clip rounded-lg border border-zinc-400/20 shadow-lg transition-all duration-300',
+        '_overflow-clip pointer-events-auto col-span-1 row-span-(--rows) aspect-(--ratio) h-full w-full rounded-lg border border-zinc-400/20 shadow-lg transition-all duration-300',
         'sm:col-span-[min(var(--cols),var(--sm-cols))]',
         'md:col-span-[min(var(--cols),var(--md-cols))]',
         'xl:col-span-[min(var(--cols),var(--xl-cols))]',
