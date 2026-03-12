@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 
 import { Portal } from '@radix-ui/react-portal'
 import { AnimatePresence, motion } from 'motion/react'
-import useSound from 'use-sound'
 
 import { analytics } from '_SRV/builder/analytics'
+import { interfaceEvent } from '_SRV/builder/event'
 import { easterEggController } from '_SRV/controller'
 import { timer } from '_SRV/utils'
 
@@ -18,18 +18,18 @@ export function ToastyEgg() {
   const toastyEgg = useEasterEgg((state) => state.data.eggs.toasty)
   const showToastyEgg = toastyEgg?.status === 'called'
 
-  const [play] = useSound('https://res.cloudinary.com/dgoi1pk8i/video/upload/v1771352342/toasty_gkzhgl.mp3', {
-    volume: 0.8,
-    interrupt: true,
-    preload: true,
-  })
-
   useEffect(() => {
     if (toastyEgg?.status !== 'called') return
-    play()
-    BAnalytics.trackEvent('EASTER_EGG_FOUND:toasty')
-    UTimer.delay(() => CLEasterEgg.readEgg('toasty'), 1000)
-  }, [toastyEgg?.status, play])
+
+    interfaceEvent.emit('INTERFACE:ACTION:Toasty')
+
+    BAnalytics.trackEvent('EASTER_EGG_FOUND')
+    BAnalytics.setUserProperties({ egg: 'toasty' })
+
+    const toastyTime = UTimer.delay(() => CLEasterEgg.readEgg('toasty'), 1000)
+
+    return () => toastyTime()
+  }, [toastyEgg?.status])
 
   return (
     <AnimatePresence>

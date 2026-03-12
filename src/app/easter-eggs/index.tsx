@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { globalEggs } from '_CFG/easter-eggs/global-eggs'
+import { easterEggs } from '_CFG/easter-eggs'
 
 import { easterEggController } from '_SRV/controller'
 
@@ -11,8 +11,8 @@ export function EasterEggs() {
   const CLEasterEgg = easterEggController()
 
   useEffect(() => {
-    CLEasterEgg.addEggs(globalEggs)
-  }, [globalEggs])
+    CLEasterEgg.addEggs(easterEggs)
+  }, [easterEggs])
 
   return (
     <div>

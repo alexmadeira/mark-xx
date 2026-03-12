@@ -2,6 +2,8 @@ import type {
   TEasterEggAddEggProps,
   TEasterEggAddEggsProps,
   TEasterEggDispatchEggProps,
+  TEasterEggEgg,
+  TEasterEggFoundEggProps,
   TEasterEggReadEggProps,
 } from '@/services/controller/easter-egg'
 
@@ -10,7 +12,7 @@ import Mousetrap from 'mousetrap'
 
 import { useEasterEgg } from '_STR/useEasterEgg'
 
-export class EasterEggController {
+export class EasterEggController<TEggs extends TEasterEggEgg[] = []> {
   private readonly easterEggActions = useEasterEgg.getState().actions
 
   constructor() {
@@ -22,22 +24,27 @@ export class EasterEggController {
     })
   }
 
-  private dispatchEgg(...[name]: TEasterEggDispatchEggProps) {
+  private dispatchEgg(...[name]: TEasterEggDispatchEggProps<TEggs>) {
     this.easterEggActions.call(name)
-  }
-
-  public readEgg(...[name]: TEasterEggReadEggProps) {
-    this.easterEggActions.read(name)
   }
 
   public addEgg(props: TEasterEggAddEggProps) {
     if (_.has(useEasterEgg.getState().data.eggs, props.name)) return
 
     this.easterEggActions.setEgg(props.name)
-    Mousetrap.bind(props.keyCombo.join(' '), this.dispatchEgg.bind(this, props.name))
+
+    if (props.keyCombo) Mousetrap.bind(props.keyCombo.join(' '), this.dispatchEgg.bind(this, props.name))
   }
 
   public addEggs(eggs: TEasterEggAddEggsProps) {
     eggs.map(this.addEgg.bind(this))
+  }
+
+  public readEgg(...[name]: TEasterEggReadEggProps<TEggs>) {
+    this.easterEggActions.read(name)
+  }
+
+  public foundEgg(...[name]: TEasterEggFoundEggProps<TEggs>) {
+    this.dispatchEgg(name)
   }
 }

@@ -15,8 +15,10 @@ export function SnakeEgg() {
   const BAnalytics = analytics()
 
   useEffect(() => {
-    if (snakeEgg?.status !== 'called') return
-    BAnalytics.trackEvent('EASTER_EGG_FOUND:Snake')
+    if (snakeEgg?.status === 'called') {
+      BAnalytics.trackEvent('EASTER_EGG_FOUND')
+      BAnalytics.setUserProperties({ egg: 'snake' })
+    }
   }, [snakeEgg?.status])
 
   if (!showSnakeEgg) return null
