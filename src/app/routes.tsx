@@ -4,6 +4,8 @@ import { BaseLayout } from '_LAY/base'
 
 import { routeController } from '_SRV/controller'
 
+import { env } from '~/env'
+
 import { Empty } from './pages/empty'
 
 const RouteController = routeController()
@@ -17,8 +19,5 @@ export const router = createBrowserRouter([
       element: <Route.component />,
     })),
   },
-  {
-    path: '/empty',
-    element: <Empty />,
-  },
+  ...(!env.DEV ? [{ path: '/empty', element: <Empty /> }] : []),
 ])
