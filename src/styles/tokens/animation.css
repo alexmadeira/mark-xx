@@ -22,6 +22,35 @@
     }
   }
 
+  @keyframes coinJump {
+    0% {
+      transform: translateY(-0%);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(-140%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-130%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes coin {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 100% 0;
+    }
+  }
+
   --animate-blink: blink 1s step-start infinite;
   --animate-shake: shake 1s infinite;
+  --animate-coin: coin 0.3s steps(6) infinite;
+  --animate-coinJump: coinJump 1s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
 }
