@@ -1,3 +1,8 @@
+import { easterEggs } from '_CFG/easter-eggs'
+import { soundMap } from '_CFG/sounds'
+
+import { interfaceEvent, snakeEvent } from '_SRV/builder/event'
+import { soundManager } from '_SRV/builder/sound'
 import { timer } from '_SRV/utils'
 
 import {
@@ -7,6 +12,7 @@ import {
   defaultScrollingProps,
   defaultSEOProps,
 } from './_defaults'
+import { AudioController } from './audio-controller'
 import { ColorController } from './color-controller'
 import { EasterEggController } from './easter-egg-controller'
 import { ElementController } from './element-controller'
@@ -21,9 +27,10 @@ let controllerSEO: SEOController
 let controllerHero: HeroController
 let controllerRoute: RouteController
 let controllerMouse: MouseController
+let controllerAudio: AudioController
 let controllerOverlap: OverlapController
 let controllerScrolling: ScrollingController
-let controllerEasterEgg: EasterEggController
+let controllerEasterEgg: EasterEggController<typeof easterEggs>
 
 const controllersColor: Record<string, ColorController<keyof typeof defaultColorProps>> = {}
 const controllersElement: Record<string, ElementController> = {}
@@ -31,6 +38,11 @@ const controllersElement: Record<string, ElementController> = {}
 export function seoController() {
   if (!controllerSEO) controllerSEO = new SEOController(defaultSEOProps)
   return controllerSEO
+}
+
+export function audioController() {
+  if (!controllerAudio) controllerAudio = new AudioController(soundManager(soundMap), snakeEvent, interfaceEvent)
+  return controllerAudio
 }
 
 export function heroController() {

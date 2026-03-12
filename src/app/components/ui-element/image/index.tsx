@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import _ from 'lodash'
 import { twMerge } from 'tailwind-merge'
 
-import { mediaEvent } from '_SRV/builder/event'
+import { loaderMediaEvent } from '_SRV/builder/event'
 
 export function Image({ className, ...props }: TPageImageProps) {
   const imgRef = useRef<HTMLImageElement>(null)
@@ -18,8 +18,8 @@ export function Image({ className, ...props }: TPageImageProps) {
       if (src === props.src.original) setIsLoaded(true)
     }
 
-    mediaEvent.on('MEDIA:IMAGE:Finished', handler)
-    return () => mediaEvent.off('MEDIA:IMAGE:Finished', handler)
+    loaderMediaEvent.on('MEDIA:IMAGE:Finished', handler)
+    return () => loaderMediaEvent.off('MEDIA:IMAGE:Finished', handler)
   }, [props.src])
 
   return (

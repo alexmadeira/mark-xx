@@ -1,3 +1,4 @@
+import type { TLoaderMediaEvents } from '@/events/loader-events'
 import type { IEvent } from '@/interfaces/event'
 import type { ILoaderMedias } from '@/interfaces/loader/medias'
 import type {
@@ -6,7 +7,6 @@ import type {
   TLoaderGetMediaOriginalSrcProps,
   TLoaderIsBlobProps,
   TLoaderLoadedMedias,
-  TLoaderMediaEvents,
   TLoaderMediaListeners,
   TLoaderMediaLoadedProps,
   TLoaderMediaNotifyListenersProps,

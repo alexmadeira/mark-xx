@@ -2,6 +2,11 @@ import type { ITimer, TTimerDelayProps, TTimerIntervalProps } from '@/services/u
 
 export class Timer implements ITimer {
   public delay<T extends unknown[]>(...[fn, wait, ...args]: TTimerDelayProps<T>) {
+    if (!wait) {
+      fn(...args)
+      return () => {}
+    }
+
     const timeoutId = setTimeout(() => fn(...args), wait)
     return () => clearTimeout(timeoutId)
   }

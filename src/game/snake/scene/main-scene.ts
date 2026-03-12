@@ -1,6 +1,5 @@
 import type { SnakeKeyboardInput } from '../application/input/snake-keyboard-input'
 import type { ScoreSystem } from '../systems/score-system'
-import type { SoundSystem } from '../systems/sound-system'
 
 import { Game } from '_GAME/snake/game'
 import { GameRender } from '_GAME/snake/game-render'
@@ -15,7 +14,6 @@ export class MainScene extends Scene {
     private readonly controller: GameController,
     private readonly gameLogic: Game,
     private readonly gameRender: GameRender,
-    private readonly soundSystem: SoundSystem,
     private readonly scoreSystem: ScoreSystem,
     private readonly keyboardInput: SnakeKeyboardInput,
   ) {
@@ -36,14 +34,9 @@ export class MainScene extends Scene {
     this.scoreSystem.create()
 
     this.controller.create(this)
-    this.soundSystem.create(this)
-
-    this.events.once('shutdown', () => {
-      this.soundSystem.destroy()
-    })
   }
 
-  update(time: number) {
+  public update(time: number) {
     if (time < this.lastUpdate) return
     this.lastUpdate = time + this.gameLogic.tickInterval
 

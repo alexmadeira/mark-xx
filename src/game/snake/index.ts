@@ -8,7 +8,6 @@ import { SnakeCollision } from '_GAME/snake/services/snake-collision'
 import { BootScene } from './scene/boot-scene'
 import { MainScene } from './scene/main-scene'
 import { ScoreSystem } from './systems/score-system'
-import { SoundSystem } from './systems/sound-system'
 import { GameController } from './game-controller'
 
 export class Snake {
@@ -17,7 +16,6 @@ export class Snake {
   private readonly player!: SnakePlayer
   private readonly collision!: SnakeCollision
   private readonly gameRender!: GameRender
-  private readonly soundSystem!: SoundSystem
   private readonly scoreSystem!: ScoreSystem
   private readonly keyboardInput!: SnakeKeyboardInput
   private readonly gameController!: GameController
@@ -29,7 +27,6 @@ export class Snake {
     const startPosition = { x: Math.floor(this.tileCount / 2), y: Math.floor(this.tileCount / 2) }
 
     this.keyboardInput = new SnakeKeyboardInput()
-    this.soundSystem = new SoundSystem()
     this.scoreSystem = new ScoreSystem()
 
     this.food = new SnakeFood({
@@ -59,14 +56,7 @@ export class Snake {
   public scenes() {
     return [
       new BootScene(),
-      new MainScene(
-        this.gameController,
-        this.gameLogic,
-        this.gameRender,
-        this.soundSystem,
-        this.scoreSystem,
-        this.keyboardInput,
-      ),
+      new MainScene(this.gameController, this.gameLogic, this.gameRender, this.scoreSystem, this.keyboardInput),
     ]
   }
 }
