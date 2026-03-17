@@ -14,7 +14,7 @@ export function Email() {
     <EmailEgg
       type="button"
       className="cursor-pointer text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline"
-      backDelay={1000}
+      backDelay={500}
       onClickContent="E-mail copiado!"
       onClick={() => copy(email?.path || '')}
     >

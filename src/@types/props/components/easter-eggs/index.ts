@@ -1,6 +1,16 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, CSSProperties, ReactNode, Ref } from 'react'
 
 import { z } from 'zod/v4'
+
+export const ZEmailCoinEggProps = z.object({
+  ref: z.custom<Ref<HTMLDivElement> | undefined>(),
+  style: z.custom<CSSProperties>(),
+})
+
+export const ZEmail1UPEggProps = z.object({
+  ref: z.custom<Ref<HTMLDivElement> | undefined>(),
+  style: z.custom<CSSProperties>(),
+})
 
 export const ZEmailEggProps = z.intersection(
   z.custom<ButtonHTMLAttributes<HTMLButtonElement>>(),
@@ -15,4 +25,6 @@ export const ZEmailEggProps = z.intersection(
 //
 //
 
+export type TEmailCoinEggProps = z.infer<typeof ZEmailCoinEggProps>
+export type TEmail1UPEggProps = z.infer<typeof ZEmail1UPEggProps>
 export type TEmailEggProps = z.infer<typeof ZEmailEggProps>
