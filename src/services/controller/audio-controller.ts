@@ -19,9 +19,13 @@ export class AudioController {
   }
 
   private buildInterfaceListeners() {
-    this.interfaceEvent.on('INTERFACE:ACTION:Email', () => {
+    this.interfaceEvent.on('INTERFACE:ACTION:coin', () => {
       this.soundManager.play('coin')
     })
+    this.interfaceEvent.on('INTERFACE:ACTION:LiveUp', () => {
+      this.soundManager.play('liveUp')
+    })
+
     this.interfaceEvent.on('INTERFACE:ACTION:Toasty', () => {
       this.soundManager.play('toasty')
     })

@@ -12,6 +12,7 @@ import {
   defaultScrollingProps,
   defaultSEOProps,
 } from './_defaults'
+import { ActivityController } from './activity-controller'
 import { AudioController } from './audio-controller'
 import { ColorController } from './color-controller'
 import { EasterEggController } from './easter-egg-controller'
@@ -30,6 +31,7 @@ let controllerMouse: MouseController
 let controllerAudio: AudioController
 let controllerOverlap: OverlapController
 let controllerScrolling: ScrollingController
+let controllerActivity: ActivityController
 let controllerEasterEgg: EasterEggController<typeof easterEggs>
 
 const controllersColor: Record<string, ColorController<keyof typeof defaultColorProps>> = {}
@@ -43,6 +45,10 @@ export function seoController() {
 export function audioController() {
   if (!controllerAudio) controllerAudio = new AudioController(soundManager(soundMap), snakeEvent, interfaceEvent)
   return controllerAudio
+}
+export function activityController() {
+  if (!controllerActivity) controllerActivity = new ActivityController(timer())
+  return controllerActivity
 }
 
 export function heroController() {

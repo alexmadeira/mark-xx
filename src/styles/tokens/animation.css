@@ -49,8 +49,30 @@
     }
   }
 
+  @keyframes oneUp {
+    0% {
+      transform: translateY(-0%);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(-150px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes start {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 0 0;
+    }
+  }
+
   --animate-blink: blink 1s step-start infinite;
   --animate-shake: shake 1s infinite;
   --animate-coin: coin 0.3s steps(6) infinite;
+  --animate-oneUp: oneUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
   --animate-coinJump: coinJump 1s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
 }

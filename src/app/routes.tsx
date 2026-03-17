@@ -19,5 +19,5 @@ export const router = createBrowserRouter([
       element: <Route.component />,
     })),
   },
-  ...(!env.DEV ? [{ path: '/empty', element: <Empty /> }] : []),
+  ...(env.DEV ? [{ path: '/empty', element: <Empty /> }] : []),
 ])

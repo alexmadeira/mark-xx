@@ -1,9 +1,8 @@
 import type { TEmailEggProps } from '@/props/components/easter-eggs'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { useFloating } from '@floating-ui/react'
-import { Portal } from '@radix-ui/react-portal'
 import { twMerge } from 'tailwind-merge'
 
 import { analytics } from '_SRV/builder/analytics'
@@ -13,12 +12,16 @@ import { timer } from '_SRV/utils'
 
 import { useEasterEgg } from '_STR/useEasterEgg'
 
+import { Email1UpEgg } from './email-1up-egg'
+import { EmailCoinEgg } from './email-coin-egg'
+
 export function EmailEgg({ backDelay, onClickContent, children, className, ...rest }: TEmailEggProps) {
   const UTimer = timer()
   const BAnalytics = analytics()
   const CLEasterEgg = easterEggController()
 
   const { refs, floatingStyles } = useFloating({ placement: 'top', strategy: 'fixed' })
+  const clickCount = useRef(0)
 
   const emailEgg = useEasterEgg((state) => state.data.eggs.email)
   const isCalled = emailEgg?.status === 'called'
@@ -42,25 +45,29 @@ export function EmailEgg({ backDelay, onClickContent, children, className, ...re
         ref={refs.setReference}
         className={twMerge('relative', className)}
         onClick={(e) => {
+          clickCount.current++
           if (isCalled) return
-
           interfaceEvent.emit('INTERFACE:ACTION:Email')
-
           CLEasterEgg.foundEgg('email')
+
+          if (clickCount.current < 5) interfaceEvent.emit('INTERFACE:ACTION:coin')
+          if (clickCount.current === 5) {
+            clickCount.current = -1
+            interfaceEvent.emit('INTERFACE:ACTION:LiveUp')
+            BAnalytics.trackEvent('EASTER_EGG_FOUND')
+            BAnalytics.setUserProperties({ egg: 'liveUp' })
+          }
+
           if (rest.onClick) rest.onClick(e)
         }}
       >
         {showClickContent ? onClickContent : children}
       </button>
-      {isCalled && (
-        <Portal>
-          <div ref={refs.setFloating} style={floatingStyles} className="z-9">
-            <div className="animate-coinJump absolute left-1/2 flex aspect-square h-[clamp(2.5rem,4vw,6rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
-              <span className="animate-coin h-full w-full bg-[url('/img/coin-sprite.png')] bg-size-[700%_100%] bg-left bg-no-repeat" />
-            </div>
-          </div>
-        </Portal>
-      )}
+
+      {isCalled && clickCount.current >= 0 && <EmailCoinEgg ref={refs.setFloating} style={floatingStyles} />}
+      {isCalled && clickCount.current < 0 && <Email1UpEgg ref={refs.setFloating} style={floatingStyles} />}
     </>
+
+    //
   )
 }
