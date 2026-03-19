@@ -1,23 +1,19 @@
-import { ZEEasterEggAllKey } from '@/enums/easter-egg'
-
 import { z } from 'zod/v4'
 
-export const ZEasterEggEgg = z.object({
-  name: z.string(),
-  keyCombo: ZEEasterEggAllKey.array().optional(),
-})
+import { ZSchemaEasterEgg } from '../schema/easter-egg'
 
+export const ZEasterEggEgg = ZSchemaEasterEgg
 export const ZEasterEggAddEggProps = ZEasterEggEgg
 export const ZEasterEggAddEggsProps = ZEasterEggEgg.array()
 
 export function ZEasterEggEggName<TEggs extends z.infer<typeof ZEasterEggEgg>[]>() {
-  return z.custom<TEggs[number]['name']>()
+  return z.custom<TEggs[number]['name'] | (string & Record<never, never>)>()
 }
 export function ZEasterEggReadEggProps<TEggs extends z.infer<typeof ZEasterEggEgg>[]>() {
   return z.tuple([ZEasterEggEggName<TEggs>()])
 }
 export function ZEasterEggFoundEggProps<TEggs extends z.infer<typeof ZEasterEggEgg>[]>() {
-  return z.tuple([ZEasterEggEggName<TEggs>()])
+  return z.tuple([ZEasterEggEggName<TEggs>() || z.custom<string>()])
 }
 export function ZEasterEggDispatchEggProps<TEggs extends z.infer<typeof ZEasterEggEgg>[]>() {
   return z.tuple([ZEasterEggEggName<TEggs>()])

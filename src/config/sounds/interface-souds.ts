@@ -5,7 +5,7 @@ export const interfaceSoundMap = {
     src: 'https://res.cloudinary.com/dgoi1pk8i/video/upload/v1771593717/super-mario-coin-sound_otcalt.mp3',
     volume: 0.5,
   },
-  liveUp: {
+  lifeUp: {
     src: 'https://res.cloudinary.com/dgoi1pk8i/video/upload/v1773356199/up_xbddxh.mp3',
     volume: 1,
   },

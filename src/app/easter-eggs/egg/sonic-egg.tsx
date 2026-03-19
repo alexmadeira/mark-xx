@@ -1,16 +1,25 @@
+import { useEffect } from 'react'
+
 import { Portal } from '@radix-ui/react-portal'
 import { AnimatePresence, motion } from 'motion/react'
 
-import { useActivity } from '_STR/useActivity'
+import { analytics } from '_SRV/builder/analytics'
+
+import { useEasterEgg } from '_STR/useEasterEgg'
 
 export function SonicEgg() {
-  const toastyEgg = useActivity((state) => state.data.monitors.main)
+  const BAnalytics = analytics()
 
-  const sonicWaiting = toastyEgg?.status === 'idle'
+  const sonicEgg = useEasterEgg((state) => state.data.eggs.sonic)
+  const isCalled = sonicEgg?.status === 'called'
+
+  useEffect(() => {
+    if (isCalled) BAnalytics.trackEvent('EASTER_EGG_FOUND:sonic')
+  }, [isCalled])
 
   return (
     <AnimatePresence>
-      {sonicWaiting && (
+      {isCalled && (
         <Portal className="pointer-events-none select-none">
           <motion.img
             key="toasty-egg"

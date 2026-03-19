@@ -1,6 +1,7 @@
-import { EmailEgg } from '_APP/easter-eggs/egg/email-egg'
-import copy from 'copy-to-clipboard'
+import { Action } from '_APP/components/ui-element/action'
 import _ from 'lodash'
+
+import { interfaceEvent } from '_SRV/builder/event'
 
 import { useFetcherNetworks } from '_STR/useFetcherNetworks'
 
@@ -11,14 +12,18 @@ export function Email() {
   const email = _.find(bannerNetworks, (network) => network.tags.includes('email'))
 
   return (
-    <EmailEgg
+    <Action.copy
       type="button"
+      id="email-easter-egg-reference"
       className="cursor-pointer text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline"
+      value={email?.path || ''}
       backDelay={500}
       onClickContent="E-mail copiado!"
-      onClick={() => copy(email?.path || '')}
+      onClick={() => {
+        interfaceEvent.emit('INTERFACE:Hero:email')
+      }}
     >
       {email?.name}
-    </EmailEgg>
+    </Action.copy>
   )
 }
