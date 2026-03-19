@@ -1,8 +1,20 @@
 import type { TEmailCoinEggProps } from '@/props/components/easter-eggs'
 
+import { useEffect } from 'react'
+
 import { Portal } from '@radix-ui/react-portal'
 
+import { analytics } from '_SRV/builder/analytics'
+import { interfaceEvent } from '_SRV/builder/event'
+
 export function EmailCoinEgg(props: TEmailCoinEggProps) {
+  const BAnalytics = analytics()
+
+  useEffect(() => {
+    interfaceEvent.emit('INTERFACE:Sound:coin')
+    BAnalytics.trackEvent('EASTER_EGG_FOUND:coin')
+  }, [])
+
   return (
     <Portal>
       <div {...props} className="fixed top-1/2 left-1/2 z-9">

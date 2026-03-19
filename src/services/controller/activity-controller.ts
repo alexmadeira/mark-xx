@@ -11,6 +11,8 @@ import type { ITimer } from '@/services/utils/timer'
 
 import _ from 'lodash'
 
+import { interfaceEvent } from '_SRV/builder/event'
+
 import { useActivity } from '_STR/useActivity'
 
 export class ActivityController {
@@ -96,12 +98,16 @@ export class ActivityController {
 
     if (monitor.status === 'idle') {
       this.activityActions.setStatus(name, 'active')
+      interfaceEvent.emit('INTERFACE:Activity:active')
+      interfaceEvent.emit('INTERFACE:Activity:update', 'active')
     }
 
     this.monitorCancels.set(
       name,
       this.timer.delay(() => {
         this.activityActions.setStatus(name, 'idle')
+        interfaceEvent.emit('INTERFACE:Activity:idle')
+        interfaceEvent.emit('INTERFACE:Activity:update', 'idle')
       }, monitor.timeout),
     )
   }

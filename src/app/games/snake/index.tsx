@@ -3,10 +3,12 @@ import { useEffect, useRef } from 'react'
 import { snakeGame } from '_GAME/games'
 import Phaser from 'phaser'
 
+import { analytics } from '_SRV/builder/analytics'
 import { snakeEvent } from '_SRV/builder/event'
 import { scrollingController } from '_SRV/controller'
 
 export function SnakeGame() {
+  const BAnalytics = analytics()
   const CLScrolling = scrollingController()
 
   const gameRef = useRef<HTMLDivElement>(null)
@@ -14,6 +16,7 @@ export function SnakeGame() {
 
   useEffect(() => {
     if (!gameRef.current) return
+    BAnalytics.trackEvent('EASTER_EGG_FOUND:snake')
 
     CLScrolling.stop()
     const tileCount = 30

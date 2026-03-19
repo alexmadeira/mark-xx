@@ -22,7 +22,6 @@ export const useEasterEgg = create<TStoreEasterEgg>((set) => ({
           if (state.data.eggs[name].status === status) return
 
           draft.data.eggs[name].status = status
-          draft.data.eggs[name].called += 1
         }),
       ),
     call: (name) =>

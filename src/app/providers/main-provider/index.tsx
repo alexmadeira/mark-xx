@@ -1,6 +1,7 @@
 import type { TMainProviderProps } from '@/providers/main'
 
 import { Analytics } from './analytics'
+import { EventEggs } from './event-eggs'
 import { Idle } from './idle'
 import { MouseTrack } from './mouseTrack'
 import { PageColors } from './page-colors'
@@ -14,6 +15,7 @@ export function MainProvider({ children }: TMainProviderProps) {
       <PageColors />
       <MouseTrack />
       <Idle />
+      <EventEggs />
       {children}
     </>
   )

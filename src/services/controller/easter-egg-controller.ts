@@ -33,7 +33,7 @@ export class EasterEggController<TEggs extends TEasterEggEgg[] = []> {
 
     this.easterEggActions.setEgg(props.name)
 
-    if (props.keyCombo) Mousetrap.bind(props.keyCombo.join(' '), this.dispatchEgg.bind(this, props.name))
+    if (props.keyCombo) Mousetrap.bind(props.keyCombo.join(' '), this.foundEgg.bind(this, props.name))
   }
 
   public addEggs(eggs: TEasterEggAddEggsProps) {
