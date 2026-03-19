@@ -1,0 +1,11 @@
+@theme {
+}
+
+@utility text-stroke-* {
+  --text-stroke-size: --spacing(--value(number));
+  --text-stroke-size: --value([ *]);
+  --text-stroke-color: --value(--color- *);
+
+  -webkit-text-stroke: var(--text-stroke-size) var(--text-stroke-color);
+  paint-order: stroke fill;
+}

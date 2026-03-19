@@ -3,10 +3,11 @@
 export function Empty() {
   return (
     <>
-      <div className="absolute top-1/2 left-1/2 z-50 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
-        <div className="animate-coinJump relative flex h-33.75 w-33.75 items-center justify-center">
-          <span className="animate-coin h-33.75 w-33.75 bg-[url('/img/coin-sprite.png')] bg-no-repeat" />
-        </div>
+      <div className="relative z-50 mx-auto my-[45vh] flex aspect-square w-[144px] items-center justify-center bg-amber-400">
+        <span
+          style={{ willChange: 'background-position' }}
+          className="animate-sosnic h-full w-full bg-[url('/img/sonic_waiting.gif')]"
+        />
       </div>
     </>
   )

@@ -1,5 +1,5 @@
-import type { TStoreOverlapCollision, TStoreOverlapData } from '@/services/store/overlap'
+import type { TStoreOverlapData } from '@/services/store/overlap'
 
 export const overlapDefaultData = {
-  collision: {} as TStoreOverlapCollision,
+  collision: {},
 } satisfies TStoreOverlapData

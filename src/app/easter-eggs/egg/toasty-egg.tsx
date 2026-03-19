@@ -21,10 +21,9 @@ export function ToastyEgg() {
   useEffect(() => {
     if (toastyEgg?.status !== 'called') return
 
-    interfaceEvent.emit('INTERFACE:ACTION:Toasty')
+    interfaceEvent.emit('INTERFACE:Action:toasty')
 
-    BAnalytics.trackEvent('EASTER_EGG_FOUND')
-    BAnalytics.setUserProperties({ egg: 'toasty' })
+    BAnalytics.trackEvent('EASTER_EGG_FOUND:toasty')
 
     const toastyTime = UTimer.delay(() => CLEasterEgg.readEgg('toasty'), 1000)
 

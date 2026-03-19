@@ -5,3 +5,5 @@
 @import "./tokens/spacing.css";
 @import "./tokens/animation.css";
 @import "./tokens/breakpoint.css";
+
+@import "./tokens/utility.css";
