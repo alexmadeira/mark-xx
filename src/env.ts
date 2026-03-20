@@ -41,6 +41,8 @@ export const ZEnvClient = ZEnvGlobal.extend({
   VITE_HERO_TYPING_SPEED: z.coerce.number().default(120),
   VITE_HERO_DELETION_SPEED: z.coerce.number().default(60),
 
+  VITE_EGGS_IDLE_TIMEOUT: z.coerce.number().default(1000 * 20),
+
   BASE_URL: z.string(),
   DEV: z.coerce.boolean(),
   MODE: z.enum(['development', 'production']),
