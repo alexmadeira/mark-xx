@@ -1,2 +1,2 @@
-npm rum lint-staged
+npm run lint-staged
 npm run type-check
