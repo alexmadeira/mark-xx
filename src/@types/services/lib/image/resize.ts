@@ -9,6 +9,6 @@ export type TResizeImage = string | HTMLImageElement
 export type TResizeSizes = Record<string, TResizeSize>
 export type TResizeResized<TSizes extends TResizeSizes> = Record<keyof TSizes, Nullish<string>>
 
-export interface IResize<TSizes extends TResizeSizes> {
+export interface IResize<TSizes extends TResizeSizes = TResizeSizes> {
   resize(image?: TResizeImage): TResizeResized<TSizes>
 }

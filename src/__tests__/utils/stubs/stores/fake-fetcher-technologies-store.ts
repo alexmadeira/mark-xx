@@ -1,13 +1,13 @@
 import type { TEFetcherStatus } from '@/enums/fetcher'
-import type { TStoreFetcherNetwork, TStoreFetcherNetworksData } from '@/services/store/fetcher-networks'
+import type { TStoreFetcherTechnologiesData, TStoreFetcherTechnology } from '@/services/store/fetcher-technologies'
 
-export class FakeFetcherNetworksStore {
-  public readonly data: TStoreFetcherNetworksData
+export class FakeFetcherTechnologiesStore {
+  public readonly data: TStoreFetcherTechnologiesData
 
   private readonly setListSpy: ReturnType<typeof vi.fn>
   private readonly setStatusSpy: ReturnType<typeof vi.fn>
 
-  constructor(props: Partial<TStoreFetcherNetworksData> = {}) {
+  constructor(props: Partial<TStoreFetcherTechnologiesData> = {}) {
     this.data = {
       list: props.list || [],
       status: props.status || 'idle',
@@ -21,8 +21,8 @@ export class FakeFetcherNetworksStore {
     this.data.status = status
   }
 
-  private setList(networks: TStoreFetcherNetwork[]) {
-    this.data.list = [...this.data.list, ...networks]
+  private setList(technologies: TStoreFetcherTechnology[]) {
+    this.data.list = [...this.data.list, ...technologies]
   }
 
   public get actions() {

@@ -1,3 +1,4 @@
+import type { IPageMapper } from '@/interfaces/mapper/page'
 import type {
   TRawSchemaPage,
   TRawSchemaPageConfig,
@@ -11,8 +12,12 @@ import _ from 'lodash'
 
 import { env } from '~/env'
 
-export class PageMapper {
-  private static configMeta(raw: TRawSchemaPageConfig): TSchemaPageMetaConfig {
+export class PageMapper implements IPageMapper {
+  constructor() {
+    _.bindAll(this, ['toStore', 'config'])
+  }
+
+  private configMeta(raw: TRawSchemaPageConfig): TSchemaPageMetaConfig {
     const rootTitle = _.get(raw, 'primary.seo_title')
     const rootDescription = _.get(raw, 'primary.seo_description')
 
@@ -44,7 +49,7 @@ export class PageMapper {
     }
   }
 
-  public static toStore(raw: TRawSchemaPage): TStoreFetcherPagesAnyData {
+  public toStore(raw: TRawSchemaPage): TStoreFetcherPagesAnyData {
     const baseData: TStoreFetcherPagesAnyData = {
       status: 'loaded',
       id: raw.id,
@@ -68,7 +73,7 @@ export class PageMapper {
     return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
   }
 
-  public static config(raw: TRawSchemaPageConfig[]): TSchemaPageConfig {
+  public config(raw: TRawSchemaPageConfig[]): TSchemaPageConfig {
     const [rawConfig] = raw.filter((slice) => slice.slice_type === 'page_config')
     if (!rawConfig) throw new Error('Page config slice not found')
 
@@ -78,7 +83,7 @@ export class PageMapper {
     return {
       key: `/${_.trimStart(path, '/')}`,
       canonical: new URL(path, env.VITE_ROOT_URL).toString(),
-      meta: PageMapper.configMeta(rawConfig),
+      meta: this.configMeta(rawConfig),
       background: _.get(rawConfig, 'primary.background_color', '#FFFFFF'),
     }
   }

@@ -1,8 +1,9 @@
 import type { TNetworkRaw } from '_TEST/utils/factories/fetcher/make-network-raw'
+import type { INetworkMapper } from '@/interfaces/mapper/network'
 
 import _ from 'lodash'
 
-export class NetworkMapperMock {
+export class NetworkMapperMock implements INetworkMapper {
   public readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TNetworkRaw> = {}) {

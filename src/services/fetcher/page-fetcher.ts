@@ -1,35 +1,35 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { Requester } from '_SRV/builder/requester'
 import type { TEPrismicPageType } from '@/enums/prismic'
+import type { IRequester } from '@/interfaces/api'
+import type { IPageMapper } from '@/interfaces/mapper/page'
 import type { TPageFetcherProps } from '@/services/fetcher/page'
-
-import { PageMapper } from '_SRV/mapper/page-mapper.ts'
-
-import { useFetcherPages } from '_STR/useFetcherPages'
-import { usePageConfigs } from '_STR/usePageConfigs'
+import type { TStoreFetcherPages } from '@/services/store/fetcher-pages'
+import type { TStorePageConfigs } from '@/services/store/page-configs'
 
 import { Fetcher } from './fetcher'
 
 export class PageFetcher extends Fetcher<TPageFetcherProps> {
-  private readonly fetcherPagesActions = useFetcherPages.getState().actions
-  private readonly pageConfigsActions = usePageConfigs.getState().actions
-
-  constructor(private readonly api: Requester<typeof markXXPaths>) {
+  constructor(
+    private readonly api: IRequester<typeof markXXPaths>,
+    private readonly mapper: IPageMapper,
+    private readonly fetcherPages: TStoreFetcherPages,
+    private readonly pageConfigs: TStorePageConfigs,
+  ) {
     super()
   }
 
   public async fetch(slug: TEPrismicPageType, options: TPageFetcherProps = {}) {
     try {
-      this.fetcherPagesActions.setPageStatus(slug, 'loading')
+      this.fetcherPages.actions.setPageStatus(slug, 'loading')
       const result = await this.api.query('mark-xx:page', ['mark-xx:page', slug], { type: slug, return: 'one' })
 
       if (options.callback) options.callback()
 
-      this.pageConfigsActions.setPageConfig(PageMapper.config(result.data.body))
-      this.fetcherPagesActions.setPage(slug, PageMapper.toStore(result))
-      this.fetcherPagesActions.setPageStatus(slug, 'loaded')
+      this.pageConfigs.actions.setPageConfig(this.mapper.config(result.data.body))
+      this.fetcherPages.actions.setPage(slug, this.mapper.toStore(result))
+      this.fetcherPages.actions.setPageStatus(slug, 'loaded')
     } catch (error) {
-      this.fetcherPagesActions.setPageStatus(slug, 'error')
+      this.fetcherPages.actions.setPageStatus(slug, 'error')
       throw error
     }
   }

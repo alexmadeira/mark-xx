@@ -5,7 +5,9 @@ import _ from 'lodash'
 import mustache from 'mustache'
 
 export class CloudinaryImage<TSizes extends TResizeSizes> implements IResize<TSizes> {
-  constructor(private readonly sizes: TSizes) {}
+  constructor(private readonly sizes: TSizes) {
+    _.bindAll(this, ['resize'])
+  }
 
   private sizeTemplate(size: TResizeSize) {
     const result = ['c_scale']

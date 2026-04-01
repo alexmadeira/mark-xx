@@ -1,18 +1,17 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { IRequester } from '@/interfaces/api'
+import type { ICompanyMapper } from '@/interfaces/mapper/company'
 import type { TCompaniesFetcherProps } from '@/services/fetcher/companies'
 import type { TStoreFetcherCompanies } from '@/services/store/fetcher-companies'
 
 import _ from 'lodash'
-
-import { CompanyMapper } from '_SRV/mapper/company-mapper'
 
 import { Fetcher } from './fetcher'
 
 export class CompaniesFetcher extends Fetcher<TCompaniesFetcherProps> {
   constructor(
     private readonly api: IRequester<typeof markXXPaths>,
-    private readonly mapper: CompanyMapper,
+    private readonly mapper: ICompanyMapper,
     private readonly fetcherCompanies: TStoreFetcherCompanies,
   ) {
     super()

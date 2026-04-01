@@ -1,17 +1,18 @@
 import { ProjectDetails } from '_APP/components/project/project-details'
 
 import { masonry } from '_SRV/builder/masonry'
-import { ProjectMapper } from '_SRV/mapper/project-mapper'
+import { mapperProject } from '_SRV/mapper'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 import { Header } from './sessions/header'
 
 export function Projects() {
+  const pojectMapper = mapperProject()
   const ProjectsMasonry = masonry('projects')
 
   const projects = useFetcherProjects((st) => st.data.list['all:projects'])
-  const masonryProjects = projects?.map(ProjectMapper.toMasonry)
+  const masonryProjects = projects?.map(pojectMapper.toMasonry)
 
   return (
     <>

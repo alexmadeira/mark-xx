@@ -1,10 +1,15 @@
+import type { IRepositoryMapper } from '@/interfaces/mapper/repository'
 import type { TRawSchemaGithubRepository } from '@/services/schema/github-repository'
 import type { TStoreFetcherRepository } from '@/services/store/fetcher-repositories'
 
 import _ from 'lodash'
 
-export class RepositoryMapper {
-  public static toStore(raw: TRawSchemaGithubRepository): TStoreFetcherRepository {
+export class RepositoryMapper implements IRepositoryMapper {
+  constructor() {
+    _.bindAll(this, ['toStore'])
+  }
+
+  public toStore(raw: TRawSchemaGithubRepository): TStoreFetcherRepository {
     return {
       id: raw.id.toString(),
       name: raw.name,

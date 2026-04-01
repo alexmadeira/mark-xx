@@ -1,24 +1,24 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { Requester } from '_SRV/builder/requester'
+import type { IRequester } from '@/interfaces/api'
+import type { ITechnologyMapper } from '@/interfaces/mapper/technology'
 import type { TTechnologiesFetcherProps } from '@/services/fetcher/technologies'
+import type { TStoreFetcherTechnologies } from '@/services/store/fetcher-technologies'
 
 import _ from 'lodash'
-
-import { TechnologyMapper } from '_SRV/mapper/technology-mapper'
-
-import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 
 import { Fetcher } from './fetcher'
 
 export class TechnologiesFetcher extends Fetcher<TTechnologiesFetcherProps> {
-  private readonly fetcherTechnologiesActions = useFetcherTechnologies.getState().actions
-
-  constructor(private readonly api: Requester<typeof markXXPaths>) {
+  constructor(
+    private readonly api: IRequester<typeof markXXPaths>,
+    private readonly mapper: ITechnologyMapper,
+    private readonly fetcherTechnologies: TStoreFetcherTechnologies,
+  ) {
     super()
   }
 
   public async fetch(name: string, options: TTechnologiesFetcherProps = {}) {
-    this.fetcherTechnologiesActions.setStatus('loading')
+    this.fetcherTechnologies.actions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:technologies', ['mark-xx:technologies', name], {
         return: 'all',
@@ -27,12 +27,12 @@ export class TechnologiesFetcher extends Fetcher<TTechnologiesFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.fetcherTechnologiesActions.setList(result.map(TechnologyMapper.toStore))
-      this.fetcherTechnologiesActions.setStatus('loaded')
+      this.fetcherTechnologies.actions.setList(result.map(this.mapper.toStore))
+      this.fetcherTechnologies.actions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.fetcherTechnologiesActions.setStatus('error')
+      this.fetcherTechnologies.actions.setStatus('error')
       throw error
     }
   }

@@ -1,8 +1,9 @@
 import type { TCompanyRaw } from '_TEST/utils/factories/fetcher/make-company-raw'
+import type { ICompanyMapper } from '@/interfaces/mapper/company'
 
 import _ from 'lodash'
 
-export class CompanyMapperMock {
+export class CompanyMapperMock implements ICompanyMapper {
   public readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TCompanyRaw> = {}) {

@@ -1,10 +1,15 @@
+import type { ICompanyMapper } from '@/interfaces/mapper/company'
 import type { TRawSchemaCompany } from '@/services/schema/company'
 import type { TStoreFetcherCompany } from '@/services/store/fetcher-companies'
 
 import { asHTML, isFilled } from '@prismicio/client'
 import _ from 'lodash'
 
-export class CompanyMapper {
+export class CompanyMapper implements ICompanyMapper {
+  constructor() {
+    _.bindAll(this, ['toStore'])
+  }
+
   public toStore(raw: TRawSchemaCompany): TStoreFetcherCompany {
     return {
       id: raw.id,
