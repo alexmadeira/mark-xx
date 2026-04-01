@@ -1,5 +1,5 @@
 import type { githubPaths } from '_CFG/requester/paths/github'
-import type { Requester } from '_SRV/builder/requester'
+import type { IRequester } from '@/interfaces/api'
 import type { IRepositoryMapper } from '@/interfaces/mapper/repository'
 import type { TRepositoriesFetcherProps } from '@/services/fetcher/repositories'
 import type { TStoreFetcherRepositories } from '@/services/store/fetcher-repositories'
@@ -10,7 +10,7 @@ import { Fetcher } from './fetcher'
 
 export class RepositoriesFetcher extends Fetcher<TRepositoriesFetcherProps> {
   constructor(
-    private readonly api: Requester<typeof githubPaths>,
+    private readonly api: IRequester<typeof githubPaths>,
     private readonly mapper: IRepositoryMapper,
     private readonly fetcherRepositories: TStoreFetcherRepositories,
   ) {
