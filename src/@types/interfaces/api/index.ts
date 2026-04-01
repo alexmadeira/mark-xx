@@ -1,3 +1,5 @@
+import type { TRequesterPaths, TRequesterPathSchema, TRequesterQueryProps } from '@/services/builder/requester'
+
 export type TApiGet = <T>(url: string, config?: Record<string, unknown>) => Promise<T>
 export type TApiPut = <T>(url: string, data?: unknown, config?: Record<string, unknown>) => Promise<T>
 export type TApiPost = <T>(url: string, data?: unknown, config?: Record<string, unknown>) => Promise<T>
@@ -10,4 +12,11 @@ export interface IApi {
   post: TApiPost
   patch: TApiPatch
   delete: TApiDelete
+}
+
+export interface IRequester<TPaths extends TRequesterPaths> {
+  query<K extends keyof TPaths>(
+    request: K,
+    ...args: TRequesterQueryProps<TPaths, K>
+  ): Promise<TRequesterPathSchema<TPaths, K>>
 }

@@ -3,8 +3,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import version from 'vite-plugin-package-version'
 import { VitePWA } from 'vite-plugin-pwa'
-
-import { alias } from './vite.alias'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const buildDate = new Date()
   .toISOString()
@@ -13,6 +12,7 @@ const buildDate = new Date()
 
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
     version(),
     tailwindcss(),
     react(),
@@ -72,7 +72,6 @@ export default defineConfig({
       },
     }),
   ],
-  resolve: { alias },
   define: {
     'import.meta.env.BUILD_VERSIO': JSON.stringify(buildDate),
   },

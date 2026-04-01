@@ -5,7 +5,7 @@ import { asHTML, isFilled } from '@prismicio/client'
 import _ from 'lodash'
 
 export class CompanyMapper {
-  public static toStore(raw: TRawSchemaCompany): TStoreFetcherCompany {
+  public toStore(raw: TRawSchemaCompany): TStoreFetcherCompany {
     return {
       id: raw.id,
       slug: raw.uid,

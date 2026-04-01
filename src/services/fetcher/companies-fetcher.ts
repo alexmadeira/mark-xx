@@ -1,24 +1,25 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { Requester } from '_SRV/builder/requester'
+import type { IRequester } from '@/interfaces/api'
 import type { TCompaniesFetcherProps } from '@/services/fetcher/companies'
+import type { TStoreFetcherCompanies } from '@/services/store/fetcher-companies'
 
 import _ from 'lodash'
 
 import { CompanyMapper } from '_SRV/mapper/company-mapper'
 
-import { useFetcherCompanies } from '_STR/useFetcherCompanies'
-
 import { Fetcher } from './fetcher'
 
 export class CompaniesFetcher extends Fetcher<TCompaniesFetcherProps> {
-  private readonly fetcherCompaniesActions = useFetcherCompanies.getState().actions
-
-  constructor(private readonly api: Requester<typeof markXXPaths>) {
+  constructor(
+    private readonly api: IRequester<typeof markXXPaths>,
+    private readonly mapper: CompanyMapper,
+    private readonly fetcherCompanies: TStoreFetcherCompanies,
+  ) {
     super()
   }
 
   public async fetch(name: string, options: TCompaniesFetcherProps = {}) {
-    this.fetcherCompaniesActions.setStatus('loading')
+    this.fetcherCompanies.actions.setStatus('loading')
     try {
       const result = await this.api.query('mark-xx:companies', ['mark-xx:companies', name], {
         return: 'all',
@@ -27,12 +28,12 @@ export class CompaniesFetcher extends Fetcher<TCompaniesFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.fetcherCompaniesActions.setList(result.map(CompanyMapper.toStore))
-      this.fetcherCompaniesActions.setStatus('loaded')
+      this.fetcherCompanies.actions.setList(result.map(this.mapper.toStore))
+      this.fetcherCompanies.actions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.fetcherCompaniesActions.setStatus('error')
+      this.fetcherCompanies.actions.setStatus('error')
       throw error
     }
   }

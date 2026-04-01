@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { AwardType } from '_SRV/parser/award-type'
 
 export class AwardMapper {
-  public static toStore(raw: TRawSchemaAward): TStoreFetcherAward {
+  public toStore(raw: TRawSchemaAward): TStoreFetcherAward {
     return {
       id: raw.id,
       slug: raw.uid,

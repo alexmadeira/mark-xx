@@ -4,7 +4,7 @@ import type { TStoreFetcherNetwork } from '@/services/store/fetcher-networks'
 import _ from 'lodash'
 
 export class NetworkMapper {
-  public static toStore(raw: TRawSchemaNetwork): TStoreFetcherNetwork {
+  public toStore(raw: TRawSchemaNetwork): TStoreFetcherNetwork {
     return {
       id: raw.id,
       tags: raw.tags,
