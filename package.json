@@ -8,9 +8,9 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "preview:build": "pnpm build && pnpm preview",
-    "test": "dotenvx run -f .env -f .env.test --overload -- vitest run --coverage.enabled",
-    "test:unit": "dotenvx run -f .env -f .env.test --overload -- vitest run --dir ./src/__tests__/unit/",
-    "test:unit:watch": "dotenvx run -f .env -f .env.test --overload -- vitest --dir ./src/__tests__/unit/",
+    "test:ui": "dotenvx run -f .env -f .env.test --overload -- vitest --ui",
+    "test:unit": "dotenvx run -f .env -f .env.test --overload -- vitest --dir ./src/__tests__/unit/",
+    "test:coverage": "dotenvx run -f .env -f .env.test --overload -- vitest run --coverage --dir ./src/__tests__/unit/",
     "lint:check": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "prismic:generate-types": "prismic-ts-codegen",
@@ -74,6 +74,7 @@
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
+    "@faker-js/faker": "10.4.0",
     "@prismicio/types": "0.2.9",
     "@types/howler": "2.2.12",
     "@types/lodash": "4.17.20",
@@ -83,6 +84,8 @@
     "@types/react": "19.1.12",
     "@types/react-dom": "19.1.9",
     "@vitejs/plugin-react": "5.0.2",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "4.1.2",
     "@wooden-script/eslint-config": "1.1.3",
     "commitizen": "4.3.1",
     "cz-conventional-changelog": "3.3.0",
@@ -99,6 +102,7 @@
     "typescript-eslint": "^8.43.0",
     "vite": "7.1.5",
     "vite-plugin-pwa": "1.2.0",
+    "vite-tsconfig-paths": "6.1.1",
     "vitest": "3.2.4"
   },
   "pnpm": {

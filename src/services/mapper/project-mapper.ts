@@ -18,6 +18,8 @@ import { imageCloudinary } from '_SRV/lib/image'
 import { CompanyMapper } from './company-mapper'
 import { TechnologyMapper } from './technology-mapper'
 
+const companyMapper = new CompanyMapper()
+
 export class ProjectMapper {
   private static readonly cloudinaryImage = imageCloudinary()
 
@@ -95,7 +97,7 @@ export class ProjectMapper {
       description: _.presentsContent(_.get(raw, 'data.description')),
       technologies: raw.data.technologies.map(TechnologyMapper.toStore),
       thumbnailClass: _.get(raw, 'data.banner_class', ''),
-      company: CompanyMapper.toStore(raw.data.company[0]),
+      company: companyMapper.toStore(raw.data.company[0]),
       banner: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.banner.url')),
       thumbnail: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.thumbnail.url')),
       contents: ProjectMapper.content(raw.data.blocks),

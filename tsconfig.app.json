@@ -6,7 +6,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "types": ["vite-plugin-pwa/react"],
+    "types": ["vite-plugin-pwa/react", "vitest/globals"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -23,6 +23,7 @@
     "paths": {
       "@GAMETypes/*": ["./src/@types/game/*"],
       "@/*": ["./src/@types/*"],
+      "_TEST/*": ["./src/__tests__/*"],
       "_APP/*": ["./src/app/*"],
       "_LAY/*": ["./src/app/layouts/*"],
       "_PAG/*": ["./src/app/pages/*"],
