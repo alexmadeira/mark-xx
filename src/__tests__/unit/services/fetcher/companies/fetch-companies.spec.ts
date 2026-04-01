@@ -30,17 +30,17 @@ describe('Services', () => {
           expect(requesterApi.query).toHaveBeenCalledOnce()
         })
         it('should sets status to `loading` before the api call', async () => {
-          const brandFetche = sut.fetch('companies:loading')
+          const companyFetche = sut.fetch('companies:loading')
 
           expect(companiesStore.actions.setStatus).toHaveBeenCalledWith('loading')
           expect(companiesStore.data.status).toBe('loading')
 
-          await brandFetche
+          await companyFetche
         })
         it('should sets status to `loaded` after success api call', async () => {
-          const brandFetche = sut.fetch('companies:loaded')
+          const companyFetche = sut.fetch('companies:loaded')
           expect(companiesStore.data.status).toBe('loading')
-          await brandFetche
+          await companyFetche
           expect(companiesStore.actions.setStatus).toHaveBeenCalledWith('loaded')
           expect(companiesStore.data.status).toBe('loaded')
         })
@@ -106,16 +106,16 @@ describe('Services', () => {
         })
         it('shouldn`t call setList or CompanyMapper when the api rejects', async () => {
           requesterApi.query.mockRejectedValue(new Error('fail'))
-          const brandFetche = sut.fetch('companies:error')
-          await expect(brandFetche).rejects.toThrowError()
+          const companyFetche = sut.fetch('companies:error')
+          await expect(companyFetche).rejects.toThrowError()
 
           expect(companyMapper.toStoreSpy).not.toHaveBeenCalled()
           expect(companiesStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {
           requesterApi.query.mockRejectedValue(new Error('network failure'))
-          const brandFetche = sut.fetch('companies:error')
-          await expect(brandFetche).rejects.toThrow('network failure')
+          const companyFetche = sut.fetch('companies:error')
+          await expect(companyFetche).rejects.toThrow('network failure')
 
           expect(companiesStore.actions.setStatus).toHaveBeenCalledWith('error')
           expect(companiesStore.data.status).toBe('error')
