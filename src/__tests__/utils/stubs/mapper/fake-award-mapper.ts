@@ -1,10 +1,11 @@
 import type { TAwardRaw } from '_TEST/utils/factories/fetcher/make-award-raw'
+import type { IAwardMapper } from '@/interfaces/mapper/award'
 
 import _ from 'lodash'
 
 import { AwardType } from '_SRV/parser/award-type'
 
-export class AwardMapperMock {
+export class AwardMapperMock implements IAwardMapper {
   public readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TAwardRaw> = {}) {

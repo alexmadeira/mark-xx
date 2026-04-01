@@ -1,18 +1,17 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
 import type { IRequester } from '@/interfaces/api'
+import type { INetworkMapper } from '@/interfaces/mapper/network'
 import type { TNetworksFetcherProps } from '@/services/fetcher/networks'
 import type { TStoreFetcherNetworks } from '@/services/store/fetcher-networks'
 
 import _ from 'lodash'
-
-import { NetworkMapper } from '_SRV/mapper/network-mapper'
 
 import { Fetcher } from './fetcher'
 
 export class NetworksFetcher extends Fetcher<TNetworksFetcherProps> {
   constructor(
     private readonly api: IRequester<typeof markXXPaths>,
-    private readonly mapper: NetworkMapper,
+    private readonly mapper: INetworkMapper,
     private readonly fetcherNetworks: TStoreFetcherNetworks,
   ) {
     super()

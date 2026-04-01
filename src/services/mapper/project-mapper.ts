@@ -1,4 +1,7 @@
+import type { IProjectMapper } from '@/interfaces/mapper/project'
+import type { ITechnologyMapper } from '@/interfaces/mapper/technology'
 import type { TMasonryContent } from '@/services/builder/masonry'
+import type { IResize } from '@/services/lib/image/resize'
 import type {
   TRawSchemaProject,
   TRawSchemaProjectContentFullImage,
@@ -13,28 +16,27 @@ import type { TStoreFetcherProject } from '@/services/store/fetcher-projects'
 import { asHTML } from '@prismicio/client'
 import _ from 'lodash'
 
-import { imageCloudinary } from '_SRV/lib/image'
-
 import { CompanyMapper } from './company-mapper'
-import { TechnologyMapper } from './technology-mapper'
 
-const companyMapper = new CompanyMapper()
+export class ProjectMapper implements IProjectMapper {
+  constructor(
+    private readonly image: IResize,
+    private readonly technologyMapper: ITechnologyMapper,
+    private readonly companyMapper: CompanyMapper,
+  ) {
+    _.bindAll(this, ['toStore', 'toMasonry'])
+  }
 
-export class ProjectMapper {
-  private static readonly cloudinaryImage = imageCloudinary()
-
-  protected constructor() {}
-
-  private static contentFullImage(raw: TRawSchemaProjectContentFullImage): TSchemaProjectContentFullImage {
+  private contentFullImage(raw: TRawSchemaProjectContentFullImage): TSchemaProjectContentFullImage {
     return {
       type: 'full_image',
-      url: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'primary.image.url')),
+      url: this.image.resize(_.get(raw, 'primary.image.url')),
       size: raw.primary.size || 'full',
       color: _.get(raw, 'primary.color', '#FFFFFF'),
     }
   }
 
-  private static contentImageGrid(raw: TRawSchemaProjectContentImagemGrid): TSchemaProjectContentImageGrid {
+  private contentImageGrid(raw: TRawSchemaProjectContentImagemGrid): TSchemaProjectContentImageGrid {
     return {
       type: 'image_grid',
       gap: _.get(raw, 'primary.grid_image_gap', true),
@@ -42,7 +44,7 @@ export class ProjectMapper {
       hoverStyle: raw.primary.grid_image_hover_style,
       images: _.map(raw.items, (image) => ({
         id: _.get(image, 'grid_image_url.key', ''),
-        url: ProjectMapper.cloudinaryImage.resize(_.get(image, 'grid_image_url.url')),
+        url: this.image.resize(_.get(image, 'grid_image_url.url')),
         name: _.toString(_.get(image, 'grid_image_name', '')),
         color: _.toString(_.get(image, 'grid_image_color', '#000000')),
         rows: _.toNumber(_.get(image, 'grid_image_rows', 1)),
@@ -51,14 +53,14 @@ export class ProjectMapper {
     }
   }
 
-  private static content(raw: TRawSchemaProjectContents[]): TSchemaProjectContents {
+  private content(raw: TRawSchemaProjectContents[]): TSchemaProjectContents {
     return _.fromPairs(
       raw.map((slice) => {
         switch (slice.slice_type) {
           case 'bloco_full_image':
-            return [slice.id, ProjectMapper.contentFullImage(slice)]
+            return [slice.id, this.contentFullImage(slice)]
           case 'bloco_imagem_grid':
-            return [slice.id, ProjectMapper.contentImageGrid(slice)]
+            return [slice.id, this.contentImageGrid(slice)]
           default:
             throw new Error(`Unknown project content slice type`)
         }
@@ -66,7 +68,7 @@ export class ProjectMapper {
     )
   }
 
-  public static toMasonry(raw: TStoreFetcherProject): TMasonryContent<TStoreFetcherProject> {
+  public toMasonry(raw: TStoreFetcherProject): TMasonryContent<TStoreFetcherProject> {
     return {
       className: raw.thumbnailClass,
       link: `/project/${raw.slug}`,
@@ -75,7 +77,7 @@ export class ProjectMapper {
     }
   }
 
-  public static toStore(raw: TRawSchemaProject): TStoreFetcherProject {
+  public toStore(raw: TRawSchemaProject): TStoreFetcherProject {
     if (!raw.data.company.length) throw new Error(`Project ${raw.id} has no company associated.`)
 
     return {
@@ -86,7 +88,7 @@ export class ProjectMapper {
       date: new Date(_.get(raw, 'data.date', '')),
       name: _.presentsContent(_.get(raw, 'data.name')),
       role: _.get(raw, 'data.role', ''),
-      logo: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.logo.url')),
+      logo: this.image.resize(_.get(raw, 'data.logo.url')),
       content: _.presentsContent(asHTML(_.get(raw, 'data.content'))),
       teamSize: _.get(raw, 'data.team_size', ''),
       logoColor: _.get(raw, 'data.logo_color', '#000000'),
@@ -95,12 +97,12 @@ export class ProjectMapper {
       bannerName: _.get(raw, 'data.banner_name', ''),
       bannerClass: _.get(raw, 'data.banner_class', ''),
       description: _.presentsContent(_.get(raw, 'data.description')),
-      technologies: raw.data.technologies.map(TechnologyMapper.toStore),
+      technologies: raw.data.technologies.map(this.technologyMapper.toStore),
       thumbnailClass: _.get(raw, 'data.banner_class', ''),
-      company: companyMapper.toStore(raw.data.company[0]),
-      banner: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.banner.url')),
-      thumbnail: ProjectMapper.cloudinaryImage.resize(_.get(raw, 'data.thumbnail.url')),
-      contents: ProjectMapper.content(raw.data.blocks),
+      company: this.companyMapper.toStore(raw.data.company[0]),
+      banner: this.image.resize(_.get(raw, 'data.banner.url')),
+      thumbnail: this.image.resize(_.get(raw, 'data.thumbnail.url')),
+      contents: this.content(raw.data.blocks),
       timeline: {
         end: new Date(_.get(raw, 'data.end_date', '')),
         start: new Date(_.get(raw, 'data.start_date', '')),

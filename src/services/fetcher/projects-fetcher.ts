@@ -1,19 +1,19 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { Requester } from '_SRV/builder/requester'
+import type { IRequester } from '@/interfaces/api'
+import type { IProjectMapper } from '@/interfaces/mapper/project'
 import type { TProjectsFetcherProps } from '@/services/fetcher/projects'
+import type { TStoreFetcherProjects } from '@/services/store/fetcher-projects'
 
 import _ from 'lodash'
-
-import { ProjectMapper } from '_SRV/mapper/project-mapper'
-
-import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 import { Fetcher } from './fetcher'
 
 export class ProjectsFetcher extends Fetcher<TProjectsFetcherProps> {
-  private readonly fetcherProjectsActions = useFetcherProjects.getState().actions
-
-  constructor(private readonly api: Requester<typeof markXXPaths>) {
+  constructor(
+    private readonly api: IRequester<typeof markXXPaths>,
+    private readonly mapper: IProjectMapper,
+    private readonly fetcherProjects: TStoreFetcherProjects,
+  ) {
     super()
   }
 
@@ -29,7 +29,7 @@ export class ProjectsFetcher extends Fetcher<TProjectsFetcherProps> {
       },
     )
 
-    this.fetcherProjectsActions.setList(name, result.map(ProjectMapper.toStore))
+    this.fetcherProjects.actions.setList(name, result.map(this.mapper.toStore))
 
     if (options.callback) options.callback()
   }

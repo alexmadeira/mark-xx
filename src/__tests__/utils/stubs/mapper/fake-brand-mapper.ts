@@ -1,8 +1,9 @@
 import type { TBrandRaw } from '_TEST/utils/factories/fetcher/make-brand-raw'
+import type { IBrandMapper } from '@/interfaces/mapper/brand'
 
 import _ from 'lodash'
 
-export class BrandMapperMock {
+export class BrandMapperMock implements IBrandMapper {
   public readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TBrandRaw> = {}) {

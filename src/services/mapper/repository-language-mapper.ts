@@ -1,14 +1,19 @@
+import type { IRepositoryLanguageMapper } from '@/interfaces/mapper/repository-language'
 import type { TRawSchemaGithubRepositoryLanguages } from '@/services/schema/github-repository-language'
 import type { TStoreFetcherRepositoryLanguage } from '@/services/store/fetcher-repository-languages'
 
 import _ from 'lodash'
 
-export class RepositoryLanguageMapper {
-  public static toStore(
+export class RepositoryLanguageMapper implements IRepositoryLanguageMapper {
+  constructor() {
+    _.bindAll(this, ['toStore', 'assignPackages'])
+  }
+
+  public toStore(
     raw: TRawSchemaGithubRepositoryLanguages,
     libraries: Record<string, string>,
   ): TStoreFetcherRepositoryLanguage[] {
-    const withLibraries = RepositoryLanguageMapper.assignPackages(raw, libraries)
+    const withLibraries = this.assignPackages(raw, libraries)
     return _.chain(withLibraries)
       .map((libs, language) => {
         const libList = _.map(libs, (usage, libName) => ({ id: _.toLower(libName), name: libName, usage }))
@@ -22,7 +27,7 @@ export class RepositoryLanguageMapper {
       .value()
   }
 
-  public static assignPackages(
+  public assignPackages(
     raw: TRawSchemaGithubRepositoryLanguages,
     packages: Record<string, string>,
   ): Record<string, Record<string, number>> {

@@ -30,17 +30,17 @@ describe('Services', () => {
           expect(requesterApi.query).toHaveBeenCalledOnce()
         })
         it('should sets status to `loading` before the api call', async () => {
-          const brandFetche = sut.fetch('networks:loading')
+          const networkFetche = sut.fetch('networks:loading')
 
           expect(networksStore.actions.setStatus).toHaveBeenCalledWith('loading')
           expect(networksStore.data.status).toBe('loading')
 
-          await brandFetche
+          await networkFetche
         })
         it('should sets status to `loaded` after success api call', async () => {
-          const brandFetche = sut.fetch('networks:loaded')
+          const networkFetche = sut.fetch('networks:loaded')
           expect(networksStore.data.status).toBe('loading')
-          await brandFetche
+          await networkFetche
           expect(networksStore.actions.setStatus).toHaveBeenCalledWith('loaded')
           expect(networksStore.data.status).toBe('loaded')
         })
@@ -99,16 +99,16 @@ describe('Services', () => {
         })
         it('shouldn`t call setList or NetworkMapper when the api rejects', async () => {
           requesterApi.query.mockRejectedValue(new Error('fail'))
-          const brandFetche = sut.fetch('networks:error')
-          await expect(brandFetche).rejects.toThrowError()
+          const networkFetche = sut.fetch('networks:error')
+          await expect(networkFetche).rejects.toThrowError()
 
           expect(networkMapper.toStoreSpy).not.toHaveBeenCalled()
           expect(networksStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {
           requesterApi.query.mockRejectedValue(new Error('network failure'))
-          const brandFetche = sut.fetch('networks:error')
-          await expect(brandFetche).rejects.toThrow('network failure')
+          const networkFetche = sut.fetch('networks:error')
+          await expect(networkFetche).rejects.toThrow('network failure')
 
           expect(networksStore.actions.setStatus).toHaveBeenCalledWith('error')
           expect(networksStore.data.status).toBe('error')

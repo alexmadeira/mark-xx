@@ -1,6 +1,6 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { AwardMapper } from '_SRV/mapper/award-mapper'
 import type { IRequester } from '@/interfaces/api'
+import type { IAwardMapper } from '@/interfaces/mapper/award'
 import type { TAwardsFetcherProps } from '@/services/fetcher/awards'
 import type { TStoreFetcherAwards } from '@/services/store/fetcher-awards'
 
@@ -11,7 +11,7 @@ import { Fetcher } from './fetcher'
 export class AwardsFetcher extends Fetcher<TAwardsFetcherProps> {
   constructor(
     private readonly api: IRequester<typeof markXXPaths>,
-    private readonly mapper: AwardMapper,
+    private readonly mapper: IAwardMapper,
     private readonly fetcherAwards: TStoreFetcherAwards,
   ) {
     super()

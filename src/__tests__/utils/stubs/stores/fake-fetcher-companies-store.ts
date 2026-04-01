@@ -21,8 +21,8 @@ export class FakeFetcherCompaniesStore {
     this.data.status = status
   }
 
-  private setList(brands: TStoreFetcherCompany[]) {
-    this.data.list = [...this.data.list, ...brands]
+  private setList(companies: TStoreFetcherCompany[]) {
+    this.data.list = [...this.data.list, ...companies]
   }
 
   public get actions() {

@@ -1,21 +1,21 @@
 import type { githubPaths } from '_CFG/requester/paths/github'
 import type { Requester } from '_SRV/builder/requester'
+import type { IRepositoryLanguageMapper } from '@/interfaces/mapper/repository-language'
 import type { TLanguagesFetcherProps } from '@/services/fetcher/languages'
+import type { TStoreFetcherRepositoryLanguages } from '@/services/store/fetcher-repository-languages'
 
 import _ from 'lodash'
-
-import { RepositoryLanguageMapper } from '_SRV/mapper/repository-language-mapper'
-
-import { useFetcherRepositoryLanguages } from '_STR/useFetcherRepositoryLanguages'
 
 import { env } from '~/env'
 
 import { Fetcher } from './fetcher'
 
 export class RepositoryLanguagesFetcher extends Fetcher<TLanguagesFetcherProps> {
-  private readonly fetcherRepositoryLanguagesActions = useFetcherRepositoryLanguages.getState().actions
-
-  constructor(private readonly api: Requester<typeof githubPaths>) {
+  constructor(
+    private readonly api: Requester<typeof githubPaths>,
+    private readonly mapper: IRepositoryLanguageMapper,
+    private readonly fetcherRepositoryLanguages: TStoreFetcherRepositoryLanguages,
+  ) {
     super()
   }
 
@@ -54,8 +54,8 @@ export class RepositoryLanguagesFetcher extends Fetcher<TLanguagesFetcherProps> 
   }
 
   public async fetch(name: string, options: TLanguagesFetcherProps) {
-    this.fetcherRepositoryLanguagesActions.setStatus('loading')
-    if (!this.isEnabledRepo(options)) return this.fetcherRepositoryLanguagesActions.setStatus('loaded')
+    this.fetcherRepositoryLanguages.actions.setStatus('loading')
+    if (!this.isEnabledRepo(options)) return this.fetcherRepositoryLanguages.actions.setStatus('loaded')
 
     try {
       const [result, packages] = await Promise.all([
@@ -63,16 +63,13 @@ export class RepositoryLanguagesFetcher extends Fetcher<TLanguagesFetcherProps> 
         this.fetchPackages(name, options),
       ])
 
-      this.fetcherRepositoryLanguagesActions.setList(
-        options.params.name,
-        RepositoryLanguageMapper.toStore(result, packages),
-      )
+      this.fetcherRepositoryLanguages.actions.setList(options.params.name, this.mapper.toStore(result, packages))
 
-      this.fetcherRepositoryLanguagesActions.setStatus('loaded')
+      this.fetcherRepositoryLanguages.actions.setStatus('loaded')
 
       if (options.callback) options.callback()
     } catch (error) {
-      this.fetcherRepositoryLanguagesActions.setStatus('error')
+      this.fetcherRepositoryLanguages.actions.setStatus('error')
       throw error
     }
   }

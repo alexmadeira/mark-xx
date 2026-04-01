@@ -1,9 +1,14 @@
+import type { INetworkMapper } from '@/interfaces/mapper/network'
 import type { TRawSchemaNetwork } from '@/services/schema/network'
 import type { TStoreFetcherNetwork } from '@/services/store/fetcher-networks'
 
 import _ from 'lodash'
 
-export class NetworkMapper {
+export class NetworkMapper implements INetworkMapper {
+  constructor() {
+    _.bindAll(this, ['toStore'])
+  }
+
   public toStore(raw: TRawSchemaNetwork): TStoreFetcherNetwork {
     return {
       id: raw.id,
