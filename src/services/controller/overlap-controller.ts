@@ -16,16 +16,25 @@ export class OverlapController {
   private readonly elementList = new Map<HTMLElement, TOverlapElementOption>()
 
   constructor() {
-    this.reset = this.reset.bind(this)
-    this.setTarget = this.setTarget.bind(this)
-    this.addElement = this.addElement.bind(this)
-    this.removeTarget = this.removeTarget.bind(this)
-    this.removeElement = this.removeElement.bind(this)
+    _.bindAll(this, [
+      'reset',
+      'setTarget',
+      'addElement',
+      'removeTarget',
+      'removeElement',
+      'checkCollision',
+      'collisionMonitor',
+    ])
 
-    requestAnimationFrame(this.checkCollision.bind(this))
+    requestAnimationFrame(this.collisionMonitor)
   }
 
-  private checkCollision() {
+  private collisionMonitor() {
+    this.checkCollision()
+    requestAnimationFrame(this.collisionMonitor)
+  }
+
+  public checkCollision() {
     for (const [name, target] of this.targetMap.entries()) {
       let collisionOptions = null
 
@@ -44,7 +53,6 @@ export class OverlapController {
 
       this.actions.setCollision(name, collisionOptions)
     }
-    requestAnimationFrame(this.checkCollision.bind(this))
   }
 
   public reset() {
@@ -64,7 +72,7 @@ export class OverlapController {
   }
 
   public addElement(...[element, option]: TOverlapAddElementProps) {
-    if (!element) return this
+    if (!element) return
     this.elementList.set(element, option)
   }
 
@@ -75,5 +83,9 @@ export class OverlapController {
 
   public get targets() {
     return this.targetMap
+  }
+
+  public get elements() {
+    return this.elementList
   }
 }

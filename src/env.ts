@@ -45,7 +45,7 @@ export const ZEnvClient = ZEnvGlobal.extend({
 
   BASE_URL: z.string(),
   DEV: z.coerce.boolean(),
-  MODE: z.enum(['development', 'production']),
+  MODE: z.enum(['development', 'production', 'test']),
   PROD: z.coerce.boolean(),
   SSR: z.coerce.boolean(),
 })
