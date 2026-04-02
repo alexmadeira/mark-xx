@@ -26,6 +26,7 @@ export class LoaderBuilder implements ILoader {
   ) {
     this.listeners = {
       'Loader:Finished': new Set(),
+      'Loader:OnceFinished': new Set(),
     }
 
     _.bindAll(this, ['startLoading', 'checkAutoLoad', 'updateLoading', 'finishCheck', 'finish'])
@@ -88,6 +89,7 @@ export class LoaderBuilder implements ILoader {
   private finish() {
     this.updateLoaderStatus('finished')
 
+    if (this.once && !useLoader.getState().data.once) this.notifyListeners('Loader:OnceFinished')
     if (this.once) this.loaderActions.onceFinished()
 
     this.notifyListeners('Loader:Finished')
