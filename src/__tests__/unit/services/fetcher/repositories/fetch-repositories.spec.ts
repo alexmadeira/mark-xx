@@ -83,7 +83,7 @@ describe('Services', () => {
           )
         })
         it('should be able maps results through RepositoryMapper and commits to the store', async () => {
-          requesterApi.query.mockResolvedValue([
+          requesterApi.query.mockResolvedValueOnce([
             makeRepositoryRaw({
               name: 'Repository 01',
               size: 2450,

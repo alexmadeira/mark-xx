@@ -1,5 +1,5 @@
 import type { githubPaths } from '_CFG/requester/paths/github'
-import type { Requester } from '_SRV/builder/requester'
+import type { IRequester } from '@/interfaces/api'
 import type { IRepositoryLanguageMapper } from '@/interfaces/mapper/repository-language'
 import type { TLanguagesFetcherProps } from '@/services/fetcher/languages'
 import type { TStoreFetcherRepositoryLanguages } from '@/services/store/fetcher-repository-languages'
@@ -12,7 +12,7 @@ import { Fetcher } from './fetcher'
 
 export class RepositoryLanguagesFetcher extends Fetcher<TLanguagesFetcherProps> {
   constructor(
-    private readonly api: Requester<typeof githubPaths>,
+    private readonly api: IRequester<typeof githubPaths>,
     private readonly mapper: IRepositoryLanguageMapper,
     private readonly fetcherRepositoryLanguages: TStoreFetcherRepositoryLanguages,
   ) {
