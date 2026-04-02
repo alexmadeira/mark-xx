@@ -1,28 +1,29 @@
 import type { markXXPaths } from '_CFG/requester/paths/mark-xx'
-import type { Requester } from '_SRV/builder/requester'
+import type { IRequester } from '@/interfaces/api'
+import type { IPageMapper } from '@/interfaces/mapper/page'
+import type { IProjectMapper } from '@/interfaces/mapper/project'
 import type { TProjectFetcherProps } from '@/services/fetcher/project'
+import type { TStoreFetcherProjects } from '@/services/store/fetcher-projects'
+import type { TStorePageConfigs } from '@/services/store/page-configs'
 
 import _ from 'lodash'
-
-import { PageMapper } from '_SRV/mapper/page-mapper'
-import { ProjectMapper } from '_SRV/mapper/project-mapper'
-
-import { useFetcherProjects } from '_STR/useFetcherProjects'
-import { usePageConfigs } from '_STR/usePageConfigs'
 
 import { Fetcher } from './fetcher'
 
 export class ProjectFetcher extends Fetcher<TProjectFetcherProps> {
-  private readonly fetcherProjectActions = useFetcherProjects.getState().actions
-  private readonly pageConfigsActions = usePageConfigs.getState().actions
-
-  constructor(private readonly api: Requester<typeof markXXPaths>) {
+  constructor(
+    private readonly api: IRequester<typeof markXXPaths>,
+    private readonly mapper: IProjectMapper,
+    private readonly pageMapper: IPageMapper,
+    private readonly fetcherProject: TStoreFetcherProjects,
+    private readonly pageConfigs: TStorePageConfigs,
+  ) {
     super()
   }
 
   public async fetch(slug: string, options: TProjectFetcherProps = {}) {
     try {
-      this.fetcherProjectActions.setProjectPageStatus(slug, 'loading')
+      this.fetcherProject.actions.setProjectPageStatus(slug, 'loading')
 
       const result = await this.api.query('mark-xx:project', ['mark-xx:project', slug], {
         type: 'project',
@@ -32,11 +33,11 @@ export class ProjectFetcher extends Fetcher<TProjectFetcherProps> {
         fields: options.filter?.fields,
       })
 
-      this.pageConfigsActions.setPageConfig(PageMapper.config(result.data.body))
-      this.fetcherProjectActions.setProjectPage(slug, ProjectMapper.toStore(result))
-      this.fetcherProjectActions.setProjectPageStatus(slug, 'loaded')
+      this.pageConfigs.actions.setPageConfig(this.pageMapper.config(result.data.body))
+      this.fetcherProject.actions.setProjectPage(slug, this.mapper.toStore(result))
+      this.fetcherProject.actions.setProjectPageStatus(slug, 'loaded')
     } catch (error) {
-      this.fetcherProjectActions.setProjectPageStatus(slug, 'error')
+      this.fetcherProject.actions.setProjectPageStatus(slug, 'error')
       throw error
     }
   }

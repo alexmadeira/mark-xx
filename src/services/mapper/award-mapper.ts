@@ -1,3 +1,4 @@
+import type { IAwardMapper } from '@/interfaces/mapper/award'
 import type { TRawSchemaAward } from '@/services/schema/award'
 import type { TStoreFetcherAward } from '@/services/store/fetcher-awards'
 
@@ -5,8 +6,12 @@ import _ from 'lodash'
 
 import { AwardType } from '_SRV/parser/award-type'
 
-export class AwardMapper {
-  public static toStore(raw: TRawSchemaAward): TStoreFetcherAward {
+export class AwardMapper implements IAwardMapper {
+  constructor() {
+    _.bindAll(this, ['toStore'])
+  }
+
+  public toStore(raw: TRawSchemaAward): TStoreFetcherAward {
     return {
       id: raw.id,
       slug: raw.uid,

@@ -1,10 +1,15 @@
+import type { IBrandMapper } from '@/interfaces/mapper/brand'
 import type { TRawSchemaBrand } from '@/services/schema/brand'
 import type { TStoreFetcherBrand } from '@/services/store/fetcher-brands'
 
 import _ from 'lodash'
 
-export class BrandMapper {
-  public static toStore(raw: TRawSchemaBrand): TStoreFetcherBrand {
+export class BrandMapper implements IBrandMapper {
+  constructor() {
+    _.bindAll(this, ['toStore'])
+  }
+
+  public toStore(raw: TRawSchemaBrand): TStoreFetcherBrand {
     return {
       id: raw.id,
       slug: raw.uid,
