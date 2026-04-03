@@ -1,0 +1,137 @@
+diff --git a/src/__tests__/unit/services/fetcher/project/fetch-project.spec.ts b/src/__tests__/unit/services/fetcher/project/fetch-project.spec.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d1b8ae0cfabc743a2a5ad896a84ec271a4670cbc
+--- /dev/null
++++ b/src/__tests__/unit/services/fetcher/project/fetch-project.spec.ts
+@@ -0,0 +1,131 @@
++import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
++
++import { makeProjectRaw } from '_TEST/utils/factories/fetcher/make-project-raw'
++import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
++import { PageMapperMock } from '_TEST/utils/stubs/mapper/fake-page-mapper'
++import { ProjectMapperMock } from '_TEST/utils/stubs/mapper/fake-project-mapper'
++import { FakeFetcherProjectsStore } from '_TEST/utils/stubs/stores/fake-fetcher-projects-store'
++import { FakePageConfigsStore } from '_TEST/utils/stubs/stores/fake-page-configs-store'
++
++import { ProjectFetcher } from '_SRV/fetcher/project-fetcher'
++
++let projectMapper: ProjectMapperMock
++let pageMapper: PageMapperMock
++let fetcherProjectsStore: FakeFetcherProjectsStore
++let pageConfigsStore: FakePageConfigsStore
++let requesterApi: TFakeRequesterApi
++let sut: ProjectFetcher
++
++describe('Services', () => {
++  beforeEach(() => {
++    fetcherProjectsStore = new FakeFetcherProjectsStore()
++    pageConfigsStore = new FakePageConfigsStore()
++    projectMapper = new ProjectMapperMock()
++    pageMapper = new PageMapperMock()
++    requesterApi = fakeRequesterApi()
++
++    requesterApi.query.mockResolvedValue(makeProjectRaw())
++    sut = new ProjectFetcher(requesterApi, projectMapper, pageMapper, fetcherProjectsStore, pageConfigsStore)
++  })
++
++  describe('Fetcher', () => {
++    describe('Project', () => {
++      describe('Fetch', () => {
++        it('should be able', async () => {
++          await sut.fetch('project-slug')
++          expect(requesterApi.query).toHaveBeenCalledOnce()
++        })
++        it('should sets project status to `loading` before the api call', async () => {
++          const projectFetche = sut.fetch('project-loading')
++
++          expect(fetcherProjectsStore.actions.setProjectPageStatus).toHaveBeenCalledWith('project-loading', 'loading')
++          expect(fetcherProjectsStore.data.pages['project-loading']?.status).toBe('loading')
++
++          await projectFetche
++        })
++        it('should sets project status to `loaded` after success api call', async () => {
++          const projectFetche = sut.fetch('project-loaded')
++          expect(fetcherProjectsStore.data.pages['project-loaded']?.status).toBe('loading')
++          await projectFetche
++          expect(fetcherProjectsStore.actions.setProjectPageStatus).toHaveBeenCalledWith('project-loaded', 'loaded')
++          expect(fetcherProjectsStore.data.pages['project-loaded']?.status).toBe('loaded')
++        })
++        it('should queries the api with the correct key and payload', async () => {
++          await sut.fetch('project-key-type')
++          expect(requesterApi.query).toHaveBeenCalledWith(
++            'mark-xx:project',
++            ['mark-xx:project', 'project-key-type'],
++            expect.objectContaining({ type: 'project', return: 'one', uid: 'project-key-type' }),
++          )
++        })
++        it('should passes tags and fields filters through to the api query', async () => {
++          await sut.fetch('project-filters', {
++            filter: {
++              tags: ['featured'],
++              fields: { title: 'data.name' },
++            },
++          })
++
++          expect(requesterApi.query).toHaveBeenCalledWith(
++            'mark-xx:project',
++            expect.any(Array),
++            expect.objectContaining({
++              tags: ['featured'],
++              fields: { title: 'data.name' },
++            }),
++          )
++        })
++        it('should maps project and page config then commits to stores', async () => {
++          requesterApi.query.mockResolvedValueOnce(
++            makeProjectRaw({
++              id: 'project-id-01',
++              uid: 'project-01',
++              data: {
++                body: [
++                  {
++                    slice_type: 'page_config',
++                    primary: {
++                      seo_url: '/project/project-01',
++                    },
++                  },
++                ],
++              },
++            }),
++          )
++
++          await sut.fetch('project-01')
++
++          expect(projectMapper.toStoreSpy).toHaveBeenCalledOnce()
++          expect(pageMapper.configSpy).toHaveBeenCalledOnce()
++          expect(fetcherProjectsStore.actions.setProjectPage).toHaveBeenCalledOnce()
++          expect(pageConfigsStore.actions.setPageConfig).toHaveBeenCalledOnce()
++
++          expect(fetcherProjectsStore.data.pages['project-01']?.id).toBe('project-id-01')
++          expect(fetcherProjectsStore.data.pages['project-01']?.slug).toBe('project-01')
++          expect(pageConfigsStore.data.list['/project/test']?.canonical).toBe('https://example.com/project/test')
++        })
++        it('shouldn`t call store mutations or mappers when the api rejects', async () => {
++          requesterApi.query.mockRejectedValue(new Error('fail'))
++          const projectFetche = sut.fetch('project-error')
++          await expect(projectFetche).rejects.toThrowError()
++
++          expect(projectMapper.toStoreSpy).not.toHaveBeenCalled()
++          expect(pageMapper.configSpy).not.toHaveBeenCalled()
++          expect(fetcherProjectsStore.actions.setProjectPage).not.toHaveBeenCalled()
++          expect(pageConfigsStore.actions.setPageConfig).not.toHaveBeenCalled()
++        })
++        it('should sets status to `error` and re-throws when the api rejects ', async () => {
++          requesterApi.query.mockRejectedValue(new Error('network failure'))
++          const projectFetche = sut.fetch('project-network-error')
++          await expect(projectFetche).rejects.toThrow('network failure')
++
++          expect(fetcherProjectsStore.actions.setProjectPageStatus).toHaveBeenCalledWith(
++            'project-network-error',
++            'error',
++          )
++          expect(fetcherProjectsStore.data.pages['project-network-error']?.status).toBe('error')
++        })
++      })
++    })
++  })
++})
