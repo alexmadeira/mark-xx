@@ -36,6 +36,8 @@ export class ProjectFetcher extends Fetcher<TProjectFetcherProps> {
       this.pageConfigs.actions.setPageConfig(this.pageMapper.config(result.data.body))
       this.fetcherProject.actions.setProjectPage(slug, this.mapper.toStore(result))
       this.fetcherProject.actions.setProjectPageStatus(slug, 'loaded')
+
+      if (options.callback) options.callback()
     } catch (error) {
       this.fetcherProject.actions.setProjectPageStatus(slug, 'error')
       throw error

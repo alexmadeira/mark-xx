@@ -17,6 +17,7 @@ export type TProjectRaw = {
     team_size: string
     highlight: boolean
     tags: string[]
+    body: unknown[]
   }
 }
 
@@ -34,6 +35,7 @@ export function makeProjectRaw(overrides: TDeepPartial<TProjectRaw> = {}) {
         team_size: String(faker.number.int({ min: 1, max: 15 })),
         highlight: faker.datatype.boolean(),
         tags: [faker.hacker.noun(), faker.hacker.verb()],
+        body: [],
       },
     },
     overrides,
