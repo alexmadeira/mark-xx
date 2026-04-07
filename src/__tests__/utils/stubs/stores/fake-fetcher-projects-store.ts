@@ -1,5 +1,7 @@
 import type { TStoreFetcherProject, TStoreFetcherProjectsData } from '@/services/store/fetcher-projects'
 
+import _ from 'lodash'
+
 export class FakeFetcherProjectsStore {
   public readonly data: TStoreFetcherProjectsData
 
@@ -27,8 +29,8 @@ export class FakeFetcherProjectsStore {
   }
 
   private setProjectPageStatus(slug: string, status: TStoreFetcherProject['status']) {
-    if (!this.data.pages[slug]) return
-    this.data.pages[slug].status = status
+    if (this.data.pages[slug]?.status === 'loaded') return
+    _.set(this.data.pages, [slug, 'status'], status)
   }
 
   public get actions() {
