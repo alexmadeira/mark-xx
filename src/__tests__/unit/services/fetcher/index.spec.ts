@@ -1,0 +1,263 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+const preFetcherInstance = { service: 'pre-fetcher' }
+const projectsFetcherInstance = { service: 'projects-fetcher' }
+const awardsFetcherInstance = { service: 'awards-fetcher' }
+const networksFetcherInstance = { service: 'networks-fetcher' }
+const brandsFetcherInstance = { service: 'brands-fetcher' }
+const technologiesFetcherInstance = { service: 'technologies-fetcher' }
+const companiesFetcherInstance = { service: 'companies-fetcher' }
+const pageFetcherInstance = { service: 'page-fetcher' }
+const projectFetcherInstance = { service: 'project-fetcher' }
+const repositoriesFetcherInstance = { service: 'repositories-fetcher' }
+const repositoryLanguagesFetcherInstance = { service: 'repository-languages-fetcher' }
+
+const preFetcherConstructor = vi.fn(() => preFetcherInstance)
+const projectsFetcherConstructor = vi.fn(() => projectsFetcherInstance)
+const awardsFetcherConstructor = vi.fn(() => awardsFetcherInstance)
+const networksFetcherConstructor = vi.fn(() => networksFetcherInstance)
+const brandsFetcherConstructor = vi.fn(() => brandsFetcherInstance)
+const technologiesFetcherConstructor = vi.fn(() => technologiesFetcherInstance)
+const companiesFetcherConstructor = vi.fn(() => companiesFetcherInstance)
+const pageFetcherConstructor = vi.fn(() => pageFetcherInstance)
+const projectFetcherConstructor = vi.fn(() => projectFetcherInstance)
+const repositoriesFetcherConstructor = vi.fn(() => repositoriesFetcherInstance)
+const repositoryLanguagesFetcherConstructor = vi.fn(() => repositoryLanguagesFetcherInstance)
+
+const prismicClient = { client: 'prismic' }
+const githubClient = { client: 'github' }
+
+const prismicMock = vi.fn(() => prismicClient)
+const githubMock = vi.fn(() => githubClient)
+
+const mapperAwardMock = vi.fn(() => ({ mapper: 'award' }))
+const mapperBrandMock = vi.fn(() => ({ mapper: 'brand' }))
+const mapperCompanyMock = vi.fn(() => ({ mapper: 'company' }))
+const mapperNetworkMock = vi.fn(() => ({ mapper: 'network' }))
+const mapperPageMock = vi.fn(() => ({ mapper: 'page' }))
+const mapperProjectMock = vi.fn(() => ({ mapper: 'project' }))
+const mapperRepositoryMock = vi.fn(() => ({ mapper: 'repository' }))
+const mapperRepositoryLanguageMock = vi.fn(() => ({ mapper: 'repository-language' }))
+const mapperTechnologyMock = vi.fn(() => ({ mapper: 'technology' }))
+
+const fetcherAwardsState = { state: 'awards' }
+const fetcherBrandsState = { state: 'brands' }
+const fetcherCompaniesState = { state: 'companies' }
+const fetcherNetworksState = { state: 'networks' }
+const fetcherPagesState = { state: 'pages' }
+const fetcherProjectsState = { state: 'projects' }
+const fetcherRepositoriesState = { state: 'repositories' }
+const fetcherRepositoryLanguagesState = { state: 'repository-languages' }
+const fetcherTechnologiesState = { state: 'technologies' }
+const pageConfigsState = { state: 'page-configs' }
+
+vi.mock('_SRV/api', () => ({
+  prismic: prismicMock,
+  github: githubMock,
+}))
+
+vi.mock('_SRV/mapper', () => ({
+  mapperAward: mapperAwardMock,
+  mapperBrand: mapperBrandMock,
+  mapperCompany: mapperCompanyMock,
+  mapperNetwork: mapperNetworkMock,
+  mapperPage: mapperPageMock,
+  mapperProject: mapperProjectMock,
+  mapperRepository: mapperRepositoryMock,
+  mapperRepositoryLanguage: mapperRepositoryLanguageMock,
+  mapperTechnology: mapperTechnologyMock,
+}))
+
+vi.mock('_STR/useFetcherAwards', () => ({ useFetcherAwards: { getState: vi.fn(() => fetcherAwardsState) } }))
+vi.mock('_STR/useFetcherBrands', () => ({ useFetcherBrands: { getState: vi.fn(() => fetcherBrandsState) } }))
+vi.mock('_STR/useFetcherCompanies', () => ({ useFetcherCompanies: { getState: vi.fn(() => fetcherCompaniesState) } }))
+vi.mock('_STR/useFetcherNetworks', () => ({ useFetcherNetworks: { getState: vi.fn(() => fetcherNetworksState) } }))
+vi.mock('_STR/useFetcherPages', () => ({ useFetcherPages: { getState: vi.fn(() => fetcherPagesState) } }))
+vi.mock('_STR/useFetcherProjects', () => ({ useFetcherProjects: { getState: vi.fn(() => fetcherProjectsState) } }))
+vi.mock('_STR/useFetcherRepositories', () => ({
+  useFetcherRepositories: { getState: vi.fn(() => fetcherRepositoriesState) },
+}))
+vi.mock('_STR/useFetcherRepositoryLanguages', () => ({
+  useFetcherRepositoryLanguages: { getState: vi.fn(() => fetcherRepositoryLanguagesState) },
+}))
+vi.mock('_STR/useFetcherTechnologies', () => ({
+  useFetcherTechnologies: { getState: vi.fn(() => fetcherTechnologiesState) },
+}))
+vi.mock('_STR/usePageConfigs', () => ({ usePageConfigs: { getState: vi.fn(() => pageConfigsState) } }))
+
+vi.mock('_SRV/fetcher/pre-fetcher', () => ({ PreFetcher: preFetcherConstructor }))
+vi.mock('_SRV/fetcher/projects-fetcher', () => ({ ProjectsFetcher: projectsFetcherConstructor }))
+vi.mock('_SRV/fetcher/awards-fetcher', () => ({ AwardsFetcher: awardsFetcherConstructor }))
+vi.mock('_SRV/fetcher/networks-fetcher', () => ({ NetworksFetcher: networksFetcherConstructor }))
+vi.mock('_SRV/fetcher/brands-fetcher', () => ({ BrandsFetcher: brandsFetcherConstructor }))
+vi.mock('_SRV/fetcher/technologies-fetcher', () => ({ TechnologiesFetcher: technologiesFetcherConstructor }))
+vi.mock('_SRV/fetcher/companies-fetcher', () => ({ CompaniesFetcher: companiesFetcherConstructor }))
+vi.mock('_SRV/fetcher/page-fetcher', () => ({ PageFetcher: pageFetcherConstructor }))
+vi.mock('_SRV/fetcher/project-fetcher', () => ({ ProjectFetcher: projectFetcherConstructor }))
+vi.mock('_SRV/fetcher/repositories-fetcher', () => ({ RepositoriesFetcher: repositoriesFetcherConstructor }))
+vi.mock('_SRV/fetcher/repository-languages-fetcher', () => ({
+  RepositoryLanguagesFetcher: repositoryLanguagesFetcherConstructor,
+}))
+
+describe('Services', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.resetModules()
+  })
+
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
+
+  describe('Fetcher', () => {
+    describe('Index', () => {
+      it('should create PreFetcher once and returns singleton instance', async () => {
+        const { preFetcher } = await import('_SRV/fetcher')
+
+        const first = preFetcher()
+        const second = preFetcher()
+
+        expect(first).toBe(preFetcherInstance)
+        expect(second).toBe(first)
+        expect(preFetcherConstructor).toHaveBeenCalledOnce()
+      })
+
+      it('should create ProjectsFetcher with prismic mapper and store state', async () => {
+        const { projectsFetcher } = await import('_SRV/fetcher')
+
+        const first = projectsFetcher()
+        const second = projectsFetcher()
+
+        expect(first).toBe(projectsFetcherInstance)
+        expect(second).toBe(first)
+        expect(projectsFetcherConstructor).toHaveBeenCalledOnce()
+        expect(projectsFetcherConstructor).toHaveBeenCalledWith(
+          prismicClient,
+          { mapper: 'project' },
+          fetcherProjectsState,
+        )
+      })
+
+      it('should create AwardsFetcher with prismic mapper and store state', async () => {
+        const { awardsFetcher } = await import('_SRV/fetcher')
+
+        awardsFetcher()
+        awardsFetcher()
+
+        expect(awardsFetcherConstructor).toHaveBeenCalledOnce()
+        expect(awardsFetcherConstructor).toHaveBeenCalledWith(prismicClient, { mapper: 'award' }, fetcherAwardsState)
+      })
+
+      it('should create NetworksFetcher with prismic mapper and store state', async () => {
+        const { networksFetcher } = await import('_SRV/fetcher')
+
+        networksFetcher()
+        networksFetcher()
+
+        expect(networksFetcherConstructor).toHaveBeenCalledOnce()
+        expect(networksFetcherConstructor).toHaveBeenCalledWith(
+          prismicClient,
+          { mapper: 'network' },
+          fetcherNetworksState,
+        )
+      })
+
+      it('should create BrandsFetcher with prismic mapper and store state', async () => {
+        const { brandsFetcher } = await import('_SRV/fetcher')
+
+        brandsFetcher()
+        brandsFetcher()
+
+        expect(brandsFetcherConstructor).toHaveBeenCalledOnce()
+        expect(brandsFetcherConstructor).toHaveBeenCalledWith(prismicClient, { mapper: 'brand' }, fetcherBrandsState)
+      })
+
+      it('should create TechnologiesFetcher with prismic mapper and store state', async () => {
+        const { technologiesFetcher } = await import('_SRV/fetcher')
+
+        technologiesFetcher()
+        technologiesFetcher()
+
+        expect(technologiesFetcherConstructor).toHaveBeenCalledOnce()
+        expect(technologiesFetcherConstructor).toHaveBeenCalledWith(
+          prismicClient,
+          { mapper: 'technology' },
+          fetcherTechnologiesState,
+        )
+      })
+
+      it('should create CompaniesFetcher with prismic mapper and store state', async () => {
+        const { companiesFetcher } = await import('_SRV/fetcher')
+
+        companiesFetcher()
+        companiesFetcher()
+
+        expect(companiesFetcherConstructor).toHaveBeenCalledOnce()
+        expect(companiesFetcherConstructor).toHaveBeenCalledWith(
+          prismicClient,
+          { mapper: 'company' },
+          fetcherCompaniesState,
+        )
+      })
+
+      it('should create PageFetcher with page mapper and page config states', async () => {
+        const { pageFetcher } = await import('_SRV/fetcher')
+
+        pageFetcher()
+        pageFetcher()
+
+        expect(pageFetcherConstructor).toHaveBeenCalledOnce()
+        expect(pageFetcherConstructor).toHaveBeenCalledWith(
+          prismicClient,
+          { mapper: 'page' },
+          fetcherPagesState,
+          pageConfigsState,
+        )
+      })
+
+      it('should create ProjectFetcher with project and page mapper plus states', async () => {
+        const { projectFetcher } = await import('_SRV/fetcher')
+
+        projectFetcher()
+        projectFetcher()
+
+        expect(projectFetcherConstructor).toHaveBeenCalledOnce()
+        expect(projectFetcherConstructor).toHaveBeenCalledWith(
+          prismicClient,
+          { mapper: 'project' },
+          { mapper: 'page' },
+          fetcherProjectsState,
+          pageConfigsState,
+        )
+      })
+
+      it('should create RepositoriesFetcher with github mapper and store state', async () => {
+        const { repositoriesFetcher } = await import('_SRV/fetcher')
+
+        repositoriesFetcher()
+        repositoriesFetcher()
+
+        expect(repositoriesFetcherConstructor).toHaveBeenCalledOnce()
+        expect(repositoriesFetcherConstructor).toHaveBeenCalledWith(
+          githubClient,
+          { mapper: 'repository' },
+          fetcherRepositoriesState,
+        )
+      })
+
+      it('should create RepositoryLanguagesFetcher with github mapper and store state', async () => {
+        const { repositoryLanguagesFetcher } = await import('_SRV/fetcher')
+
+        repositoryLanguagesFetcher()
+        repositoryLanguagesFetcher()
+
+        expect(repositoryLanguagesFetcherConstructor).toHaveBeenCalledOnce()
+        expect(repositoryLanguagesFetcherConstructor).toHaveBeenCalledWith(
+          githubClient,
+          { mapper: 'repository-language' },
+          fetcherRepositoryLanguagesState,
+        )
+      })
+    })
+  })
+})
