@@ -66,34 +66,34 @@ describe('Services', () => {
               uid: 'brand-01',
               data: {
                 name: 'Brand 01',
-                logo: 'http://image.com/brand-01.jpg',
+                logo: { url: 'https://cdn/logo-1.svg' },
               },
             }),
             makeBrandRaw({
               uid: 'brand-02',
               data: {
                 name: 'Brand 02',
-                logo: 'http://image.com/brand-02.jpg',
+                logo: { url: 'https://cdn/logo-2.svg' },
               },
             }),
           ])
           await sut.fetch('brands:mapper')
-          expect(brandMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(brandMapper.toStore).toHaveBeenCalledTimes(2)
           expect(brandsStore.actions.setList).toHaveBeenCalledOnce()
 
           expect(brandsStore.data.list[0].slug).toEqual('brand-01')
           expect(brandsStore.data.list[0].name).toEqual('Brand 01')
-          expect(brandsStore.data.list[0].logo).toEqual('http://image.com/brand-01.jpg')
+          expect(brandsStore.data.list[0].logo).toEqual('https://cdn/logo-1.svg')
 
           expect(brandsStore.data.list[1].slug).toEqual('brand-02')
           expect(brandsStore.data.list[1].name).toEqual('Brand 02')
-          expect(brandsStore.data.list[1].logo).toEqual('http://image.com/brand-02.jpg')
+          expect(brandsStore.data.list[1].logo).toEqual('https://cdn/logo-2.svg')
         })
         it('shouldn`t call setList or brandMapper when the api rejects', async () => {
           requesterApi.query.mockRejectedValue(new Error('fail'))
           const brandFetche = sut.fetch('brands:error')
           await expect(brandFetche).rejects.toThrowError()
-          expect(brandMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(brandMapper.toStore).not.toHaveBeenCalled()
           expect(brandsStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {

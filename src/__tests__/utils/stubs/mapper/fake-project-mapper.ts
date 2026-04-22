@@ -5,7 +5,7 @@ import type { TStoreFetcherProject } from '@/services/store/fetcher-projects'
 import _ from 'lodash'
 
 export class ProjectMapperMock implements IProjectMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TProjectRaw> = {}) {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))
@@ -19,16 +19,16 @@ export class ProjectMapperMock implements IProjectMapper {
       slug: data.uid,
       name: data.data.name,
       role: data.data.role,
-      content: data.data.content,
+      content: String(data.data.content),
       description: data.data.description,
-      date: data.data.date,
+      date: new Date(data.data.start_date),
       tags: data.data.tags,
       teamSize: data.data.team_size,
       highlight: data.data.highlight,
       status: 'loaded',
       timeline: {
-        start: data.data.date,
-        end: data.data.date,
+        start: new Date(data.data.start_date),
+        end: new Date(data.data.end_date),
       },
       thumbnailColor: '#000',
       logoColor: null,
@@ -39,8 +39,8 @@ export class ProjectMapperMock implements IProjectMapper {
         slug: 'company-slug',
         name: 'Company',
         role: 'Role',
-        start: data.data.date,
-        end: data.data.date,
+        start: new Date(data.data.start_date),
+        end: new Date(data.data.end_date),
         description: 'Description',
       },
       contents: {},

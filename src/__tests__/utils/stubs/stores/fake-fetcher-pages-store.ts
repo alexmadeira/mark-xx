@@ -1,6 +1,36 @@
-import type { TEPageStatus } from '@/enums/page'
-import type { TEPrismicPageType } from '@/enums/prismic'
-import type { TStoreFetcherPagesAnyData, TStoreFetcherPagesData } from '@/services/store/fetcher-pages'
+import type { TStoreFetcherPagesData } from '@/services/store/fetcher-pages'
+
+const fallbackBasePageData = {
+  id: 'not-set',
+  slug: 'not-set',
+  title: 'not-set',
+  status: 'idle',
+  description: '<p>not-set</p>',
+  quote: null,
+  subTitle: null,
+} as const
+
+const fallbackHomePageData = {
+  ...fallbackBasePageData,
+  type: 'home',
+} satisfies TStoreFetcherPagesData['home']
+
+const fallbackProjectsPageData = {
+  ...fallbackBasePageData,
+  type: 'projects',
+} satisfies TStoreFetcherPagesData['projects']
+
+const fallbackAboutPageData = {
+  ...fallbackBasePageData,
+  type: 'about',
+  movie: '',
+  awardsTitle: '',
+  awardsSubtitle: '',
+  languagesTitle: '',
+  languagesSubtitle: '',
+  brandsTitle: '',
+  brandsSubtitle: '',
+} satisfies TStoreFetcherPagesData['about']
 
 export class FakeFetcherPagesStore {
   public readonly data: TStoreFetcherPagesData
@@ -9,43 +39,25 @@ export class FakeFetcherPagesStore {
   private readonly setPageStatusSpy: ReturnType<typeof vi.fn>
 
   constructor(props: Partial<TStoreFetcherPagesData> = {}) {
-    const fallbackPageData = {
-      id: 'not-set',
-      slug: 'not-set',
-      title: 'not-set',
-      status: 'idle',
-      description: '<p>not-set</p>',
-      quote: null,
-      subTitle: null,
-      movie: '',
-      awardsTitle: '',
-      awardsSubtitle: '',
-      languagesTitle: '',
-      languagesSubtitle: '',
-      brandsTitle: '',
-      brandsSubtitle: '',
-    } satisfies TStoreFetcherPagesAnyData
-
     this.data = {
-      about: props.about || fallbackPageData,
-      home: props.home || fallbackPageData,
-      projects: props.projects || fallbackPageData,
+      about: props.about || fallbackAboutPageData,
+      home: props.home || fallbackHomePageData,
+      projects: props.projects || fallbackProjectsPageData,
     }
 
     this.setPageSpy = vi.fn(this.setPage.bind(this))
     this.setPageStatusSpy = vi.fn(this.setPageStatus.bind(this))
   }
 
-  private setPage(name: TEPrismicPageType, content: TStoreFetcherPagesAnyData) {
-    if (name === 'about') this.data.about = content as TStoreFetcherPagesData['about']
-    if (name === 'home') this.data.home = content as TStoreFetcherPagesData['home']
-    if (name === 'projects') this.data.projects = content as TStoreFetcherPagesData['projects']
+  private setPage<TKey extends keyof TStoreFetcherPagesData>(name: TKey, content: TStoreFetcherPagesData[TKey]) {
+    this.data[name] = content
   }
 
-  private setPageStatus(name: TEPrismicPageType, status: TEPageStatus) {
-    if (name === 'about') this.data.about.status = status
-    if (name === 'home') this.data.home.status = status
-    if (name === 'projects') this.data.projects.status = status
+  private setPageStatus<TKey extends keyof TStoreFetcherPagesData>(
+    name: TKey,
+    status: TStoreFetcherPagesData[TKey]['status'],
+  ) {
+    this.data[name].status = status
   }
 
   public get actions() {

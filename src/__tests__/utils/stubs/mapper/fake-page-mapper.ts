@@ -1,24 +1,22 @@
-import type { TPageRaw } from '_TEST/utils/factories/fetcher/make-page-raw'
+import type { TPageRawOverrides } from '_TEST/utils/factories/fetcher/make-page-raw'
 import type { IPageMapper } from '@/interfaces/mapper/page'
 
 import _ from 'lodash'
 
 export class PageMapperMock implements IPageMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
-  public readonly configSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly configSpy: ReturnType<typeof vi.fn>
 
-  constructor(private overrideData: Partial<TPageRaw> = {}) {
+  constructor() {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))
     this.configSpy = vi.fn(this.handleConfig.bind(this))
   }
 
-  private handleToStore(raw: TPageRaw) {
-    const data = _.merge(raw, this.overrideData)
-
+  private handleToStore(raw: TPageRawOverrides) {
     return {
-      id: data.id,
-      slug: data.uid,
-      title: data.data.title,
+      id: raw.id,
+      slug: raw.uid,
+      title: raw.data.title,
       status: 'loaded' as const,
       description: '<p>page description</p>',
       quote: 'page quote',
@@ -50,10 +48,6 @@ export class PageMapperMock implements IPageMapper {
         },
       },
     }
-  }
-
-  public set override(data: Partial<TPageRaw>) {
-    this.overrideData = data
   }
 
   public get toStore() {

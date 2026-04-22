@@ -5,8 +5,8 @@ import type { TStoreFetcherRepositoryLanguage } from '@/services/store/fetcher-r
 import _ from 'lodash'
 
 export class RepositoryLanguageMapperMock implements IRepositoryLanguageMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
-  public readonly assignPackagesSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly assignPackagesSpy: ReturnType<typeof vi.fn>
 
   constructor(private readonly overrideData: Partial<TStoreFetcherRepositoryLanguage> = {}) {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))

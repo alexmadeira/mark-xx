@@ -76,8 +76,8 @@ describe('Services', () => {
 
           await sut.fetch('about')
 
-          expect(pageMapper.configSpy).toHaveBeenCalledOnce()
-          expect(pageMapper.toStoreSpy).toHaveBeenCalledOnce()
+          expect(pageMapper.config).toHaveBeenCalledOnce()
+          expect(pageMapper.toStore).toHaveBeenCalledOnce()
           expect(pageConfigsStore.actions.setPageConfig).toHaveBeenCalledOnce()
           expect(fetcherPagesStore.actions.setPage).toHaveBeenCalledOnce()
 
@@ -93,8 +93,8 @@ describe('Services', () => {
 
           await expect(pageFetch).rejects.toThrowError()
 
-          expect(pageMapper.toStoreSpy).not.toHaveBeenCalled()
-          expect(pageMapper.configSpy).not.toHaveBeenCalled()
+          expect(pageMapper.toStore).not.toHaveBeenCalled()
+          expect(pageMapper.config).not.toHaveBeenCalled()
           expect(pageConfigsStore.actions.setPageConfig).not.toHaveBeenCalled()
           expect(fetcherPagesStore.actions.setPage).not.toHaveBeenCalled()
         })

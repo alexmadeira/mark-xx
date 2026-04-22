@@ -64,8 +64,9 @@ export class PrismicRequesterApi extends RequesterApi<TApiPrismicInstance> {
 
     for (const document of _.castArray(documents)) {
       for (const [key, ids] of Object.entries(PrismicUtils.relationshipKeys(document))) {
-        const result = await this.getById(ids)
-        _.set(document.data, key, result)
+        const currentRelationship = _.get(document.data, key)
+        const result = await this.getById(ids, { return: _.isArray(currentRelationship) ? 'all' : 'one' })
+        _.set(document, ['relationship', key], result)
       }
     }
 

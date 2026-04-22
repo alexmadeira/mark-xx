@@ -1,0 +1,31 @@
+name: Commit Linting
+on: pull_request
+
+jobs:
+  commitlint:
+    name: Commitlint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+        name: 📦 Install pnpm
+        with:
+          version: 10
+          run_install: false
+
+      - name: 📦 Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: 📀 Install dependencies
+        run: pnpm install
+
+      - name: 🧪 Run linting with Commitlint
+        run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose

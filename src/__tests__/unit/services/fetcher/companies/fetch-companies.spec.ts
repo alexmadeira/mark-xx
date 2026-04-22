@@ -66,42 +66,38 @@ describe('Services', () => {
               uid: 'company-01',
               data: {
                 name: 'Company 01',
-                description: 'Company 01 description',
                 role: 'Role 01',
-                date: {
-                  end: new Date('2021-10-11 12:00:20'),
-                  start: new Date('2020-01-01 12:00:20'),
-                },
+                description: [{ type: 'paragraph', text: 'Company 01 description', spans: [] }],
+                start_date: '2021-10-11T12:00:20',
+                end_date: '22020-01-01T12:00:20',
               },
             }),
             makeCompanyRaw({
               uid: 'company-02',
               data: {
                 name: 'Company 02',
-                description: 'Company 02 description',
                 role: 'Role 02',
-                date: {
-                  start: new Date('2022-03-01 12:00:20'),
-                },
+                description: [{ type: 'paragraph', text: 'Company 02 description', spans: [] }],
+                start_date: '2021-10-11T12:00:20',
               },
             }),
           ])
           await sut.fetch('companies:mapper')
-          expect(companyMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(companyMapper.toStore).toHaveBeenCalledTimes(2)
           expect(companiesStore.actions.setList).toHaveBeenCalledOnce()
 
           expect(companiesStore.data.list[0].slug).toEqual('company-01')
           expect(companiesStore.data.list[0].name).toEqual('Company 01')
           expect(companiesStore.data.list[0].role).toEqual('Role 01')
           expect(companiesStore.data.list[0].description).toEqual('Company 01 description')
-          expect(companiesStore.data.list[0].start).toEqual(new Date('2020-01-01 12:00:20'))
-          expect(companiesStore.data.list[0].end).toEqual(new Date('2021-10-11 12:00:20'))
+          expect(companiesStore.data.list[0].start).toEqual(new Date('2021-10-11T12:00:20'))
+          expect(companiesStore.data.list[0].end).toEqual(new Date('22020-01-01T12:00:20'))
 
           expect(companiesStore.data.list[1].slug).toEqual('company-02')
           expect(companiesStore.data.list[1].name).toEqual('Company 02')
           expect(companiesStore.data.list[1].role).toEqual('Role 02')
           expect(companiesStore.data.list[1].description).toEqual('Company 02 description')
-          expect(companiesStore.data.list[1].start).toEqual(new Date('2022-03-01 12:00:20'))
+          expect(companiesStore.data.list[1].start).toEqual(new Date('2021-10-11T12:00:20'))
           expect(companiesStore.data.list[1].end).toBeUndefined()
         })
         it('shouldn`t call setList or CompanyMapper when the api rejects', async () => {
@@ -109,7 +105,7 @@ describe('Services', () => {
           const companyFetche = sut.fetch('companies:error')
           await expect(companyFetche).rejects.toThrowError()
 
-          expect(companyMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(companyMapper.toStore).not.toHaveBeenCalled()
           expect(companiesStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {

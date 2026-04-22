@@ -63,46 +63,46 @@ describe('Services', () => {
         it('should be able maps results through NetworkMapper and commits to the store', async () => {
           requesterApi.query.mockResolvedValue([
             makeNetworkRaw({
-              tags: ['banner'],
+              tags: ['social'],
               data: {
-                name: 'Network 01',
-                path: 'http://network01.com',
-                type: 'link',
-                icon: 'icon-01',
+                network_name: 'LinkedIn',
+                network_path: 'https://linkedin.com/in/user',
+                network_type: 'link',
+                network_icon: 'linkedin',
               },
             }),
             makeNetworkRaw({
               tags: ['footer'],
               data: {
-                name: 'network@02.com',
-                path: 'network@02.com',
-                type: 'copy',
-                icon: 'icon-02',
+                network_name: 'tony.stark@email.com',
+                network_path: 'tony.stark@email.com',
+                network_type: 'copy',
+                network_icon: 'email',
               },
             }),
           ])
           await sut.fetch('networks:mapper')
-          expect(networkMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(networkMapper.toStore).toHaveBeenCalledTimes(2)
           expect(networksStore.actions.setList).toHaveBeenCalledOnce()
 
-          expect(networksStore.data.list[0].tags).toEqual(['banner'])
-          expect(networksStore.data.list[0].name).toEqual('Network 01')
-          expect(networksStore.data.list[0].path).toEqual('http://network01.com')
+          expect(networksStore.data.list[0].tags).toEqual(['social'])
+          expect(networksStore.data.list[0].name).toEqual('LinkedIn')
+          expect(networksStore.data.list[0].path).toEqual('https://linkedin.com/in/user')
           expect(networksStore.data.list[0].type).toEqual('link')
-          expect(networksStore.data.list[0].icon).toEqual('icon-01')
+          expect(networksStore.data.list[0].icon).toEqual('linkedin')
 
           expect(networksStore.data.list[1].tags).toEqual(['footer'])
-          expect(networksStore.data.list[1].name).toEqual('network@02.com')
-          expect(networksStore.data.list[1].path).toEqual('network@02.com')
+          expect(networksStore.data.list[1].name).toEqual('tony.stark@email.com')
+          expect(networksStore.data.list[1].path).toEqual('tony.stark@email.com')
           expect(networksStore.data.list[1].type).toEqual('copy')
-          expect(networksStore.data.list[1].icon).toEqual('icon-02')
+          expect(networksStore.data.list[1].icon).toEqual('email')
         })
         it('shouldn`t call setList or NetworkMapper when the api rejects', async () => {
           requesterApi.query.mockRejectedValue(new Error('fail'))
           const networkFetche = sut.fetch('networks:error')
           await expect(networkFetche).rejects.toThrowError()
 
-          expect(networkMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(networkMapper.toStore).not.toHaveBeenCalled()
           expect(networksStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {

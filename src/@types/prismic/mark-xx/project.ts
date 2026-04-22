@@ -15,9 +15,9 @@ import { ZPrismicDocumentTechnology } from './technology'
 export const ZPrismicDocumentProject = z.intersection(
   z.custom<ProjectDocument>(),
   z.object({
-    data: z.object({
+    relationship: z.object({
       technologies: ZPrismicDocumentTechnology.array(),
-      company: ZPrismicDocumentCompany.array(),
+      company: ZPrismicDocumentCompany,
     }),
   }),
 )

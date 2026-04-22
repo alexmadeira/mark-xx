@@ -6,7 +6,7 @@ export type TPreFetcherMapped = {
 }
 
 export class PreFetcherMapperMock {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor() {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))

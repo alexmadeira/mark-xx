@@ -66,7 +66,7 @@ describe('Services', () => {
 
           await sut.fetch('repository-languages:mapper', { params: { owner: 'owner', name: 'repository-01' } })
 
-          expect(repositoryLanguageMapper.toStoreSpy).toHaveBeenCalledOnce()
+          expect(repositoryLanguageMapper.toStore).toHaveBeenCalledOnce()
           expect(repositoryLanguagesStore.actions.setList).toHaveBeenCalledWith('repository-01', [
             {
               id: 'typescript',
@@ -98,7 +98,7 @@ describe('Services', () => {
 
           await sut.fetch('repository-languages:packages-fail', { params: { owner: 'owner', name: 'repository' } })
 
-          expect(repositoryLanguageMapper.toStoreSpy).toHaveBeenCalledWith(
+          expect(repositoryLanguageMapper.toStore).toHaveBeenCalledWith(
             expect.objectContaining({ TypeScript: 3000 }),
             expect.objectContaining({}),
           )
@@ -128,7 +128,7 @@ describe('Services', () => {
 
           expect(repositoryLanguagesStore.actions.setStatus).toHaveBeenCalledWith('error')
           expect(repositoryLanguagesStore.data.status).toBe('error')
-          expect(repositoryLanguageMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(repositoryLanguageMapper.toStore).not.toHaveBeenCalled()
           expect(repositoryLanguagesStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should be able invokes callback option on success', async () => {
