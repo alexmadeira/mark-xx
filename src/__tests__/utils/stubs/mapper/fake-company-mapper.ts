@@ -4,7 +4,7 @@ import type { ICompanyMapper } from '@/interfaces/mapper/company'
 import _ from 'lodash'
 
 export class CompanyMapperMock implements ICompanyMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TCompanyRaw> = {}) {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))
@@ -16,11 +16,11 @@ export class CompanyMapperMock implements ICompanyMapper {
     return {
       id: data.id,
       slug: data.uid,
-      role: raw.data.role,
+      role: data.data.role,
       name: data.data.name,
-      description: raw.data.description,
-      start: raw.data.date.start,
-      end: raw.data.date.end,
+      description: data.data.description.map((d) => d.text).join('\n'),
+      start: new Date(data.data.start_date ?? Date.now()),
+      end: data.data.end_date ? new Date(data.data.end_date) : undefined,
     }
   }
 

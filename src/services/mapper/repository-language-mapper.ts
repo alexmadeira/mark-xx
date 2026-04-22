@@ -14,6 +14,7 @@ export class RepositoryLanguageMapper implements IRepositoryLanguageMapper {
     libraries: Record<string, string>,
   ): TStoreFetcherRepositoryLanguage[] {
     const withLibraries = this.assignPackages(raw, libraries)
+
     return _.chain(withLibraries)
       .map((libs, language) => {
         const libList = _.map(libs, (usage, libName) => ({ id: _.toLower(libName), name: libName, usage }))

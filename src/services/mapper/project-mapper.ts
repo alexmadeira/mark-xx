@@ -78,7 +78,12 @@ export class ProjectMapper implements IProjectMapper {
   }
 
   public toStore(raw: TRawSchemaProject): TStoreFetcherProject {
-    if (!raw.data.company.length) throw new Error(`Project ${raw.id} has no company associated.`)
+    if (raw.data.company.link_type !== 'Document' || !raw.data.company.id) {
+      throw new Error(`Project ${raw.uid} has no company associated.`)
+    }
+
+    const companyRelationship = raw.relationship.company
+    const technologiesRelationship = raw.relationship.technologies || []
 
     return {
       status: 'loading',
@@ -97,9 +102,9 @@ export class ProjectMapper implements IProjectMapper {
       bannerName: _.get(raw, 'data.banner_name', ''),
       bannerClass: _.get(raw, 'data.banner_class', ''),
       description: _.presentsContent(_.get(raw, 'data.description')),
-      technologies: raw.data.technologies.map(this.technologyMapper.toStore),
+      technologies: technologiesRelationship.map((technology) => this.technologyMapper.toStore(technology)),
       thumbnailClass: _.get(raw, 'data.banner_class', ''),
-      company: this.companyMapper.toStore(raw.data.company[0]),
+      company: this.companyMapper.toStore(companyRelationship),
       banner: this.image.resize(_.get(raw, 'data.banner.url')),
       thumbnail: this.image.resize(_.get(raw, 'data.thumbnail.url')),
       contents: this.content(raw.data.blocks),

@@ -4,7 +4,7 @@ import type { INetworkMapper } from '@/interfaces/mapper/network'
 import _ from 'lodash'
 
 export class NetworkMapperMock implements INetworkMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TNetworkRaw> = {}) {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))
@@ -16,10 +16,10 @@ export class NetworkMapperMock implements INetworkMapper {
     return {
       id: data.id,
       tags: this.overrideData.tags || raw.tags,
-      name: data.data.name,
-      path: data.data.path,
-      type: data.data.type,
-      icon: data.data.icon,
+      name: data.data.network_name,
+      path: data.data.network_path,
+      type: data.data.network_type,
+      icon: data.data.network_icon,
     }
   }
 

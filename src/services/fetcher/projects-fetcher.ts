@@ -20,7 +20,7 @@ export class ProjectsFetcher extends Fetcher<TProjectsFetcherProps> {
   public async fetch(name: string, options: TProjectsFetcherProps = {}) {
     const result = await this.api.query(
       'mark-xx:projects',
-      ['mark-xx:projects', name, JSON.stringify(options.filter)],
+      _.compact(['mark-xx:projects', name, JSON.stringify(options.filter)]),
       {
         return: 'all',
         type: 'project',

@@ -50,8 +50,8 @@ export class PageMapper implements IPageMapper {
   }
 
   public toStore(raw: TRawSchemaPage): TStoreFetcherPagesAnyData {
-    const baseData: TStoreFetcherPagesAnyData = {
-      status: 'loaded',
+    const baseData = {
+      status: 'loaded' as const,
       id: raw.id,
       slug: raw.uid,
       title: _.presentsContent(_.get(raw, 'data.title', '')).replace(/\s+/g, '\u00A0'),
@@ -60,17 +60,24 @@ export class PageMapper implements IPageMapper {
       description: _.presentsContent(asHTML(_.get(raw, 'data.description'))),
     }
 
-    const extraData = {
-      movie: _.get(raw, 'data.movie.url'),
-      awardsTitle: _.get(raw, 'data.awards_title', ''),
-      awardsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.awards_subtitle'))),
-      languagesTitle: _.get(raw, 'data.languages_title', ''),
-      languagesSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.languages_subtitle'))),
-      brandsTitle: _.get(raw, 'data.brands_title', ''),
-      brandsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.brands_subtitle'))),
+    switch (raw.type) {
+      case 'home':
+        return { ...baseData, type: 'home' }
+      case 'projects':
+        return { ...baseData, type: 'projects' }
+      case 'about':
+        return {
+          ...baseData,
+          type: 'about',
+          movie: _.get(raw, 'data.movie.url', ''),
+          awardsTitle: _.get(raw, 'data.awards_title', ''),
+          awardsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.awards_subtitle'))),
+          languagesTitle: _.get(raw, 'data.languages_title', ''),
+          languagesSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.languages_subtitle'))),
+          brandsTitle: _.get(raw, 'data.brands_title', ''),
+          brandsSubtitle: _.presentsContent(asHTML(_.get(raw, 'data.brands_subtitle'))),
+        }
     }
-
-    return _.omitBy({ ...baseData, ...extraData }, _.isUndefined) as TStoreFetcherPagesAnyData
   }
 
   public config(raw: TRawSchemaPageConfig[]): TSchemaPageConfig {
