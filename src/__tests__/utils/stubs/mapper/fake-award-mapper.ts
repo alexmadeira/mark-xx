@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { AwardType } from '_SRV/parser/award-type'
 
 export class AwardMapperMock implements IAwardMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TAwardRaw> = {}) {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))
@@ -20,7 +20,7 @@ export class AwardMapperMock implements IAwardMapper {
       slug: data.uid,
       by: data.data.by,
       name: data.data.name,
-      date: data.data.date,
+      date: new Date(data.data.date),
       type: new AwardType(data.data.type),
       description: data.data.description,
     }

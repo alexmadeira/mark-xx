@@ -11,13 +11,16 @@ export const ZStoreFetcherPagesBaseProperties = z.object({
 })
 
 export const ZStoreFetcherPagesHomeProperties = z.object({
+  type: z.literal('home'),
   ...ZStoreFetcherPagesBaseProperties.shape,
 })
 export const ZStoreFetcherPagesProjectsProperties = z.object({
+  type: z.literal('projects'),
   ...ZStoreFetcherPagesBaseProperties.shape,
 })
 export const ZStoreFetcherPagesAboutProperties = z.object({
   ...ZStoreFetcherPagesBaseProperties.shape,
+  type: z.literal('about'),
   movie: z.url(),
   awardsTitle: z.string(),
   awardsSubtitle: z.string(),
@@ -33,7 +36,7 @@ export const ZStoreFetcherPagesData = z.object({
   projects: ZStoreFetcherPagesProjectsProperties,
 })
 
-export const ZStoreFetcherPagesAnyData = z.union([
+export const ZStoreFetcherPagesAnyData = z.discriminatedUnion('type', [
   ZStoreFetcherPagesHomeProperties,
   ZStoreFetcherPagesAboutProperties,
   ZStoreFetcherPagesProjectsProperties,

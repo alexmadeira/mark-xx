@@ -87,15 +87,14 @@ describe('Services', () => {
               data: {
                 name: 'Project 01',
                 role: 'Frontend Developer',
-                body: [{ slice_type: 'page_config', primary: { seo_title: 'Project 01' } }],
               },
             }),
           )
 
           await sut.fetch('project-01')
 
-          expect(pageMapper.configSpy).toHaveBeenCalledOnce()
-          expect(projectMapper.toStoreSpy).toHaveBeenCalledOnce()
+          expect(pageMapper.config).toHaveBeenCalledOnce()
+          expect(projectMapper.toStore).toHaveBeenCalledOnce()
           expect(pageConfigsStore.actions.setPageConfig).toHaveBeenCalledOnce()
           expect(projectsStore.actions.setProjectPage).toHaveBeenCalledOnce()
 
@@ -110,8 +109,8 @@ describe('Services', () => {
 
           await expect(projectFetch).rejects.toThrowError()
 
-          expect(projectMapper.toStoreSpy).not.toHaveBeenCalled()
-          expect(pageMapper.configSpy).not.toHaveBeenCalled()
+          expect(projectMapper.toStore).not.toHaveBeenCalled()
+          expect(pageMapper.config).not.toHaveBeenCalled()
           expect(pageConfigsStore.actions.setPageConfig).not.toHaveBeenCalled()
           expect(projectsStore.actions.setProjectPage).not.toHaveBeenCalled()
         })

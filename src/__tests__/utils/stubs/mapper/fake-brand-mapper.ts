@@ -4,7 +4,7 @@ import type { IBrandMapper } from '@/interfaces/mapper/brand'
 import _ from 'lodash'
 
 export class BrandMapperMock implements IBrandMapper {
-  public readonly toStoreSpy: ReturnType<typeof vi.fn>
+  private readonly toStoreSpy: ReturnType<typeof vi.fn>
 
   constructor(private overrideData: Partial<TBrandRaw> = {}) {
     this.toStoreSpy = vi.fn(this.handleToStore.bind(this))
@@ -17,7 +17,7 @@ export class BrandMapperMock implements IBrandMapper {
       id: data.id,
       slug: data.uid,
       name: data.data.name,
-      logo: data.data.logo,
+      logo: data.data.logo.url,
     }
   }
 

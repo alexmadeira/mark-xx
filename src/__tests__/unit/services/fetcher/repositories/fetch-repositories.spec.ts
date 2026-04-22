@@ -100,7 +100,7 @@ describe('Services', () => {
             }),
           ])
           await sut.fetch('repositories:mapper')
-          expect(repositoryMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(repositoryMapper.toStore).toHaveBeenCalledTimes(2)
           expect(repositoriesStore.actions.setList).toHaveBeenCalledOnce()
 
           expect(repositoriesStore.data.list[0].name).toEqual('Repository 01')
@@ -120,7 +120,7 @@ describe('Services', () => {
           const repositoryFetche = sut.fetch('companies:error')
           await expect(repositoryFetche).rejects.toThrowError()
 
-          expect(repositoryMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(repositoryMapper.toStore).not.toHaveBeenCalled()
           expect(repositoriesStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {

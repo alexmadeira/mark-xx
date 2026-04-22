@@ -73,7 +73,7 @@ describe('Services', () => {
               data: {
                 by: 'CSS Design Awards',
                 name: 'Award 01',
-                date: new Date('2025-01-01 10:20:20'),
+                date: '2025-01-01T10:20:20',
                 type: 'Prêmio',
                 description: 'Award 01 description text',
               },
@@ -83,7 +83,7 @@ describe('Services', () => {
               data: {
                 by: 'Awwwards',
                 name: 'Award 02',
-                date: new Date('2020-10-01 12:00:00'),
+                date: '2020-10-01T12:00:00',
                 type: 'Menção honrosa',
                 description: 'Award 02 description text',
               },
@@ -92,20 +92,20 @@ describe('Services', () => {
 
           await sut.fetch('awards:mapper')
 
-          expect(awardMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(awardMapper.toStore).toHaveBeenCalledTimes(2)
           expect(awardsStore.actions.setList).toHaveBeenCalledOnce()
 
           expect(awardsStore.data.list[0].slug).toEqual('award-01')
           expect(awardsStore.data.list[0].by).toEqual('CSS Design Awards')
           expect(awardsStore.data.list[0].name).toEqual('Award 01')
-          expect(awardsStore.data.list[0].date).toEqual(new Date('2025-01-01 10:20:20'))
+          expect(awardsStore.data.list[0].date).toEqual(new Date('2025-01-01T10:20:20'))
           expect(awardsStore.data.list[0].type.value).toEqual('award')
           expect(awardsStore.data.list[0].description).toEqual('Award 01 description text')
 
           expect(awardsStore.data.list[1].slug).toEqual('award-02')
           expect(awardsStore.data.list[1].by).toEqual('Awwwards')
           expect(awardsStore.data.list[1].name).toEqual('Award 02')
-          expect(awardsStore.data.list[1].date).toEqual(new Date('2020-10-01 12:00:00'))
+          expect(awardsStore.data.list[1].date).toEqual(new Date('2020-10-01T12:00:00'))
           expect(awardsStore.data.list[1].type.value).toEqual('honorable-mention')
           expect(awardsStore.data.list[1].description).toEqual('Award 02 description text')
         })
@@ -115,7 +115,7 @@ describe('Services', () => {
           const awardFetche = sut.fetch('awards:error')
           await expect(awardFetche).rejects.toThrowError()
 
-          expect(awardMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(awardMapper.toStore).not.toHaveBeenCalled()
           expect(awardsStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {

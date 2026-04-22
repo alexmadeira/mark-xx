@@ -67,7 +67,9 @@ describe('Services', () => {
                 name: 'Technology 01',
                 type: 'tech-01',
                 color: '#00ffaa',
-                banner: 'http://image.com/technology-01.jpg',
+                banner: {
+                  url: 'http://image.com/technology-01.jpg',
+                },
               },
             }),
             makeTechnologyRaw({
@@ -80,7 +82,7 @@ describe('Services', () => {
           ])
           await sut.fetch('technologies:mapper')
 
-          expect(technologyMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(technologyMapper.toStore).toHaveBeenCalledTimes(2)
           expect(technologiesStore.actions.setList).toHaveBeenCalledOnce()
 
           expect(technologiesStore.data.list[0].name).toEqual('Technology 01')
@@ -98,7 +100,7 @@ describe('Services', () => {
           const technologyFetche = sut.fetch('technologies:error')
           await expect(technologyFetche).rejects.toThrowError()
 
-          expect(technologyMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(technologyMapper.toStore).not.toHaveBeenCalled()
           expect(technologiesStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should sets status to `error` and re-throws when the api rejects ', async () => {

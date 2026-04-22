@@ -1,5 +1,10 @@
+import type { TRawSchemaCompany } from '@/services/schema/company'
+import type { TDeepPartial } from '@/utils/deep-partial'
+
 import { faker } from '@faker-js/faker'
 import _ from 'lodash'
+
+import { makePrismicRootDocument } from '../prismic/make-prismic-document'
 
 export type TCompanyRaw = {
   id: string
@@ -7,26 +12,32 @@ export type TCompanyRaw = {
   data: {
     name: string
     role: string
-    description: string
-    date: {
-      end?: Date
-      start: Date
-    }
+    start_date: string | null
+    end_date: string | null
+    description: {
+      type: string
+      text: string
+      spans: []
+    }[]
   }
 }
 
-export function makeCompanyRaw(overrides: Partial<TCompanyRaw> = {}) {
-  return _.merge(
+export function makeCompanyRaw(overrides: TDeepPartial<TCompanyRaw> = {}): TRawSchemaCompany {
+  return _.merge<TRawSchemaCompany, TDeepPartial<TCompanyRaw>>(
     {
-      id: faker.string.uuid(),
-      uid: faker.lorem.slug(),
+      ...makePrismicRootDocument({ type: 'company', id: overrides.id, uid: overrides.uid }),
       data: {
         name: faker.company.name(),
         role: faker.person.jobType(),
-        description: faker.lorem.text(),
-        date: {
-          start: faker.date.past({ years: _.random(1, 6) }),
-        },
+        start_date: null,
+        end_date: null,
+        description: [
+          {
+            type: 'paragraph',
+            text: faker.lorem.paragraph(),
+            spans: [],
+          },
+        ],
       },
     },
     overrides,

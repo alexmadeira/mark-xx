@@ -65,7 +65,7 @@ describe('Services', () => {
                 role: 'Frontend Developer',
                 content: 'Content 01',
                 description: 'Description 01',
-                team_size: '4',
+                team_size: '10 - 50',
                 highlight: true,
                 tags: ['react'],
               },
@@ -77,7 +77,7 @@ describe('Services', () => {
                 role: 'Backend Developer',
                 content: 'Content 02',
                 description: 'Description 02',
-                team_size: '6',
+                team_size: '2 - 10',
                 highlight: false,
                 tags: ['node'],
               },
@@ -86,23 +86,25 @@ describe('Services', () => {
 
           await sut.fetch('projects:mapper')
 
-          expect(projectMapper.toStoreSpy).toHaveBeenCalledTimes(2)
+          expect(projectMapper.toStore).toHaveBeenCalledTimes(2)
           expect(projectsStore.actions.setList).toHaveBeenCalledOnce()
 
           expect(projectsStore.data.list['projects:mapper'][0].slug).toEqual('project-01')
           expect(projectsStore.data.list['projects:mapper'][0].name).toEqual('Project 01')
           expect(projectsStore.data.list['projects:mapper'][0].role).toEqual('Frontend Developer')
+          expect(projectsStore.data.list['projects:mapper'][0].teamSize).toEqual('10 - 50')
 
           expect(projectsStore.data.list['projects:mapper'][1].slug).toEqual('project-02')
           expect(projectsStore.data.list['projects:mapper'][1].name).toEqual('Project 02')
           expect(projectsStore.data.list['projects:mapper'][1].role).toEqual('Backend Developer')
+          expect(projectsStore.data.list['projects:mapper'][1].teamSize).toEqual('2 - 10')
         })
         it('shouldn`t call setList or ProjectMapper when the api rejects', async () => {
           requesterApi.query.mockRejectedValue(new Error('fail'))
           const projectsFetche = sut.fetch('projects:error')
 
           await expect(projectsFetche).rejects.toThrowError()
-          expect(projectMapper.toStoreSpy).not.toHaveBeenCalled()
+          expect(projectMapper.toStore).not.toHaveBeenCalled()
           expect(projectsStore.actions.setList).not.toHaveBeenCalled()
         })
         it('should be able invokes the callback option on success', async () => {
