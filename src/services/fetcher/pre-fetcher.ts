@@ -34,11 +34,15 @@ export class PreFetcher {
   }
 
   public async run() {
-    const pendingFetchers = [...this.prefetchList].filter(([, v]) => v.status === 'pending')
+    const pendingFetchers = [...this.prefetchList].filter(([, value]) => value.status === 'pending')
 
     await Promise.all(
       pendingFetchers.map(([, fetcher]) => {
-        this.prefetchList.set(this.fetcherKey(fetcher), { ...fetcher, status: 'fetched' })
+        this.prefetchList.set(this.fetcherKey(fetcher), {
+          ...fetcher,
+          status: 'fetched',
+        })
+
         return fetcher.fetch()
       }),
     )
@@ -67,12 +71,9 @@ export class PreFetcher {
   }
 
   public fetch(...[prefetcher]: TPreFetcherFetchProps) {
-    const fetcherKey = this.fetcherKey(prefetcher)
-    const fetcher = this.prefetchList.get(fetcherKey)
+    const key = this.fetcherKey(prefetcher)
+    const current = this.prefetchList.get(key)
 
-    if (!fetcher) return prefetcher.fetch()
-    if (fetcher.status === 'fetched') return
-
-    this.addPrefetcher(prefetcher)
+    if (!current) return this.addPrefetcher(prefetcher)
   }
 }

@@ -1,0 +1,29 @@
+name: Automated Unit Tests
+
+on: pull_request
+
+jobs:
+  jest:
+    name: Vitest Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        name: 📦 Install pnpm
+        with:
+          version: 10
+          run_install: false
+
+      - name: 📦 Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: 📀 Install dependencies
+        run: pnpm install
+
+      - name: 🧪 Run unit tests
+        run: pnpm test:unit

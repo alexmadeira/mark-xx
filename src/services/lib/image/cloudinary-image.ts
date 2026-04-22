@@ -1,5 +1,4 @@
-import type { IResize, TResizeSize, TResizeSizes } from '@/services/lib/image/resize'
-import type { Nullish } from '@/utils/nullish'
+import type { IResize, TResizeResized, TResizeSize, TResizeSizes } from '@/services/lib/image/resize'
 
 import _ from 'lodash'
 import mustache from 'mustache'
@@ -34,7 +33,7 @@ export class CloudinaryImage<TSizes extends TResizeSizes> implements IResize<TSi
 
   public resize(raw?: string) {
     const path = this.splitPath(raw)
-    const result = {} as Record<keyof TSizes, Nullish<string>>
+    const result = {} as TResizeResized<TSizes>
 
     for (const key of Object.keys(this.sizes) as (keyof TSizes)[]) {
       const size = this.sizes[key]
