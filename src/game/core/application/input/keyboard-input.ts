@@ -32,6 +32,8 @@ export abstract class KeyboardInput<T> {
   }
 
   protected setEventAction(...[event]: TKeyboardInputSetEventActionProps) {
+    event.preventDefault()
+
     const action = this.keyMap[event.key]
     if (!action) return
     if (this.queueLimit <= 0) this.queue.enqueue(action)
