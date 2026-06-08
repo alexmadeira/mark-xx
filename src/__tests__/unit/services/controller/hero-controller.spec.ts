@@ -90,6 +90,39 @@ describe('Services', () => {
 
         expect(intervalCancel).toHaveBeenCalled()
       })
+
+      it('should wait after typing, erase the current hero and move to the next hero', () => {
+        const { delayCancel, intervalCancel, timer, timerSpy } = makeFakeTimer()
+        const sut = new HeroController(timer)
+
+        sut.start()
+        const typingCallback = timerSpy.interval.mock.calls[0][0]
+
+        for (let index = 0; index < technologiesState.data.list[0].type.length; index++) {
+          typingCallback()
+        }
+
+        expect(fakeHeroStore.actions.setTyping).toHaveBeenCalledWith('React')
+        expect(intervalCancel).toHaveBeenCalled()
+        expect(timerSpy.delay).toHaveBeenCalledWith(expect.any(Function), 30)
+
+        const eraseCallback = timerSpy.delay.mock.calls[0][0]
+        eraseCallback()
+
+        expect(delayCancel).toHaveBeenCalled()
+        expect(timerSpy.interval).toHaveBeenCalledWith(expect.any(Function), 20)
+
+        const erasingCallback = timerSpy.interval.mock.calls[1][0]
+
+        for (let index = 0; index < technologiesState.data.list[0].type.length; index++) {
+          erasingCallback()
+        }
+
+        expect(fakeHeroStore.actions.setTyping).toHaveBeenCalledWith('')
+        expect(fakeHeroStore.actions.setCurrent).toHaveBeenCalledWith(technologiesState.data.list[1])
+        expect(fakeHeroStore.actions.setColor).toHaveBeenCalledWith('#00ff00')
+        expect(timerSpy.interval).toHaveBeenLastCalledWith(expect.any(Function), 10)
+      })
     })
   })
 })
