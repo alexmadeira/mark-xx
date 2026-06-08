@@ -73,6 +73,33 @@ describe('Services', () => {
         expect(fakeRouteStore.actions.setPageReady).toHaveBeenCalledWith(true)
       })
 
+      it('should expose current params from store', () => {
+        const sut = new RouteController(routes)
+        fakeRouteStore.data.params = { section: 'details', slug: 'mark-xx' }
+
+        expect(sut.params).toEqual({ section: 'details', slug: 'mark-xx' })
+      })
+
+      it('should expose current route from store', () => {
+        const sut = new RouteController(routes)
+        fakeRouteStore.data.current = '/projects/mark-xx/details'
+
+        expect(sut.currentRoute).toEqual({
+          pathname: '/projects/:slug/:section',
+          element: Page,
+          params: {
+            section: 'details',
+            slug: 'mark-xx',
+          },
+        })
+      })
+
+      it('should throw when current route is not set', () => {
+        const sut = new RouteController(routes)
+
+        expect(() => sut.currentRoute).toThrow('No current route set')
+      })
+
       it('should expose route objects for router consumption', () => {
         const sut = new RouteController(routes)
 

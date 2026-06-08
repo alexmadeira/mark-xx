@@ -59,6 +59,62 @@ describe('Services', () => {
 
         expect(fakeOverlapStore.actions.setCollision).toHaveBeenCalledWith('hero', null)
       })
+
+      it('should monitor collisions through requestAnimationFrame', () => {
+        const target = makeFakeElement({ bottom: 100, left: 0, right: 100, top: 0 })
+        const element = makeFakeElement({ bottom: 80, left: 20, right: 80, top: 20 })
+        const sut = new OverlapController()
+        const rafSpy = vi.mocked(requestAnimationFrame)
+        const monitorCallback = rafSpy.mock.calls[0][0]
+
+        sut.setTarget('hero', target)
+        sut.addElement(element, 'light')
+        monitorCallback(0)
+
+        expect(fakeOverlapStore.actions.setCollision).toHaveBeenCalledWith('hero', 'light')
+        expect(rafSpy).toHaveBeenCalledTimes(2)
+      })
+
+      it('should expose registered targets and elements', () => {
+        const target = makeFakeElement({ bottom: 100, left: 0, right: 100, top: 0 })
+        const element = makeFakeElement({ bottom: 80, left: 20, right: 80, top: 20 })
+        const sut = new OverlapController()
+
+        sut.setTarget('hero', target)
+        sut.addElement(element, 'dark')
+
+        expect(sut.targets.get('hero')).toBe(target)
+        expect(sut.elements.get(element)).toBe('dark')
+      })
+
+      it('should remove targets from collision checks', () => {
+        const target = makeFakeElement({ bottom: 100, left: 0, right: 100, top: 0 })
+        const element = makeFakeElement({ bottom: 80, left: 20, right: 80, top: 20 })
+        const sut = new OverlapController()
+
+        sut.setTarget('hero', target)
+        sut.addElement(element, 'light')
+        sut.removeTarget('hero')
+        sut.checkCollision()
+
+        expect(sut.targets.has('hero')).toBe(false)
+        expect(fakeOverlapStore.actions.setCollision).not.toHaveBeenCalled()
+      })
+
+      it('should remove elements from collision checks', () => {
+        const target = makeFakeElement({ bottom: 100, left: 0, right: 100, top: 0 })
+        const element = makeFakeElement({ bottom: 80, left: 20, right: 80, top: 20 })
+        const sut = new OverlapController()
+
+        sut.setTarget('hero', target)
+        sut.addElement(element, 'light')
+        sut.removeElement(element)
+        sut.removeElement(null)
+        sut.checkCollision()
+
+        expect(sut.elements.has(element)).toBe(false)
+        expect(fakeOverlapStore.actions.setCollision).toHaveBeenCalledWith('hero', null)
+      })
     })
   })
 })
