@@ -1,8 +1,8 @@
+import { z } from 'zod/v4'
+
 import { ZCWindowEvent, ZCWindowEventKey } from '@/core/window'
 import { ZEActivityStatus } from '@/enums/activity'
 import { ZSchemaActivityMonitor } from '@/services/schema/activity'
-
-import { z } from 'zod/v4'
 
 export const ZActivityEvents = z.set(ZCWindowEventKey)
 export const ZActivityMonitorCancel = z.custom<() => void>()

@@ -1,8 +1,8 @@
-import { fakeMousetrap } from '_TEST/utils/stubs/lib/fake-mousetrap'
-import { fakeEasterEggStore } from '_TEST/utils/stubs/stores/fake-easter-egg-store'
 import { vi } from 'vitest'
 
 import { EasterEggController } from '_SRV/controller/easter-egg-controller'
+import { fakeMousetrap } from '_TEST/utils/stubs/lib/fake-mousetrap'
+import { fakeEasterEggStore } from '_TEST/utils/stubs/stores/fake-easter-egg-store'
 
 vi.mock('mousetrap', async () => ({
   default: {

@@ -1,6 +1,5 @@
 import { easterEggs } from '_CFG/easter-eggs'
 import { soundMap } from '_CFG/sounds'
-
 import { interfaceEvent, snakeEvent } from '_SRV/builder/event'
 import { soundManager } from '_SRV/builder/sound'
 import { timer } from '_SRV/utils'

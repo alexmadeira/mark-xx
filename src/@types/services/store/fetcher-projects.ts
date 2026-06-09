@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEPageStatus } from '@/enums/page'
 import { ZSchemaProject } from '@/services/schema/project'
-
-import { z } from 'zod/v4'
 
 export const ZStoreFetcherProject = z.object({
   ...ZSchemaProject.shape,

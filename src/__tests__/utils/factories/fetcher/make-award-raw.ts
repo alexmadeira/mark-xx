@@ -1,10 +1,10 @@
 import type { TEPrismicAwardType } from '@/enums/prismic'
 import type { TRawSchemaAward } from '@/services/schema/award'
 
-import { ZEPrismicAwardType } from '@/enums/prismic'
-
 import { faker } from '@faker-js/faker'
 import _ from 'lodash'
+
+import { ZEPrismicAwardType } from '@/enums/prismic'
 
 export type TAwardRaw = {
   id: string

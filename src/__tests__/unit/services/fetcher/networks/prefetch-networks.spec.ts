@@ -1,10 +1,9 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { NetworksFetcher } from '_SRV/fetcher/networks-fetcher'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { NetworkMapperMock } from '_TEST/utils/stubs/mapper/fake-network-mapper'
 import { FakeFetcherNetworksStore } from '_TEST/utils/stubs/stores/fake-fetcher-networks-store'
-
-import { NetworksFetcher } from '_SRV/fetcher/networks-fetcher'
 
 vi.stubGlobal('window', { addEventListener: vi.fn() })
 

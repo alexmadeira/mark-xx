@@ -1,5 +1,6 @@
-import { ZSnakeGameFood } from '@GAMETypes/snake/game'
 import { z } from 'zod/v4'
+
+import { ZSnakeGameFood } from '@GAMETypes/snake/game'
 
 export const ZFoodOnAcquireProps = z.tuple([ZSnakeGameFood])
 export const ZFoodOnReleaseProps = z.tuple([ZSnakeGameFood])

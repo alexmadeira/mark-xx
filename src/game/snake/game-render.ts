@@ -2,12 +2,13 @@ import type { IPool } from '@/interfaces/game/infra/pool'
 import type { TSnakeFood } from '@GAMETypes/snake/entity/snake-food'
 import type { TSnakePlayerSegment } from '@GAMETypes/snake/entity/snake-player'
 
+import { Scene } from 'phaser'
+
 import { Pool } from '_GAME/core/infra/pool'
 import { Game } from '_GAME/snake/game'
 import { FoodObject } from '_GAME/snake/infra/game-objects/food-object'
 import { GridObject } from '_GAME/snake/infra/game-objects/grid-object'
 import { SnakeObject } from '_GAME/snake/infra/game-objects/snake-object'
-import { Scene } from 'phaser'
 
 import { FoodTexture } from './infra/game-textures/food-texture'
 import { GridTexture } from './infra/game-textures/grid-texture'

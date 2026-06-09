@@ -1,9 +1,9 @@
 import type { IEvent } from '@/interfaces/event'
 
+import { z } from 'zod/v4'
+
 import { ZEEasterEggAllKey } from '@/enums/easter-egg'
 import { ZEvents } from '@/events'
-
-import { z } from 'zod/v4'
 
 export const ZSchemaEasterEgg = z.object({
   name: z.string(),

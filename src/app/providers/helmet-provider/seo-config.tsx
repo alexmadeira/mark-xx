@@ -1,10 +1,8 @@
+import _ from 'lodash'
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-use'
 
-import _ from 'lodash'
-
 import { seoController } from '_SRV/controller'
-
 import { usePageConfigs } from '_STR/usePageConfigs'
 
 export function SEOConfig() {
@@ -32,8 +30,8 @@ export function SEOConfig() {
         <meta property="og:description" content={config.meta.openGraph.description} />
       )}
       {config.meta.openGraph.image && <meta property="og:image" content={config.meta.openGraph.image} />}
-      {config.meta.openGraph.image && <meta property="og:image:width" content="1200" />}
-      {config.meta.openGraph.image && <meta property="og:image:height" content="630" />}
+      {config.meta.openGraph.image && <meta content="1200" property="og:image:width" />}
+      {config.meta.openGraph.image && <meta content="630" property="og:image:height" />}
 
       <meta name="twitter:url" content={config.canonical} />
       <meta name="twitter:card" content={config.meta.twitter.card} />

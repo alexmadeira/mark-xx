@@ -1,6 +1,5 @@
-import { useWindowSize } from 'react-use'
-
 import _ from 'lodash'
+import { useWindowSize } from 'react-use'
 
 import { useFetcherPages } from '_STR/useFetcherPages'
 import { useFetcherRepositoryLanguages } from '_STR/useFetcherRepositoryLanguages'
@@ -21,8 +20,8 @@ export function Languages() {
           {about.languagesTitle}
         </h2>
         <div
-          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
           dangerouslySetInnerHTML={{ __html: about?.languagesSubtitle }}
+          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
         />
         <div className="group/language mt-[clamp(1rem,1.25vw,1.75rem)] flex w-full flex-col items-center gap-6">
           {_.map(languageUsages, (language) => (

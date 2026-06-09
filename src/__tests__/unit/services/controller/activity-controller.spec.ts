@@ -1,10 +1,10 @@
 import type { ITimer } from '@/services/utils/timer'
 
-import { makeFakeTimer } from '_TEST/utils/stubs/lib/fake-timer'
-import { fakeActivityStore } from '_TEST/utils/stubs/stores/fake-activity-store'
 import { vi } from 'vitest'
 
 import { ActivityController } from '_SRV/controller/activity-controller'
+import { makeFakeTimer } from '_TEST/utils/stubs/lib/fake-timer'
+import { fakeActivityStore } from '_TEST/utils/stubs/stores/fake-activity-store'
 
 type EventListener = (event: Event) => void
 

@@ -1,10 +1,9 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { TechnologiesFetcher } from '_SRV/fetcher/technologies-fetcher'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { TechnologyMapperMock } from '_TEST/utils/stubs/mapper/fake-technology-mapper'
 import { FakeFetcherTechnologiesStore } from '_TEST/utils/stubs/stores/fake-fetcher-technologies-store'
-
-import { TechnologiesFetcher } from '_SRV/fetcher/technologies-fetcher'
 
 vi.stubGlobal('window', { addEventListener: vi.fn() })
 

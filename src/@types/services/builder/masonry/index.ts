@@ -1,8 +1,8 @@
 import type { HTMLAttributes } from 'react'
 
-import { ZEMasonrySize } from '@/enums/masonry'
-
 import { z } from 'zod/v4'
+
+import { ZEMasonrySize } from '@/enums/masonry'
 
 import { ZMasonryGridSize } from './masonry-size'
 

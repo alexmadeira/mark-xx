@@ -1,12 +1,11 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { PageFetcher } from '_SRV/fetcher/page-fetcher'
 import { makePageRaw } from '_TEST/utils/factories/fetcher/make-page-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { PageMapperMock } from '_TEST/utils/stubs/mapper/fake-page-mapper'
 import { FakeFetcherPagesStore } from '_TEST/utils/stubs/stores/fake-fetcher-pages-store'
 import { FakePageConfigsStore } from '_TEST/utils/stubs/stores/fake-page-configs-store'
-
-import { PageFetcher } from '_SRV/fetcher/page-fetcher'
 
 vi.stubGlobal('window', { addEventListener: vi.fn() })
 

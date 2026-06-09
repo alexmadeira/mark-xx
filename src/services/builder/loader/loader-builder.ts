@@ -118,8 +118,8 @@ export class LoaderBuilder implements ILoader {
   }
 
   private get currentStatus() {
-    if (this.totalLoading - this.totalLoaded > 0) return 'loading'
     if (this.totalLoading - this.totalLoaded === 0) return 'loaded'
+    return 'loading'
   }
 
   public on(...[type, callback]: TLoaderEventSubscribeProps) {

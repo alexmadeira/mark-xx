@@ -20,7 +20,6 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
   return (
     <div className="h-fit w-full overflow-hidden">
       <h1
-        role="heading"
         aria-label={page.title}
         className={twMerge(
           'flex w-full items-center text-[clamp(2rem,10vw,17rem)] leading-[clamp(4rem,12vw,20rem)] font-medium tracking-widest',
@@ -29,15 +28,16 @@ export function HeaderTitleName(props: TPageHeaderTitleNameProps) {
         {isLoaded &&
           _.map([...page.title], (char, i) => (
             <motion.span
-              key={`${page.id}:${char}:${i}`}
-              exit={{ y: '150%' }}
-              initial={{ y: '-100%' }}
-              animate={{ y: '0%' }}
-              transition={{ duration: 0.2, ease: 'easeInOut', delay: i * 0.03 }}
               aria-hidden="true"
-              children={char}
+              exit={{ y: '150%' }}
+              animate={{ y: '0%' }}
+              initial={{ y: '-100%' }}
               className="flex justify-start"
-            />
+              key={`${page.id}:${char}:${i}`}
+              transition={{ duration: 0.2, ease: 'easeInOut', delay: i * 0.03 }}
+            >
+              {char}
+            </motion.span>
           ))}
       </h1>
     </div>

@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { activityController } from '_SRV/controller'
-
 import { env } from '~/env'
 
 export function Idle() {

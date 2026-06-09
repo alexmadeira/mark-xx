@@ -1,8 +1,8 @@
+import { z } from 'zod/v4'
+
 import { ZEkeyboardAllKey } from '@/enums/game/keyboard'
 import { ZESnakeAction } from '@/enums/game/snake'
-
 import { ZSnakeGameInput } from '@GAMETypes/snake/game'
-import { z } from 'zod/v4'
 
 export const ZSnakeKeyboardInput = ZSnakeGameInput
 export const ZSnakeKeyActions = z.partialRecord(ZEkeyboardAllKey, ZESnakeAction)

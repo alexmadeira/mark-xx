@@ -3,12 +3,12 @@ import type { ButtonHTMLAttributes, CSSProperties, ReactNode, Ref } from 'react'
 import { z } from 'zod/v4'
 
 export const ZEmailCoinEggProps = z.object({
-  ref: z.custom<Ref<HTMLDivElement> | undefined>(),
+  floatingRef: z.custom<Ref<HTMLDivElement> | undefined>(),
   style: z.custom<CSSProperties>(),
 })
 
 export const ZEmail1UPEggProps = z.object({
-  ref: z.custom<Ref<HTMLDivElement> | undefined>(),
+  floatingRef: z.custom<Ref<HTMLDivElement> | undefined>(),
   style: z.custom<CSSProperties>(),
 })
 

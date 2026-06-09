@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEFetcherStatus } from '@/enums/fetcher'
 import { ZSchemaPageConfig } from '@/services/schema/page'
-
-import { z } from 'zod/v4'
 
 export const ZStorePageConfig = ZSchemaPageConfig
 

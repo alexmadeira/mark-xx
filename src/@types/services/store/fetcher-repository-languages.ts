@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEFetcherStatus } from '@/enums/fetcher'
 import { ZSchemaGithubRepositoryLanguage } from '@/services/schema/github-repository-language'
-
-import { z } from 'zod/v4'
 
 export const ZStoreFetcherRepositoryLanguage = z.object({
   ...ZSchemaGithubRepositoryLanguage.shape,

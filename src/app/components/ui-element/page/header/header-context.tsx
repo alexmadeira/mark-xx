@@ -1,15 +1,15 @@
 import type { TPageHeaderContextProps, TPageHeaderProvider } from '@/props/components/ui-element/page/header'
 
-import { createContext, useContext } from 'react'
+import { createContext, use } from 'react'
 
 const HeaderContext = createContext<TPageHeaderContextProps>({})
 
 function HeaderProvider({ children, ...props }: TPageHeaderProvider) {
-  return <HeaderContext.Provider value={props}>{children}</HeaderContext.Provider>
+  return <HeaderContext value={props}>{children}</HeaderContext>
 }
 
 function useHeader() {
-  const context = useContext(HeaderContext)
+  const context = use(HeaderContext)
   if (!context) {
     throw new Error('useHeader must be used within an HeaderProvider')
   }

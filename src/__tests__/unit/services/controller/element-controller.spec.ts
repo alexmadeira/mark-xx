@@ -1,8 +1,8 @@
-import { stubDocumentElementStyle } from '_TEST/utils/stubs/lib/fake-dom'
-import { fakeElementStore } from '_TEST/utils/stubs/stores/fake-element-store'
 import { vi } from 'vitest'
 
 import { ElementController } from '_SRV/controller/element-controller'
+import { stubDocumentElementStyle } from '_TEST/utils/stubs/lib/fake-dom'
+import { fakeElementStore } from '_TEST/utils/stubs/stores/fake-element-store'
 
 vi.mock('_STR/useElement', async () => {
   const { fakeElementStore } = await import('_TEST/utils/stubs/stores/fake-element-store')

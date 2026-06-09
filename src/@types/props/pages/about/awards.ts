@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEAwardType } from '@/enums/award'
 import { ZSchemaAward } from '@/services/schema/award'
-
-import { z } from 'zod/v4'
 
 export const ZAwardsAwardProps = ZSchemaAward
 

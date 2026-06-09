@@ -12,10 +12,10 @@ export function SocialNetworks() {
     <div className="flex w-full items-center justify-center gap-x-3 sm:justify-end">
       {socialNetworks.map((network) => (
         <a
-          key={network.id}
           target="_blank"
-          rel="noopener noreferrer"
+          key={network.id}
           href={network.path}
+          rel="noopener noreferrer"
           className="text-[clamp(1rem,1.5vw,1.875rem)] leading-none font-light underline"
         >
           {network.name}

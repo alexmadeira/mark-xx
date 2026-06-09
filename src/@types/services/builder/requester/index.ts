@@ -1,10 +1,10 @@
 import type { IApi } from '@/interfaces/api'
 import type { FetchQueryOptions, QueryClient } from '@tanstack/react-query'
 
+import { z } from 'zod/v4'
+
 import { ZEPrismicReturnType } from '@/enums/prismic'
 import { ZERequesterMethod } from '@/enums/requester'
-
-import { z } from 'zod/v4'
 
 export const ZRequesterQueryClient = z.custom<QueryClient>()
 export const ZRequesterQueryOption = z.custom<Omit<FetchQueryOptions, 'queryKey' | 'queryFn'>>()

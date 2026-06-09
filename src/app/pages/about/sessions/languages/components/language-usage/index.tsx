@@ -1,27 +1,25 @@
 import type { TLanguageUsageProps } from '@/props/pages/about/languages'
 
-import { useRef } from 'react'
-
 import _ from 'lodash'
+import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { useFetcherRepositoryLanguages } from '_STR/useFetcherRepositoryLanguages'
 
 import { LanguageUsageTooltip } from '../language-tooltip'
-
 import { LanguageUsageBar } from './language-usage-bar'
 import { LanguageUsageLib } from './language-usage-lib'
 
 export function LanguageUsage({ className, ...props }: TLanguageUsageProps) {
-  const languageRef = useRef<HTMLDivElement>(null)
+  const [language, setLanguage] = useState<HTMLDivElement | null>(null)
   const totalUsage = useFetcherRepositoryLanguages((st) => st.data.totalUsage)
   const percentage = (props.usage / totalUsage) * 100
 
   return (
     <>
-      <LanguageUsageTooltip {...props} language={languageRef.current} />
+      <LanguageUsageTooltip {...props} language={language} />
       <div
-        ref={languageRef}
+        ref={setLanguage}
         className={twMerge(
           'grid w-full cursor-help grid-cols-[clamp(13rem,20vw,16rem)_1fr] gap-x-[clamp(1rem,1.75vw,2rem)] gap-y-1 transition duration-300 group-hover/language:opacity-50 group-hover/language:grayscale hover:opacity-100 hover:grayscale-0',
           className,

@@ -1,9 +1,9 @@
 import type { TRouteProps } from '@/services/controller/route'
 
-import { fakeRouteStore } from '_TEST/utils/stubs/stores/fake-route-store'
 import { vi } from 'vitest'
 
 import { RouteController } from '_SRV/controller/route-controller'
+import { fakeRouteStore } from '_TEST/utils/stubs/stores/fake-route-store'
 
 vi.mock('_STR/useRoute', async () => {
   const { fakeRouteStore } = await import('_TEST/utils/stubs/stores/fake-route-store')

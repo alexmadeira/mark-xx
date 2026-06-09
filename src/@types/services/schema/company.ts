@@ -1,6 +1,6 @@
-import { ZPrismicDocumentCompany } from '@/prismic/mark-xx'
-
 import { z } from 'zod/v4'
+
+import { ZPrismicDocumentCompany } from '@/prismic/mark-xx'
 
 export const ZRawSchemaCompany = ZPrismicDocumentCompany
 

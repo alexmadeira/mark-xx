@@ -1,9 +1,9 @@
 import type { IPosition } from '@/interfaces/game/value-object/position'
 
-import { ZESnakeAction, ZESnakeDirection } from '@/enums/game/snake'
-
-import { ZSnakeGamePlayer, ZSnakeGameScene } from '@GAMETypes/snake/game'
 import { z } from 'zod/v4'
+
+import { ZESnakeAction, ZESnakeDirection } from '@/enums/game/snake'
+import { ZSnakeGamePlayer, ZSnakeGameScene } from '@GAMETypes/snake/game'
 
 export const ZSnakePlayerAction = ZESnakeAction
 export const ZSnakePlayerSegment = ZSnakeGamePlayer

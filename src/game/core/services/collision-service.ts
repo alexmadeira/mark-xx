@@ -1,5 +1,6 @@
-import { Position } from '_GAME/core/value-object/position'
 import _ from 'lodash'
+
+import { Position } from '_GAME/core/value-object/position'
 
 export abstract class CollisionService<TProps = unknown> {
   protected constructor(protected readonly props: TProps) {}

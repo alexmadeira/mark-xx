@@ -12,11 +12,10 @@ import type {
 } from '@/services/builder/masonry'
 import type { TMasonryGridSize } from '@/services/builder/masonry/masonry-size'
 
-import { Link } from 'react-router-dom'
-
 import { Slot } from '@radix-ui/react-slot'
 import _ from 'lodash'
 import potpack from 'potpack'
+import { Link } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 
 import { DataList } from '_SRV/utils/data-list'
@@ -203,7 +202,6 @@ export class MasonryBuilder {
     return (
       <Wrapper
         {...props}
-        key={props.key}
         to={props.link || '#'}
         data-size={`${props.w}x${props.h}`}
         className={twMerge('group/masonry-item relative aspect-square sm:aspect-auto', props.className)}

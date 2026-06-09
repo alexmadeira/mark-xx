@@ -1,6 +1,6 @@
-import { ZELoaderStatus } from '@/enums/loader'
-
 import { z } from 'zod/v4'
+
+import { ZELoaderStatus } from '@/enums/loader'
 
 export const ZStoreLoaderLoaded = z.number().min(0).max(1).default(0)
 export const ZStoreLoaderData = z.object({

@@ -1,21 +1,17 @@
-import { useRef } from 'react'
-
 import { twMerge } from 'tailwind-merge'
 
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
 export function Description() {
-  const slug = useRef<string | null>(null)
-
   const projectSlug = useRoute((st) => st.data.params.slug)
-  if (projectSlug) slug.current = projectSlug
 
-  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
+  const project = useFetcherProjects((st) => (projectSlug ? st.data.pages[projectSlug] : undefined))
 
   if (project?.status !== 'loaded') return null
   return (
     <div
+      dangerouslySetInnerHTML={{ __html: project.content }}
       className={twMerge(
         'flex w-full flex-col gap-[clamp(0.5rem,1vw,1.5rem)]',
         '[&_p]:text-[clamp(0.875rem,1vw,1.5rem)] [&_p]:leading-[calc(1.25/0.875),2vw,calc(2/1.5)] [&_p]:font-light',
@@ -23,7 +19,6 @@ export function Description() {
         '[&_ol]:list-inside [&_ol]:list-decimal [&_ol]:text-[clamp(0.875rem,1vw,1.5rem)] [&_ol]:leading-[calc(1.25/0.875),2vw,calc(2/1.5)] [&_ol]:font-light [&_ol]:marker:font-medium',
         '[&_ul]:list-inside [&_ul]:list-disc [&_ul]:text-[clamp(0.875rem,1vw,1.5rem)] [&_ul]:leading-[calc(1.25/0.875),2vw,calc(2/1.5)] [&_ul]:font-light [&_ul]:marker:font-medium',
       )}
-      dangerouslySetInnerHTML={{ __html: project.content }}
     />
   )
 }

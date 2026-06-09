@@ -1,6 +1,6 @@
-import { ZGithubRepositoryDirection, ZGithubRepositorySort, ZGithubRepositoryType } from '@/github/repository'
-
 import { z } from 'zod/v4'
+
+import { ZGithubRepositoryDirection, ZGithubRepositorySort, ZGithubRepositoryType } from '@/github/repository'
 
 export const ZRepositoriesFetcherCallback = z.custom<() => z.infer<z.ZodVoid>>().nullish()
 export const ZRepositoriesFetcherParams = z.object({

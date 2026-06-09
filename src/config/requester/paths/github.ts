@@ -1,5 +1,7 @@
 import type { TRequesterPaths } from '@/services/builder/requester'
 
+import z from 'zod'
+
 import { ZRawSchemaGithubRepository, ZSchemaGithubRepositoryParams } from '@/services/schema/github-repository'
 import {
   ZRawSchemaGithubRepositoryLanguages,
@@ -9,8 +11,6 @@ import {
   ZRawSchemaGithubRepositoryPackages,
   ZSchemaGithubRepositoryPackagesParams,
 } from '@/services/schema/github-repository-package'
-
-import z from 'zod'
 
 export const githubPaths = {
   'github:repositories': {

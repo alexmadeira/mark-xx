@@ -1,9 +1,9 @@
-import type { GameController } from './game-controller'
-import type { ScoreSystem } from './systems/score-system'
 import type { SnakeKeyboardInput } from '_GAME/snake/application/input/snake-keyboard-input'
 import type { SnakeFood } from '_GAME/snake/entity/snake-food'
 import type { SnakePlayer } from '_GAME/snake/entity/snake-player'
 import type { SnakeCollision } from '_GAME/snake/services/snake-collision'
+import type { GameController } from './game-controller'
+import type { ScoreSystem } from './systems/score-system'
 
 import { GameLogic } from '_GAME/core/application/game-logic'
 

@@ -1,6 +1,6 @@
-import { ZUIElement, ZUIElementClassName, ZUIElementMeasure } from '@/config/ui/element'
-
 import { z } from 'zod/v4'
+
+import { ZUIElement, ZUIElementClassName, ZUIElementMeasure } from '@/config/ui/element'
 
 export const ZStoreElementProps = ZUIElement
 export const ZStoreElementDataMeasure = ZUIElementMeasure

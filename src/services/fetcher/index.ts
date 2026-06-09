@@ -10,7 +10,6 @@ import {
   mapperRepositoryLanguage,
   mapperTechnology,
 } from '_SRV/mapper'
-
 import { useFetcherAwards } from '_STR/useFetcherAwards'
 import { useFetcherBrands } from '_STR/useFetcherBrands'
 import { useFetcherCompanies } from '_STR/useFetcherCompanies'

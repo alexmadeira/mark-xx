@@ -1,6 +1,6 @@
-import { ZEActivityStatus } from '@/enums/activity'
-
 import { z } from 'zod/v4'
+
+import { ZEActivityStatus } from '@/enums/activity'
 
 export const ZInterfaceEvents = z.object({
   'INTERFACE:Hero:email': z.undefined(),

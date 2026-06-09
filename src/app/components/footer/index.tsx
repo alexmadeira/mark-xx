@@ -1,5 +1,4 @@
 import { dayJS } from '_SRV/lib/day-js'
-
 import { useFetcherNetworks } from '_STR/useFetcherNetworks'
 
 export function Footer() {
@@ -14,9 +13,9 @@ export function Footer() {
             {footerNetworks.map((network) => (
               <li key={network.id}>
                 <a
-                  rel="noopener noreferrer"
                   target="_blank"
                   href={network.path}
+                  rel="noopener noreferrer"
                   className="before:bg-black-900 relative text-lg font-medium before:absolute before:bottom-1.5 before:left-1/2 before:h-1 before:w-0 before:origin-center before:-translate-x-1/2 before:transition-all hover:before:w-[120%] md:text-xl xl:text-2xl"
                 >
                   {network.name}

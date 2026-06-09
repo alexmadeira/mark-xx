@@ -1,10 +1,9 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { CompaniesFetcher } from '_SRV/fetcher/companies-fetcher'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { CompanyMapperMock } from '_TEST/utils/stubs/mapper/fake-company-mapper'
 import { FakeFetcherCompaniesStore } from '_TEST/utils/stubs/stores/fake-fetcher-companies-store'
-
-import { CompaniesFetcher } from '_SRV/fetcher/companies-fetcher'
 
 vi.stubGlobal('window', { addEventListener: vi.fn() })
 

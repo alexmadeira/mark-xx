@@ -1,5 +1,6 @@
-import { ZSnakeGameFood, ZSnakeGameScene } from '@GAMETypes/snake/game'
 import { z } from 'zod/v4'
+
+import { ZSnakeGameFood, ZSnakeGameScene } from '@GAMETypes/snake/game'
 
 export const ZSnakeFood = ZSnakeGameFood
 

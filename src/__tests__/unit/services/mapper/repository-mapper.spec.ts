@@ -1,6 +1,5 @@
-import { makeRepositoryRaw } from '_TEST/utils/factories/fetcher/make-repository-raw'
-
 import { RepositoryMapper } from '_SRV/mapper/repository-mapper'
+import { makeRepositoryRaw } from '_TEST/utils/factories/fetcher/make-repository-raw'
 
 let sut: RepositoryMapper
 

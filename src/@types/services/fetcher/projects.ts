@@ -1,6 +1,6 @@
-import { ZPrismicDocumentField, ZPrismicDocumentTag } from '@/prismic'
-
 import { z } from 'zod/v4'
+
+import { ZPrismicDocumentField, ZPrismicDocumentTag } from '@/prismic'
 
 export const ZProjectsFetcherCallback = z.custom<() => z.infer<z.ZodVoid>>().nullish()
 export const ZProjectsFetcherFilter = z.object({

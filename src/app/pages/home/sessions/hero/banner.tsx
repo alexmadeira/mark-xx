@@ -1,12 +1,9 @@
+import { AnimatePresence, motion, usePresence } from 'motion/react'
 import { useEffect, useRef } from 'react'
 
 import { Image } from '_APP/components/ui-element/image'
-import { AnimatePresence, motion, usePresence } from 'motion/react'
-
 import { uiConfigHero } from '_CFG/ui/hero'
-
 import { overlapController } from '_SRV/controller'
-
 import { useHero } from '_STR/useHero'
 
 export function Banner() {
@@ -36,11 +33,11 @@ export function Banner() {
       <AnimatePresence mode="sync">
         {content?.banner && (
           <motion.div
-            {...uiConfigHero.banner}
             key={content.id}
+            {...uiConfigHero.banner}
             className="absolute top-1/2 h-full w-full -translate-y-1/2 md:top-0 md:translate-y-0 lg:object-top"
           >
-            <Image src={content.banner} alt={content.name} className="object-cover" />
+            <Image alt={content.name} src={content.banner} className="object-cover" />
           </motion.div>
         )}
       </AnimatePresence>

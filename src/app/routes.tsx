@@ -1,9 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { BaseLayout } from '_LAY/base'
-
 import { routeController } from '_SRV/controller'
-
 import { env } from '~/env'
 
 import { Empty } from './pages/empty'

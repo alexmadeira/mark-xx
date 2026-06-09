@@ -1,6 +1,6 @@
-import { ZGithubRepositoryLanguages, ZGithubRepositoryLanguagesParams } from '@/github/repository-language'
-
 import { z } from 'zod/v4'
+
+import { ZGithubRepositoryLanguages, ZGithubRepositoryLanguagesParams } from '@/github/repository-language'
 
 export const ZRawSchemaGithubRepositoryLanguages = ZGithubRepositoryLanguages
 export const ZSchemaGithubRepositoryLanguagesParams = ZGithubRepositoryLanguagesParams

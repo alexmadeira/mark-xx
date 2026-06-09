@@ -1,8 +1,8 @@
-import { makeFakeElement } from '_TEST/utils/stubs/lib/fake-dom'
-import { fakeMouseStore } from '_TEST/utils/stubs/stores/fake-mouse-store'
 import { vi } from 'vitest'
 
 import { MouseController } from '_SRV/controller/mouse-controller'
+import { makeFakeElement } from '_TEST/utils/stubs/lib/fake-dom'
+import { fakeMouseStore } from '_TEST/utils/stubs/stores/fake-mouse-store'
 
 vi.mock('_STR/useMouse', async () => {
   const { fakeMouseStore } = await import('_TEST/utils/stubs/stores/fake-mouse-store')

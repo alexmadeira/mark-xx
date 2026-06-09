@@ -1,7 +1,7 @@
-import { makeAwardRaw } from '_TEST/utils/factories/fetcher/make-award-raw'
 import _ from 'lodash'
 
 import { AwardMapper } from '_SRV/mapper/award-mapper'
+import { makeAwardRaw } from '_TEST/utils/factories/fetcher/make-award-raw'
 
 _.mixin({ presentsContent: (template: string | null | undefined) => template ?? '' }, { chain: false })
 

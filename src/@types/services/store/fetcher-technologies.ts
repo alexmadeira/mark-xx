@@ -1,6 +1,6 @@
-import { ZEFetcherStatus } from '@/enums/fetcher'
-
 import { z } from 'zod/v4'
+
+import { ZEFetcherStatus } from '@/enums/fetcher'
 
 import { ZSchemaUIImageSRC } from '../schema/image'
 

@@ -1,6 +1,6 @@
-import { ZEEasterEggAllKey } from '@/enums/easter-egg'
-
 import { z } from 'zod/v4'
+
+import { ZEEasterEggAllKey } from '@/enums/easter-egg'
 
 export const ZConfigEasterEgg = z.object({
   name: z.string(),

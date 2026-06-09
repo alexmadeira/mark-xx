@@ -1,10 +1,8 @@
+import { useAnimate } from 'motion/react'
 import { useEffect } from 'react'
 import { useLocation } from 'react-use'
 
-import { useAnimate } from 'motion/react'
-
 import { colorController, overlapController } from '_SRV/controller'
-
 import { usePageConfigs } from '_STR/usePageConfigs'
 
 export function PageColors() {

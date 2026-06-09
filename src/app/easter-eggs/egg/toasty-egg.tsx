@@ -1,13 +1,11 @@
-import { useEffect } from 'react'
-
 import { Portal } from '@radix-ui/react-portal'
 import { AnimatePresence, motion } from 'motion/react'
+import { useEffect } from 'react'
 
 import { analytics } from '_SRV/builder/analytics'
 import { interfaceEvent } from '_SRV/builder/event'
 import { easterEggController } from '_SRV/controller'
 import { timer } from '_SRV/utils'
-
 import { useEasterEgg } from '_STR/useEasterEgg'
 
 export function ToastyEgg() {
@@ -36,10 +34,10 @@ export function ToastyEgg() {
         <Portal className="pointer-events-none select-none">
           <motion.img
             key="toasty-egg"
-            exit={{ right: '-100%', bottom: '-100%', transition: { duration: 0.6 } }}
             initial={{ right: '-100%', bottom: '-50%' }}
-            animate={{ right: '0%', bottom: '0%', transition: { duration: 0.4 } }}
             className="fixed z-20 w-[clamp(10rem,15vw,25rem)]"
+            animate={{ right: '0%', bottom: '0%', transition: { duration: 0.4 } }}
+            exit={{ right: '-100%', bottom: '-100%', transition: { duration: 0.6 } }}
             data-src="https://res.cloudinary.com/dgoi1pk8i/image/upload/v1771353636/toasty_i9dhgc.png"
           />
         </Portal>

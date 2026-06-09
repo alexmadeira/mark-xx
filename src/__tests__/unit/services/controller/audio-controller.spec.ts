@@ -1,7 +1,7 @@
-import { createFakeEventBus } from '_TEST/utils/stubs/lib/fake-event-bus'
 import { vi } from 'vitest'
 
 import { AudioController } from '_SRV/controller/audio-controller'
+import { createFakeEventBus } from '_TEST/utils/stubs/lib/fake-event-bus'
 
 type AudioControllerDeps = ConstructorParameters<typeof AudioController>
 

@@ -1,6 +1,6 @@
-import { ZERequesterCacheStatus } from '@/enums/requester'
-
 import { z } from 'zod/v4'
+
+import { ZERequesterCacheStatus } from '@/enums/requester'
 
 export const ZStoreRequesterCache = z.object({
   restoreStatus: ZERequesterCacheStatus,
