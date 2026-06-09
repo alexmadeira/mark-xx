@@ -196,11 +196,12 @@ export class MasonryBuilder {
     this.build()
   }
 
-  private contentWrapper(props: TMasonryContentWrapperProps) {
+  private contentWrapper({ key, ...props }: TMasonryContentWrapperProps) {
     const Wrapper = props.link ? Link : 'div'
 
     return (
       <Wrapper
+        key={key}
         {...props}
         to={props.link || '#'}
         data-size={`${props.w}x${props.h}`}
