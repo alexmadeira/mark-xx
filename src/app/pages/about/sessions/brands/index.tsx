@@ -16,13 +16,13 @@ export function Brands() {
           {about.brandsTitle}
         </h2>
         <div
-          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
           dangerouslySetInnerHTML={{ __html: about?.brandsSubtitle }}
+          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
         />
 
         <div className="mt-[calc(clamp(0.5rem,1vw,2rem)*2)] flex w-full items-center">
           {brands.map((brand, i) => (
-            <Brand key={brand.id} name={brand.name} logo={brand.logo} index={i} />
+            <Brand index={i} key={brand.id} name={brand.name} logo={brand.logo} />
           ))}
         </div>
       </div>

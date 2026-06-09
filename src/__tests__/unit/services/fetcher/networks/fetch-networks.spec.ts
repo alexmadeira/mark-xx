@@ -1,11 +1,10 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { NetworksFetcher } from '_SRV/fetcher/networks-fetcher'
 import { makeNetworkRaw } from '_TEST/utils/factories/fetcher/make-network-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { NetworkMapperMock } from '_TEST/utils/stubs/mapper/fake-network-mapper'
 import { FakeFetcherNetworksStore } from '_TEST/utils/stubs/stores/fake-fetcher-networks-store'
-
-import { NetworksFetcher } from '_SRV/fetcher/networks-fetcher'
 
 let networkMapper: NetworkMapperMock
 let networksStore: FakeFetcherNetworksStore

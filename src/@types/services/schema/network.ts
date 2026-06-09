@@ -1,6 +1,6 @@
-import { ZPrismicDocumentNetwork } from '@/prismic/mark-xx'
-
 import { z } from 'zod/v4'
+
+import { ZPrismicDocumentNetwork } from '@/prismic/mark-xx'
 
 export const ZRawSchemaNetwork = ZPrismicDocumentNetwork
 

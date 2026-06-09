@@ -1,6 +1,5 @@
-import { makeBrandRaw } from '_TEST/utils/factories/fetcher/make-brand-raw'
-
 import { BrandMapper } from '_SRV/mapper/brand-mapper'
+import { makeBrandRaw } from '_TEST/utils/factories/fetcher/make-brand-raw'
 
 let sut: BrandMapper
 

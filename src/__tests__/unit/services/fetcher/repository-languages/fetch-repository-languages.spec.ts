@@ -1,11 +1,10 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { RepositoryLanguagesFetcher } from '_SRV/fetcher/repository-languages-fetcher'
 import { makeRepositoryLanguageRaw } from '_TEST/utils/factories/fetcher/make-repository-language-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { RepositoryLanguageMapperMock } from '_TEST/utils/stubs/mapper/fake-repository-language-mapper'
 import { FakeFetcherRepositoryLanguagesStore } from '_TEST/utils/stubs/stores/fake-fetcher-repository-languages-store'
-
-import { RepositoryLanguagesFetcher } from '_SRV/fetcher/repository-languages-fetcher'
 
 let repositoryLanguageMapper: RepositoryLanguageMapperMock
 let repositoryLanguagesStore: FakeFetcherRepositoryLanguagesStore

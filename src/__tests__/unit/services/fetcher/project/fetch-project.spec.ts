@@ -1,13 +1,12 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { ProjectFetcher } from '_SRV/fetcher/project-fetcher'
 import { makeProjectRaw } from '_TEST/utils/factories/fetcher/make-project-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { PageMapperMock } from '_TEST/utils/stubs/mapper/fake-page-mapper'
 import { ProjectMapperMock } from '_TEST/utils/stubs/mapper/fake-project-mapper'
 import { FakeFetcherProjectsStore } from '_TEST/utils/stubs/stores/fake-fetcher-projects-store'
 import { FakePageConfigsStore } from '_TEST/utils/stubs/stores/fake-page-configs-store'
-
-import { ProjectFetcher } from '_SRV/fetcher/project-fetcher'
 
 let projectMapper: ProjectMapperMock
 let pageMapper: PageMapperMock

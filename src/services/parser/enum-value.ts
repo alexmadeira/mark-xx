@@ -11,7 +11,7 @@ export abstract class EnumValue<TCode extends string, TValue> {
   }
 
   public get value() {
-    if (!this.parseCode) return
+    if (!this.parseCode) return undefined
     return this.parseValues[this.parseCode]
   }
 }

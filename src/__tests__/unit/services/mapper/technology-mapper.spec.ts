@@ -1,7 +1,6 @@
+import { TechnologyMapper } from '_SRV/mapper/technology-mapper'
 import { makeTechnologyRaw } from '_TEST/utils/factories/fetcher/make-technology-raw'
 import { ImageResizeMock } from '_TEST/utils/stubs/lib/image'
-
-import { TechnologyMapper } from '_SRV/mapper/technology-mapper'
 
 let imageResize: ImageResizeMock
 let sut: TechnologyMapper

@@ -1,3 +1,5 @@
+import { z } from 'zod/v4'
+
 import { ZEPrismicReturnType } from '@/enums/prismic'
 import {
   ZPrismicDocument,
@@ -11,8 +13,6 @@ import {
   ZPrismicInstance,
   ZPrismicSignal,
 } from '@/prismic'
-
-import { z } from 'zod/v4'
 
 export const ZApiPrismicInstance = ZPrismicInstance
 export const ZApiPrismicRequestError = ZPrismicError

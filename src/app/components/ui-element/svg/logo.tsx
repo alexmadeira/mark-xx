@@ -2,7 +2,7 @@ import type { SVGProps } from 'react'
 
 export function LogoSVG(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 196" {...props}>
+    <svg viewBox="0 0 252 196" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g id="alex-madeira_logo" data-name="Alex Madeira - Logo">
         <path
           fill="currentColor"

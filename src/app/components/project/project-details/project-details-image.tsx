@@ -1,7 +1,8 @@
 import type { TProjectDetailsContentProps } from '@/props/pages/projects/project-details'
 
-import { Image } from '_APP/components/ui-element/image'
 import { twMerge } from 'tailwind-merge'
+
+import { Image } from '_APP/components/ui-element/image'
 
 export function ProjectDetailsImage(props: TProjectDetailsContentProps) {
   return (

@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 export class DataList<T> extends Array<T> {
   constructor(initialItems?: T[]) {
-    const size = _.isNumber(initialItems) ? initialItems : initialItems?.length ?? 0
+    const size = _.isNumber(initialItems) ? initialItems : (initialItems?.length ?? 0)
     super(size)
 
     if (_.isArray(initialItems)) this.push(...initialItems)

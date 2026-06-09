@@ -1,12 +1,10 @@
 import type { LottieRefCurrentProps } from 'lottie-react'
 
-import { useRef } from 'react'
-
 import Lottie from 'lottie-react'
+import { useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { loadingMotion } from '_CFG/motion/loading'
-
 import { useLoader } from '_STR/useLoader'
 
 export function BackgroundLoader() {
@@ -25,7 +23,7 @@ export function BackgroundLoader() {
         'h-[clamp(4.5rem,7vw,10rem)] w-[clamp(4.5rem,7vw,10rem)] p-[clamp(0.5rem,0.5vw,1.25rem)]',
       )}
     >
-      <Lottie className="w-full" lottieRef={logoRef} animationData={loadingMotion} loop={true} autoPlay={true} />
+      <Lottie loop={true} autoPlay={true} className="w-full" lottieRef={logoRef} animationData={loadingMotion} />
     </div>
   )
 }

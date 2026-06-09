@@ -1,7 +1,6 @@
 import type { TSnakeFoodProps } from '@GAMETypes/snake/entity/snake-food'
 
 import { Objective } from '_GAME/core/objective'
-
 import { snakeEvent } from '_SRV/builder/event'
 
 export class SnakeFood extends Objective<TSnakeFoodProps> {

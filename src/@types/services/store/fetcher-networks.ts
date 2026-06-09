@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEFetcherStatus } from '@/enums/fetcher'
 import { ZSchemaNetwork } from '@/services/schema/network'
-
-import { z } from 'zod/v4'
 
 export const ZStoreFetcherNetwork = ZSchemaNetwork
 

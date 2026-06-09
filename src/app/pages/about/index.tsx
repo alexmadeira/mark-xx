@@ -1,8 +1,8 @@
+import { Header } from './header'
 import { Awards } from './sessions/awards'
 import { Brands } from './sessions/brands'
 import { Languages } from './sessions/languages'
 import { Movie } from './sessions/movie'
-import { Header } from './header'
 
 export function About() {
   return (

@@ -1,6 +1,6 @@
-import { ZGithubRepository, ZGithubRepositoryParams } from '@/github/repository'
-
 import { z } from 'zod/v4'
+
+import { ZGithubRepository, ZGithubRepositoryParams } from '@/github/repository'
 
 export const ZRawSchemaGithubRepository = ZGithubRepository
 export const ZSchemaGithubRepositoryParams = ZGithubRepositoryParams

@@ -14,8 +14,8 @@ export function Awards() {
           {about.awardsTitle}
         </h2>
         <div
-          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
           dangerouslySetInnerHTML={{ __html: about?.awardsSubtitle }}
+          className="text-[clamp(1rem,1.25vw,1.5rem)] leading-[clamp(1.5rem,2vw,2rem)] font-light text-current/60"
         />
 
         <ul className="mt-[clamp(0.5rem,1vw,1rem)] flex h-full w-full flex-1 flex-wrap items-stretch gap-4 font-light">

@@ -1,5 +1,5 @@
-export * from './seo'
-export * from './route'
 export * from './color'
 export * from './element'
+export * from './route'
 export * from './scrolling'
+export * from './seo'

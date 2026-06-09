@@ -1,9 +1,7 @@
-import { useEffect, useRef } from 'react'
-
+import { useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { preFetcher, projectFetcher } from '_SRV/fetcher'
-
 import { useRoute } from '_STR/useRoute'
 
 import { Banner } from './sessions/banner'
@@ -12,18 +10,13 @@ import { Header } from './sessions/header'
 import { Informations } from './sessions/informations'
 
 export function Project() {
-  const FProject = projectFetcher()
-  const FPreFetcher = preFetcher()
-
-  const slug = useRef<string | null>(null)
-
   const projectSlug = useRoute((st) => st.data.params.slug)
-  if (projectSlug) slug.current = projectSlug
 
   useEffect(() => {
-    if (!slug.current) return
-    FPreFetcher.fetch(FProject.prefetch(slug.current))
-  }, [slug.current])
+    if (!projectSlug) return
+
+    preFetcher().addPrefetcher(projectFetcher().prefetch(projectSlug))
+  }, [projectSlug])
 
   return (
     <>

@@ -1,10 +1,9 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { AwardsFetcher } from '_SRV/fetcher/awards-fetcher'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { AwardMapperMock } from '_TEST/utils/stubs/mapper/fake-award-mapper'
 import { FakeFetcherAwardsStore } from '_TEST/utils/stubs/stores/fake-fetcher-awards-store'
-
-import { AwardsFetcher } from '_SRV/fetcher/awards-fetcher'
 
 let awardMapper: AwardMapperMock
 let awardsStore: FakeFetcherAwardsStore

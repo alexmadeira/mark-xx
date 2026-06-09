@@ -1,7 +1,8 @@
 import type { TProjectBlockFullImageProps } from '@/props/pages/about/project'
 
-import { Image } from '_APP/components/ui-element/image'
 import { twMerge } from 'tailwind-merge'
+
+import { Image } from '_APP/components/ui-element/image'
 
 export function BlockFullImage(props: TProjectBlockFullImageProps) {
   return (
@@ -14,7 +15,7 @@ export function BlockFullImage(props: TProjectBlockFullImageProps) {
       )}
     >
       <div className="h-full w-full overflow-clip rounded-lg shadow-lg group-data-[size=full]:rounded-none group-data-[size=full]:border-x-0">
-        {props.url && <Image alt="" className="object-cover object-top" src={props.url} />}
+        {props.url && <Image alt="" src={props.url} className="object-cover object-top" />}
       </div>
     </div>
   )

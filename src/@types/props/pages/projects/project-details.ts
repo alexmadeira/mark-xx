@@ -1,6 +1,6 @@
-import { ZSchemaProject } from '@/services/schema/project'
-
 import { z } from 'zod/v4'
+
+import { ZSchemaProject } from '@/services/schema/project'
 
 export const ZProjectProject = ZSchemaProject
 

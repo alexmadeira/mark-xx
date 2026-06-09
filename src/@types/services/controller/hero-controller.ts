@@ -1,8 +1,8 @@
 import type { TTimerCancel } from '../utils/timer'
 
-import { ZSchemaTechnology } from '@/services/schema/technology'
-
 import { z } from 'zod/v4'
+
+import { ZSchemaTechnology } from '@/services/schema/technology'
 
 export const ZHeroTimeout = z.custom<TTimerCancel>().nullish()
 export const ZHeroControll = z.object({

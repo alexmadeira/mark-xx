@@ -16,8 +16,8 @@ export class ContentPresenter {
 
     try {
       return mustache.render(template, _.merge({}, defaultContentView, view))
-    } catch (error) {
-      console.error('Erro ao renderizar Mustache:', error)
+    } catch (_error) {
+      // console.error('Erro ao renderizar Mustache:', error)
       return template
     }
   }

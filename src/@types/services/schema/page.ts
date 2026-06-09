@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEPageOpenGraphType, ZEPageTwitterCardType } from '@/enums/page'
 import { ZPrismicAnyPageDocument, ZPrismicAnyPageDocumentConfig } from '@/prismic/mark-xx'
-
-import { z } from 'zod/v4'
 
 export const ZRawSchemaPage = ZPrismicAnyPageDocument
 export const ZRawSchemaPageConfig = ZPrismicAnyPageDocumentConfig

@@ -1,3 +1,6 @@
+import _ from 'lodash'
+
+import { ProjectMapper } from '_SRV/mapper/project-mapper'
 import { makeCompanyRaw } from '_TEST/utils/factories/fetcher/make-company-raw'
 import { makeProjectRaw } from '_TEST/utils/factories/fetcher/make-project-raw'
 import { makeTechnologyRaw } from '_TEST/utils/factories/fetcher/make-technology-raw'
@@ -5,9 +8,6 @@ import { makeProjectStoreData } from '_TEST/utils/factories/store-data/make-proj
 import { ImageResizeMock } from '_TEST/utils/stubs/lib/image'
 import { CompanyMapperMock } from '_TEST/utils/stubs/mapper/fake-company-mapper'
 import { TechnologyMapperMock } from '_TEST/utils/stubs/mapper/fake-technology-mapper'
-import _ from 'lodash'
-
-import { ProjectMapper } from '_SRV/mapper/project-mapper'
 
 _.mixin({ presentsContent: (template: string | null | undefined) => template ?? '' }, { chain: false })
 

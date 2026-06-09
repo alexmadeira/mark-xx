@@ -1,6 +1,5 @@
-import { makeRepositoryLanguageRaw } from '_TEST/utils/factories/fetcher/make-repository-language-raw'
-
 import { RepositoryLanguageMapper } from '_SRV/mapper/repository-language-mapper'
+import { makeRepositoryLanguageRaw } from '_TEST/utils/factories/fetcher/make-repository-language-raw'
 
 let sut: RepositoryLanguageMapper
 

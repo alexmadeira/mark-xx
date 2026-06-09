@@ -1,8 +1,8 @@
 import type { TPageHeaderContentProps } from '@/props/components/ui-element/page/header'
 
-import { QuoteSVG } from '_APP/components/ui-element/svg/quote'
 import { twMerge } from 'tailwind-merge'
 
+import { QuoteSVG } from '_APP/components/ui-element/svg/quote'
 import { useFetcherPages } from '_STR/useFetcherPages'
 
 import { useHeader } from './header-context'
@@ -34,12 +34,12 @@ export function HeaderContent(props: TPageHeaderContentProps) {
           {page?.subTitle}
         </h2>
         <div
+          dangerouslySetInnerHTML={{ __html: page.description }}
           className={twMerge(
             'flex flex-col gap-[clamp(0.75rem,2vw,3rem)] text-[clamp(1rem,1.4vw,2rem)] leading-[clamp(1.35rem,1.75vw,2.5rem)] font-light lg:col-span-12',
             'group-data-[quote=false]:xl:col-span-9 group-data-[quote=false]:2xl:col-span-9',
             'group-data-[quote=true]:xl:col-span-8 group-data-[quote=true]:2xl:col-span-8',
           )}
-          dangerouslySetInnerHTML={{ __html: page.description }}
         />
         {page?.quote && (
           <div className="sticky top-(--header-measure-height) col-span-3 col-start-10 my-[clamp(1rem,1.5vw,3rem)] hidden h-fit gap-[clamp(0.75rem,1vw,2rem)] xl:flex">

@@ -1,5 +1,4 @@
 import { PageHeader } from '_APP/components/ui-element/page/header'
-
 import { useHero } from '_STR/useHero'
 
 import { TitleCaption } from './title-caption'

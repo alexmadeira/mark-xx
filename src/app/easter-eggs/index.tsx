@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { easterEggs } from '_CFG/easter-eggs'
-
 import { easterEggController } from '_SRV/controller'
 
 import { EmailEgg } from './egg/email-egg'

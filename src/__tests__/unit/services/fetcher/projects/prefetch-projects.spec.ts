@@ -1,10 +1,9 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { ProjectsFetcher } from '_SRV/fetcher/projects-fetcher'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { ProjectMapperMock } from '_TEST/utils/stubs/mapper/fake-project-mapper'
 import { FakeFetcherProjectsStore } from '_TEST/utils/stubs/stores/fake-fetcher-projects-store'
-
-import { ProjectsFetcher } from '_SRV/fetcher/projects-fetcher'
 
 vi.stubGlobal('window', { addEventListener: vi.fn() })
 

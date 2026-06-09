@@ -1,9 +1,10 @@
 import type { SnakeKeyboardInput } from '../application/input/snake-keyboard-input'
 import type { ScoreSystem } from '../systems/score-system'
 
+import { Scene } from 'phaser'
+
 import { Game } from '_GAME/snake/game'
 import { GameRender } from '_GAME/snake/game-render'
-import { Scene } from 'phaser'
 
 import { GameController } from '../game-controller'
 

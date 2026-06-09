@@ -1,13 +1,11 @@
 import type { LottieRefCurrentProps } from 'lottie-react'
 
-import { useEffect, useRef } from 'react'
-
 import Lottie from 'lottie-react'
 import { useAnimate } from 'motion/react'
+import { useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { logoMotion } from '_CFG/motion/logo'
-
 import { useLoader } from '_STR/useLoader'
 
 import { SplashScreenLoadingCountUp } from './splash-screen-loading-countup'
@@ -50,12 +48,12 @@ export function SplashScreen() {
           )}
         >
           <Lottie
-            className="w-full"
-            lottieRef={logoRef}
-            animationData={logoMotion}
-            initialSegment={[0, 19]}
             loop={false}
             autoPlay={false}
+            className="w-full"
+            lottieRef={logoRef}
+            initialSegment={[0, 19]}
+            animationData={logoMotion}
           />
           <SplashScreenLoadingCountUp />
         </div>

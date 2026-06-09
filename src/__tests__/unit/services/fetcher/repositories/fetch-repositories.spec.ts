@@ -1,11 +1,10 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { RepositoriesFetcher } from '_SRV/fetcher/repositories-fetcher'
 import { makeRepositoryRaw } from '_TEST/utils/factories/fetcher/make-repository-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { RepositoryMapperMock } from '_TEST/utils/stubs/mapper/fake-repository-mapper'
 import { FakeFetcherRepositoriesStore } from '_TEST/utils/stubs/stores/fake-fetcher-repositories-store'
-
-import { RepositoriesFetcher } from '_SRV/fetcher/repositories-fetcher'
 
 let repositoryMapper: RepositoryMapperMock
 let repositoriesStore: FakeFetcherRepositoriesStore

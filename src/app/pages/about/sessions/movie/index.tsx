@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 
 import { overlapController } from '_SRV/controller'
-
 import { useFetcherPages } from '_STR/useFetcherPages'
 
 export function Movie() {
@@ -12,7 +11,7 @@ export function Movie() {
 
   useEffect(() => {
     if (videoRef.current) CLOverlap.addElement(videoRef.current, '#000000')
-  }, [videoRef.current])
+  }, [videoRef])
 
   return (
     <div className="h-[clamp(38rem,63vw,90rem)] w-full">

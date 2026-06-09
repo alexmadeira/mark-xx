@@ -1,9 +1,9 @@
 import type { HTMLMotionProps } from 'motion/react'
 import type { HTMLAttributes } from 'react'
 
-import { ZSchemaUIImageSRC } from '@/services/schema/image'
-
 import { z } from 'zod/v4'
+
+import { ZSchemaUIImageSRC } from '@/services/schema/image'
 
 export const ZPageImageProps = z.intersection(
   z.custom<Omit<HTMLMotionProps<'img'>, 'src'>>(),

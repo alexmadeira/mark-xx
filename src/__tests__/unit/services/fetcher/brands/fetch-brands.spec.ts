@@ -1,11 +1,10 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { BrandsFetcher } from '_SRV/fetcher/brands-fetcher'
 import { makeBrandRaw } from '_TEST/utils/factories/fetcher/make-brand-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { BrandMapperMock } from '_TEST/utils/stubs/mapper/fake-brand-mapper'
 import { FakeFetcherBrandsStore } from '_TEST/utils/stubs/stores/fake-fetcher-brands-store'
-
-import { BrandsFetcher } from '_SRV/fetcher/brands-fetcher'
 
 let brandMapper: BrandMapperMock
 let brandsStore: FakeFetcherBrandsStore

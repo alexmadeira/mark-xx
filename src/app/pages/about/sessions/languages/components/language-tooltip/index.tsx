@@ -1,10 +1,9 @@
 import type { TLanguageTooltipUsageProps } from '@/props/pages/about/languages'
 
-import { useEffect, useState } from 'react'
-
 import { Portal } from '@radix-ui/react-portal'
 import _ from 'lodash'
 import { AnimatePresence, motion, useMotionValue, useSpring } from 'motion/react'
+import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { useFetcherRepositoryLanguages } from '_STR/useFetcherRepositoryLanguages'
@@ -28,17 +27,20 @@ export function LanguageUsageTooltip({ className, language, ...props }: TLanguag
   useEffect(() => {
     mouseX.set(mouseMove.x)
     mouseY.set(mouseMove.y)
-  }, [mouseMove])
+  }, [mouseMove, mouseX, mouseY])
 
   useEffect(() => {
     if (!language) return
 
-    language.addEventListener('mouseenter', () => setIsHovered(true))
-    language.addEventListener('mouseleave', () => setIsHovered(false))
+    const showTooltip = () => setIsHovered(true)
+    const hideTooltip = () => setIsHovered(false)
+
+    language.addEventListener('mouseenter', showTooltip)
+    language.addEventListener('mouseleave', hideTooltip)
 
     return () => {
-      language.addEventListener('mouseenter', () => setIsHovered(true))
-      language.addEventListener('mouseleave', () => setIsHovered(false))
+      language.removeEventListener('mouseenter', showTooltip)
+      language.removeEventListener('mouseleave', hideTooltip)
     }
   }, [language])
 
@@ -49,10 +51,10 @@ export function LanguageUsageTooltip({ className, language, ...props }: TLanguag
       <AnimatePresence>
         <motion.div
           key={props.id}
-          style={{ left: smoothMouseX, top: smoothMouseY }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2 }}
+          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          style={{ left: smoothMouseX, top: smoothMouseY }}
           className={twMerge(
             'pointer-events-none fixed z-10 flex w-fit flex-1 -translate-y-full flex-col rounded-lg border border-zinc-400/20 bg-white p-[clamp(1rem,1vw,1.5rem)] shadow-lg',
             className,

@@ -229,6 +229,6 @@ export class ParticlesBuilder {
   }
 
   public canvas(props: TParticleCanvasProps) {
-    return <Particles id={this._id} particlesLoaded={this.particlesLoaded} options={this.options} {...props} />
+    return <Particles id={this._id} options={this.options} particlesLoaded={this.particlesLoaded} {...props} />
   }
 }

@@ -1,8 +1,7 @@
-import { ZPrismicDocumentAward } from '@/prismic/mark-xx'
-
 import { z } from 'zod/v4'
 
 import { AwardType } from '_SRV/parser/award-type'
+import { ZPrismicDocumentAward } from '@/prismic/mark-xx'
 
 export const ZRawSchemaAward = ZPrismicDocumentAward
 

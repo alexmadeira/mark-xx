@@ -1,6 +1,6 @@
-import { ZELoaderListenerMediaType } from '@/enums/loader'
-
 import { z } from 'zod/v4'
+
+import { ZELoaderListenerMediaType } from '@/enums/loader'
 
 export const ZLoaderElementImage = z.instanceof(HTMLImageElement)
 export const ZLoaderElementVideo = z.instanceof(HTMLVideoElement)

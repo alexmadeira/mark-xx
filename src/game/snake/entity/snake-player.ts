@@ -7,12 +7,12 @@ import type {
   TSnakePlayerSetDirectionProps,
 } from '@GAMETypes/snake/entity/snake-player'
 
-import { ZESnakeDirection } from '@/enums/game/snake'
+import _ from 'lodash'
 
 import { oppositeDirection } from '_GAME/config/snake'
 import { Palyer } from '_GAME/core/palyer'
 import { Position } from '_GAME/core/value-object/position'
-import _ from 'lodash'
+import { ZESnakeDirection } from '@/enums/game/snake'
 
 export class SnakePlayer extends Palyer<TSnakePlayerProps> {
   private bodySegments: TSnakePlayerBodySegments
@@ -93,6 +93,8 @@ export class SnakePlayer extends Palyer<TSnakePlayerProps> {
       case 'LEFT':
         return new Position(x - 1, y)
       case 'RIGHT':
+        return new Position(x + 1, y)
+      default:
         return new Position(x + 1, y)
     }
   }

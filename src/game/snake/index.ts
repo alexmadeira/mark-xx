@@ -5,10 +5,10 @@ import { Game } from '_GAME/snake/game'
 import { GameRender } from '_GAME/snake/game-render'
 import { SnakeCollision } from '_GAME/snake/services/snake-collision'
 
+import { GameController } from './game-controller'
 import { BootScene } from './scene/boot-scene'
 import { MainScene } from './scene/main-scene'
 import { ScoreSystem } from './systems/score-system'
-import { GameController } from './game-controller'
 
 export class Snake {
   private readonly gameLogic!: Game
