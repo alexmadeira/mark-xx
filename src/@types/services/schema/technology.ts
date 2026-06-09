@@ -1,6 +1,6 @@
-import { ZPrismicDocumentTechnology } from '@/prismic/mark-xx'
-
 import { z } from 'zod/v4'
+
+import { ZPrismicDocumentTechnology } from '@/prismic/mark-xx'
 
 import { ZSchemaUIImageSRC } from './image'
 

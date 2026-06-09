@@ -1,8 +1,7 @@
 import type { TPageImageProps } from '@/props/components/ui-element/page/image'
 
-import { useLayoutEffect, useRef, useState } from 'react'
-
 import _ from 'lodash'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { loaderMediaEvent } from '_SRV/builder/event'
@@ -12,7 +11,7 @@ export function Image({ className, ...props }: TPageImageProps) {
   const [isLoaded, setIsLoaded] = useState<boolean | null>(null)
 
   useLayoutEffect(() => {
-    setIsLoaded(false)
+    // setIsLoaded(false)
 
     const handler = (src: string) => {
       if (src === props.src.original) setIsLoaded(true)
@@ -25,6 +24,7 @@ export function Image({ className, ...props }: TPageImageProps) {
   return (
     <div data-loaded={isLoaded} className="group relative h-full w-full">
       <img
+        alt={props.alt}
         data-src={props.src.blur}
         className={twMerge(
           'relative h-full w-full scale-120 blur-lg transition-opacity duration-500',
@@ -35,8 +35,8 @@ export function Image({ className, ...props }: TPageImageProps) {
       />
       <img
         ref={imgRef}
-        alt={props.alt}
         loading="lazy"
+        alt={props.alt}
         data-src={props.src.original}
         className={twMerge(
           'absolute top-0 left-0 h-full w-full object-contain opacity-100 transition-opacity duration-500',

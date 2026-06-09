@@ -1,6 +1,5 @@
 import { githubPaths } from '_CFG/requester/paths/github'
 import { markXXPaths } from '_CFG/requester/paths/mark-xx'
-
 import { loader } from '_SRV/builder/loader'
 import { Requester } from '_SRV/builder/requester'
 import { queryClient } from '_SRV/lib'

@@ -1,12 +1,10 @@
 import type { TProjectDetailsProps } from '@/props/pages/projects/project-details'
 
-import { ZProjectDetailsProps } from '@/props/pages/projects/project-details'
-
 import { useEffect, useRef } from 'react'
-
 import { twMerge } from 'tailwind-merge'
 
 import { overlapController } from '_SRV/controller'
+import { ZProjectDetailsProps } from '@/props/pages/projects/project-details'
 
 import { ProjectDetailsDescription } from './project-details-description'
 import { ProjectDetailsImage } from './project-details-image'
@@ -20,7 +18,7 @@ export function ProjectDetails(data: Partial<TProjectDetailsProps>) {
 
   useEffect(() => {
     CLOverlap.addElement(detailsRef.current, props.thumbnailColor)
-  }, [detailsRef.current, props])
+  }, [detailsRef, props])
 
   return (
     <div

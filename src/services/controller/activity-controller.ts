@@ -12,7 +12,6 @@ import type { ITimer } from '@/services/utils/timer'
 import _ from 'lodash'
 
 import { interfaceEvent } from '_SRV/builder/event'
-
 import { useActivity } from '_STR/useActivity'
 
 export class ActivityController {

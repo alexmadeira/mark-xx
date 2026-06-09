@@ -1,9 +1,9 @@
 import type { HTMLMotionProps } from 'motion/react'
 import type { HTMLAttributes } from 'react'
 
-import { ZSchemaGithubRepositoryLanguage } from '@/services/schema/github-repository-language'
-
 import { z } from 'zod/v4'
+
+import { ZSchemaGithubRepositoryLanguage } from '@/services/schema/github-repository-language'
 
 export const ZLanguagesTitleProps = z.custom<HTMLAttributes<HTMLHeadingElement>>()
 export const ZLanguageUsageBarProps = z.intersection(

@@ -1,8 +1,8 @@
 import type { HTMLAttributes, ReactNode } from 'react'
 
-import { ZEPrismicPageType } from '@/enums/prismic'
-
 import { z } from 'zod/v4'
+
+import { ZEPrismicPageType } from '@/enums/prismic'
 
 export const ZPageHeaderProps = z.object({
   page: ZEPrismicPageType.optional(),

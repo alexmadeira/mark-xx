@@ -1,10 +1,9 @@
 import type { TPageImageLoaderProps } from '@/props/components/ui-element/page/image'
 import type { LottieRefCurrentProps } from 'lottie-react'
 
-import { useRef } from 'react'
-
 import Lottie from 'lottie-react'
 import { motion } from 'motion/react'
+import { useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { loadingMotion } from '_CFG/motion/loading'
@@ -22,9 +21,9 @@ export function ImageLoader({ className }: TPageImageLoaderProps) {
       <Lottie
         loop
         autoPlay
-        className="aspect-square max-h-[70%] max-w-[70%]"
         lottieRef={logoRef}
         animationData={loadingMotion}
+        className="aspect-square max-h-[70%] max-w-[70%]"
       />
     </motion.div>
   )

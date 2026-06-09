@@ -6,7 +6,6 @@ import { animate, MotionValue, motionValue } from 'motion'
 
 import { useFetcherTechnologies } from '_STR/useFetcherTechnologies'
 import { useHero } from '_STR/useHero'
-
 import { env } from '~/env'
 
 export class HeroController {

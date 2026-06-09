@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'axios'
 
-import { ZELoaderEvents } from '@/enums/loader'
-
 import { z } from 'zod/v4'
+
+import { ZELoaderEvents } from '@/enums/loader'
 
 export const ZLoaderEventCallback = z.custom<(payload?: unknown) => unknown | Promise<unknown>>()
 export const ZLoaderEventListeners = z.record(ZELoaderEvents, z.set(ZLoaderEventCallback))

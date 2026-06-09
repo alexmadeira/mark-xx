@@ -1,5 +1,6 @@
-import { SNAKE_ACTIONS, SNAKE_DIRECTIONS, SNAKE_GAME_STATES } from '_GAME/constants/snake'
 import { z } from 'zod'
+
+import { SNAKE_ACTIONS, SNAKE_DIRECTIONS, SNAKE_GAME_STATES } from '_GAME/constants/snake'
 
 export const ZESnakeAction = z.enum(SNAKE_ACTIONS)
 export const ZESnakeDirection = z.enum(SNAKE_DIRECTIONS)

@@ -1,7 +1,7 @@
-import { makeCompanyRaw } from '_TEST/utils/factories/fetcher/make-company-raw'
 import _ from 'lodash'
 
 import { CompanyMapper } from '_SRV/mapper/company-mapper'
+import { makeCompanyRaw } from '_TEST/utils/factories/fetcher/make-company-raw'
 
 _.mixin({ presentsContent: (template: string | null | undefined) => template ?? '' }, { chain: false })
 

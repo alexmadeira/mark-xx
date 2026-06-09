@@ -1,8 +1,6 @@
 import { ProjectDetails } from '_APP/components/project/project-details'
-
 import { masonry } from '_SRV/builder/masonry'
 import { mapperProject } from '_SRV/mapper'
-
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 
 import { Header } from './sessions/header'

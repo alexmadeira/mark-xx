@@ -10,7 +10,6 @@ import type {
 import axios from 'axios'
 
 import { RequesterApi } from '_SRV/builder/requester/requester-api'
-
 import { env } from '~/env'
 
 export class GitHubRequesterApi extends RequesterApi<TApiAxiosInstance> {

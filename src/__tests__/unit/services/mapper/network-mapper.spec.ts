@@ -1,6 +1,5 @@
-import { makeNetworkRaw } from '_TEST/utils/factories/fetcher/make-network-raw'
-
 import { NetworkMapper } from '_SRV/mapper/network-mapper'
+import { makeNetworkRaw } from '_TEST/utils/factories/fetcher/make-network-raw'
 
 let sut: NetworkMapper
 

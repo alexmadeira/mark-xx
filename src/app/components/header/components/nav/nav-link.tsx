@@ -2,11 +2,9 @@ import type { TNavLinkProps } from '@/props/components/header/nav'
 
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-
 import { twMerge } from 'tailwind-merge'
 
 import { colorController, overlapController } from '_SRV/controller'
-
 import { useOverlap } from '_STR/useOverlap'
 
 export function NavLink({ className, ...rest }: TNavLinkProps) {
@@ -20,7 +18,7 @@ export function NavLink({ className, ...rest }: TNavLinkProps) {
 
   useEffect(() => {
     CLOverlap.setTarget(name, navigationRef.current)
-  }, [navigationRef.current])
+  }, [navigationRef])
 
   CLNavigationColor.betterContrast('navigation', overlapNavigation)
 

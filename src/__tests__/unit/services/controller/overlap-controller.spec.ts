@@ -1,8 +1,8 @@
-import { makeFakeElement } from '_TEST/utils/stubs/lib/fake-dom'
-import { fakeOverlapStore } from '_TEST/utils/stubs/stores/fake-overlap-store'
 import { vi } from 'vitest'
 
 import { OverlapController } from '_SRV/controller/overlap-controller'
+import { makeFakeElement } from '_TEST/utils/stubs/lib/fake-dom'
+import { fakeOverlapStore } from '_TEST/utils/stubs/stores/fake-overlap-store'
 
 vi.mock('_STR/useOverlap', async () => {
   const { fakeOverlapStore } = await import('_TEST/utils/stubs/stores/fake-overlap-store')

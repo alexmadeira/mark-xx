@@ -1,6 +1,6 @@
-import { ZELoaderListenerRequestType } from '@/enums/loader'
-
 import { z } from 'zod/v4'
+
+import { ZELoaderListenerRequestType } from '@/enums/loader'
 
 export const ZLoaderLoadingRequests = z.set(z.string())
 export const ZLoaderLoadedRequests = z.set(z.string())

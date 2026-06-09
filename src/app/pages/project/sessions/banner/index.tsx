@@ -1,12 +1,9 @@
+import { motion, useScroll, useTransform } from 'motion/react'
 import { useEffect, useRef } from 'react'
 
 import { Image } from '_APP/components/ui-element/image'
-import _ from 'lodash'
-import { motion, useScroll, useTransform } from 'motion/react'
-
 import { scrollingController } from '_SRV/controller'
 import { timer } from '_SRV/utils'
-
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
@@ -14,7 +11,6 @@ export function Banner() {
   const CLScrolling = scrollingController()
   const UTimer = timer()
 
-  const slug = useRef<string | null>(null)
   const targetRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
@@ -25,9 +21,7 @@ export function Banner() {
   const projectSlug = useRoute((st) => st.data.params.slug)
   const pageIsReady = useRoute((st) => st.data.pageReady)
 
-  if (projectSlug) slug.current = projectSlug
-
-  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
+  const project = useFetcherProjects((st) => (projectSlug ? st.data.pages[projectSlug] : undefined))
 
   const scale = useTransform(scrollYProgress, [0, 1], [1, 2])
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
@@ -46,7 +40,7 @@ export function Banner() {
             style={{ opacity, scale }}
             className="absolute top-1/2 h-full w-full -translate-y-1/2 md:top-0 md:translate-y-0 lg:object-top"
           >
-            <Image src={project.banner} alt={project.bannerName || ''} className="object-cover" />
+            <Image src={project.banner} className="object-cover" alt={project.bannerName || ''} />
           </motion.div>
         )}
       </div>

@@ -1,5 +1,3 @@
-import { useRef } from 'react'
-
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
@@ -7,12 +5,9 @@ import { BlockFullImage } from './block-full-image'
 import { BlockImageGrid } from './block-image-grid'
 
 export function Blocks() {
-  const slug = useRef<string | null>(null)
-
   const projectSlug = useRoute((st) => st.data.params.slug)
-  if (projectSlug) slug.current = projectSlug
 
-  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
+  const project = useFetcherProjects((st) => (projectSlug ? st.data.pages[projectSlug] : undefined))
 
   if (!project?.content) return null
 

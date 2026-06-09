@@ -1,7 +1,7 @@
-import { stubDocumentElementStyle } from '_TEST/utils/stubs/lib/fake-dom'
 import { vi } from 'vitest'
 
 import { ColorController } from '_SRV/controller/color-controller'
+import { stubDocumentElementStyle } from '_TEST/utils/stubs/lib/fake-dom'
 
 vi.mock('motion', async () => (await import('_TEST/utils/stubs/lib/fake-motion')).fakeMotion)
 

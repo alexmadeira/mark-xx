@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEActivityStatus } from '@/enums/activity'
 import { ZSchemaActivityMonitor } from '@/services/schema/activity'
-
-import { z } from 'zod/v4'
 
 export const ZStoreActivityStatus = ZEActivityStatus
 export const ZStoreActivityMonitor = ZSchemaActivityMonitor

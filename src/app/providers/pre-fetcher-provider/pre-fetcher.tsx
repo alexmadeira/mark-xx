@@ -8,7 +8,6 @@ import {
   repositoriesFetcher,
   technologiesFetcher,
 } from '_SRV/fetcher'
-
 import { env } from '~/env'
 
 export function PreFetcher() {

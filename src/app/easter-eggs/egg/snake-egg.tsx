@@ -1,6 +1,5 @@
-import { lazy, Suspense } from 'react'
-
 import { Portal } from '@radix-ui/react-portal'
+import { lazy, Suspense } from 'react'
 
 import { useEasterEgg } from '_STR/useEasterEgg'
 

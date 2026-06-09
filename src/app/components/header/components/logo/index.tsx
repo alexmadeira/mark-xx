@@ -2,9 +2,7 @@ import { memo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import { LogoSVG } from '_APP/components/ui-element/svg/logo'
-
 import { colorController, overlapController } from '_SRV/controller'
-
 import { useOverlap } from '_STR/useOverlap'
 
 export const Logo = memo(() => {

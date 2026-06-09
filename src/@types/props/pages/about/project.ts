@@ -1,9 +1,9 @@
 import type { HTMLAttributes } from 'react'
 
+import { z } from 'zod/v4'
+
 import { ZEProjectBlockFullImageSize, ZEProjectBlockImageGridHoverStyle } from '@/enums/project'
 import { ZSchemaUIImageSRC } from '@/services/schema/image'
-
-import { z } from 'zod/v4'
 
 export const ZProjectBlockFullImageProps = z.intersection(
   z.custom<Omit<HTMLAttributes<HTMLDivElement>, 'children'>>(),

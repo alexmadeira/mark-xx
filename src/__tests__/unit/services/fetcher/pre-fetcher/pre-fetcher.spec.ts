@@ -1,8 +1,7 @@
+import { PreFetcher } from '_SRV/fetcher/pre-fetcher'
 import { makePreFetcher } from '_TEST/utils/factories/fetcher/make-pre-fetcher'
 import { PreFetcherMapperMock } from '_TEST/utils/stubs/mapper/fake-pre-fetcher-mapper'
 import { FakePreFetcherStore } from '_TEST/utils/stubs/stores/fake-pre-fetcher-store'
-
-import { PreFetcher } from '_SRV/fetcher/pre-fetcher'
 
 let mapper: PreFetcherMapperMock
 let store: FakePreFetcherStore

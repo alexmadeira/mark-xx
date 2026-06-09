@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZEFetcherStatus } from '@/enums/fetcher'
 import { ZSchemaGithubRepository } from '@/services/schema/github-repository'
-
-import { z } from 'zod/v4'
 
 export const ZStoreFetcherRepository = ZSchemaGithubRepository
 

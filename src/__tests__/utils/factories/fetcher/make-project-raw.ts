@@ -9,7 +9,6 @@ import { faker } from '@faker-js/faker'
 import _ from 'lodash'
 
 import { makePrismicRootDocument, makeRelationshipDocumentRaw } from '../prismic/make-prismic-document'
-
 import { makeCompanyRaw } from './make-company-raw'
 import { makeTechnologyRaw } from './make-technology-raw'
 

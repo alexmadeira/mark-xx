@@ -1,10 +1,9 @@
 import type { TProjectBlockImageGridImageProps } from '@/props/pages/about/project'
 
 import { useEffect, useRef } from 'react'
-
-import { Image } from '_APP/components/ui-element/image'
 import { twMerge } from 'tailwind-merge'
 
+import { Image } from '_APP/components/ui-element/image'
 import { overlapController } from '_SRV/controller'
 
 export function BlockImageGridImage(props: TProjectBlockImageGridImageProps) {
@@ -13,7 +12,7 @@ export function BlockImageGridImage(props: TProjectBlockImageGridImageProps) {
 
   useEffect(() => {
     CLOverlap.addElement(gridImageRef.current, props.color)
-  }, [gridImageRef.current, props])
+  }, [gridImageRef, props])
 
   return (
     <div
@@ -36,7 +35,7 @@ export function BlockImageGridImage(props: TProjectBlockImageGridImageProps) {
         'group-data-[hover=scale-grayscale]:group-hover:grayscale-95 group-data-[hover=scale-grayscale]:hover:scale-106 group-data-[hover=scale-grayscale]:hover:grayscale-0',
       )}
     >
-      <Image className="h-full w-full object-cover" alt={props.name} src={props?.url} />
+      <Image alt={props.name} src={props?.url} className="h-full w-full object-cover" />
     </div>
   )
 }

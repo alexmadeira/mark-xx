@@ -1,6 +1,6 @@
-import { ZEMasonrySize } from '@/enums/masonry'
-
 import { z } from 'zod/v4'
+
+import { ZEMasonrySize } from '@/enums/masonry'
 
 export const ZMasonryGridSize = z.object({
   w: z.number(),

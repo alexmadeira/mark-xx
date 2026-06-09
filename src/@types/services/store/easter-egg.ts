@@ -1,6 +1,6 @@
-import { ZEEasterEggStatus } from '@/enums/easter-egg'
-
 import { z } from 'zod/v4'
+
+import { ZEEasterEggStatus } from '@/enums/easter-egg'
 
 export const ZStoreEasterEggEgg = z.object({
   called: z.number(),

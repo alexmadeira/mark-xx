@@ -1,6 +1,6 @@
-import { ZESnakeDirection, ZESnakeGameState } from '@/enums/game/snake'
-
 import { z } from 'zod/v4'
+
+import { ZESnakeDirection, ZESnakeGameState } from '@/enums/game/snake'
 
 export const ZSnakeGameEvents = z.object({
   'SNAKE:GAME:end': z.undefined(),

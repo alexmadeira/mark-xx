@@ -1,17 +1,11 @@
-import { useRef } from 'react'
-
 import { dayJS } from '_SRV/lib'
-
 import { useFetcherProjects } from '_STR/useFetcherProjects'
 import { useRoute } from '_STR/useRoute'
 
 export function ProjectDetails() {
-  const slug = useRef<string | null>(null)
-
   const projectSlug = useRoute((st) => st.data.params.slug)
-  if (projectSlug) slug.current = projectSlug
 
-  const project = useFetcherProjects((st) => (slug.current ? st.data.pages[slug.current] : undefined))
+  const project = useFetcherProjects((st) => (projectSlug ? st.data.pages[projectSlug] : undefined))
 
   if (project?.status !== 'loaded') return null
   return (

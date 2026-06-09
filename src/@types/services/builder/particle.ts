@@ -1,5 +1,7 @@
 import type { HTMLAttributes } from 'react'
 
+import { z } from 'zod/v4'
+
 import {
   ZEParticleAnimationDestroy,
   ZEParticleAnimationMode,
@@ -10,8 +12,6 @@ import {
   ZEParticleMoveDirections,
   ZEParticleOutMode,
 } from '@/enums/particle'
-
-import { z } from 'zod/v4'
 
 export const ZParticleValue = z.union([z.number(), z.object({ max: z.number(), min: z.number() })])
 export const ZParticleAutoPushMode = z.union([ZEParticleAutoPushMode, z.number()])

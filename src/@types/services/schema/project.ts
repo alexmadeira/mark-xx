@@ -1,3 +1,5 @@
+import { z } from 'zod/v4'
+
 import { ZEProjectBlockFullImageSize, ZEProjectBlockImageGridHoverStyle } from '@/enums/project'
 import {
   ZPrismicDocumentProject,
@@ -5,8 +7,6 @@ import {
   ZPrismicDocumentProjectContentImagemGrid,
   ZPrismicDocumentProjectContents,
 } from '@/prismic/mark-xx'
-
-import { z } from 'zod/v4'
 
 import { ZSchemaCompany } from './company'
 import { ZSchemaUIImageSRC } from './image'

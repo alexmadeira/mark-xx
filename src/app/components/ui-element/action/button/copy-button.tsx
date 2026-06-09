@@ -1,9 +1,8 @@
 import type { TCopyButtonProps } from '@/props/components/ui-element/page/action/button'
 
+import copy from 'copy-to-clipboard'
 import { useEffect } from 'react'
 import { useToggle } from 'react-use'
-
-import copy from 'copy-to-clipboard'
 
 import { timer } from '_SRV/utils'
 

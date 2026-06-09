@@ -1,7 +1,7 @@
-import { makePageRaw } from '_TEST/utils/factories/fetcher/make-page-raw'
 import _ from 'lodash'
 
 import { PageMapper } from '_SRV/mapper/page-mapper'
+import { makePageRaw } from '_TEST/utils/factories/fetcher/make-page-raw'
 
 _.mixin({ presentsContent: (template: string | null | undefined) => template ?? '' }, { chain: false })
 

@@ -1,7 +1,7 @@
+import { z } from 'zod/v4'
+
 import { ZCWindowEventKey } from '@/core/window'
 import { ZEActivityStatus } from '@/enums/activity'
-
-import { z } from 'zod/v4'
 
 export const ZSchemaActivityMonitor = z.object({
   timeout: z.number(),

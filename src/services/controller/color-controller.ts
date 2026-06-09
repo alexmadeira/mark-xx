@@ -1,13 +1,12 @@
 import type { TColor, TColorCssVars, TColorMotionColors, TColorProps, TColors } from '@/services/controller/color'
 import type { Nullish } from '@/utils/nullish'
 
-import { ZColorProps } from '@/services/controller/color'
-
 import { contrast, convert, isValidColor, opacify } from 'colorizr'
 import _ from 'lodash'
 import { animate, motionValue } from 'motion'
 
 import { Css } from '_SRV/utils/css'
+import { ZColorProps } from '@/services/controller/color'
 
 export class ColorController<TColorName = string> {
   private totalColors: number = 0

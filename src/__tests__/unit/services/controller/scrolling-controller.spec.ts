@@ -1,9 +1,9 @@
-import { stubWindowListeners } from '_TEST/utils/stubs/lib/fake-dom'
-import { makeFakeLenis, TestScrollingController } from '_TEST/utils/stubs/lib/fake-lenis'
-import { fakeScrollingStore } from '_TEST/utils/stubs/stores/fake-scrolling-store'
 import { vi } from 'vitest'
 
 import { ScrollingController } from '_SRV/controller/scrolling-controller'
+import { stubWindowListeners } from '_TEST/utils/stubs/lib/fake-dom'
+import { makeFakeLenis, TestScrollingController } from '_TEST/utils/stubs/lib/fake-lenis'
+import { fakeScrollingStore } from '_TEST/utils/stubs/stores/fake-scrolling-store'
 
 const lenisMock = vi.hoisted(() => {
   const instance = {

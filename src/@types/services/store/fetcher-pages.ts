@@ -1,9 +1,9 @@
 import type { ZEPrismicPageType } from '@/enums/prismic'
 
+import { z } from 'zod/v4'
+
 import { ZEPageStatus } from '@/enums/page'
 import { ZSchemaPage } from '@/services/schema/page'
-
-import { z } from 'zod/v4'
 
 export const ZStoreFetcherPagesBaseProperties = z.object({
   ...ZSchemaPage.shape,

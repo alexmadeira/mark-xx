@@ -1,9 +1,9 @@
-import { makeFakeMetaElement } from '_TEST/utils/stubs/lib/fake-dom'
-import { makeFakeTimer } from '_TEST/utils/stubs/lib/fake-timer'
-import { fakeHeroStore } from '_TEST/utils/stubs/stores/fake-hero-store'
 import { vi } from 'vitest'
 
 import { HeroController } from '_SRV/controller/hero-controller'
+import { makeFakeMetaElement } from '_TEST/utils/stubs/lib/fake-dom'
+import { makeFakeTimer } from '_TEST/utils/stubs/lib/fake-timer'
+import { fakeHeroStore } from '_TEST/utils/stubs/stores/fake-hero-store'
 
 const technologiesState = {
   data: {

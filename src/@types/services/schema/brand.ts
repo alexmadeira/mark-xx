@@ -1,6 +1,6 @@
-import { ZPrismicDocumentBrand } from '@/prismic/mark-xx'
-
 import { z } from 'zod/v4'
+
+import { ZPrismicDocumentBrand } from '@/prismic/mark-xx'
 
 export const ZRawSchemaBrand = ZPrismicDocumentBrand
 export const ZSchemaBrand = z.object({

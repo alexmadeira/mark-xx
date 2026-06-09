@@ -1,7 +1,6 @@
 import { QueryClient } from '@tanstack/react-query'
 
 import { useRequester } from '_STR/useRequester'
-
 import { env } from '~/env'
 
 import { IDBPersister } from './persister/idb-persister'

@@ -1,11 +1,10 @@
 import type { TFakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 
+import { CompaniesFetcher } from '_SRV/fetcher/companies-fetcher'
 import { makeCompanyRaw } from '_TEST/utils/factories/fetcher/make-company-raw'
 import { fakeRequesterApi } from '_TEST/utils/stubs/api/fake-requester-api'
 import { CompanyMapperMock } from '_TEST/utils/stubs/mapper/fake-company-mapper'
 import { FakeFetcherCompaniesStore } from '_TEST/utils/stubs/stores/fake-fetcher-companies-store'
-
-import { CompaniesFetcher } from '_SRV/fetcher/companies-fetcher'
 
 let companyMapper: CompanyMapperMock
 let companiesStore: FakeFetcherCompaniesStore
