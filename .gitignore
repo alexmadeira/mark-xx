@@ -161,6 +161,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Graphify
+# IA
 .codex
+.spec
 graphify-out
+AGENTS.md
