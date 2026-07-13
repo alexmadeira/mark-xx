@@ -18,7 +18,9 @@ export default defineConfig({
           name: 'unit:node',
           environment: 'node',
           include: ['./unit/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-          exclude: ['./unit/{app,components,pages,providers}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+          exclude: [
+            './unit/{app,components,pages,providers}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+          ],
         },
       },
       {
@@ -26,8 +28,13 @@ export default defineConfig({
         test: {
           name: 'unit:dom',
           environment: 'happy-dom',
-          include: ['./unit/{app,components,pages,providers}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-          exclude: ['./unit/services/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+          include: [
+            './unit/{app,components,pages,providers}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+          ],
+          exclude: [
+            './unit/services/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+            './unit/emulator/core/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+          ],
         },
       },
     ],
