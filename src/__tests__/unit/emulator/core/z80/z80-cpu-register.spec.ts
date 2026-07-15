@@ -15,8 +15,8 @@ let sut: Z80CPURegister
 describe('Emulator', () => {
   beforeEach(() => {
     byte = new Z80ByteMock()
+    flag = new Z80FlagMock()
     state = new Z80StateMock()
-    flag = new Z80FlagMock(state)
 
     sut = new Z80CPURegister(state, flag, byte)
   })
@@ -26,6 +26,7 @@ describe('Emulator', () => {
       describe('Increment', () => {
         it.each(Z80RegistersPairs)('should increment and normalize the $1 register', (register) => {
           state[register] = 0x42
+          byte.toByte.mockReturnValueOnce(0x43)
 
           sut.increment(register)
           expect(byte.toByte).toHaveBeenCalledWith(0x43)
@@ -33,6 +34,7 @@ describe('Emulator', () => {
         })
         it('should update sign, zero, half-carry, overflow and subtract flags', () => {
           state.a = 0x42
+          byte.toByte.mockReturnValueOnce(0x43)
 
           sut.increment('a')
 
@@ -44,6 +46,7 @@ describe('Emulator', () => {
         })
         it('should set half-carry and overflow when incrementing 0x7f', () => {
           state.a = 0x7f
+          byte.toByte.mockReturnValueOnce(0x80)
 
           sut.increment('a')
 
@@ -53,6 +56,7 @@ describe('Emulator', () => {
         })
         it('should wrap 0xff to zero and update the zero flag', () => {
           state.a = 0xff
+          byte.toByte.mockReturnValueOnce(0x00)
 
           sut.increment('a')
 
@@ -66,6 +70,7 @@ describe('Emulator', () => {
       describe('Decrement', () => {
         it.each(Z80RegistersPairs)('should decrement and normalize the $1 register', (register) => {
           state[register] = 0x42
+          byte.toByte.mockReturnValueOnce(0x41)
 
           sut.decrement(register)
 
@@ -74,6 +79,7 @@ describe('Emulator', () => {
         })
         it('should update sign, zero, half-carry, overflow and subtract flags', () => {
           state.a = 0x42
+          byte.toByte.mockReturnValueOnce(0x41)
 
           sut.decrement('a')
 
@@ -85,6 +91,7 @@ describe('Emulator', () => {
         })
         it('should set half-carry and overflow when decrementing 0x80', () => {
           state.a = 0x80
+          byte.toByte.mockReturnValueOnce(0x7f)
 
           sut.decrement('a')
 
@@ -94,6 +101,7 @@ describe('Emulator', () => {
         })
         it('should wrap zero to 0xff and update the sign flag', () => {
           state.a = 0x00
+          byte.toByte.mockReturnValueOnce(0xff)
 
           sut.decrement('a')
 
@@ -104,6 +112,7 @@ describe('Emulator', () => {
         })
         it('should set zero without half-carry when decrementing one', () => {
           state.a = 0x01
+          byte.toByte.mockReturnValueOnce(0x00)
 
           sut.decrement('a')
 

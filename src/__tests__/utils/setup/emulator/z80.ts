@@ -1,5 +1,14 @@
 import type { TZ80StateData } from '@/emulator/core/z80/state'
-import type { TEZ80CPUAluOpration, TEZ80CPURegister8 } from '@/enums/emulator/z80'
+import type {
+  TEZ80CPUAluArithmeticOperation,
+  TEZ80CPUAluLogicalOperation,
+  TEZ80CPUAluOperation,
+  TEZ80CPURegister8,
+} from '@/enums/emulator/z80'
+
+import { Z80_FLAG } from '_EMU/constants/z80'
+
+import { Z80_CPU_ALU_ARITHMETIC_OPERATIONS, Z80_CPU_ALU_LOGICAL_OPERATIONS } from '_SRV/constant/emulator/z80'
 
 export const Z80RegistersList = {
   a: 'A',
@@ -36,20 +45,6 @@ export const decrementCases = [
   { opcode: 0x25, expected: 'h' },
   { opcode: 0x2d, expected: 'l' },
 ] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8 }>
-export const registerLoadCases = [
-  { opcode: 0x78, expected: 'a', source: 'b' },
-  { opcode: 0x79, expected: 'a', source: 'c' },
-  { opcode: 0x7a, expected: 'a', source: 'd' },
-  { opcode: 0x7b, expected: 'a', source: 'e' },
-  { opcode: 0x7c, expected: 'a', source: 'h' },
-  { opcode: 0x7d, expected: 'a', source: 'l' },
-  { opcode: 0x47, expected: 'b', source: 'a' },
-  { opcode: 0x4f, expected: 'c', source: 'a' },
-  { opcode: 0x57, expected: 'd', source: 'a' },
-  { opcode: 0x5f, expected: 'e', source: 'a' },
-  { opcode: 0x67, expected: 'h', source: 'a' },
-  { opcode: 0x6f, expected: 'l', source: 'a' },
-] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8; source: TEZ80CPURegister8 }>
 export const immediateLoadCases = [
   { opcode: 0x3e, expected: 'a' },
   { opcode: 0x06, expected: 'b' },
@@ -142,19 +137,99 @@ export const registerOperands = [
   { offset: 7, register: 'a' },
 ] satisfies Array<{ offset: number; register?: TEZ80CPURegister8 }>
 
+const registerOnlyOperands = registerOperands.filter(
+  (operand): operand is { offset: number; register: TEZ80CPURegister8 } => operand.register !== undefined,
+)
+
+export const registerLoadCases = registerOnlyOperands.flatMap((destination) =>
+  registerOnlyOperands.map((source) => ({
+    destination: destination.register,
+    opcode: 0x40 + destination.offset * 8 + source.offset,
+    source: source.register,
+  })),
+)
+export const registerFromHLLoadCases = registerOnlyOperands.map((destination) => ({
+  destination: destination.register,
+  opcode: 0x46 + destination.offset * 8,
+}))
+export const hlFromRegisterLoadCases = registerOnlyOperands.map((source) => ({
+  opcode: 0x70 + source.offset,
+  source: source.register,
+}))
+
+export const increment16Cases = [
+  { opcode: 0x03, register: 'bc' },
+  { opcode: 0x13, register: 'de' },
+  { opcode: 0x23, register: 'hl' },
+  { opcode: 0x33, register: 'sp' },
+] as const
+export const decrement16Cases = [
+  { opcode: 0x0b, register: 'bc' },
+  { opcode: 0x1b, register: 'de' },
+  { opcode: 0x2b, register: 'hl' },
+  { opcode: 0x3b, register: 'sp' },
+] as const
+export const addHLRegisterPairCases = [
+  { opcode: 0x09, register: 'bc' },
+  { opcode: 0x19, register: 'de' },
+  { opcode: 0x29, register: 'hl' },
+  { opcode: 0x39, register: 'sp' },
+] as const
+export const stackRegisterPairCases = [
+  { popOpcode: 0xc1, pushOpcode: 0xc5, register: 'bc' },
+  { popOpcode: 0xd1, pushOpcode: 0xd5, register: 'de' },
+  { popOpcode: 0xe1, pushOpcode: 0xe5, register: 'hl' },
+  { popOpcode: 0xf1, pushOpcode: 0xf5, register: 'af' },
+] as const
+
+export const conditionalOpcodeCases = [
+  { callOpcode: 0xc4, flag: Z80_FLAG.zero, jpOpcode: 0xc2, name: 'NZ', retOpcode: 0xc0, takenFlag: false },
+  { callOpcode: 0xcc, flag: Z80_FLAG.zero, jpOpcode: 0xca, name: 'Z', retOpcode: 0xc8, takenFlag: true },
+  { callOpcode: 0xd4, flag: Z80_FLAG.carry, jpOpcode: 0xd2, name: 'NC', retOpcode: 0xd0, takenFlag: false },
+  { callOpcode: 0xdc, flag: Z80_FLAG.carry, jpOpcode: 0xda, name: 'C', retOpcode: 0xd8, takenFlag: true },
+  {
+    callOpcode: 0xe4,
+    flag: Z80_FLAG.parityOverflow,
+    jpOpcode: 0xe2,
+    name: 'PO',
+    retOpcode: 0xe0,
+    takenFlag: false,
+  },
+  {
+    callOpcode: 0xec,
+    flag: Z80_FLAG.parityOverflow,
+    jpOpcode: 0xea,
+    name: 'PE',
+    retOpcode: 0xe8,
+    takenFlag: true,
+  },
+  { callOpcode: 0xf4, flag: Z80_FLAG.sign, jpOpcode: 0xf2, name: 'P', retOpcode: 0xf0, takenFlag: false },
+  { callOpcode: 0xfc, flag: Z80_FLAG.sign, jpOpcode: 0xfa, name: 'M', retOpcode: 0xf8, takenFlag: true },
+] as const
+
+export const relativeConditionalOpcodeCases = [
+  { flag: Z80_FLAG.zero, name: 'NZ', opcode: 0x20, takenFlag: false },
+  { flag: Z80_FLAG.zero, name: 'Z', opcode: 0x28, takenFlag: true },
+  { flag: Z80_FLAG.carry, name: 'NC', opcode: 0x30, takenFlag: false },
+  { flag: Z80_FLAG.carry, name: 'C', opcode: 0x38, takenFlag: true },
+] as const
+
+export const aluLogicOperations = [...Z80_CPU_ALU_LOGICAL_OPERATIONS] as const
+export const aluArithmeticOperations = [...Z80_CPU_ALU_ARITHMETIC_OPERATIONS] as const
+
 export const aluArithmeticOpcodeFamilies = [
   { base: 0x80, carry: false, immediate: 0xc6, operation: 'add' },
   { base: 0x88, carry: true, immediate: 0xce, operation: 'add' },
   { base: 0x90, carry: false, immediate: 0xd6, operation: 'sub' },
   { base: 0x98, carry: true, immediate: 0xde, operation: 'sub' },
-] satisfies Array<{ base: number; carry: boolean; immediate: number; operation: TEZ80CPUAluOpration }>
+] satisfies Array<{ base: number; carry: boolean; immediate: number; operation: TEZ80CPUAluArithmeticOperation }>
 
 export const aluLogicOpcodeFamilies = [
   { base: 0xa0, immediate: 0xe6, operation: 'and' },
   { base: 0xa8, immediate: 0xee, operation: 'xor' },
   { base: 0xb0, immediate: 0xf6, operation: 'or' },
   { base: 0xb8, immediate: 0xfe, operation: 'cp' },
-] satisfies Array<{ base: number; immediate: number; operation: TEZ80CPUAluOpration }>
+] satisfies Array<{ base: number; immediate: number; operation: TEZ80CPUAluLogicalOperation }>
 
 export const aluArithmeticRegisterCases = aluArithmeticOpcodeFamilies.flatMap((family) =>
   registerOperands.flatMap((operand) =>
@@ -167,7 +242,7 @@ export const aluArithmeticRegisterCases = aluArithmeticOpcodeFamilies.flatMap((f
   offset: number
   immediate: number
   register: TEZ80CPURegister8
-  operation: TEZ80CPUAluOpration
+  operation: TEZ80CPUAluOperation
 }>
 
 export const aluLogicRegisterLoCases = aluLogicOpcodeFamilies.flatMap((family) =>
@@ -180,15 +255,21 @@ export const aluLogicRegisterLoCases = aluLogicOpcodeFamilies.flatMap((family) =
   offset: number
   immediate: number
   register: TEZ80CPURegister8
-  operation: TEZ80CPUAluOpration
+  operation: TEZ80CPUAluOperation
 }>
 
 export const aluArithmeticHLCases = aluArithmeticOpcodeFamilies.map((family) => ({
   ...family,
   opcode: family.base + 0x06,
-})) satisfies Array<{ base: number; carry: boolean; immediate: number; opcode: number; operation: TEZ80CPUAluOpration }>
+})) satisfies Array<{
+  base: number
+  carry: boolean
+  immediate: number
+  opcode: number
+  operation: TEZ80CPUAluOperation
+}>
 
 export const aluLogicHLCases = aluLogicOpcodeFamilies.map((family) => ({
   ...family,
   opcode: family.base + 0x06,
-})) satisfies Array<{ base: number; immediate: number; opcode: number; operation: TEZ80CPUAluOpration }>
+})) satisfies Array<{ base: number; immediate: number; opcode: number; operation: TEZ80CPUAluOperation }>

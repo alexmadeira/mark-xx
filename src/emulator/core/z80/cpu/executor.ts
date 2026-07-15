@@ -1,30 +1,50 @@
+import type { IZ80Byte } from '@/emulator/core/z80/byte'
 import type { IZ80CPUAlu } from '@/emulator/core/z80/cpu/alu'
 import type { IZ80CPU16 } from '@/emulator/core/z80/cpu/cpu16'
 import type { IZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
 import type {
   IZ80CPUExecutor,
+  TZ80CPUExecutorAluHLProps,
+  TZ80CPUExecutorAluImmediateProps,
+  TZ80CPUExecutorAluRegisterProps,
+  TZ80CPUExecutorExecuteAluProps,
   TZ80CPUExecutorExecuteOpcodeProps,
   TZ80CPUExecutorHandlers,
-  TZ80CPUExecutorAluHLProps,
-  TZ80CPUExecutorExecuteAluProps,
-  TZ80CPUExecutorAluRegisterProps,
-  TZ80CPUExecutorAluImmediateProps,
+  TZ80CPUExecutorLoad8Props,
+  TZ80CPUExecutorLoadImmediate8Props,
+  TZ80CPUExecutorLoadImmediate16Props,
+  TZ80CPUExecutorLoadMemoryAtRegisterPairFromAProps,
+  TZ80CPUExecutorLoadAFromMemoryAtRegisterPairProps,
+  TZ80CPUExecutorIncrement8Props,
+  TZ80CPUExecutorDecrement8Props,
+  TZ80CPUExecutorIncrement16Props,
+  TZ80CPUExecutorDecrement16Props,
+  TZ80CPUExecutorAddHLProps,
+  TZ80CPUExecutorPushProps,
+  TZ80CPUExecutorPopProps,
 } from '@/emulator/core/z80/cpu/executor'
 import type { IZ80CPURegister } from '@/emulator/core/z80/cpu/register'
+import type { IZ80Flag } from '@/emulator/core/z80/flags'
 import type { IZ80State } from '@/emulator/core/z80/state'
 
-import { Z80_CYCLES } from '_EMU/constants/z80'
+import { Z80_CPU, Z80_CYCLES, Z80_FLAG } from '_EMU/constants/z80'
 
 import { Z80OpcodeNotImplementedError } from '../errors'
 
 export class Z80CPUExecutor implements IZ80CPUExecutor {
+  private readonly handlers: TZ80CPUExecutorHandlers
+
   constructor(
     private readonly alu: IZ80CPUAlu,
+    private readonly byte: IZ80Byte,
+    private readonly flag: IZ80Flag,
     private readonly cpu8: IZ80CPU8,
     private readonly cpu16: IZ80CPU16,
     private readonly state: IZ80State,
     private readonly register: IZ80CPURegister,
-  ) {}
+  ) {
+    this.handlers = this.createHandlers()
+  }
 
   private aluHL(...[operation, carry = false]: TZ80CPUExecutorAluHLProps) {
     this.executeAlu(operation, this.cpu8.read(this.state.hl), carry)
@@ -54,111 +74,140 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     this.state.halted = true
     return Z80_CYCLES.halt
   }
-  private ldAB() {
-    this.state.a = this.state.b
-    return Z80_CYCLES.ldRR
+
+  private load8(...[destination, source]: TZ80CPUExecutorLoad8Props) {
+    const value = source === null ? this.cpu8.read(this.state.hl) : this.state[source]
+
+    if (destination === null) {
+      this.cpu8.write(this.state.hl, value)
+      return Z80_CYCLES.ldMemoryHLFromRegister
+    }
+
+    this.state[destination] = value
+    return source === null ? Z80_CYCLES.ldRegisterFromMemoryHL : Z80_CYCLES.ldRR
   }
-  private ldAC() {
-    this.state.a = this.state.c
-    return Z80_CYCLES.ldRR
-  }
-  private ldAD() {
-    this.state.a = this.state.d
-    return Z80_CYCLES.ldRR
-  }
-  private ldAE() {
-    this.state.a = this.state.e
-    return Z80_CYCLES.ldRR
-  }
-  private ldAH() {
-    this.state.a = this.state.h
-    return Z80_CYCLES.ldRR
-  }
-  private ldAL() {
-    this.state.a = this.state.l
-    return Z80_CYCLES.ldRR
-  }
-  private ldBA() {
-    this.state.b = this.state.a
-    return Z80_CYCLES.ldRR
-  }
-  private ldCA() {
-    this.state.c = this.state.a
-    return Z80_CYCLES.ldRR
-  }
-  private ldDA() {
-    this.state.d = this.state.a
-    return Z80_CYCLES.ldRR
-  }
-  private ldEA() {
-    this.state.e = this.state.a
-    return Z80_CYCLES.ldRR
-  }
-  private ldHA() {
-    this.state.h = this.state.a
-    return Z80_CYCLES.ldRR
-  }
-  private ldLA() {
-    this.state.l = this.state.a
-    return Z80_CYCLES.ldRR
-  }
-  private ldAN() {
-    this.state.a = this.cpu8.fetch()
+  private loadImmediate8(...[destination]: TZ80CPUExecutorLoadImmediate8Props) {
+    const value = this.cpu8.fetch()
+
+    if (destination === null) {
+      this.cpu8.write(this.state.hl, value)
+      return Z80_CYCLES.ldMemoryHLImmediate
+    }
+
+    this.state[destination] = value
     return Z80_CYCLES.ldRN
   }
-  private ldBN() {
-    this.state.b = this.cpu8.fetch()
-    return Z80_CYCLES.ldRN
-  }
-  private ldCN() {
-    this.state.c = this.cpu8.fetch()
-    return Z80_CYCLES.ldRN
-  }
-  private ldDN() {
-    this.state.d = this.cpu8.fetch()
-    return Z80_CYCLES.ldRN
-  }
-  private ldEN() {
-    this.state.e = this.cpu8.fetch()
-    return Z80_CYCLES.ldRN
-  }
-  private ldHN() {
-    this.state.h = this.cpu8.fetch()
-    return Z80_CYCLES.ldRN
-  }
-  private ldLN() {
-    this.state.l = this.cpu8.fetch()
-    return Z80_CYCLES.ldRN
-  }
-  private ldAFromHL() {
-    this.state.a = this.cpu8.read(this.state.hl)
-    return Z80_CYCLES.ldAHL
-  }
-  private ldHLFromA() {
-    this.cpu8.write(this.state.hl, this.state.a)
-    return Z80_CYCLES.ldHLA
-  }
-  private ldBCNN() {
-    this.state.bc = this.cpu16.fetch()
+  private loadImmediate16(...[register]: TZ80CPUExecutorLoadImmediate16Props) {
+    this.state[register] = this.cpu16.fetch()
     return Z80_CYCLES.ldRRNN
   }
-  private ldDENN() {
-    this.state.de = this.cpu16.fetch()
-    return Z80_CYCLES.ldRRNN
+  private loadMemoryAtRegisterPairFromA(...[register]: TZ80CPUExecutorLoadMemoryAtRegisterPairFromAProps) {
+    this.cpu8.write(this.state[register], this.state.a)
+    return Z80_CYCLES.ldMemoryAtRegisterPairFromA
   }
-  private ldHLNN() {
-    this.state.hl = this.cpu16.fetch()
-    return Z80_CYCLES.ldRRNN
+  private loadAFromMemoryAtRegisterPair(...[register]: TZ80CPUExecutorLoadAFromMemoryAtRegisterPairProps) {
+    this.state.a = this.cpu8.read(this.state[register])
+    return Z80_CYCLES.ldAFromMemoryAtRegisterPair
   }
-  private ldSPNN() {
-    this.state.sp = this.cpu16.fetch()
-    return Z80_CYCLES.ldRRNN
+  private loadAbsoluteMemoryFromHL() {
+    const address = this.cpu16.fetch()
+
+    this.cpu8.write(address, this.byte.getLowByte(this.state.hl))
+    this.cpu8.write(this.byte.toWord(address + 1), this.byte.getHighByte(this.state.hl))
+
+    return Z80_CYCLES.ldAbsoluteMemoryFromHL
   }
-  private jpNN() {
+  private loadHLFromAbsoluteMemory() {
+    const address = this.cpu16.fetch()
+    const low = this.cpu8.read(address)
+    const high = this.cpu8.read(this.byte.toWord(address + 1))
+
+    this.state.hl = this.byte.makeWord(low, high)
+    return Z80_CYCLES.ldHLFromAbsoluteMemory
+  }
+  private loadAbsoluteMemoryFromA() {
+    this.cpu8.write(this.cpu16.fetch(), this.state.a)
+    return Z80_CYCLES.ldAbsoluteMemoryFromA
+  }
+  private loadAFromAbsoluteMemory() {
+    this.state.a = this.cpu8.read(this.cpu16.fetch())
+    return Z80_CYCLES.ldAFromAbsoluteMemory
+  }
+
+  private increment8(...[register]: TZ80CPUExecutorIncrement8Props) {
+    this.register.increment(register)
+    return Z80_CYCLES.incDecR
+  }
+  private decrement8(...[register]: TZ80CPUExecutorDecrement8Props) {
+    this.register.decrement(register)
+    return Z80_CYCLES.incDecR
+  }
+  private increment16(...[register]: TZ80CPUExecutorIncrement16Props) {
+    this.state[register] = this.byte.toWord(this.state[register] + 1)
+    return Z80_CYCLES.incDecRegister16
+  }
+  private decrement16(...[register]: TZ80CPUExecutorDecrement16Props) {
+    this.state[register] = this.byte.toWord(this.state[register] - 1)
+    return Z80_CYCLES.incDecRegister16
+  }
+  private addHL(...[register]: TZ80CPUExecutorAddHLProps) {
+    const left = this.byte.toWord(this.state.hl)
+    const right = this.byte.toWord(this.state[register])
+    const result = left + right
+
+    this.flag.set(Z80_FLAG.subtract, false)
+    this.flag.set(Z80_FLAG.halfCarry, (left & 0x0fff) + (right & 0x0fff) > 0x0fff)
+    this.flag.set(Z80_FLAG.carry, result > 0xffff)
+    this.state.hl = this.byte.toWord(result)
+
+    return Z80_CYCLES.addHLRegisterPair
+  }
+
+  private push(...[register]: TZ80CPUExecutorPushProps) {
+    this.cpu16.push(this.state[register])
+    return Z80_CYCLES.pushRegisterPair
+  }
+  private pop(...[register]: TZ80CPUExecutorPopProps) {
+    this.state[register] = this.cpu16.pop()
+    return Z80_CYCLES.popRegisterPair
+  }
+
+  private conditionNZ() {
+    return !this.flag.hasFlag(Z80_FLAG.zero)
+  }
+  private conditionZ() {
+    return this.flag.hasFlag(Z80_FLAG.zero)
+  }
+  private conditionNC() {
+    return !this.flag.hasFlag(Z80_FLAG.carry)
+  }
+  private conditionC() {
+    return this.flag.hasFlag(Z80_FLAG.carry)
+  }
+  private conditionPO() {
+    return !this.flag.hasFlag(Z80_FLAG.parityOverflow)
+  }
+  private conditionPE() {
+    return this.flag.hasFlag(Z80_FLAG.parityOverflow)
+  }
+  private conditionP() {
+    return !this.flag.hasFlag(Z80_FLAG.sign)
+  }
+  private conditionM() {
+    return this.flag.hasFlag(Z80_FLAG.sign)
+  }
+
+  private jumpAbsolute() {
     this.state.pc = this.cpu16.fetch()
     return Z80_CYCLES.jpNN
   }
-  private callNN() {
+  private jumpConditional(condition: boolean) {
+    const address = this.cpu16.fetch()
+
+    if (condition) this.state.pc = address
+    return Z80_CYCLES.jpConditional
+  }
+  private callAbsolute() {
     const address = this.cpu16.fetch()
 
     this.cpu16.push(this.state.pc)
@@ -166,121 +215,151 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
 
     return Z80_CYCLES.callNN
   }
+  private callConditional(condition: boolean) {
+    const address = this.cpu16.fetch()
+
+    if (!condition) return Z80_CYCLES.callConditionalNotTaken
+
+    this.cpu16.push(this.state.pc)
+    this.state.pc = address
+    return Z80_CYCLES.callConditionalTaken
+  }
   private ret() {
     this.state.pc = this.cpu16.pop()
     return Z80_CYCLES.ret
   }
-  private incA() {
-    this.register.increment('a')
-    return Z80_CYCLES.incDecR
+  private retConditional(condition: boolean) {
+    if (!condition) return Z80_CYCLES.retConditionalNotTaken
+
+    this.state.pc = this.cpu16.pop()
+    return Z80_CYCLES.retConditionalTaken
   }
-  private incB() {
-    this.register.increment('b')
-    return Z80_CYCLES.incDecR
+  private applyRelativeOffset(offset: number) {
+    this.state.pc = this.byte.toWord(this.state.pc + this.byte.signedByte(offset))
   }
-  private incC() {
-    this.register.increment('c')
-    return Z80_CYCLES.incDecR
+  private jumpRelative() {
+    this.applyRelativeOffset(this.cpu8.fetch())
+    return Z80_CYCLES.jr
   }
-  private incD() {
-    this.register.increment('d')
-    return Z80_CYCLES.incDecR
+  private jumpRelativeConditional(condition: boolean) {
+    const offset = this.cpu8.fetch()
+
+    if (!condition) return Z80_CYCLES.jrConditionalNotTaken
+
+    this.applyRelativeOffset(offset)
+    return Z80_CYCLES.jrConditionalTaken
   }
-  private incE() {
-    this.register.increment('e')
-    return Z80_CYCLES.incDecR
-  }
-  private incH() {
-    this.register.increment('h')
-    return Z80_CYCLES.incDecR
-  }
-  private incL() {
-    this.register.increment('l')
-    return Z80_CYCLES.incDecR
-  }
-  private decA() {
-    this.register.decrement('a')
-    return Z80_CYCLES.incDecR
-  }
-  private decB() {
-    this.register.decrement('b')
-    return Z80_CYCLES.incDecR
-  }
-  private decC() {
-    this.register.decrement('c')
-    return Z80_CYCLES.incDecR
-  }
-  private decD() {
-    this.register.decrement('d')
-    return Z80_CYCLES.incDecR
-  }
-  private decE() {
-    this.register.decrement('e')
-    return Z80_CYCLES.incDecR
-  }
-  private decH() {
-    this.register.decrement('h')
-    return Z80_CYCLES.incDecR
-  }
-  private decL() {
-    this.register.decrement('l')
-    return Z80_CYCLES.incDecR
+  private decrementBAndJumpRelative() {
+    const offset = this.cpu8.fetch()
+
+    this.state.b = this.byte.toByte(this.state.b - 1)
+    if (this.state.b === 0) return Z80_CYCLES.djnzNotTaken
+
+    this.applyRelativeOffset(offset)
+    return Z80_CYCLES.djnzTaken
   }
 
-  private get handlers(): TZ80CPUExecutorHandlers {
-    return {
-      0x00: this.nop.bind(this),
-      0x76: this.halt.bind(this),
+  private createHandlers() {
+    const handlers: TZ80CPUExecutorHandlers = {
+      0x00: () => this.nop(),
+      0x76: () => this.halt(),
 
-      0x78: this.ldAB.bind(this),
-      0x79: this.ldAC.bind(this),
-      0x7a: this.ldAD.bind(this),
-      0x7b: this.ldAE.bind(this),
-      0x7c: this.ldAH.bind(this),
-      0x7d: this.ldAL.bind(this),
+      0x3e: () => this.loadImmediate8('a'),
+      0x06: () => this.loadImmediate8('b'),
+      0x0e: () => this.loadImmediate8('c'),
+      0x16: () => this.loadImmediate8('d'),
+      0x1e: () => this.loadImmediate8('e'),
+      0x26: () => this.loadImmediate8('h'),
+      0x2e: () => this.loadImmediate8('l'),
+      0x36: () => this.loadImmediate8(null),
 
-      0x47: this.ldBA.bind(this),
-      0x4f: this.ldCA.bind(this),
-      0x57: this.ldDA.bind(this),
-      0x5f: this.ldEA.bind(this),
-      0x67: this.ldHA.bind(this),
-      0x6f: this.ldLA.bind(this),
+      0x01: () => this.loadImmediate16('bc'),
+      0x11: () => this.loadImmediate16('de'),
+      0x21: () => this.loadImmediate16('hl'),
+      0x31: () => this.loadImmediate16('sp'),
 
-      0x3e: this.ldAN.bind(this),
-      0x06: this.ldBN.bind(this),
-      0x0e: this.ldCN.bind(this),
-      0x16: this.ldDN.bind(this),
-      0x1e: this.ldEN.bind(this),
-      0x26: this.ldHN.bind(this),
-      0x2e: this.ldLN.bind(this),
+      0x02: () => this.loadMemoryAtRegisterPairFromA('bc'),
+      0x12: () => this.loadMemoryAtRegisterPairFromA('de'),
+      0x0a: () => this.loadAFromMemoryAtRegisterPair('bc'),
+      0x1a: () => this.loadAFromMemoryAtRegisterPair('de'),
+      0x22: () => this.loadAbsoluteMemoryFromHL(),
+      0x2a: () => this.loadHLFromAbsoluteMemory(),
+      0x32: () => this.loadAbsoluteMemoryFromA(),
+      0x3a: () => this.loadAFromAbsoluteMemory(),
 
-      0x7e: this.ldAFromHL.bind(this),
-      0x77: this.ldHLFromA.bind(this),
+      0x3c: () => this.increment8('a'),
+      0x04: () => this.increment8('b'),
+      0x0c: () => this.increment8('c'),
+      0x14: () => this.increment8('d'),
+      0x1c: () => this.increment8('e'),
+      0x24: () => this.increment8('h'),
+      0x2c: () => this.increment8('l'),
+      0x3d: () => this.decrement8('a'),
+      0x05: () => this.decrement8('b'),
+      0x0d: () => this.decrement8('c'),
+      0x15: () => this.decrement8('d'),
+      0x1d: () => this.decrement8('e'),
+      0x25: () => this.decrement8('h'),
+      0x2d: () => this.decrement8('l'),
 
-      0x01: this.ldBCNN.bind(this),
-      0x11: this.ldDENN.bind(this),
-      0x21: this.ldHLNN.bind(this),
-      0x31: this.ldSPNN.bind(this),
+      0x03: () => this.increment16('bc'),
+      0x13: () => this.increment16('de'),
+      0x23: () => this.increment16('hl'),
+      0x33: () => this.increment16('sp'),
+      0x0b: () => this.decrement16('bc'),
+      0x1b: () => this.decrement16('de'),
+      0x2b: () => this.decrement16('hl'),
+      0x3b: () => this.decrement16('sp'),
+      0x09: () => this.addHL('bc'),
+      0x19: () => this.addHL('de'),
+      0x29: () => this.addHL('hl'),
+      0x39: () => this.addHL('sp'),
 
-      0xc3: this.jpNN.bind(this),
-      0xcd: this.callNN.bind(this),
-      0xc9: this.ret.bind(this),
+      0xc5: () => this.push('bc'),
+      0xd5: () => this.push('de'),
+      0xe5: () => this.push('hl'),
+      0xf5: () => this.push('af'),
+      0xc1: () => this.pop('bc'),
+      0xd1: () => this.pop('de'),
+      0xe1: () => this.pop('hl'),
+      0xf1: () => this.pop('af'),
 
-      0x3c: this.incA.bind(this),
-      0x04: this.incB.bind(this),
-      0x0c: this.incC.bind(this),
-      0x14: this.incD.bind(this),
-      0x1c: this.incE.bind(this),
-      0x24: this.incH.bind(this),
-      0x2c: this.incL.bind(this),
+      0xc3: () => this.jumpAbsolute(),
+      0xc2: () => this.jumpConditional(this.conditionNZ()),
+      0xca: () => this.jumpConditional(this.conditionZ()),
+      0xd2: () => this.jumpConditional(this.conditionNC()),
+      0xda: () => this.jumpConditional(this.conditionC()),
+      0xe2: () => this.jumpConditional(this.conditionPO()),
+      0xea: () => this.jumpConditional(this.conditionPE()),
+      0xf2: () => this.jumpConditional(this.conditionP()),
+      0xfa: () => this.jumpConditional(this.conditionM()),
 
-      0x3d: this.decA.bind(this),
-      0x05: this.decB.bind(this),
-      0x0d: this.decC.bind(this),
-      0x15: this.decD.bind(this),
-      0x1d: this.decE.bind(this),
-      0x25: this.decH.bind(this),
-      0x2d: this.decL.bind(this),
+      0xcd: () => this.callAbsolute(),
+      0xc4: () => this.callConditional(this.conditionNZ()),
+      0xcc: () => this.callConditional(this.conditionZ()),
+      0xd4: () => this.callConditional(this.conditionNC()),
+      0xdc: () => this.callConditional(this.conditionC()),
+      0xe4: () => this.callConditional(this.conditionPO()),
+      0xec: () => this.callConditional(this.conditionPE()),
+      0xf4: () => this.callConditional(this.conditionP()),
+      0xfc: () => this.callConditional(this.conditionM()),
+
+      0xc9: () => this.ret(),
+      0xc0: () => this.retConditional(this.conditionNZ()),
+      0xc8: () => this.retConditional(this.conditionZ()),
+      0xd0: () => this.retConditional(this.conditionNC()),
+      0xd8: () => this.retConditional(this.conditionC()),
+      0xe0: () => this.retConditional(this.conditionPO()),
+      0xe8: () => this.retConditional(this.conditionPE()),
+      0xf0: () => this.retConditional(this.conditionP()),
+      0xf8: () => this.retConditional(this.conditionM()),
+
+      0x18: () => this.jumpRelative(),
+      0x20: () => this.jumpRelativeConditional(this.conditionNZ()),
+      0x28: () => this.jumpRelativeConditional(this.conditionZ()),
+      0x30: () => this.jumpRelativeConditional(this.conditionNC()),
+      0x38: () => this.jumpRelativeConditional(this.conditionC()),
+      0x10: () => this.decrementBAndJumpRelative(),
 
       0x80: () => this.aluRegister('add', 'b'),
       0x81: () => this.aluRegister('add', 'c'),
@@ -362,6 +441,17 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
       0xbf: () => this.aluRegister('cp', 'a'),
       0xfe: () => this.aluImmediate('cp'),
     }
+
+    for (let opcode = 0x40; opcode <= 0x7f; opcode += 1) {
+      if (opcode === 0x76) continue
+
+      const destination = Z80_CPU.operands8[(opcode >> 3) & 0x07]
+      const source = Z80_CPU.operands8[opcode & 0x07]
+
+      handlers[opcode] = () => this.load8(destination, source)
+    }
+
+    return handlers
   }
 
   public executeOpcode(...[opcode, opcodePc = this.state.pc]: TZ80CPUExecutorExecuteOpcodeProps) {

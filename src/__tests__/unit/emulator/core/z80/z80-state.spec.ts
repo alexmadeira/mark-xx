@@ -87,6 +87,10 @@ describe('Emulator', () => {
       })
       describe('Word Registers', () => {
         it.each(wordRegisterCases)('should split and combine the $register register', ({ register, high, low }) => {
+          byte.toWord.mockReturnValueOnce(0x2345).mockReturnValueOnce(0x2345)
+          byte.getHighByte.mockReturnValueOnce(0x23)
+          byte.getLowByte.mockReturnValueOnce(0x45)
+
           Object.assign(sut, { [register]: 0x12345 })
 
           expect(byte.toWord).toHaveBeenNthCalledWith(1, 0x12345)

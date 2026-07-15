@@ -24,6 +24,7 @@ describe('Emulator', () => {
       describe('Fetch', () => {
         it('should fetch the low and high bytes and combine them as a word', () => {
           cpu8.fetch.mockReturnValueOnce(0x34).mockReturnValueOnce(0x12)
+          byte.makeWord.mockReturnValueOnce(0x1234)
 
           const result = sut.fetch()
 
@@ -36,6 +37,9 @@ describe('Emulator', () => {
       describe('Push', () => {
         it('should normalize the word and push its high and low bytes with stack pre-decrement', () => {
           state.sp = 0x0000
+          byte.toWord.mockReturnValueOnce(0x2345).mockReturnValueOnce(0xffff).mockReturnValueOnce(0xfffe)
+          byte.getHighByte.mockReturnValueOnce(0x23)
+          byte.getLowByte.mockReturnValueOnce(0x45)
 
           sut.push(0x12345)
 
@@ -55,6 +59,8 @@ describe('Emulator', () => {
         it('should pop the low and high bytes with stack post-increment and combine them', () => {
           state.sp = 0xffff
           cpu8.read.mockReturnValueOnce(0x34).mockReturnValueOnce(0x12)
+          byte.toWord.mockReturnValueOnce(0x0000).mockReturnValueOnce(0x0001)
+          byte.makeWord.mockReturnValueOnce(0x1234)
 
           const result = sut.pop()
 

@@ -59,7 +59,8 @@ export class Z80CPUAlu implements IZ80CPUAlu {
   }
 
   public or(...[value]: TZ80CPUAluValueProps) {
-    const result = this.byte.toByte(this.state.a | value)
+    const right = this.byte.toByte(value)
+    const result = this.byte.toByte(this.state.a | right)
 
     this.state.a = result
     this.updateLogicFlags(result, false)
@@ -88,14 +89,16 @@ export class Z80CPUAlu implements IZ80CPUAlu {
   }
 
   public and(...[value]: TZ80CPUAluValueProps) {
-    const result = this.byte.toByte(this.state.a & value)
+    const right = this.byte.toByte(value)
+    const result = this.byte.toByte(this.state.a & right)
 
     this.state.a = result
     this.updateLogicFlags(result, true)
   }
 
   public xor(...[value]: TZ80CPUAluValueProps) {
-    const result = this.byte.toByte(this.state.a ^ value)
+    const right = this.byte.toByte(value)
+    const result = this.byte.toByte(this.state.a ^ right)
 
     this.state.a = result
     this.updateLogicFlags(result, false)

@@ -51,6 +51,8 @@ describe('Emulator', () => {
       describe('Fetch', () => {
         it('should read from the program counter and increment it as a 16-bit value', () => {
           state.pc = 0xffff
+          byte.toByte.mockReturnValueOnce(0x42)
+          byte.toWord.mockReturnValueOnce(0xffff).mockReturnValueOnce(0x0000)
           memoryBus.read.mockReturnValueOnce(0x42)
 
           const result = sut.fetch()
