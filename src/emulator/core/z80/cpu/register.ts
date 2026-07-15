@@ -3,6 +3,8 @@ import type {
   IZ80CPURegister,
   TZ80CPURegisterDecrementProps,
   TZ80CPURegisterIncrementProps,
+  TZ80CPURegisterUpdateIncrementFlagsProps,
+  TZ80CPURegisterUpdateDecrementFlagsProps,
 } from '@/emulator/core/z80/cpu/register'
 import type { IZ80Flag } from '@/emulator/core/z80/flags'
 import type { IZ80State } from '@/emulator/core/z80/state'
@@ -16,7 +18,7 @@ export class Z80CPURegister implements IZ80CPURegister {
     private readonly byte: IZ80Byte,
   ) {}
 
-  private updateIncrementFlags(previous: number, value: number) {
+  private updateIncrementFlags(...[previous, value]: TZ80CPURegisterUpdateIncrementFlagsProps) {
     this.flag.updateSign(value)
     this.flag.updateZero(value)
     this.flag.set(Z80_FLAG.halfCarry, (previous & 0x0f) === 0x0f)
@@ -24,7 +26,7 @@ export class Z80CPURegister implements IZ80CPURegister {
     this.flag.set(Z80_FLAG.subtract, false)
   }
 
-  private updateDecrementFlags(previous: number, value: number) {
+  private updateDecrementFlags(...[previous, value]: TZ80CPURegisterUpdateDecrementFlagsProps) {
     this.flag.updateSign(value)
     this.flag.updateZero(value)
     this.flag.set(Z80_FLAG.halfCarry, (previous & 0x0f) === 0x00)

@@ -1,4 +1,9 @@
-import type { IZ80MemoryBus } from '@/emulator/core/z80/memory-bus'
+import type {
+  IZ80MemoryBus,
+  TZ80MemoryBusLoadProps,
+  TZ80MemoryBusReadProps,
+  TZ80MemoryBusWriteProps,
+} from '@/emulator/core/z80/memory-bus'
 
 export class Z80MemoryBusMock implements IZ80MemoryBus {
   private readonly memory: Uint8Array
@@ -7,17 +12,17 @@ export class Z80MemoryBusMock implements IZ80MemoryBus {
     this.memory = new Uint8Array(size)
   }
 
-  public readonly load = vi.fn((data: ArrayLike<number>, offset = 0): void => {
+  public readonly load = vi.fn((...[data, offset = 0]: TZ80MemoryBusLoadProps) => {
     for (let index = 0; index < data.length; index += 1) {
       this.memory[(offset + index) & 0xffff] = data[index] & 0xff
     }
   })
 
-  public readonly read = vi.fn((address: number): number => {
+  public readonly read = vi.fn((...[address]: TZ80MemoryBusReadProps) => {
     return this.memory[address & 0xffff] & 0xff
   })
 
-  public readonly write = vi.fn((address: number, value: number): void => {
+  public readonly write = vi.fn((...[address, value]: TZ80MemoryBusWriteProps) => {
     this.memory[address & 0xffff] = value & 0xff
   })
 

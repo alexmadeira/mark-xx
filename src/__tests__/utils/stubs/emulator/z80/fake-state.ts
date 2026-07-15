@@ -1,4 +1,13 @@
-import type { IZ80State, TZ80StateData, TZ80StateInterruptMode, TZ80StateProps } from '@/emulator/core/z80/state'
+import type {
+  IZ80State,
+  TZ80StateAF,
+  TZ80StateBC,
+  TZ80StateData,
+  TZ80StateDE,
+  TZ80StateHL,
+  TZ80StateInterruptMode,
+  TZ80StateProps,
+} from '@/emulator/core/z80/state'
 
 const defaultState: TZ80StateData = {
   a: 0,
@@ -64,43 +73,43 @@ export class Z80StateMock implements IZ80State {
     Object.assign(this, this.initialState)
   }
 
-  public readonly reset = vi.fn((): void => {
+  public readonly reset = vi.fn(() => {
     Object.assign(this, this.initialState)
   })
 
-  public set af(value: number) {
+  public set af(value: TZ80StateAF) {
     this.a = (value >> 8) & 0xff
     this.f = value & 0xff
   }
 
-  public get af(): number {
+  public get af() {
     return ((this.a << 8) | this.f) & 0xffff
   }
 
-  public set bc(value: number) {
+  public set bc(value: TZ80StateBC) {
     this.b = (value >> 8) & 0xff
     this.c = value & 0xff
   }
 
-  public get bc(): number {
+  public get bc() {
     return ((this.b << 8) | this.c) & 0xffff
   }
 
-  public set de(value: number) {
+  public set de(value: TZ80StateDE) {
     this.d = (value >> 8) & 0xff
     this.e = value & 0xff
   }
 
-  public get de(): number {
+  public get de() {
     return ((this.d << 8) | this.e) & 0xffff
   }
 
-  public set hl(value: number) {
+  public set hl(value: TZ80StateHL) {
     this.h = (value >> 8) & 0xff
     this.l = value & 0xff
   }
 
-  public get hl(): number {
+  public get hl() {
     return ((this.h << 8) | this.l) & 0xffff
   }
 }

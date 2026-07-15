@@ -12,6 +12,9 @@ export const Z80_FLAG = {
 } as const
 
 export const Z80_CYCLES = {
+  aluHL: 7,
+  aluN: 7,
+  aluR: 4,
   callNN: 17,
   halt: 4,
   incDecR: 4,

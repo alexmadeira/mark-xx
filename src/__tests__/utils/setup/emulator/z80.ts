@@ -1,5 +1,5 @@
-import type { TZ80CPURegister8 } from '@/emulator/core/z80/cpu/register'
 import type { TZ80StateData } from '@/emulator/core/z80/state'
+import type { TEZ80CPUAluOpration, TEZ80CPURegister8 } from '@/enums/emulator/z80'
 
 export const Z80RegistersList = {
   a: 'A',
@@ -9,8 +9,8 @@ export const Z80RegistersList = {
   e: 'E',
   h: 'H',
   l: 'L',
-} satisfies Record<TZ80CPURegister8, string>
-export const Z80RegistersPairs = Object.entries(Z80RegistersList) as [TZ80CPURegister8, string][]
+} satisfies Record<TEZ80CPURegister8, string>
+export const Z80RegistersPairs = Object.entries(Z80RegistersList) as [TEZ80CPURegister8, string][]
 
 export const wordLoadCases = [
   { opcode: 0x01, expected: 'bc' },
@@ -26,7 +26,7 @@ export const incrementCases = [
   { opcode: 0x1c, expected: 'e' },
   { opcode: 0x24, expected: 'h' },
   { opcode: 0x2c, expected: 'l' },
-] satisfies Array<{ opcode: number; expected: TZ80CPURegister8 }>
+] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8 }>
 export const decrementCases = [
   { opcode: 0x3d, expected: 'a' },
   { opcode: 0x05, expected: 'b' },
@@ -35,7 +35,7 @@ export const decrementCases = [
   { opcode: 0x1d, expected: 'e' },
   { opcode: 0x25, expected: 'h' },
   { opcode: 0x2d, expected: 'l' },
-] satisfies Array<{ opcode: number; expected: TZ80CPURegister8 }>
+] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8 }>
 export const registerLoadCases = [
   { opcode: 0x78, expected: 'a', source: 'b' },
   { opcode: 0x79, expected: 'a', source: 'c' },
@@ -49,7 +49,7 @@ export const registerLoadCases = [
   { opcode: 0x5f, expected: 'e', source: 'a' },
   { opcode: 0x67, expected: 'h', source: 'a' },
   { opcode: 0x6f, expected: 'l', source: 'a' },
-] satisfies Array<{ opcode: number; expected: TZ80CPURegister8; source: TZ80CPURegister8 }>
+] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8; source: TEZ80CPURegister8 }>
 export const immediateLoadCases = [
   { opcode: 0x3e, expected: 'a' },
   { opcode: 0x06, expected: 'b' },
@@ -58,7 +58,7 @@ export const immediateLoadCases = [
   { opcode: 0x1e, expected: 'e' },
   { opcode: 0x26, expected: 'h' },
   { opcode: 0x2e, expected: 'l' },
-] satisfies Array<{ opcode: number; expected: TZ80CPURegister8 }>
+] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8 }>
 
 export const byteConversionCases = [
   { value: 0x00, expected: 0 },
@@ -130,3 +130,65 @@ export const wordRegisterCases = [
   { register: 'de', high: 'd', low: 'e' },
   { register: 'hl', high: 'h', low: 'l' },
 ] as const
+
+export const registerOperands = [
+  { offset: 0, register: 'b' },
+  { offset: 1, register: 'c' },
+  { offset: 2, register: 'd' },
+  { offset: 3, register: 'e' },
+  { offset: 4, register: 'h' },
+  { offset: 5, register: 'l' },
+  { offset: 6 },
+  { offset: 7, register: 'a' },
+] satisfies Array<{ offset: number; register?: TEZ80CPURegister8 }>
+
+export const aluArithmeticOpcodeFamilies = [
+  { base: 0x80, carry: false, immediate: 0xc6, operation: 'add' },
+  { base: 0x88, carry: true, immediate: 0xce, operation: 'add' },
+  { base: 0x90, carry: false, immediate: 0xd6, operation: 'sub' },
+  { base: 0x98, carry: true, immediate: 0xde, operation: 'sub' },
+] satisfies Array<{ base: number; carry: boolean; immediate: number; operation: TEZ80CPUAluOpration }>
+
+export const aluLogicOpcodeFamilies = [
+  { base: 0xa0, immediate: 0xe6, operation: 'and' },
+  { base: 0xa8, immediate: 0xee, operation: 'xor' },
+  { base: 0xb0, immediate: 0xf6, operation: 'or' },
+  { base: 0xb8, immediate: 0xfe, operation: 'cp' },
+] satisfies Array<{ base: number; immediate: number; operation: TEZ80CPUAluOpration }>
+
+export const aluArithmeticRegisterCases = aluArithmeticOpcodeFamilies.flatMap((family) =>
+  registerOperands.flatMap((operand) =>
+    operand.register ? [{ ...family, ...operand, opcode: family.base + operand.offset }] : [],
+  ),
+) satisfies Array<{
+  base: number
+  carry: boolean
+  opcode: number
+  offset: number
+  immediate: number
+  register: TEZ80CPURegister8
+  operation: TEZ80CPUAluOpration
+}>
+
+export const aluLogicRegisterLoCases = aluLogicOpcodeFamilies.flatMap((family) =>
+  registerOperands.flatMap((operand) =>
+    operand.register ? [{ ...family, ...operand, opcode: family.base + operand.offset }] : [],
+  ),
+) satisfies Array<{
+  base: number
+  opcode: number
+  offset: number
+  immediate: number
+  register: TEZ80CPURegister8
+  operation: TEZ80CPUAluOpration
+}>
+
+export const aluArithmeticHLCases = aluArithmeticOpcodeFamilies.map((family) => ({
+  ...family,
+  opcode: family.base + 0x06,
+})) satisfies Array<{ base: number; carry: boolean; immediate: number; opcode: number; operation: TEZ80CPUAluOpration }>
+
+export const aluLogicHLCases = aluLogicOpcodeFamilies.map((family) => ({
+  ...family,
+  opcode: family.base + 0x06,
+})) satisfies Array<{ base: number; immediate: number; opcode: number; operation: TEZ80CPUAluOpration }>

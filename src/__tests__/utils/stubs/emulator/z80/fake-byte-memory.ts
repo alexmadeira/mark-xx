@@ -1,9 +1,7 @@
-import type { IByteMemory } from '@/emulator/core/value-object/byte-memory'
-
-type TZ80ByteMemoryMockSeed = number | ArrayLike<number>
+import type { IByteMemory, TByteMemoryCreateProps } from '@/emulator/core/value-object/byte-memory'
 
 export class Z80ByteMemoryMock extends Uint8Array implements IByteMemory {
-  constructor(seed: TZ80ByteMemoryMockSeed = 0) {
+  constructor(...[seed]: TByteMemoryCreateProps) {
     if (typeof seed === 'number') {
       super(seed)
       return
@@ -12,7 +10,7 @@ export class Z80ByteMemoryMock extends Uint8Array implements IByteMemory {
     super(Array.from(seed))
   }
 
-  static readonly create = vi.fn((seed: TZ80ByteMemoryMockSeed): IByteMemory => {
+  static readonly create = vi.fn((...[seed]: TByteMemoryCreateProps) => {
     return new Z80ByteMemoryMock(seed)
   })
 

@@ -8,19 +8,19 @@ export const ZZ80FlagUpdateParityProps = z.tuple([z.number()])
 export const ZZ80FlagCalculateParityProps = z.tuple([z.number()])
 
 export const ZZ80FlagSet = z.custom<(...props: z.infer<typeof ZZ80FlagSetProps>) => void>()
-export const ZZ80FlagHasFlag = z.custom<(...props: z.infer<typeof ZZ80FlagHasFlagProps>) => void>()
+export const ZZ80FlagHasFlag = z.custom<(...props: z.infer<typeof ZZ80FlagHasFlagProps>) => boolean>()
 export const ZZ80FlagUpdateSign = z.custom<(...props: z.infer<typeof ZZ80FlagUpdateSignProps>) => void>()
 export const ZZ80FlagUpdateZero = z.custom<(...props: z.infer<typeof ZZ80FlagUpdateZeroProps>) => void>()
 export const ZZ80FlagUpdateParity = z.custom<(...props: z.infer<typeof ZZ80FlagUpdateParityProps>) => void>()
-export const ZZ80FlagCalculateParity = z.custom<(...props: z.infer<typeof ZZ80FlagCalculateParityProps>) => void>()
+export const ZZ80FlagCalculateParity = z.custom<(...props: z.infer<typeof ZZ80FlagCalculateParityProps>) => boolean>()
 
 export const ZZ80Flag = z.object({
   set: ZZ80FlagSet,
   hasFlag: ZZ80FlagHasFlag,
   updateSign: ZZ80FlagUpdateSign,
   updateZero: ZZ80FlagUpdateZero,
-  updateParity: ZZ80FlagCalculateParity,
-  calculateParity: ZZ80FlagUpdateParity,
+  updateParity: ZZ80FlagUpdateParity,
+  calculateParity: ZZ80FlagCalculateParity,
 })
 
 //

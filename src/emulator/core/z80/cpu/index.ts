@@ -15,8 +15,6 @@ import type { IZ80State } from '@/emulator/core/z80/state'
 import { Z80_CYCLES } from '_EMU/constants/z80'
 import _ from 'lodash'
 
-import { Z80OpcodeNotImplementedError } from '../errors'
-
 export class Z80CPU implements IZ80CPU {
   public readonly read8: TZ80CPURead8
   public readonly fetch8: TZ80CPUFetch8
@@ -53,11 +51,7 @@ export class Z80CPU implements IZ80CPU {
     const opcodePc = this.state.pc
     const opcode = this.fetch8()
 
-    try {
-      return this.executor.executeOpcode(opcode)
-    } catch (_error) {
-      throw new Z80OpcodeNotImplementedError(opcode, opcodePc)
-    }
+    return this.executor.executeOpcode(opcode, opcodePc)
   }
 
   public requestInterrupt(vector?: number) {
