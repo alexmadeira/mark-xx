@@ -19,6 +19,7 @@ export default defineConfig({
           environment: 'node',
           include: ['./unit/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
           exclude: [
+            './integration/**/*.{test,spec}.?(c|m)[jt]s?(x)',
             './unit/{app,components,pages,providers}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
           ],
         },
@@ -32,9 +33,19 @@ export default defineConfig({
             './unit/{app,components,pages,providers}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
           ],
           exclude: [
+            './integration/**/*.{test,spec}.?(c|m)[jt]s?(x)',
             './unit/services/**/*.{test,spec}.?(c|m)[jt]s?(x)',
             './unit/emulator/core/**/*.{test,spec}.?(c|m)[jt]s?(x)',
           ],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'integration:node',
+          environment: 'node',
+          include: ['./integration/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+          exclude: ['./unit/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
         },
       },
     ],
