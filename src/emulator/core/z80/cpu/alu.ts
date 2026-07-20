@@ -22,8 +22,8 @@ export class Z80CPUAlu implements IZ80CPUAlu {
     private readonly byte: IZ80Byte,
   ) {}
 
-  static create(...props: TZ80CPUAluCreateProps) {
-    return new Z80CPUAlu(...props)
+  static create(props: TZ80CPUAluCreateProps) {
+    return new Z80CPUAlu(props.state, props.flag, props.byte)
   }
 
   private updateAddFlags(...[left, right, carry, result, value]: TZ80CPUAluUpdateAddFlagsProps) {

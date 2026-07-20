@@ -5,7 +5,12 @@ import { ZZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
 import { ZZ80CPUExecutor } from '@/emulator/core/z80/cpu/executor'
 import { ZZ80State } from '@/emulator/core/z80/state'
 
-export const ZZ80CPUCreateProps = z.tuple([ZZ80State, ZZ80CPU8, ZZ80CPU16, ZZ80CPUExecutor])
+export const ZZ80CPUCreateProps = z.object({
+  state: ZZ80State,
+  cpu8: ZZ80CPU8,
+  cpu16: ZZ80CPU16,
+  executor: ZZ80CPUExecutor,
+})
 
 export const ZZ80CPURead8Props = z.tuple([z.number()])
 export const ZZ80CPUWrite8Props = z.tuple([z.number(), z.number()])
@@ -38,7 +43,7 @@ export const ZZ80CPU = z.object({
   requestInterrupt: ZZ80CPURequestInterrupt,
 })
 
-export const ZZ80CPUCreate = z.custom<(...props: z.infer<typeof ZZ80CPUCreateProps>) => z.infer<typeof ZZ80CPU>>()
+export const ZZ80CPUCreate = z.custom<(props: z.infer<typeof ZZ80CPUCreateProps>) => z.infer<typeof ZZ80CPU>>()
 
 //
 //

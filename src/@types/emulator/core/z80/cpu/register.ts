@@ -5,7 +5,7 @@ import { ZZ80Flag } from '@/emulator/core/z80/flags'
 import { ZZ80State } from '@/emulator/core/z80/state'
 import { ZEZ80CPURegister8 } from '@/enums/emulator/z80'
 
-export const ZZ80CPURegisterCreateProps = z.tuple([ZZ80Byte, ZZ80Flag, ZZ80State])
+export const ZZ80CPURegisterCreateProps = z.object({ byte: ZZ80Byte, flag: ZZ80Flag, state: ZZ80State })
 
 export const ZZ80CPURegisterUpdateIncrementFlagsProps = z.tuple([z.number(), z.number()])
 export const ZZ80CPURegisterUpdateDecrementFlagsProps = z.tuple([z.number(), z.number()])
@@ -22,7 +22,7 @@ export const ZZ80CPURegister = z.object({
 })
 
 export const ZZ80CPURegisterCreate =
-  z.custom<(...props: z.infer<typeof ZZ80CPURegisterCreateProps>) => z.infer<typeof ZZ80CPURegister>>()
+  z.custom<(props: z.infer<typeof ZZ80CPURegisterCreateProps>) => z.infer<typeof ZZ80CPURegister>>()
 
 //
 //

@@ -34,30 +34,38 @@ export class Z80Core implements IZ80Core {
     private readonly createByte: TZ80ByteCreate,
     private readonly createFlag: TZ80FlagCreate,
     private readonly createState: TZ80StateCreate,
-    private readonly createMemoryBus: TZ80MemoryBusCreate,
+    private readonly createMemoryBus: TZ80MemoryBusCreate<IByteMemory>,
     private readonly props: TZ80CoreProps<IByteMemory>,
   ) {
     this.byte = this.createByte()
-    this.state = this.createState(this.byte)
-    this.flag = this.createFlag(this.byte, this.state)
-
-    this.memoryBus = this.createMemoryBus(this.props.memorySize, this.byte, this.props.createMemory)
+    this.state = this.createState({ byte: this.byte })
+    this.flag = this.createFlag({ byte: this.byte, state: this.state })
+    this.memoryBus = this.createMemoryBus({
+      byte: this.byte,
+      seed: this.props.memorySize,
+      createMemory: this.props.createMemory,
+    })
     if (this.props.memory) this.memoryBus.load(this.props.memory)
 
-    this.alu = this.createAlu(this.state, this.flag, this.byte)
-    this.cpu8 = this.createCPU8(this.byte, this.state, this.memoryBus)
-    this.cpu16 = this.createCPU16(this.byte, this.cpu8, this.state)
-    this.register = this.createRegister(this.byte, this.flag, this.state)
-    this.executor = this.createExecutor(
-      this.alu,
-      this.byte,
-      this.flag,
-      this.cpu8,
-      this.cpu16,
-      this.state,
-      this.register,
-    )
+    this.alu = this.createAlu({ byte: this.byte, flag: this.flag, state: this.state })
+    this.cpu8 = this.createCPU8({ byte: this.byte, state: this.state, memoryBus: this.memoryBus })
+    this.cpu16 = this.createCPU16({ byte: this.byte, cpu8: this.cpu8, state: this.state })
+    this.register = this.createRegister({ byte: this.byte, flag: this.flag, state: this.state })
+    this.executor = this.createExecutor({
+      alu: this.alu,
+      byte: this.byte,
+      cpu8: this.cpu8,
+      flag: this.flag,
+      cpu16: this.cpu16,
+      state: this.state,
+      register: this.register,
+    })
 
-    this.cpu = this.createCPU(this.state, this.cpu8, this.cpu16, this.executor)
+    this.cpu = this.createCPU({
+      cpu8: this.cpu8,
+      cpu16: this.cpu16,
+      state: this.state,
+      executor: this.executor,
+    })
   }
 }

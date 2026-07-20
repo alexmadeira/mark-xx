@@ -4,7 +4,7 @@ import { ZZ80Byte } from '@/emulator/core/z80/byte'
 import { ZZ80MemoryBus } from '@/emulator/core/z80/memory-bus'
 import { ZZ80State } from '@/emulator/core/z80/state'
 
-export const ZZ80CPU8CreateProps = z.tuple([ZZ80Byte, ZZ80State, ZZ80MemoryBus])
+export const ZZ80CPU8CreateProps = z.object({ byte: ZZ80Byte, state: ZZ80State, memoryBus: ZZ80MemoryBus })
 
 export const ZZ80CPU8ReadProps = z.tuple([z.number()])
 export const ZZ80CPU8WriteProps = z.tuple([z.number(), z.number()])
@@ -19,7 +19,7 @@ export const ZZ80CPU8 = z.object({
   fetch: ZZ80CPU8Fetch,
 })
 
-export const ZZ80CPU8Create = z.custom<(...props: z.infer<typeof ZZ80CPU8CreateProps>) => z.infer<typeof ZZ80CPU8>>()
+export const ZZ80CPU8Create = z.custom<(props: z.infer<typeof ZZ80CPU8CreateProps>) => z.infer<typeof ZZ80CPU8>>()
 
 //
 //

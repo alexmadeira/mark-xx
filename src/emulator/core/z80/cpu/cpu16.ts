@@ -14,8 +14,8 @@ export class Z80CPU16 implements IZ80CPU16 {
     _.bindAll(this, ['fetch', 'push', 'pop'])
   }
 
-  static create(...props: TZ80CPU16CreateProps) {
-    return new Z80CPU16(...props)
+  static create(props: TZ80CPU16CreateProps) {
+    return new Z80CPU16(props.byte, props.cpu8, props.state)
   }
 
   public fetch() {

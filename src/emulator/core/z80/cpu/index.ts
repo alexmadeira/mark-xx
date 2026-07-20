@@ -42,8 +42,8 @@ export class Z80CPU implements IZ80CPU {
     _.bindAll(this, 'reset', 'step', 'requestInterrupt')
   }
 
-  static create(...props: TZ80CPUCreateProps) {
-    return new Z80CPU(...props)
+  static create(props: TZ80CPUCreateProps) {
+    return new Z80CPU(props.state, props.cpu8, props.cpu16, props.executor)
   }
 
   public reset() {

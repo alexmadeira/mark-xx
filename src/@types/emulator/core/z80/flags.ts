@@ -3,7 +3,7 @@ import { z } from 'zod/v4'
 import { ZZ80Byte } from '@/emulator/core/z80/byte'
 import { ZZ80State } from '@/emulator/core/z80/state'
 
-export const ZZ80FlagCreateProps = z.tuple([ZZ80Byte, ZZ80State])
+export const ZZ80FlagCreateProps = z.object({ byte: ZZ80Byte, state: ZZ80State })
 
 export const ZZ80FlagSetProps = z.tuple([z.number(), z.boolean()])
 export const ZZ80FlagHasFlagProps = z.tuple([z.number()])
@@ -28,7 +28,7 @@ export const ZZ80Flag = z.object({
   calculateParity: ZZ80FlagCalculateParity,
 })
 
-export const ZZ80FlagCreate = z.custom<(...props: z.infer<typeof ZZ80FlagCreateProps>) => z.infer<typeof ZZ80Flag>>()
+export const ZZ80FlagCreate = z.custom<(props: z.infer<typeof ZZ80FlagCreateProps>) => z.infer<typeof ZZ80Flag>>()
 
 //
 //

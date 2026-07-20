@@ -9,7 +9,7 @@ export class ByteMemory extends Uint8Array implements IByteMemory {
     super(uint8memory)
   }
 
-  static create(...[seed]: TByteMemoryCreateProps) {
+  static create(seed: TByteMemoryCreateProps) {
     if (typeof seed === 'number') return new ByteMemory(new Uint8Array(seed))
     if (!ByteMemory.isByteMemory(seed)) return new ByteMemory(new Uint8Array(seed))
 

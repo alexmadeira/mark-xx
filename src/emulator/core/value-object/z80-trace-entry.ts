@@ -8,7 +8,7 @@ import type {
 export class Z80TraceEntry implements IZ80TraceEntry {
   constructor(private readonly props: TZ80TraceEntryProps) {}
 
-  static create(...[data]: TZ80TraceEntryCreateProps) {
+  static create(data: TZ80TraceEntryCreateProps) {
     return new Z80TraceEntry(data)
   }
 

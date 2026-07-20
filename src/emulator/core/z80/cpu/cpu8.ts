@@ -14,8 +14,8 @@ export class Z80CPU8 implements IZ80CPU8 {
     _.bindAll(this, 'read', 'write', 'fetch')
   }
 
-  static create(...props: TZ80CPU8CreateProps) {
-    return new Z80CPU8(...props)
+  static create(props: TZ80CPU8CreateProps) {
+    return new Z80CPU8(props.byte, props.state, props.memoryBus)
   }
 
   public read(...[address]: TZ80CPU8ReadProps) {

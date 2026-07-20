@@ -10,7 +10,11 @@ export function ZZ80MemoryBusCreateMemory<TMenory>() {
 }
 
 export function ZZ80MemoryBusCreateProps<TMenory>() {
-  return z.tuple([ZZ80MemoryBusMemorySeed, ZZ80Byte, ZZ80MemoryBusCreateMemory<TMenory>()])
+  return z.object({
+    seed: ZZ80MemoryBusMemorySeed,
+    byte: ZZ80Byte,
+    createMemory: ZZ80MemoryBusCreateMemory<TMenory>(),
+  })
 }
 
 export const ZZ80MemoryBusReadProps = z.tuple([z.number()])
@@ -25,10 +29,9 @@ export const ZZ80MemoryBusRead = z.custom<(...props: z.infer<typeof ZZ80MemoryBu
 export const ZZ80MemoryBusWrite = z.custom<(...props: z.infer<typeof ZZ80MemoryBusWriteProps>) => void>()
 export const ZZ80MemoryBusReset = z.custom<() => void>()
 
-export const ZZ80MemoryBusCreate =
-  z.custom<
-    <TMenory>(...props: z.inferGeneric<typeof ZZ80MemoryBusCreateProps<TMenory>>) => z.infer<typeof ZZ80MemoryBus>
-  >()
+export function ZZ80MemoryBusCreate<TMenory>() {
+  return z.custom<(props: z.inferGeneric<typeof ZZ80MemoryBusCreateProps<TMenory>>) => z.infer<typeof ZZ80MemoryBus>>()
+}
 
 export const ZZ80MemoryBus = z.object({
   load: ZZ80MemoryBusLoad,
@@ -57,5 +60,5 @@ export type TZ80MemoryBusReset = z.infer<typeof ZZ80MemoryBusReset>
 
 export type TZ80MemoryBusCreateMemory<TMenory> = z.inferGeneric<typeof ZZ80MemoryBusCreateMemory<TMenory>>
 
-export type TZ80MemoryBusCreate = z.infer<typeof ZZ80MemoryBusCreate>
+export type TZ80MemoryBusCreate<TMenory> = z.inferGeneric<typeof ZZ80MemoryBusCreate<TMenory>>
 export interface IZ80MemoryBus extends z.infer<typeof ZZ80MemoryBus> {}

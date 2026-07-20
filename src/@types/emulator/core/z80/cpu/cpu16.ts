@@ -4,7 +4,7 @@ import { ZZ80Byte } from '@/emulator/core/z80/byte'
 import { ZZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
 import { ZZ80State } from '@/emulator/core/z80/state'
 
-export const ZZ80CPU16CreateProps = z.tuple([ZZ80Byte, ZZ80CPU8, ZZ80State])
+export const ZZ80CPU16CreateProps = z.object({ byte: ZZ80Byte, cpu8: ZZ80CPU8, state: ZZ80State })
 
 export const ZZ80CPU16PushProps = z.tuple([z.number()])
 
@@ -18,7 +18,7 @@ export const ZZ80CPU16 = z.object({
   fetch: ZZ80CPU16Fetch,
 })
 
-export const ZZ80CPU16Create = z.custom<(...props: z.infer<typeof ZZ80CPU16CreateProps>) => z.infer<typeof ZZ80CPU16>>()
+export const ZZ80CPU16Create = z.custom<(props: z.infer<typeof ZZ80CPU16CreateProps>) => z.infer<typeof ZZ80CPU16>>()
 
 //
 //

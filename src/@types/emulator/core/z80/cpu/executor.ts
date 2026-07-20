@@ -20,15 +20,15 @@ export const ZZ80CPUOperand8 = ZEZ80CPURegister8.nullable()
 export const ZZ80CPUExecutorHandler = z.custom<() => number>()
 export const ZZ80CPUExecutorHandlers = z.partialRecord(z.number(), ZZ80CPUExecutorHandler)
 
-export const ZZ80CPUExecutorCreateProps = z.tuple([
-  ZZ80CPUAlu,
-  ZZ80Byte,
-  ZZ80Flag,
-  ZZ80CPU8,
-  ZZ80CPU16,
-  ZZ80State,
-  ZZ80CPURegister,
-])
+export const ZZ80CPUExecutorCreateProps = z.object({
+  alu: ZZ80CPUAlu,
+  byte: ZZ80Byte,
+  flag: ZZ80Flag,
+  cpu8: ZZ80CPU8,
+  cpu16: ZZ80CPU16,
+  state: ZZ80State,
+  register: ZZ80CPURegister,
+})
 
 export const ZZ80CPUExecutorAluHLProps = z.tuple([ZEZ80CPUAluOperation, z.boolean().optional()])
 export const ZZ80CPUExecutorExecuteAluProps = z.tuple([ZEZ80CPUAluOperation, z.number(), z.boolean().optional()])
@@ -64,7 +64,7 @@ export const ZZ80CPUExecutor = z.object({
 })
 
 export const ZZ80CPUExecutorCreate =
-  z.custom<(...props: z.infer<typeof ZZ80CPUExecutorCreateProps>) => z.infer<typeof ZZ80CPUExecutor>>()
+  z.custom<(props: z.infer<typeof ZZ80CPUExecutorCreateProps>) => z.infer<typeof ZZ80CPUExecutor>>()
 
 //
 //

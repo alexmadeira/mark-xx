@@ -15,14 +15,14 @@ export const ZZ80TraceEntryData = z.object({
   cycles: z.number(),
 })
 
-export const ZZ80TraceEntryCreateProps = z.tuple([ZZ80TraceEntryData])
+export const ZZ80TraceEntryCreateProps = ZZ80TraceEntryData
 export const ZZ80TraceEntryIsSameProps = z.tuple([z.unknown()])
 
 export const ZZ80TraceEntryIsSame = z.custom<(...props: z.infer<typeof ZZ80TraceEntryIsSameProps>) => boolean>()
 export const ZZ80TraceEntryToJSON = z.custom<() => z.infer<typeof ZZ80TraceEntryData>>()
 
 export const ZZ80TraceEntryCreate =
-  z.custom<(...props: z.infer<typeof ZZ80TraceEntryCreateProps>) => z.infer<typeof ZZ80TraceEntry>>()
+  z.custom<(props: z.infer<typeof ZZ80TraceEntryCreateProps>) => z.infer<typeof ZZ80TraceEntry>>()
 
 export const ZZ80TraceEntryProps = ZZ80TraceEntryData
 

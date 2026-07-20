@@ -19,8 +19,8 @@ export class Z80Flag implements IZ80Flag {
     private readonly state: IZ80State,
   ) {}
 
-  static create(...props: TZ80FlagCreateProps) {
-    return new Z80Flag(...props)
+  static create(props: TZ80FlagCreateProps) {
+    return new Z80Flag(props.byte, props.state)
   }
 
   public hasFlag(...[flag]: TZ80FlagHasFlagProps) {

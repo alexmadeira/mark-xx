@@ -47,8 +47,8 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     this.handlers = this.createHandlers()
   }
 
-  static create(...props: TZ80CPUExecutorCreateProps) {
-    return new Z80CPUExecutor(...props)
+  static create(props: TZ80CPUExecutorCreateProps) {
+    return new Z80CPUExecutor(props.alu, props.byte, props.flag, props.cpu8, props.cpu16, props.state, props.register)
   }
 
   private aluHL(...[operation, carry = false]: TZ80CPUExecutorAluHLProps) {

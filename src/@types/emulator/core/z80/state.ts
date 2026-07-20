@@ -69,7 +69,10 @@ export const ZZ80StateProps = z.object({
   state: ZZ80StateData.partial().optional(),
 })
 
-export const ZZ80StateCreateProps = z.union([z.tuple([ZZ80Byte]), z.tuple([ZZ80Byte, ZZ80StateProps])])
+export const ZZ80StateCreateProps = z.object({
+  byte: ZZ80Byte,
+  props: ZZ80StateProps.optional(),
+})
 
 export const ZZ80State = z.object({
   reset: ZZ80StateReset,
@@ -105,7 +108,7 @@ export const ZZ80State = z.object({
   hl: ZZ80StateHL,
 })
 
-export const ZZ80StateCreate = z.custom<(...props: z.infer<typeof ZZ80StateCreateProps>) => z.infer<typeof ZZ80State>>()
+export const ZZ80StateCreate = z.custom<(props: z.infer<typeof ZZ80StateCreateProps>) => z.infer<typeof ZZ80State>>()
 
 //
 //

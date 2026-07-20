@@ -22,8 +22,8 @@ export class Z80MemoryBus implements IZ80MemoryBus {
     this.setup()
   }
 
-  static create(...props: TZ80MemoryBusCreateProps<IByteMemory>) {
-    return new Z80MemoryBus(...props)
+  static create(props: TZ80MemoryBusCreateProps<IByteMemory>) {
+    return new Z80MemoryBus(props.seed, props.byte, props.createMemory)
   }
 
   private setup() {

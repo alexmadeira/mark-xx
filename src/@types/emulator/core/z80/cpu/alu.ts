@@ -4,7 +4,7 @@ import { ZZ80Byte } from '@/emulator/core/z80/byte'
 import { ZZ80Flag } from '@/emulator/core/z80/flags'
 import { ZZ80State } from '@/emulator/core/z80/state'
 
-export const ZZ80CPUAluCreateProps = z.tuple([ZZ80State, ZZ80Flag, ZZ80Byte])
+export const ZZ80CPUAluCreateProps = z.object({ state: ZZ80State, flag: ZZ80Flag, byte: ZZ80Byte })
 
 export const ZZ80CPUAluUpdateAddFlagsProps = z.tuple([z.number(), z.number(), z.number(), z.number(), z.number()])
 export const ZZ80CPUAluUpdateSubFlagsProps = z.tuple([z.number(), z.number(), z.number(), z.number(), z.number()])
@@ -31,8 +31,7 @@ export const ZZ80CPUAlu = z.object({
   xor: ZZ80CPUAluXor,
 })
 
-export const ZZ80CPUAluCreate =
-  z.custom<(...props: z.infer<typeof ZZ80CPUAluCreateProps>) => z.infer<typeof ZZ80CPUAlu>>()
+export const ZZ80CPUAluCreate = z.custom<(props: z.infer<typeof ZZ80CPUAluCreateProps>) => z.infer<typeof ZZ80CPUAlu>>()
 
 //
 //

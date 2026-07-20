@@ -19,8 +19,8 @@ export class Z80CPURegister implements IZ80CPURegister {
     private readonly state: IZ80State,
   ) {}
 
-  static create(...props: TZ80CPURegisterCreateProps) {
-    return new Z80CPURegister(...props)
+  static create(props: TZ80CPURegisterCreateProps) {
+    return new Z80CPURegister(props.byte, props.flag, props.state)
   }
 
   private updateIncrementFlags(...[previous, value]: TZ80CPURegisterUpdateIncrementFlagsProps) {

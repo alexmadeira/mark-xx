@@ -3,11 +3,11 @@ import { z } from 'zod/v4'
 export const ZByteMemoryMemoryData = z.union([z.number(), z.custom<ArrayLike<number>>()])
 export const ZByteMemoryUint8memory = z.instanceof(Uint8Array)
 
-export const ZByteMemoryCreateProps = z.tuple([ZByteMemoryMemoryData])
+export const ZByteMemoryCreateProps = ZByteMemoryMemoryData
 
 export const ZByteMemoryIsByteMemory = z.custom<(value: unknown) => boolean>()
 export const ZByteMemoryCreate =
-  z.custom<(...props: z.infer<typeof ZByteMemoryCreateProps>) => z.infer<typeof ZByteMemory>>()
+  z.custom<(props: z.infer<typeof ZByteMemoryCreateProps>) => z.infer<typeof ZByteMemory>>()
 
 export const ZByteMemory = z.instanceof(Uint8Array)
 

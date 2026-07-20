@@ -42,13 +42,13 @@ export class Z80State implements IZ80State {
   private readonly state: TZ80StateData
 
   constructor(
-    private readonly byte: IZ80Byte,
+    public readonly byte: IZ80Byte,
     private readonly props: TZ80StateProps = {},
   ) {
     this.state = this.build(this.props.state)
   }
 
-  static create(...[byte, props]: TZ80StateCreateProps) {
+  static create({ byte, props }: TZ80StateCreateProps) {
     return new Z80State(byte, props)
   }
 
