@@ -22,6 +22,7 @@ import type {
   TZ80CPUExecutorAddHLProps,
   TZ80CPUExecutorPushProps,
   TZ80CPUExecutorPopProps,
+  TZ80CPUExecutorCreateProps,
 } from '@/emulator/core/z80/cpu/executor'
 import type { IZ80CPURegister } from '@/emulator/core/z80/cpu/register'
 import type { IZ80Flag } from '@/emulator/core/z80/flags'
@@ -44,6 +45,10 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     private readonly register: IZ80CPURegister,
   ) {
     this.handlers = this.createHandlers()
+  }
+
+  static create(...props: TZ80CPUExecutorCreateProps) {
+    return new Z80CPUExecutor(...props)
   }
 
   private aluHL(...[operation, carry = false]: TZ80CPUExecutorAluHLProps) {
@@ -73,6 +78,150 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
   private halt() {
     this.state.halted = true
     return Z80_CYCLES.halt
+  }
+  private disableInterrupts() {
+    this.state.iff1 = false
+    this.state.iff2 = false
+    return Z80_CYCLES.diEi
+  }
+  private enableInterrupts() {
+    this.state.iff1 = true
+    this.state.iff2 = true
+    return Z80_CYCLES.diEi
+  }
+  private restart(address: number) {
+    this.cpu16.push(this.state.pc)
+    this.state.pc = address
+    return Z80_CYCLES.rst
+  }
+
+  private rotateAccumulatorLeft(throughCarry: boolean) {
+    const value = this.byte.toByte(this.state.a)
+    const carry = (value & 0x80) !== 0
+    const lowBit = throughCarry ? (this.flag.hasFlag(Z80_FLAG.carry) ? 1 : 0) : carry ? 1 : 0
+
+    this.state.a = this.byte.toByte((value << 1) | lowBit)
+    this.flag.set(Z80_FLAG.halfCarry, false)
+    this.flag.set(Z80_FLAG.subtract, false)
+    this.flag.set(Z80_FLAG.carry, carry)
+
+    return Z80_CYCLES.rotateAccumulator
+  }
+  private rotateAccumulatorRight(throughCarry: boolean) {
+    const value = this.byte.toByte(this.state.a)
+    const carry = (value & 0x01) !== 0
+    const highBit = throughCarry ? (this.flag.hasFlag(Z80_FLAG.carry) ? 0x80 : 0) : carry ? 0x80 : 0
+
+    this.state.a = this.byte.toByte((value >> 1) | highBit)
+    this.flag.set(Z80_FLAG.halfCarry, false)
+    this.flag.set(Z80_FLAG.subtract, false)
+    this.flag.set(Z80_FLAG.carry, carry)
+
+    return Z80_CYCLES.rotateAccumulator
+  }
+
+  private decimalAdjustAccumulator() {
+    const value = this.byte.toByte(this.state.a)
+    const subtract = this.flag.hasFlag(Z80_FLAG.subtract)
+    const halfCarry = this.flag.hasFlag(Z80_FLAG.halfCarry)
+    const carry = this.flag.hasFlag(Z80_FLAG.carry)
+    let correction = 0
+    let carryAfter = carry
+
+    if (halfCarry || (!subtract && (value & 0x0f) > 0x09)) correction |= 0x06
+    if (carry || (!subtract && value > 0x99)) {
+      correction |= 0x60
+      carryAfter = true
+    }
+
+    const result = this.byte.toByte(subtract ? value - correction : value + correction)
+
+    this.state.a = result
+    this.flag.updateSign(result)
+    this.flag.updateZero(result)
+    this.flag.set(Z80_FLAG.halfCarry, ((value ^ result) & Z80_FLAG.halfCarry) !== 0)
+    this.flag.updateParity(result)
+    this.flag.set(Z80_FLAG.carry, carryAfter)
+
+    return Z80_CYCLES.flagControl
+  }
+  private complementAccumulator() {
+    this.state.a = this.byte.toByte(~this.state.a)
+    this.flag.set(Z80_FLAG.halfCarry, true)
+    this.flag.set(Z80_FLAG.subtract, true)
+    return Z80_CYCLES.flagControl
+  }
+  private setCarryFlag() {
+    this.flag.set(Z80_FLAG.halfCarry, false)
+    this.flag.set(Z80_FLAG.subtract, false)
+    this.flag.set(Z80_FLAG.carry, true)
+    return Z80_CYCLES.flagControl
+  }
+  private complementCarryFlag() {
+    const carry = this.flag.hasFlag(Z80_FLAG.carry)
+
+    this.flag.set(Z80_FLAG.halfCarry, carry)
+    this.flag.set(Z80_FLAG.subtract, false)
+    this.flag.set(Z80_FLAG.carry, !carry)
+    return Z80_CYCLES.flagControl
+  }
+
+  private exchangeAF() {
+    const a = this.state.a
+    const f = this.state.f
+
+    this.state.a = this.state.shadowA
+    this.state.f = this.state.shadowF
+    this.state.shadowA = a
+    this.state.shadowF = f
+
+    return Z80_CYCLES.exchangeRegister
+  }
+  private exchangeRegisterPairs() {
+    const b = this.state.b
+    const c = this.state.c
+    const d = this.state.d
+    const e = this.state.e
+    const h = this.state.h
+    const l = this.state.l
+
+    this.state.b = this.state.shadowB
+    this.state.c = this.state.shadowC
+    this.state.d = this.state.shadowD
+    this.state.e = this.state.shadowE
+    this.state.h = this.state.shadowH
+    this.state.l = this.state.shadowL
+    this.state.shadowB = b
+    this.state.shadowC = c
+    this.state.shadowD = d
+    this.state.shadowE = e
+    this.state.shadowH = h
+    this.state.shadowL = l
+
+    return Z80_CYCLES.exchangeRegister
+  }
+  private exchangeDEAndHL() {
+    const de = this.state.de
+
+    this.state.de = this.state.hl
+    this.state.hl = de
+    return Z80_CYCLES.exchangeRegister
+  }
+  private exchangeStackAndHL() {
+    const highAddress = this.byte.toWord(this.state.sp + 1)
+    const low = this.cpu8.read(this.state.sp)
+    const high = this.cpu8.read(highAddress)
+    const hl = this.state.hl
+
+    this.cpu8.write(this.state.sp, this.byte.getLowByte(hl))
+    this.cpu8.write(highAddress, this.byte.getHighByte(hl))
+    this.state.hl = this.byte.makeWord(low, high)
+
+    return Z80_CYCLES.exchangeStackHL
+  }
+  private loadSPFromHL() {
+    this.state.sp = this.state.hl
+    return Z80_CYCLES.ldSPFromHL
   }
 
   private load8(...[destination, source]: TZ80CPUExecutorLoad8Props) {
@@ -263,6 +412,33 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     const handlers: TZ80CPUExecutorHandlers = {
       0x00: () => this.nop(),
       0x76: () => this.halt(),
+      0xf3: () => this.disableInterrupts(),
+      0xfb: () => this.enableInterrupts(),
+
+      0xc7: () => this.restart(0x00),
+      0xcf: () => this.restart(0x08),
+      0xd7: () => this.restart(0x10),
+      0xdf: () => this.restart(0x18),
+      0xe7: () => this.restart(0x20),
+      0xef: () => this.restart(0x28),
+      0xf7: () => this.restart(0x30),
+      0xff: () => this.restart(0x38),
+
+      0x07: () => this.rotateAccumulatorLeft(false),
+      0x0f: () => this.rotateAccumulatorRight(false),
+      0x17: () => this.rotateAccumulatorLeft(true),
+      0x1f: () => this.rotateAccumulatorRight(true),
+
+      0x27: () => this.decimalAdjustAccumulator(),
+      0x2f: () => this.complementAccumulator(),
+      0x37: () => this.setCarryFlag(),
+      0x3f: () => this.complementCarryFlag(),
+
+      0x08: () => this.exchangeAF(),
+      0xd9: () => this.exchangeRegisterPairs(),
+      0xeb: () => this.exchangeDEAndHL(),
+      0xe3: () => this.exchangeStackAndHL(),
+      0xf9: () => this.loadSPFromHL(),
 
       0x3e: () => this.loadImmediate8('a'),
       0x06: () => this.loadImmediate8('b'),

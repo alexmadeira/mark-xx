@@ -1,5 +1,12 @@
 import { z } from 'zod/v4'
 
+import { ZZ80Byte } from '@/emulator/core/z80/byte'
+import { ZZ80CPUAlu } from '@/emulator/core/z80/cpu/alu'
+import { ZZ80CPU16 } from '@/emulator/core/z80/cpu/cpu16'
+import { ZZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
+import { ZZ80CPURegister } from '@/emulator/core/z80/cpu/register'
+import { ZZ80Flag } from '@/emulator/core/z80/flags'
+import { ZZ80State } from '@/emulator/core/z80/state'
 import {
   ZEZ80CPUAluOperation,
   ZEZ80CPUMemoryPair,
@@ -12,6 +19,16 @@ export const ZZ80CPUOperand8 = ZEZ80CPURegister8.nullable()
 
 export const ZZ80CPUExecutorHandler = z.custom<() => number>()
 export const ZZ80CPUExecutorHandlers = z.partialRecord(z.number(), ZZ80CPUExecutorHandler)
+
+export const ZZ80CPUExecutorCreateProps = z.tuple([
+  ZZ80CPUAlu,
+  ZZ80Byte,
+  ZZ80Flag,
+  ZZ80CPU8,
+  ZZ80CPU16,
+  ZZ80State,
+  ZZ80CPURegister,
+])
 
 export const ZZ80CPUExecutorAluHLProps = z.tuple([ZEZ80CPUAluOperation, z.boolean().optional()])
 export const ZZ80CPUExecutorExecuteAluProps = z.tuple([ZEZ80CPUAluOperation, z.number(), z.boolean().optional()])
@@ -46,12 +63,17 @@ export const ZZ80CPUExecutor = z.object({
   executeOpcode: ZZ80CPUExecutorExecuteOpcode,
 })
 
+export const ZZ80CPUExecutorCreate =
+  z.custom<(...props: z.infer<typeof ZZ80CPUExecutorCreateProps>) => z.infer<typeof ZZ80CPUExecutor>>()
+
 //
 //
 //
 
 export type TZ80CPUExecutorHandler = z.infer<typeof ZZ80CPUExecutorHandler>
 export type TZ80CPUExecutorHandlers = z.infer<typeof ZZ80CPUExecutorHandlers>
+
+export type TZ80CPUExecutorCreateProps = z.infer<typeof ZZ80CPUExecutorCreateProps>
 
 export type TZ80CPUExecutorAluHLProps = z.infer<typeof ZZ80CPUExecutorAluHLProps>
 export type TZ80CPUExecutorExecuteAluProps = z.infer<typeof ZZ80CPUExecutorExecuteAluProps>
@@ -81,4 +103,5 @@ export type TZ80CPUExecutorExecuteOpcodeProps = z.infer<typeof ZZ80CPUExecutorEx
 
 export type TZ80CPUExecutorExecuteOpcode = z.infer<typeof ZZ80CPUExecutorExecuteOpcode>
 
+export type TZ80CPUExecutorCreate = z.infer<typeof ZZ80CPUExecutorCreate>
 export interface IZ80CPUExecutor extends z.infer<typeof ZZ80CPUExecutor> {}

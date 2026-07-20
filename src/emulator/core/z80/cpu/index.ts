@@ -1,5 +1,6 @@
 import type {
   IZ80CPU,
+  TZ80CPUCreateProps,
   TZ80CPUFetch16,
   TZ80CPUFetch8,
   TZ80CPUPop16,
@@ -41,6 +42,10 @@ export class Z80CPU implements IZ80CPU {
     _.bindAll(this, 'reset', 'step', 'requestInterrupt')
   }
 
+  static create(...props: TZ80CPUCreateProps) {
+    return new Z80CPU(...props)
+  }
+
   public reset() {
     this.state.reset()
   }
@@ -64,6 +69,7 @@ export class Z80CPU implements IZ80CPU {
     this.state.iff1 = false
     this.state.iff2 = false
     this.state.halted = false
-    // IM 0/1/2 vector dispatch will be implemented with the interrupt opcode family.
+    this.push16(this.state.pc)
+    this.state.pc = 0x0038
   }
 }

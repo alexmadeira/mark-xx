@@ -1,9 +1,16 @@
 import { z } from 'zod/v4'
 
+import { ZZ80CPU16 } from '@/emulator/core/z80/cpu/cpu16'
+import { ZZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
+import { ZZ80CPUExecutor } from '@/emulator/core/z80/cpu/executor'
+import { ZZ80State } from '@/emulator/core/z80/state'
+
+export const ZZ80CPUCreateProps = z.tuple([ZZ80State, ZZ80CPU8, ZZ80CPU16, ZZ80CPUExecutor])
+
 export const ZZ80CPURead8Props = z.tuple([z.number()])
 export const ZZ80CPUWrite8Props = z.tuple([z.number(), z.number()])
 export const ZZ80CPUPush16Props = z.tuple([z.number()])
-export const ZZ80CPURequestInterruptProps = z.tuple([z.number()])
+export const ZZ80CPURequestInterruptProps = z.tuple([z.number().optional()])
 
 export const ZZ80CPUStep = z.custom<() => number>()
 export const ZZ80CPUReset = z.custom<() => void>()
@@ -19,6 +26,7 @@ export const ZZ80CPUFetch16 = z.custom<() => number>()
 export const ZZ80CPURequestInterrupt = z.custom<(...props: z.infer<typeof ZZ80CPURequestInterruptProps>) => void>()
 
 export const ZZ80CPU = z.object({
+  state: ZZ80State,
   step: ZZ80CPUStep,
   reset: ZZ80CPUReset,
   read8: ZZ80CPURead8,
@@ -30,9 +38,13 @@ export const ZZ80CPU = z.object({
   requestInterrupt: ZZ80CPURequestInterrupt,
 })
 
+export const ZZ80CPUCreate = z.custom<(...props: z.infer<typeof ZZ80CPUCreateProps>) => z.infer<typeof ZZ80CPU>>()
+
 //
 //
 //
+
+export type TZ80CPUCreateProps = z.infer<typeof ZZ80CPUCreateProps>
 
 export type TZ80CPURead8Props = z.infer<typeof ZZ80CPURead8Props>
 export type TZ80CPUWrite8Props = z.infer<typeof ZZ80CPUWrite8Props>
@@ -52,4 +64,5 @@ export type TZ80CPUFetch16 = z.infer<typeof ZZ80CPUFetch16>
 
 export type TZ80CPURequestInterrupt = z.infer<typeof ZZ80CPURequestInterrupt>
 
+export type TZ80CPUCreate = z.infer<typeof ZZ80CPUCreate>
 export interface IZ80CPU extends z.infer<typeof ZZ80CPU> {}

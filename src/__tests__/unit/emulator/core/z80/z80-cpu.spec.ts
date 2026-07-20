@@ -1,6 +1,6 @@
 import type { IZ80CPU16 } from '@/emulator/core/z80/cpu/cpu16'
 
-import { Z80_CYCLES, Z80_MEMORY } from '_EMU/constants/z80'
+import { Z80_CYCLES } from '_EMU/constants/z80'
 import { Z80CPU } from '_EMU/core/z80/cpu'
 
 import { Z80CPUExecutorMock } from '_TEST/utils/stubs/emulator/z80/fake-cpu-executor'
@@ -21,8 +21,7 @@ let sut: Z80CPU
 describe('Emulator', () => {
   beforeEach(() => {
     state = new Z80StateMock()
-
-    memoryBus = new Z80MemoryBusMock(Z80_MEMORY.size)
+    memoryBus = new Z80MemoryBusMock()
 
     cpu8 = new Z80CPU8Mock(state, memoryBus)
     cpu16 = new Z80CPU16Mock(cpu8, state)
@@ -109,17 +108,21 @@ describe('Emulator', () => {
           expect(state.iff1).toBe(false)
           expect(state.iff2).toBe(true)
           expect(state.halted).toBe(true)
+          expect(cpu16.push).not.toHaveBeenCalled()
         })
-        it('should disables interrupts and resumes the CPU when the interrupt is accepted', () => {
+        it('should dispatch an accepted interrupt to the mode 1 vector', () => {
+          state.pc = 0x1234
           state.iff1 = true
           state.iff2 = true
           state.halted = true
 
-          sut.requestInterrupt(0xff)
+          sut.requestInterrupt()
 
           expect(state.iff1).toBe(false)
           expect(state.iff2).toBe(false)
           expect(state.halted).toBe(false)
+          expect(cpu16.push).toHaveBeenCalledWith(0x1234)
+          expect(state.pc).toBe(0x0038)
         })
       })
     })

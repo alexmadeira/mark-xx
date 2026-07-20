@@ -71,7 +71,112 @@ describe('Emulator', () => {
         it('should reject an unsupported opcode', () => {
           state.pc = 0x1234
 
-          expect(() => sut.executeOpcode(0xff, 0x1233)).toThrow(new Z80OpcodeNotImplementedError(0xff, 0x1233))
+          expect(() => sut.executeOpcode(0xcb, 0x1233)).toThrow(new Z80OpcodeNotImplementedError(0xcb, 0x1233))
+        })
+        it('should disable maskable interrupts', () => {
+          state.iff1 = true
+          state.iff2 = true
+
+          const result = sut.executeOpcode(0xf3)
+
+          expect(result).toBe(Z80_CYCLES.diEi)
+          expect(state.iff1).toBe(false)
+          expect(state.iff2).toBe(false)
+        })
+        it('should enable maskable interrupts', () => {
+          const result = sut.executeOpcode(0xfb)
+
+          expect(result).toBe(Z80_CYCLES.diEi)
+          expect(state.iff1).toBe(true)
+          expect(state.iff2).toBe(true)
+        })
+        it.each([
+          { opcode: 0xc7, vector: 0x00 },
+          { opcode: 0xcf, vector: 0x08 },
+          { opcode: 0xd7, vector: 0x10 },
+          { opcode: 0xdf, vector: 0x18 },
+          { opcode: 0xe7, vector: 0x20 },
+          { opcode: 0xef, vector: 0x28 },
+          { opcode: 0xf7, vector: 0x30 },
+          { opcode: 0xff, vector: 0x38 },
+        ])('should execute RST $vector for opcode $opcode', ({ opcode, vector }) => {
+          state.pc = 0x1234
+
+          const result = sut.executeOpcode(opcode)
+
+          expect(result).toBe(Z80_CYCLES.rst)
+          expect(cpu16.push).toHaveBeenCalledWith(0x1234)
+          expect(state.pc).toBe(vector)
+        })
+      })
+      describe('Accumulator control', () => {
+        it.each([
+          { opcode: 0x07, value: 0x81, carryIn: false, expected: 0x03, checksCarryIn: false },
+          { opcode: 0x0f, value: 0x81, carryIn: false, expected: 0xc0, checksCarryIn: false },
+          { opcode: 0x17, value: 0x80, carryIn: true, expected: 0x01, checksCarryIn: true },
+          { opcode: 0x1f, value: 0x01, carryIn: true, expected: 0x80, checksCarryIn: true },
+        ])(
+          'should execute accumulator rotate opcode $opcode',
+          ({ opcode, value, carryIn, expected, checksCarryIn }) => {
+            state.a = value
+            byte.toByte.mockReturnValueOnce(value).mockReturnValueOnce(expected)
+            if (checksCarryIn) flag.hasFlag.mockReturnValueOnce(carryIn)
+
+            const result = sut.executeOpcode(opcode)
+
+            expect(result).toBe(Z80_CYCLES.rotateAccumulator)
+            expect(state.a).toBe(expected)
+            expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, false)
+            expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, false)
+            expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, true)
+          },
+        )
+        it.each([
+          { name: 'addition', value: 0x3c, subtract: false, halfCarry: false, carry: false, expected: 0x42 },
+          { name: 'subtraction', value: 0x0f, subtract: true, halfCarry: true, carry: false, expected: 0x09 },
+        ])('should execute DAA after $name', ({ value, subtract, halfCarry, carry, expected }) => {
+          state.a = value
+          flag.hasFlag.mockReturnValueOnce(subtract).mockReturnValueOnce(halfCarry).mockReturnValueOnce(carry)
+          byte.toByte.mockReturnValueOnce(value).mockReturnValueOnce(expected)
+
+          const result = sut.executeOpcode(0x27)
+
+          expect(result).toBe(Z80_CYCLES.flagControl)
+          expect(state.a).toBe(expected)
+          expect(flag.updateSign).toHaveBeenCalledWith(expected)
+          expect(flag.updateZero).toHaveBeenCalledWith(expected)
+          expect(flag.updateParity).toHaveBeenCalledWith(expected)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, ((value ^ expected) & Z80_FLAG.halfCarry) !== 0)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, carry)
+        })
+        it('should complement the accumulator and set H and N', () => {
+          state.a = 0xaa
+          byte.toByte.mockReturnValueOnce(0x55)
+
+          const result = sut.executeOpcode(0x2f)
+
+          expect(result).toBe(Z80_CYCLES.flagControl)
+          expect(state.a).toBe(0x55)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, true)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, true)
+        })
+        it('should set carry while clearing H and N', () => {
+          const result = sut.executeOpcode(0x37)
+
+          expect(result).toBe(Z80_CYCLES.flagControl)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, false)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, false)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, true)
+        })
+        it.each([false, true])('should complement carry when its previous value is %s', (carry) => {
+          flag.hasFlag.mockReturnValueOnce(carry)
+
+          const result = sut.executeOpcode(0x3f)
+
+          expect(result).toBe(Z80_CYCLES.flagControl)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, carry)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, false)
+          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, !carry)
         })
       })
       describe('8-bit loads', () => {
@@ -325,6 +430,85 @@ describe('Emulator', () => {
             expect(state[register]).toBe(0x1234)
           },
         )
+      })
+      describe('Exchange', () => {
+        it.each([
+          {
+            opcode: 0x08,
+            initial: { a: 0x12, f: 0x34, shadowA: 0x56, shadowF: 0x78 },
+            expected: { a: 0x56, f: 0x78, shadowA: 0x12, shadowF: 0x34 },
+          },
+          {
+            opcode: 0xd9,
+            initial: {
+              b: 0x10,
+              c: 0x11,
+              d: 0x20,
+              e: 0x21,
+              h: 0x30,
+              l: 0x31,
+              shadowB: 0x40,
+              shadowC: 0x41,
+              shadowD: 0x50,
+              shadowE: 0x51,
+              shadowH: 0x60,
+              shadowL: 0x61,
+            },
+            expected: {
+              b: 0x40,
+              c: 0x41,
+              d: 0x50,
+              e: 0x51,
+              h: 0x60,
+              l: 0x61,
+              shadowB: 0x10,
+              shadowC: 0x11,
+              shadowD: 0x20,
+              shadowE: 0x21,
+              shadowH: 0x30,
+              shadowL: 0x31,
+            },
+          },
+          {
+            opcode: 0xeb,
+            initial: { d: 0x12, e: 0x34, h: 0x56, l: 0x78 },
+            expected: { d: 0x56, e: 0x78, h: 0x12, l: 0x34 },
+          },
+        ])('should execute register exchange opcode $opcode', ({ opcode, initial, expected }) => {
+          Object.assign(state, initial)
+
+          const result = sut.executeOpcode(opcode)
+
+          expect(result).toBe(Z80_CYCLES.exchangeRegister)
+          expect(state).toMatchObject(expected)
+        })
+        it('should exchange HL with memory at SP and wrap the high address', () => {
+          state.sp = 0xffff
+          state.hl = 0xabcd
+          byte.toWord.mockReturnValueOnce(0x0000)
+          cpu8.read.mockReturnValueOnce(0x34).mockReturnValueOnce(0x12)
+          byte.getLowByte.mockReturnValueOnce(0xcd)
+          byte.getHighByte.mockReturnValueOnce(0xab)
+          byte.makeWord.mockReturnValueOnce(0x1234)
+
+          const result = sut.executeOpcode(0xe3)
+
+          expect(result).toBe(Z80_CYCLES.exchangeStackHL)
+          expect(cpu8.read).toHaveBeenNthCalledWith(1, 0xffff)
+          expect(cpu8.read).toHaveBeenNthCalledWith(2, 0x0000)
+          expect(cpu8.write).toHaveBeenNthCalledWith(1, 0xffff, 0xcd)
+          expect(cpu8.write).toHaveBeenNthCalledWith(2, 0x0000, 0xab)
+          expect(state.hl).toBe(0x1234)
+          expect(state.sp).toBe(0xffff)
+        })
+        it('should load SP from HL', () => {
+          state.hl = 0x1234
+
+          const result = sut.executeOpcode(0xf9)
+
+          expect(result).toBe(Z80_CYCLES.ldSPFromHL)
+          expect(state.sp).toBe(0x1234)
+        })
       })
       describe('Program flow', () => {
         it('should jump to an immediate address', () => {
