@@ -26,6 +26,8 @@ export const ZZ80Byte = z.object({
   getHighByte: ZZ80ByteGetHighByte,
 })
 
+export const ZZ80ByteCreate = z.custom<() => z.infer<typeof ZZ80Byte>>()
+
 //
 //
 //
@@ -46,4 +48,5 @@ export type TZ80ByteSignedByte = z.infer<typeof ZZ80ByteSignedByte>
 export type TZ80ByteGetLowByte = z.infer<typeof ZZ80ByteGetLowByte>
 export type TZ80ByteGetHighByte = z.infer<typeof ZZ80ByteGetHighByte>
 
+export type TZ80ByteCreate = z.infer<typeof ZZ80ByteCreate>
 export interface IZ80Byte extends z.infer<typeof ZZ80Byte> {}

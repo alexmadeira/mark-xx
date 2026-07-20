@@ -2,6 +2,7 @@ import type { IZ80Byte } from '@/emulator/core/z80/byte'
 import type {
   IZ80Flag,
   TZ80FlagCalculateParityProps,
+  TZ80FlagCreateProps,
   TZ80FlagHasFlagProps,
   TZ80FlagSetProps,
   TZ80FlagUpdateParityProps,
@@ -17,6 +18,10 @@ export class Z80Flag implements IZ80Flag {
     private readonly byte: IZ80Byte,
     private readonly state: IZ80State,
   ) {}
+
+  static create(...props: TZ80FlagCreateProps) {
+    return new Z80Flag(...props)
+  }
 
   public hasFlag(...[flag]: TZ80FlagHasFlagProps) {
     return (this.state.f & this.byte.toByte(flag)) !== 0

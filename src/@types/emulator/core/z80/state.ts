@@ -1,5 +1,7 @@
 import { z } from 'zod/v4'
 
+import { ZZ80Byte } from '@/emulator/core/z80/byte'
+
 export const ZZ80StateA = z.number()
 export const ZZ80StateF = z.number()
 export const ZZ80StateB = z.number()
@@ -67,6 +69,8 @@ export const ZZ80StateProps = z.object({
   state: ZZ80StateData.partial().optional(),
 })
 
+export const ZZ80StateCreateProps = z.union([z.tuple([ZZ80Byte]), z.tuple([ZZ80Byte, ZZ80StateProps])])
+
 export const ZZ80State = z.object({
   reset: ZZ80StateReset,
   a: ZZ80StateA,
@@ -100,6 +104,8 @@ export const ZZ80State = z.object({
   de: ZZ80StateDE,
   hl: ZZ80StateHL,
 })
+
+export const ZZ80StateCreate = z.custom<(...props: z.infer<typeof ZZ80StateCreateProps>) => z.infer<typeof ZZ80State>>()
 
 //
 //
@@ -140,4 +146,7 @@ export type TZ80StateData = z.infer<typeof ZZ80StateData>
 export type TZ80StateReset = z.infer<typeof ZZ80StateReset>
 
 export type TZ80StateProps = z.infer<typeof ZZ80StateProps>
+export type TZ80StateCreateProps = z.infer<typeof ZZ80StateCreateProps>
+
+export type TZ80StateCreate = z.infer<typeof ZZ80StateCreate>
 export interface IZ80State extends z.infer<typeof ZZ80State> {}

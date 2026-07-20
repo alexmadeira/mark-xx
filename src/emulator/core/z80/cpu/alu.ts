@@ -8,6 +8,7 @@ import type {
   TZ80CPUAluUpdateLogicFlagsProps,
   TZ80CPUAluUpdateResultFlagsProps,
   TZ80CPUAluValueProps,
+  TZ80CPUAluCreateProps,
 } from '@/emulator/core/z80/cpu/alu'
 import type { IZ80Flag } from '@/emulator/core/z80/flags'
 import type { IZ80State } from '@/emulator/core/z80/state'
@@ -20,6 +21,10 @@ export class Z80CPUAlu implements IZ80CPUAlu {
     private readonly flag: IZ80Flag,
     private readonly byte: IZ80Byte,
   ) {}
+
+  static create(...props: TZ80CPUAluCreateProps) {
+    return new Z80CPUAlu(...props)
+  }
 
   private updateAddFlags(...[left, right, carry, result, value]: TZ80CPUAluUpdateAddFlagsProps) {
     this.updateResultFlags(value)

@@ -6,6 +6,7 @@ import type {
   TZ80StateB,
   TZ80StateBC,
   TZ80StateC,
+  TZ80StateCreateProps,
   TZ80StateD,
   TZ80StateData,
   TZ80StateDE,
@@ -44,10 +45,14 @@ export class Z80State implements IZ80State {
     private readonly byte: IZ80Byte,
     private readonly props: TZ80StateProps = {},
   ) {
-    this.state = this.create(this.props.state)
+    this.state = this.build(this.props.state)
   }
 
-  private create(overrides: Partial<TZ80StateData> = {}): TZ80StateData {
+  static create(...[byte, props]: TZ80StateCreateProps) {
+    return new Z80State(byte, props)
+  }
+
+  private build(overrides: Partial<TZ80StateData> = {}): TZ80StateData {
     return {
       a: 0,
       b: 0,
@@ -80,7 +85,7 @@ export class Z80State implements IZ80State {
   }
 
   public reset() {
-    _.assignIn(this.state, this.create(this.props.state))
+    _.assignIn(this.state, this.build(this.props.state))
   }
 
   public set a(a: TZ80StateA) {

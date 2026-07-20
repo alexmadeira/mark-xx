@@ -18,7 +18,7 @@ describe('Emulator', () => {
     flag = new Z80FlagMock()
     state = new Z80StateMock()
 
-    sut = new Z80CPURegister(state, flag, byte)
+    sut = new Z80CPURegister(byte, flag, state)
   })
 
   describe('Core', () => {

@@ -1,5 +1,5 @@
 import type { IZ80Byte } from '@/emulator/core/z80/byte'
-import type { IZ80CPU8, TZ80CPU8ReadProps, TZ80CPU8WriteProps } from '@/emulator/core/z80/cpu/cpu8'
+import type { IZ80CPU8, TZ80CPU8CreateProps, TZ80CPU8ReadProps, TZ80CPU8WriteProps } from '@/emulator/core/z80/cpu/cpu8'
 import type { IZ80MemoryBus } from '@/emulator/core/z80/memory-bus'
 import type { IZ80State } from '@/emulator/core/z80/state'
 
@@ -12,6 +12,10 @@ export class Z80CPU8 implements IZ80CPU8 {
     private readonly memoryBus: IZ80MemoryBus,
   ) {
     _.bindAll(this, 'read', 'write', 'fetch')
+  }
+
+  static create(...props: TZ80CPU8CreateProps) {
+    return new Z80CPU8(...props)
   }
 
   public read(...[address]: TZ80CPU8ReadProps) {

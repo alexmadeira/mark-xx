@@ -3,6 +3,7 @@ import type { IZ80Byte } from '@/emulator/core/z80/byte'
 import type {
   IZ80MemoryBus,
   TZ80MemoryBusCreateMemory,
+  TZ80MemoryBusCreateProps,
   TZ80MemoryBusLoadProps,
   TZ80MemoryBusMemorySeed,
   TZ80MemoryBusReadProps,
@@ -19,6 +20,10 @@ export class Z80MemoryBus implements IZ80MemoryBus {
   ) {
     this.memory = this.createMemory(memorySeed)
     this.setup()
+  }
+
+  static create(...props: TZ80MemoryBusCreateProps<IByteMemory>) {
+    return new Z80MemoryBus(...props)
   }
 
   private setup() {

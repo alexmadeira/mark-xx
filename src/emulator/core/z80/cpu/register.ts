@@ -5,6 +5,7 @@ import type {
   TZ80CPURegisterIncrementProps,
   TZ80CPURegisterUpdateIncrementFlagsProps,
   TZ80CPURegisterUpdateDecrementFlagsProps,
+  TZ80CPURegisterCreateProps,
 } from '@/emulator/core/z80/cpu/register'
 import type { IZ80Flag } from '@/emulator/core/z80/flags'
 import type { IZ80State } from '@/emulator/core/z80/state'
@@ -13,10 +14,14 @@ import { Z80_FLAG } from '_EMU/constants/z80'
 
 export class Z80CPURegister implements IZ80CPURegister {
   constructor(
-    private readonly state: IZ80State,
-    private readonly flag: IZ80Flag,
     private readonly byte: IZ80Byte,
+    private readonly flag: IZ80Flag,
+    private readonly state: IZ80State,
   ) {}
+
+  static create(...props: TZ80CPURegisterCreateProps) {
+    return new Z80CPURegister(...props)
+  }
 
   private updateIncrementFlags(...[previous, value]: TZ80CPURegisterUpdateIncrementFlagsProps) {
     this.flag.updateSign(value)

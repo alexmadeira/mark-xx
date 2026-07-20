@@ -10,6 +10,10 @@ import type {
 } from '@/emulator/core/z80/byte'
 
 export class Z80Byte implements IZ80Byte {
+  static create() {
+    return new Z80Byte()
+  }
+
   public toByte(...[value]: TZ80ByteToByteProps) {
     return value & 0xff
   }

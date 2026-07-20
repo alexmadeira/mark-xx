@@ -1,5 +1,10 @@
 import { z } from 'zod/v4'
 
+import { ZZ80Byte } from '@/emulator/core/z80/byte'
+import { ZZ80State } from '@/emulator/core/z80/state'
+
+export const ZZ80FlagCreateProps = z.tuple([ZZ80Byte, ZZ80State])
+
 export const ZZ80FlagSetProps = z.tuple([z.number(), z.boolean()])
 export const ZZ80FlagHasFlagProps = z.tuple([z.number()])
 export const ZZ80FlagUpdateSignProps = z.tuple([z.number()])
@@ -23,10 +28,13 @@ export const ZZ80Flag = z.object({
   calculateParity: ZZ80FlagCalculateParity,
 })
 
+export const ZZ80FlagCreate = z.custom<(...props: z.infer<typeof ZZ80FlagCreateProps>) => z.infer<typeof ZZ80Flag>>()
+
 //
 //
 //
 
+export type TZ80FlagCreateProps = z.infer<typeof ZZ80FlagCreateProps>
 export type TZ80FlagSetProps = z.infer<typeof ZZ80FlagSetProps>
 export type TZ80FlagHasFlagProps = z.infer<typeof ZZ80FlagHasFlagProps>
 export type TZ80FlagUpdateSignProps = z.infer<typeof ZZ80FlagUpdateSignProps>
@@ -41,4 +49,5 @@ export type TZ80FlagUpdateZero = z.infer<typeof ZZ80FlagUpdateZero>
 export type TZ80FlagUpdateParity = z.infer<typeof ZZ80FlagUpdateParity>
 export type TZ80FlagCalculateParity = z.infer<typeof ZZ80FlagCalculateParity>
 
+export type TZ80FlagCreate = z.infer<typeof ZZ80FlagCreate>
 export interface IZ80Flag extends z.infer<typeof ZZ80Flag> {}

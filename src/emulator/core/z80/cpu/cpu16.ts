@@ -1,5 +1,5 @@
 import type { IZ80Byte } from '@/emulator/core/z80/byte'
-import type { IZ80CPU16, TZ80CPU16PushProps } from '@/emulator/core/z80/cpu/cpu16'
+import type { IZ80CPU16, TZ80CPU16CreateProps, TZ80CPU16PushProps } from '@/emulator/core/z80/cpu/cpu16'
 import type { IZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
 import type { IZ80State } from '@/emulator/core/z80/state'
 
@@ -12,6 +12,10 @@ export class Z80CPU16 implements IZ80CPU16 {
     private readonly state: IZ80State,
   ) {
     _.bindAll(this, ['fetch', 'push', 'pop'])
+  }
+
+  static create(...props: TZ80CPU16CreateProps) {
+    return new Z80CPU16(...props)
   }
 
   public fetch() {
