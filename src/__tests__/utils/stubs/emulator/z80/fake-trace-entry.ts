@@ -1,6 +1,6 @@
 import type {
   IZ80TraceEntry,
-  TZ80TraceEntryCreateProps,
+  TZ80TraceEntryCreate,
   TZ80TraceEntryProps,
 } from '@/emulator/core/value-object/z80-trace-entry'
 
@@ -33,10 +33,7 @@ export class Z80TraceEntryMock implements IZ80TraceEntry {
     this.cycles = overrides.cycles || 0
   }
 
-  static create = vi.fn((...[data]: TZ80TraceEntryCreateProps) => {
-    return new Z80TraceEntryMock(data)
-  })
-
+  static readonly create = vi.fn<TZ80TraceEntryCreate>((data) => new Z80TraceEntryMock(data))
   public readonly isSame = vi.fn<IZ80TraceEntry['isSame']>()
   public readonly toJSON = vi.fn<IZ80TraceEntry['toJSON']>()
 }

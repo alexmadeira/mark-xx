@@ -1,6 +1,8 @@
-import type { IZ80Byte } from '@/emulator/core/z80/byte'
+import type { IZ80Byte, TZ80ByteCreate } from '@/emulator/core/z80/byte'
 
 export class Z80ByteMock implements IZ80Byte {
+  static readonly create = vi.fn<TZ80ByteCreate>(() => new Z80ByteMock())
+
   public readonly toByte = vi.fn<IZ80Byte['toByte']>()
   public readonly toWord = vi.fn<IZ80Byte['toWord']>()
   public readonly makeWord = vi.fn<IZ80Byte['makeWord']>()

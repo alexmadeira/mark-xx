@@ -7,6 +7,7 @@ import type {
   TZ80StateHL,
   TZ80StateInterruptMode,
   TZ80StateProps,
+  TZ80StateCreate,
 } from '@/emulator/core/z80/state'
 
 const defaultState: TZ80StateData = {
@@ -72,6 +73,8 @@ export class Z80StateMock implements IZ80State {
     this.initialState = { ...defaultState, ...state }
     Object.assign(this, this.initialState)
   }
+
+  static readonly create = vi.fn<TZ80StateCreate>()
 
   public readonly reset = vi.fn(() => {
     Object.assign(this, this.initialState)

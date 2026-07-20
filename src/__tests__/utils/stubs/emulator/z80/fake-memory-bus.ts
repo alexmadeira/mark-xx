@@ -1,5 +1,7 @@
+import type { IByteMemory } from '@/emulator/core/value-object/byte-memory'
 import type {
   IZ80MemoryBus,
+  TZ80MemoryBusCreate,
   TZ80MemoryBusLoadProps,
   TZ80MemoryBusReadProps,
   TZ80MemoryBusWriteProps,
@@ -11,6 +13,8 @@ export class Z80MemoryBusMock implements IZ80MemoryBus {
   constructor(size = 0x10000) {
     this.memory = new Uint8Array(size)
   }
+
+  static readonly create = vi.fn<TZ80MemoryBusCreate<IByteMemory>>()
 
   public readonly load = vi.fn((...[data, offset = 0]: TZ80MemoryBusLoadProps) => {
     for (let index = 0; index < data.length; index += 1) {

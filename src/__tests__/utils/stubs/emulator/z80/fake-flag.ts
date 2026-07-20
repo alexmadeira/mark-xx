@@ -1,6 +1,8 @@
-import type { IZ80Flag } from '@/emulator/core/z80/flags'
+import type { IZ80Flag, TZ80FlagCreate } from '@/emulator/core/z80/flags'
 
 export class Z80FlagMock implements IZ80Flag {
+  static readonly create = vi.fn<TZ80FlagCreate>()
+
   public readonly set = vi.fn<IZ80Flag['set']>()
   public readonly hasFlag = vi.fn<IZ80Flag['hasFlag']>()
   public readonly updateSign = vi.fn<IZ80Flag['updateSign']>()

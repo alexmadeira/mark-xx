@@ -1,13 +1,17 @@
-import type { IZ80CPU16, TZ80CPU16PushProps } from '@/emulator/core/z80/cpu/cpu16'
+import type { IZ80CPU16, TZ80CPU16Create, TZ80CPU16PushProps } from '@/emulator/core/z80/cpu/cpu16'
+import type { IZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
+import type { IZ80State } from '@/emulator/core/z80/state'
 
 import { Z80CPU8Mock } from './fake-cpu8'
 import { Z80StateMock } from './fake-state'
 
 export class Z80CPU16Mock implements IZ80CPU16 {
   constructor(
-    private readonly cpu8 = new Z80CPU8Mock(),
-    private readonly state = new Z80StateMock(),
+    private readonly cpu8: IZ80CPU8 = new Z80CPU8Mock(),
+    private readonly state: IZ80State = new Z80StateMock(),
   ) {}
+
+  static readonly create = vi.fn<TZ80CPU16Create>()
 
   public readonly fetch = vi.fn(() => {
     const low = this.cpu8.fetch()
