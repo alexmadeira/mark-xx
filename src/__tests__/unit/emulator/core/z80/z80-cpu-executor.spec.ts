@@ -1,8 +1,11 @@
 import { Z80_CYCLES, Z80_FLAG } from '_EMU/constants/z80'
+import { Z80Byte } from '_EMU/core/z80/byte'
 import { Z80CPUExecutor } from '_EMU/core/z80/cpu/executor'
 import { Z80OpcodeNotImplementedError } from '_EMU/core/z80/errors'
+import { Z80Flag } from '_EMU/core/z80/flag'
 
 import {
+  accumulatorRotationCases,
   addHLRegisterPairCases,
   aluArithmeticHLCases,
   aluArithmeticOpcodeFamilies,
@@ -11,15 +14,21 @@ import {
   aluLogicOpcodeFamilies,
   aluLogicRegisterLoCases,
   conditionalOpcodeCases,
+  decimalAdjustAccumulatorCases,
   decrement16Cases,
   decrementCases,
+  exchangeRegisterCases,
   hlFromRegisterLoadCases,
   immediateLoadCases,
   increment16Cases,
   incrementCases,
+  loadAFromMemoryAtRegisterPairCases,
+  loadMemoryAtRegisterPairFromACases,
   registerFromHLLoadCases,
   registerLoadCases,
   relativeConditionalOpcodeCases,
+  relativeJumpCases,
+  rstCases,
   stackRegisterPairCases,
   wordLoadCases,
 } from '_TEST/utils/setup/emulator/z80'
@@ -71,7 +80,9 @@ describe('Emulator', () => {
         it('should reject an unsupported opcode', () => {
           state.pc = 0x1234
 
-          expect(() => sut.executeOpcode(0xcb, 0x1233)).toThrow(new Z80OpcodeNotImplementedError(0xcb, 0x1233))
+          const result = () => sut.executeOpcode(0xcb, 0x1233)
+
+          expect(result).toThrow(new Z80OpcodeNotImplementedError(0xcb, 0x1233))
         })
         it('should disable maskable interrupts', () => {
           state.iff1 = true
@@ -90,93 +101,112 @@ describe('Emulator', () => {
           expect(state.iff1).toBe(true)
           expect(state.iff2).toBe(true)
         })
-        it.each([
-          { opcode: 0xc7, vector: 0x00 },
-          { opcode: 0xcf, vector: 0x08 },
-          { opcode: 0xd7, vector: 0x10 },
-          { opcode: 0xdf, vector: 0x18 },
-          { opcode: 0xe7, vector: 0x20 },
-          { opcode: 0xef, vector: 0x28 },
-          { opcode: 0xf7, vector: 0x30 },
-          { opcode: 0xff, vector: 0x38 },
-        ])('should execute RST $vector for opcode $opcode', ({ opcode, vector }) => {
+        it.each(rstCases)('should execute RST $vector for opcode $opcode', ({ opcode, expected }) => {
           state.pc = 0x1234
 
           const result = sut.executeOpcode(opcode)
 
           expect(result).toBe(Z80_CYCLES.rst)
           expect(cpu16.push).toHaveBeenCalledWith(0x1234)
-          expect(state.pc).toBe(vector)
+          expect(state.pc).toBe(expected)
         })
       })
       describe('Accumulator control', () => {
-        it.each([
-          { opcode: 0x07, value: 0x81, carryIn: false, expected: 0x03, checksCarryIn: false },
-          { opcode: 0x0f, value: 0x81, carryIn: false, expected: 0xc0, checksCarryIn: false },
-          { opcode: 0x17, value: 0x80, carryIn: true, expected: 0x01, checksCarryIn: true },
-          { opcode: 0x1f, value: 0x01, carryIn: true, expected: 0x80, checksCarryIn: true },
-        ])(
-          'should execute accumulator rotate opcode $opcode',
-          ({ opcode, value, carryIn, expected, checksCarryIn }) => {
-            state.a = value
-            byte.toByte.mockReturnValueOnce(value).mockReturnValueOnce(expected)
-            if (checksCarryIn) flag.hasFlag.mockReturnValueOnce(carryIn)
+        const preservedFlags = Z80_FLAG.sign | Z80_FLAG.zero | Z80_FLAG.parityOverflow
+        const createAccumulatorControlSut = () => {
+          const controlState = new Z80StateMock()
+          const controlByte = new Z80Byte()
+          const controlFlag = new Z80Flag(controlByte, controlState)
+          const controlCPU8 = new Z80CPU8Mock(controlState)
+          const controlCPU16 = new Z80CPU16Mock(controlCPU8, controlState)
+          const controlRegister = new Z80CPURegisterMock(controlState)
 
-            const result = sut.executeOpcode(opcode)
+          return {
+            state: controlState,
+            sut: new Z80CPUExecutor(
+              alu,
+              controlByte,
+              controlFlag,
+              controlCPU8,
+              controlCPU16,
+              controlState,
+              controlRegister,
+            ),
+          }
+        }
+
+        it.each(accumulatorRotationCases)(
+          'should execute $name and preserve S, Z and P/V',
+          ({ opcode, value, carryIn, expected, carryOut, flags }) => {
+            const { state: rotationState, sut: rotationSut } = createAccumulatorControlSut()
+
+            rotationState.a = value
+            rotationState.f = flags | Z80_FLAG.halfCarry | Z80_FLAG.subtract | (carryIn ? Z80_FLAG.carry : 0)
+
+            const result = rotationSut.executeOpcode(opcode)
 
             expect(result).toBe(Z80_CYCLES.rotateAccumulator)
-            expect(state.a).toBe(expected)
-            expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, false)
-            expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, false)
-            expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, true)
+            expect(rotationState.a).toBe(expected)
+            expect(rotationState.f).toBe(flags | (carryOut ? Z80_FLAG.carry : 0))
           },
         )
-        it.each([
-          { name: 'addition', value: 0x3c, subtract: false, halfCarry: false, carry: false, expected: 0x42 },
-          { name: 'subtraction', value: 0x0f, subtract: true, halfCarry: true, carry: false, expected: 0x09 },
-        ])('should execute DAA after $name', ({ value, subtract, halfCarry, carry, expected }) => {
-          state.a = value
-          flag.hasFlag.mockReturnValueOnce(subtract).mockReturnValueOnce(halfCarry).mockReturnValueOnce(carry)
-          byte.toByte.mockReturnValueOnce(value).mockReturnValueOnce(expected)
+        it.each(decimalAdjustAccumulatorCases)(
+          'should execute DAA after $name',
+          ({ value, flags, expected, expectedFlags }) => {
+            const { state: daaState, sut: daaSut } = createAccumulatorControlSut()
 
-          const result = sut.executeOpcode(0x27)
+            daaState.a = value
+            daaState.f = flags
+
+            const result = daaSut.executeOpcode(0x27)
+
+            expect(result).toBe(Z80_CYCLES.flagControl)
+            expect(daaState.a).toBe(expected)
+            expect(daaState.f).toBe(expectedFlags)
+          },
+        )
+        it('should execute CPL by complementing A, setting H and N and preserving the remaining flags', () => {
+          const { state: cplState, sut: cplSut } = createAccumulatorControlSut()
+          const initialFlags = preservedFlags | Z80_FLAG.carry
+
+          cplState.a = 0xb4
+          cplState.f = initialFlags
+
+          const result = cplSut.executeOpcode(0x2f)
 
           expect(result).toBe(Z80_CYCLES.flagControl)
-          expect(state.a).toBe(expected)
-          expect(flag.updateSign).toHaveBeenCalledWith(expected)
-          expect(flag.updateZero).toHaveBeenCalledWith(expected)
-          expect(flag.updateParity).toHaveBeenCalledWith(expected)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, ((value ^ expected) & Z80_FLAG.halfCarry) !== 0)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, carry)
+          expect(cplState.a).toBe(0x4b)
+          expect(cplState.f).toBe(initialFlags | Z80_FLAG.halfCarry | Z80_FLAG.subtract)
         })
-        it('should complement the accumulator and set H and N', () => {
-          state.a = 0xaa
-          byte.toByte.mockReturnValueOnce(0x55)
+        it('should execute SCF by setting C, clearing H and N and preserving the remaining flags', () => {
+          const { state: scfState, sut: scfSut } = createAccumulatorControlSut()
 
-          const result = sut.executeOpcode(0x2f)
+          scfState.a = 0x42
+          scfState.f = preservedFlags | Z80_FLAG.halfCarry | Z80_FLAG.subtract
+
+          const result = scfSut.executeOpcode(0x37)
 
           expect(result).toBe(Z80_CYCLES.flagControl)
-          expect(state.a).toBe(0x55)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, true)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, true)
+          expect(scfState.a).toBe(0x42)
+          expect(scfState.f).toBe(preservedFlags | Z80_FLAG.carry)
         })
-        it('should set carry while clearing H and N', () => {
-          const result = sut.executeOpcode(0x37)
+        it('should execute CCF by alternating C, copying its previous value to H and clearing N', () => {
+          const { state: ccfState, sut: ccfSut } = createAccumulatorControlSut()
 
-          expect(result).toBe(Z80_CYCLES.flagControl)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, false)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, false)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, true)
-        })
-        it.each([false, true])('should complement carry when its previous value is %s', (carry) => {
-          flag.hasFlag.mockReturnValueOnce(carry)
+          ccfState.a = 0x42
+          ccfState.f = preservedFlags | Z80_FLAG.halfCarry | Z80_FLAG.subtract
 
-          const result = sut.executeOpcode(0x3f)
+          const firstResult = ccfSut.executeOpcode(0x3f)
 
-          expect(result).toBe(Z80_CYCLES.flagControl)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.halfCarry, carry)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.subtract, false)
-          expect(flag.set).toHaveBeenCalledWith(Z80_FLAG.carry, !carry)
+          expect(firstResult).toBe(Z80_CYCLES.flagControl)
+          expect(ccfState.a).toBe(0x42)
+          expect(ccfState.f).toBe(preservedFlags | Z80_FLAG.carry)
+
+          const secondResult = ccfSut.executeOpcode(0x3f)
+
+          expect(secondResult).toBe(Z80_CYCLES.flagControl)
+          expect(ccfState.a).toBe(0x42)
+          expect(ccfState.f).toBe(preservedFlags | Z80_FLAG.halfCarry)
         })
       })
       describe('8-bit loads', () => {
@@ -238,31 +268,31 @@ describe('Emulator', () => {
           expect(result).toBe(Z80_CYCLES.ldMemoryHLImmediate)
           expect(cpu8.write).toHaveBeenCalledWith(0x1234, 0x42)
         })
-        it.each([
-          { opcode: 0x02, register: 'bc' },
-          { opcode: 0x12, register: 'de' },
-        ] as const)('should execute opcode $opcode by loading A into ($register)', ({ opcode, register }) => {
-          state[register] = 0x1234
-          state.a = 0x42
+        it.each(loadMemoryAtRegisterPairFromACases)(
+          'should execute opcode $opcode by loading A into ($register)',
+          ({ opcode, register }) => {
+            state[register] = 0x1234
+            state.a = 0x42
 
-          const result = sut.executeOpcode(opcode)
+            const result = sut.executeOpcode(opcode)
 
-          expect(result).toBe(Z80_CYCLES.ldMemoryAtRegisterPairFromA)
-          expect(cpu8.write).toHaveBeenCalledWith(0x1234, 0x42)
-        })
-        it.each([
-          { opcode: 0x0a, register: 'bc' },
-          { opcode: 0x1a, register: 'de' },
-        ] as const)('should execute opcode $opcode by loading ($register) into A', ({ opcode, register }) => {
-          state[register] = 0x1234
-          cpu8.read.mockReturnValueOnce(0x42)
+            expect(result).toBe(Z80_CYCLES.ldMemoryAtRegisterPairFromA)
+            expect(cpu8.write).toHaveBeenCalledWith(0x1234, 0x42)
+          },
+        )
+        it.each(loadAFromMemoryAtRegisterPairCases)(
+          'should execute opcode $opcode by loading ($register) into A',
+          ({ opcode, register }) => {
+            state[register] = 0x1234
+            cpu8.read.mockReturnValueOnce(0x42)
 
-          const result = sut.executeOpcode(opcode)
+            const result = sut.executeOpcode(opcode)
 
-          expect(result).toBe(Z80_CYCLES.ldAFromMemoryAtRegisterPair)
-          expect(cpu8.read).toHaveBeenCalledWith(0x1234)
-          expect(state.a).toBe(0x42)
-        })
+            expect(result).toBe(Z80_CYCLES.ldAFromMemoryAtRegisterPair)
+            expect(cpu8.read).toHaveBeenCalledWith(0x1234)
+            expect(state.a).toBe(0x42)
+          },
+        )
         it('should load A into an absolute address', () => {
           state.a = 0x42
           cpu16.fetch.mockReturnValueOnce(0x1234)
@@ -432,56 +462,17 @@ describe('Emulator', () => {
         )
       })
       describe('Exchange', () => {
-        it.each([
-          {
-            opcode: 0x08,
-            initial: { a: 0x12, f: 0x34, shadowA: 0x56, shadowF: 0x78 },
-            expected: { a: 0x56, f: 0x78, shadowA: 0x12, shadowF: 0x34 },
-          },
-          {
-            opcode: 0xd9,
-            initial: {
-              b: 0x10,
-              c: 0x11,
-              d: 0x20,
-              e: 0x21,
-              h: 0x30,
-              l: 0x31,
-              shadowB: 0x40,
-              shadowC: 0x41,
-              shadowD: 0x50,
-              shadowE: 0x51,
-              shadowH: 0x60,
-              shadowL: 0x61,
-            },
-            expected: {
-              b: 0x40,
-              c: 0x41,
-              d: 0x50,
-              e: 0x51,
-              h: 0x60,
-              l: 0x61,
-              shadowB: 0x10,
-              shadowC: 0x11,
-              shadowD: 0x20,
-              shadowE: 0x21,
-              shadowH: 0x30,
-              shadowL: 0x31,
-            },
-          },
-          {
-            opcode: 0xeb,
-            initial: { d: 0x12, e: 0x34, h: 0x56, l: 0x78 },
-            expected: { d: 0x56, e: 0x78, h: 0x12, l: 0x34 },
-          },
-        ])('should execute register exchange opcode $opcode', ({ opcode, initial, expected }) => {
-          Object.assign(state, initial)
+        it.each(exchangeRegisterCases)(
+          'should execute register exchange opcode $opcode',
+          ({ opcode, initial, expected }) => {
+            Object.assign(state, initial)
 
-          const result = sut.executeOpcode(opcode)
+            const result = sut.executeOpcode(opcode)
 
-          expect(result).toBe(Z80_CYCLES.exchangeRegister)
-          expect(state).toMatchObject(expected)
-        })
+            expect(result).toBe(Z80_CYCLES.exchangeRegister)
+            expect(state).toMatchObject(expected)
+          },
+        )
         it('should exchange HL with memory at SP and wrap the high address', () => {
           state.sp = 0xffff
           state.hl = 0xabcd
@@ -626,10 +617,7 @@ describe('Emulator', () => {
             expect(state.pc).toBe(0x5678)
           },
         )
-        it.each([
-          { expected: 0x1005, offset: 0x05 },
-          { expected: 0x0ffb, offset: 0xfb },
-        ])('should jump relative with signed offset $offset', ({ expected, offset }) => {
+        it.each(relativeJumpCases)('should jump relative with signed offset $offset', ({ expected, offset }) => {
           state.pc = 0x1000
           cpu8.fetch.mockReturnValueOnce(offset)
           byte.signedByte.mockReturnValueOnce(offset > 0x7f ? offset - 0x100 : offset)

@@ -1,7 +1,6 @@
 import { Z80_FLAG } from '_EMU/constants/z80'
 import { ByteMemory } from '_EMU/core/value-object/byte-memory'
 import { Z80TraceEntry } from '_EMU/core/value-object/z80-trace-entry'
-import { Z80Core } from '_EMU/core/z80'
 import { Z80Byte } from '_EMU/core/z80/byte'
 import { Z80CPU } from '_EMU/core/z80/cpu'
 import { Z80CPUAlu } from '_EMU/core/z80/cpu/alu'
@@ -12,36 +11,32 @@ import { Z80CPURegister } from '_EMU/core/z80/cpu/register'
 import { Z80Flag } from '_EMU/core/z80/flag'
 import { Z80MemoryBus } from '_EMU/core/z80/memory-bus'
 import { Z80State } from '_EMU/core/z80/state'
-import { Z80Runner } from '_EMU/core/z80/z80-runner'
 
-function createEmulator(program: ArrayLike<number>) {
-  const core = new Z80Core(
-    Z80CPU.create,
-    Z80CPUAlu.create,
-    Z80CPU8.create,
-    Z80CPU16.create,
-    Z80CPURegister.create,
-    Z80CPUExecutor.create,
-    Z80Byte.create,
-    Z80Flag.create,
-    Z80State.create,
-    Z80MemoryBus.create,
-    {
-      memory: program,
-      memorySize: 0x10000,
-      createMemory: ByteMemory.create,
-    },
-  )
-  const runner = new Z80Runner(core.cpu, Z80TraceEntry.create)
-
-  return { core, runner }
-}
+import { makeZ80Core } from '_TEST/utils/factories/emulator/z80/make-core'
+import { makeZ80Runner } from '_TEST/utils/factories/emulator/z80/make-runner'
 
 describe('Emulator', () => {
   describe('Z80 execution integration', () => {
     it('should execute register loads, addition and halt as a complete program', () => {
-      const program = [0x3e, 0x01, 0x06, 0x02, 0x80, 0x76]
-      const { core, runner } = createEmulator(program)
+      const core = makeZ80Core({
+        createCPU: Z80CPU.create,
+        createAlu: Z80CPUAlu.create,
+        createCPU8: Z80CPU8.create,
+        createCPU16: Z80CPU16.create,
+        createRegister: Z80CPURegister.create,
+        createExecutor: Z80CPUExecutor.create,
+        createByte: Z80Byte.create,
+        createFlag: Z80Flag.create,
+        createState: Z80State.create,
+        createMemoryBus: Z80MemoryBus.create,
+        createMemory: ByteMemory.create,
+        memorySize: 0x10000,
+        memory: [0x3e, 0x01, 0x06, 0x02, 0x80, 0x76],
+      })
+      const runner = makeZ80Runner({
+        cpu: core.cpu,
+        traceCreate: Z80TraceEntry.create,
+      })
 
       runner.runInstructions(10)
 
@@ -49,7 +44,25 @@ describe('Emulator', () => {
       expect(core.state.halted).toBe(true)
     })
     it('should push and restore the return address while executing CALL and RET', () => {
-      const { core, runner } = createEmulator([0xcd, 0x05, 0x00, 0x76, 0x00, 0xc9])
+      const core = makeZ80Core({
+        createCPU: Z80CPU.create,
+        createAlu: Z80CPUAlu.create,
+        createCPU8: Z80CPU8.create,
+        createCPU16: Z80CPU16.create,
+        createRegister: Z80CPURegister.create,
+        createExecutor: Z80CPUExecutor.create,
+        createByte: Z80Byte.create,
+        createFlag: Z80Flag.create,
+        createState: Z80State.create,
+        createMemoryBus: Z80MemoryBus.create,
+        createMemory: ByteMemory.create,
+        memorySize: 0x10000,
+        memory: [0xcd, 0x05, 0x00, 0x76, 0x00, 0xc9],
+      })
+      const runner = makeZ80Runner({
+        cpu: core.cpu,
+        traceCreate: Z80TraceEntry.create,
+      })
 
       const callTrace = runner.step()
 
@@ -76,8 +89,25 @@ describe('Emulator', () => {
     })
 
     it('should execute DJNZ until B reaches zero', () => {
-      const program = [0x3e, 0x05, 0x06, 0x03, 0x10, 0xfe, 0x76]
-      const { core, runner } = createEmulator(program)
+      const core = makeZ80Core({
+        createCPU: Z80CPU.create,
+        createAlu: Z80CPUAlu.create,
+        createCPU8: Z80CPU8.create,
+        createCPU16: Z80CPU16.create,
+        createRegister: Z80CPURegister.create,
+        createExecutor: Z80CPUExecutor.create,
+        createByte: Z80Byte.create,
+        createFlag: Z80Flag.create,
+        createState: Z80State.create,
+        createMemoryBus: Z80MemoryBus.create,
+        createMemory: ByteMemory.create,
+        memorySize: 0x10000,
+        memory: [0x3e, 0x05, 0x06, 0x03, 0x10, 0xfe, 0x76],
+      })
+      const runner = makeZ80Runner({
+        cpu: core.cpu,
+        traceCreate: Z80TraceEntry.create,
+      })
 
       const trace = runner.runInstructions(10)
       const loopTrace = trace.filter((entry) => entry.pc === 0x0004)
@@ -90,8 +120,25 @@ describe('Emulator', () => {
     })
 
     it('should store the accumulator in memory through HL', () => {
-      const program = [0x21, 0x00, 0x40, 0x3e, 0x0a, 0x77, 0x76]
-      const { core, runner } = createEmulator(program)
+      const core = makeZ80Core({
+        createCPU: Z80CPU.create,
+        createAlu: Z80CPUAlu.create,
+        createCPU8: Z80CPU8.create,
+        createCPU16: Z80CPU16.create,
+        createRegister: Z80CPURegister.create,
+        createExecutor: Z80CPUExecutor.create,
+        createByte: Z80Byte.create,
+        createFlag: Z80Flag.create,
+        createState: Z80State.create,
+        createMemoryBus: Z80MemoryBus.create,
+        createMemory: ByteMemory.create,
+        memorySize: 0x10000,
+        memory: [0x21, 0x00, 0x40, 0x3e, 0x0a, 0x77, 0x76],
+      })
+      const runner = makeZ80Runner({
+        cpu: core.cpu,
+        traceCreate: Z80TraceEntry.create,
+      })
 
       runner.runInstructions(10)
 
@@ -102,11 +149,29 @@ describe('Emulator', () => {
 
     it('should take and skip a conditional JP according to flags produced by CP', () => {
       const runConditionalJump = (compareValue: number) => {
-        const program = [0x3e, 0x01, 0xfe, compareValue, 0xca, 0x0a, 0x00, 0x06, 0x11, 0x76, 0x06, 0x22, 0x76]
-        const emulator = createEmulator(program)
-        const trace = emulator.runner.runInstructions(10)
+        const core = makeZ80Core({
+          createCPU: Z80CPU.create,
+          createAlu: Z80CPUAlu.create,
+          createCPU8: Z80CPU8.create,
+          createCPU16: Z80CPU16.create,
+          createRegister: Z80CPURegister.create,
+          createExecutor: Z80CPUExecutor.create,
+          createByte: Z80Byte.create,
+          createFlag: Z80Flag.create,
+          createState: Z80State.create,
+          createMemoryBus: Z80MemoryBus.create,
+          createMemory: ByteMemory.create,
+          memorySize: 0x10000,
+          memory: [0x3e, 0x01, 0xfe, compareValue, 0xca, 0x0a, 0x00, 0x06, 0x11, 0x76, 0x06, 0x22, 0x76],
+        })
+        const runner = makeZ80Runner({
+          cpu: core.cpu,
+          traceCreate: Z80TraceEntry.create,
+        })
 
-        return { ...emulator, trace }
+        const trace = runner.runInstructions(10)
+
+        return { core, runner, trace }
       }
 
       const taken = runConditionalJump(0x01)

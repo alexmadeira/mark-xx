@@ -55,6 +55,121 @@ export const immediateLoadCases = [
   { opcode: 0x2e, expected: 'l' },
 ] satisfies Array<{ opcode: number; expected: TEZ80CPURegister8 }>
 
+const preservedAccumulatorFlags = Z80_FLAG.sign | Z80_FLAG.zero | Z80_FLAG.parityOverflow
+
+export const accumulatorRotationCases = [
+  {
+    name: 'RLCA with carry output',
+    opcode: 0x07,
+    value: 0x81,
+    carryIn: false,
+    expected: 0x03,
+    carryOut: true,
+    flags: preservedAccumulatorFlags,
+  },
+  {
+    name: 'RLCA without carry output',
+    opcode: 0x07,
+    value: 0x02,
+    carryIn: true,
+    expected: 0x04,
+    carryOut: false,
+    flags: 0,
+  },
+  {
+    name: 'RRCA with carry output',
+    opcode: 0x0f,
+    value: 0x81,
+    carryIn: false,
+    expected: 0xc0,
+    carryOut: true,
+    flags: preservedAccumulatorFlags,
+  },
+  {
+    name: 'RRCA without carry output',
+    opcode: 0x0f,
+    value: 0x80,
+    carryIn: true,
+    expected: 0x40,
+    carryOut: false,
+    flags: 0,
+  },
+  {
+    name: 'RLA with carry input and output',
+    opcode: 0x17,
+    value: 0x80,
+    carryIn: true,
+    expected: 0x01,
+    carryOut: true,
+    flags: preservedAccumulatorFlags,
+  },
+  {
+    name: 'RLA without carry input or output',
+    opcode: 0x17,
+    value: 0x01,
+    carryIn: false,
+    expected: 0x02,
+    carryOut: false,
+    flags: 0,
+  },
+  {
+    name: 'RRA with carry input and output',
+    opcode: 0x1f,
+    value: 0x01,
+    carryIn: true,
+    expected: 0x80,
+    carryOut: true,
+    flags: preservedAccumulatorFlags,
+  },
+  {
+    name: 'RRA without carry input or output',
+    opcode: 0x1f,
+    value: 0x80,
+    carryIn: false,
+    expected: 0x40,
+    carryOut: false,
+    flags: 0,
+  },
+] as const
+
+export const decimalAdjustAccumulatorCases = [
+  {
+    name: 'addition with 0x06 correction',
+    value: 0x3c,
+    flags: 0,
+    expected: 0x42,
+    expectedFlags: Z80_FLAG.halfCarry | Z80_FLAG.parityOverflow,
+  },
+  {
+    name: 'addition with 0x60 correction',
+    value: 0xa0,
+    flags: 0,
+    expected: 0x00,
+    expectedFlags: Z80_FLAG.zero | Z80_FLAG.parityOverflow | Z80_FLAG.carry,
+  },
+  {
+    name: 'addition with 0x66 correction',
+    value: 0x9a,
+    flags: 0,
+    expected: 0x00,
+    expectedFlags: Z80_FLAG.zero | Z80_FLAG.halfCarry | Z80_FLAG.parityOverflow | Z80_FLAG.carry,
+  },
+  {
+    name: 'subtraction with half-borrow',
+    value: 0x0f,
+    flags: Z80_FLAG.subtract | Z80_FLAG.halfCarry,
+    expected: 0x09,
+    expectedFlags: Z80_FLAG.subtract | Z80_FLAG.parityOverflow,
+  },
+  {
+    name: 'subtraction with borrow',
+    value: 0xee,
+    flags: Z80_FLAG.subtract | Z80_FLAG.halfCarry | Z80_FLAG.carry,
+    expected: 0x88,
+    expectedFlags: Z80_FLAG.sign | Z80_FLAG.parityOverflow | Z80_FLAG.subtract | Z80_FLAG.carry,
+  },
+] as const
+
 export const byteConversionCases = [
   { value: 0x00, expected: 0 },
   { value: 0xff, expected: 255 },
@@ -156,6 +271,14 @@ export const hlFromRegisterLoadCases = registerOnlyOperands.map((source) => ({
   opcode: 0x70 + source.offset,
   source: source.register,
 }))
+export const loadMemoryAtRegisterPairFromACases = [
+  { opcode: 0x02, register: 'bc' },
+  { opcode: 0x12, register: 'de' },
+] as const
+export const loadAFromMemoryAtRegisterPairCases = [
+  { opcode: 0x0a, register: 'bc' },
+  { opcode: 0x1a, register: 'de' },
+] as const
 
 export const increment16Cases = [
   { opcode: 0x03, register: 'bc' },
@@ -180,6 +303,50 @@ export const stackRegisterPairCases = [
   { popOpcode: 0xd1, pushOpcode: 0xd5, register: 'de' },
   { popOpcode: 0xe1, pushOpcode: 0xe5, register: 'hl' },
   { popOpcode: 0xf1, pushOpcode: 0xf5, register: 'af' },
+] as const
+
+export const exchangeRegisterCases = [
+  {
+    opcode: 0x08,
+    initial: { a: 0x12, f: 0x34, shadowA: 0x56, shadowF: 0x78 },
+    expected: { a: 0x56, f: 0x78, shadowA: 0x12, shadowF: 0x34 },
+  },
+  {
+    opcode: 0xd9,
+    initial: {
+      b: 0x10,
+      c: 0x11,
+      d: 0x20,
+      e: 0x21,
+      h: 0x30,
+      l: 0x31,
+      shadowB: 0x40,
+      shadowC: 0x41,
+      shadowD: 0x50,
+      shadowE: 0x51,
+      shadowH: 0x60,
+      shadowL: 0x61,
+    },
+    expected: {
+      b: 0x40,
+      c: 0x41,
+      d: 0x50,
+      e: 0x51,
+      h: 0x60,
+      l: 0x61,
+      shadowB: 0x10,
+      shadowC: 0x11,
+      shadowD: 0x20,
+      shadowE: 0x21,
+      shadowH: 0x30,
+      shadowL: 0x31,
+    },
+  },
+  {
+    opcode: 0xeb,
+    initial: { d: 0x12, e: 0x34, h: 0x56, l: 0x78 },
+    expected: { d: 0x56, e: 0x78, h: 0x12, l: 0x34 },
+  },
 ] as const
 
 export const conditionalOpcodeCases = [
@@ -212,6 +379,11 @@ export const relativeConditionalOpcodeCases = [
   { flag: Z80_FLAG.zero, name: 'Z', opcode: 0x28, takenFlag: true },
   { flag: Z80_FLAG.carry, name: 'NC', opcode: 0x30, takenFlag: false },
   { flag: Z80_FLAG.carry, name: 'C', opcode: 0x38, takenFlag: true },
+] as const
+
+export const relativeJumpCases = [
+  { expected: 0x1005, offset: 0x05 },
+  { expected: 0x0ffb, offset: 0xfb },
 ] as const
 
 export const aluLogicOperations = [...Z80_CPU_ALU_LOGICAL_OPERATIONS] as const
@@ -273,3 +445,14 @@ export const aluLogicHLCases = aluLogicOpcodeFamilies.map((family) => ({
   ...family,
   opcode: family.base + 0x06,
 })) satisfies Array<{ base: number; immediate: number; opcode: number; operation: TEZ80CPUAluOperation }>
+
+export const rstCases = [
+  { opcode: 0xc7, expected: 0x00 },
+  { opcode: 0xcf, expected: 0x08 },
+  { opcode: 0xd7, expected: 0x10 },
+  { opcode: 0xdf, expected: 0x18 },
+  { opcode: 0xe7, expected: 0x20 },
+  { opcode: 0xef, expected: 0x28 },
+  { opcode: 0xf7, expected: 0x30 },
+  { opcode: 0xff, expected: 0x38 },
+] as const satisfies Array<{ opcode: number; expected: number }>

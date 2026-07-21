@@ -95,27 +95,46 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     return Z80_CYCLES.rst
   }
 
-  private rotateAccumulatorLeft(throughCarry: boolean) {
-    const value = this.byte.toByte(this.state.a)
-    const carry = (value & 0x80) !== 0
-    const lowBit = throughCarry ? (this.flag.hasFlag(Z80_FLAG.carry) ? 1 : 0) : carry ? 1 : 0
-
-    this.state.a = this.byte.toByte((value << 1) | lowBit)
+  private updateAccumulatorRotationFlags(carry: boolean) {
     this.flag.set(Z80_FLAG.halfCarry, false)
     this.flag.set(Z80_FLAG.subtract, false)
     this.flag.set(Z80_FLAG.carry, carry)
+  }
+  private rotateAccumulatorLeftCircular() {
+    const value = this.byte.toByte(this.state.a)
+    const carry = (value & 0x80) !== 0
+
+    this.state.a = this.byte.toByte((value << 1) | (carry ? 0x01 : 0))
+    this.updateAccumulatorRotationFlags(carry)
 
     return Z80_CYCLES.rotateAccumulator
   }
-  private rotateAccumulatorRight(throughCarry: boolean) {
+  private rotateAccumulatorRightCircular() {
     const value = this.byte.toByte(this.state.a)
     const carry = (value & 0x01) !== 0
-    const highBit = throughCarry ? (this.flag.hasFlag(Z80_FLAG.carry) ? 0x80 : 0) : carry ? 0x80 : 0
 
-    this.state.a = this.byte.toByte((value >> 1) | highBit)
-    this.flag.set(Z80_FLAG.halfCarry, false)
-    this.flag.set(Z80_FLAG.subtract, false)
-    this.flag.set(Z80_FLAG.carry, carry)
+    this.state.a = this.byte.toByte((value >> 1) | (carry ? 0x80 : 0))
+    this.updateAccumulatorRotationFlags(carry)
+
+    return Z80_CYCLES.rotateAccumulator
+  }
+  private rotateAccumulatorLeftThroughCarry() {
+    const value = this.byte.toByte(this.state.a)
+    const carryIn = this.flag.hasFlag(Z80_FLAG.carry)
+    const carryOut = (value & 0x80) !== 0
+
+    this.state.a = this.byte.toByte((value << 1) | (carryIn ? 0x01 : 0))
+    this.updateAccumulatorRotationFlags(carryOut)
+
+    return Z80_CYCLES.rotateAccumulator
+  }
+  private rotateAccumulatorRightThroughCarry() {
+    const value = this.byte.toByte(this.state.a)
+    const carryIn = this.flag.hasFlag(Z80_FLAG.carry)
+    const carryOut = (value & 0x01) !== 0
+
+    this.state.a = this.byte.toByte((value >> 1) | (carryIn ? 0x80 : 0))
+    this.updateAccumulatorRotationFlags(carryOut)
 
     return Z80_CYCLES.rotateAccumulator
   }
@@ -424,10 +443,10 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
       0xf7: () => this.restart(0x30),
       0xff: () => this.restart(0x38),
 
-      0x07: () => this.rotateAccumulatorLeft(false),
-      0x0f: () => this.rotateAccumulatorRight(false),
-      0x17: () => this.rotateAccumulatorLeft(true),
-      0x1f: () => this.rotateAccumulatorRight(true),
+      0x07: () => this.rotateAccumulatorLeftCircular(),
+      0x0f: () => this.rotateAccumulatorRightCircular(),
+      0x17: () => this.rotateAccumulatorLeftThroughCarry(),
+      0x1f: () => this.rotateAccumulatorRightThroughCarry(),
 
       0x27: () => this.decimalAdjustAccumulator(),
       0x2f: () => this.complementAccumulator(),
