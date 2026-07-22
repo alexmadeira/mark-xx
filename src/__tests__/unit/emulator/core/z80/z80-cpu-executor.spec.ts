@@ -34,33 +34,37 @@ import {
 } from '_TEST/utils/setup/emulator/z80'
 import { Z80CPUAluMock } from '_TEST/utils/stubs/emulator/z80/fake-alu'
 import { Z80ByteMock } from '_TEST/utils/stubs/emulator/z80/fake-byte'
+import { Z80CBInstructionMock } from '_TEST/utils/stubs/emulator/z80/fake-cb-instruction'
 import { Z80CPURegisterMock } from '_TEST/utils/stubs/emulator/z80/fake-cpu-register'
 import { Z80CPU16Mock } from '_TEST/utils/stubs/emulator/z80/fake-cpu16'
 import { Z80CPU8Mock } from '_TEST/utils/stubs/emulator/z80/fake-cpu8'
 import { Z80FlagMock } from '_TEST/utils/stubs/emulator/z80/fake-flag'
 import { Z80StateMock } from '_TEST/utils/stubs/emulator/z80/fake-state'
 
-let alu: Z80CPUAluMock
 let flag: Z80FlagMock
 let byte: Z80ByteMock
 let cpu8: Z80CPU8Mock
 let cpu16: Z80CPU16Mock
+let cpuAlu: Z80CPUAluMock
 let state: Z80StateMock
 let register: Z80CPURegisterMock
+let cbInstruction: Z80CBInstructionMock
 
 let sut: Z80CPUExecutor
 
 describe('Emulator', () => {
   beforeEach(() => {
-    alu = new Z80CPUAluMock()
     byte = new Z80ByteMock()
     flag = new Z80FlagMock()
     state = new Z80StateMock()
+    cbInstruction = new Z80CBInstructionMock()
+
     cpu8 = new Z80CPU8Mock(state)
     cpu16 = new Z80CPU16Mock(cpu8, state)
+    cpuAlu = new Z80CPUAluMock()
     register = new Z80CPURegisterMock(state)
 
-    sut = new Z80CPUExecutor(alu, byte, flag, cpu8, cpu16, state, register)
+    sut = new Z80CPUExecutor(cpuAlu, byte, cbInstruction, flag, cpu8, cpu16, state, register)
   })
 
   describe('Core', () => {
@@ -80,9 +84,20 @@ describe('Emulator', () => {
         it('should reject an unsupported opcode', () => {
           state.pc = 0x1234
 
-          const result = () => sut.executeOpcode(0xcb, 0x1233)
+          const result = () => sut.executeOpcode(0xdd, 0x1233)
 
-          expect(result).toThrow(new Z80OpcodeNotImplementedError(0xcb, 0x1233))
+          expect(result).toThrow(new Z80OpcodeNotImplementedError(0xdd, 0x1233))
+        })
+        it('should fetch and dispatch a CB-prefixed opcode', () => {
+          state.pc = 0x1234
+          cpu8.read.mockReturnValueOnce(0x40)
+          cbInstruction.executeOpcode.mockReturnValueOnce(Z80_CYCLES.cbRegister)
+
+          const result = sut.executeOpcode(0xcb, 0x1233)
+
+          expect(result).toBe(Z80_CYCLES.cbRegister)
+          expect(cpu8.fetch).toHaveBeenCalledOnce()
+          expect(cbInstruction.executeOpcode).toHaveBeenCalledWith(0x40, 0x1234)
         })
         it('should disable maskable interrupts', () => {
           state.iff1 = true
@@ -124,8 +139,9 @@ describe('Emulator', () => {
           return {
             state: controlState,
             sut: new Z80CPUExecutor(
-              alu,
+              cpuAlu,
               controlByte,
+              cbInstruction,
               controlFlag,
               controlCPU8,
               controlCPU16,
@@ -708,7 +724,7 @@ describe('Emulator', () => {
             state[register] = 0x42
             const result = sut.executeOpcode(opcode)
             expect(result).toBe(Z80_CYCLES.aluR)
-            expect(alu[operation]).toHaveBeenCalledWith(0x42, carry)
+            expect(cpuAlu[operation]).toHaveBeenCalledWith(0x42, carry)
           },
         )
         it.each(aluLogicRegisterLoCases)(
@@ -717,7 +733,7 @@ describe('Emulator', () => {
             state[register] = 0x42
             const result = sut.executeOpcode(opcode)
             expect(result).toBe(Z80_CYCLES.aluR)
-            expect(alu[operation]).toHaveBeenCalledWith(0x42)
+            expect(cpuAlu[operation]).toHaveBeenCalledWith(0x42)
           },
         )
         it.each(aluArithmeticHLCases)(
@@ -730,7 +746,7 @@ describe('Emulator', () => {
 
             expect(result).toBe(Z80_CYCLES.aluHL)
             expect(cpu8.read).toHaveBeenCalledWith(0x1234)
-            expect(alu[operation]).toHaveBeenCalledWith(0x42, carry)
+            expect(cpuAlu[operation]).toHaveBeenCalledWith(0x42, carry)
           },
         )
         it.each(aluLogicHLCases)(
@@ -743,7 +759,7 @@ describe('Emulator', () => {
 
             expect(result).toBe(Z80_CYCLES.aluHL)
             expect(cpu8.read).toHaveBeenCalledWith(0x1234)
-            expect(alu[operation]).toHaveBeenCalledWith(0x42)
+            expect(cpuAlu[operation]).toHaveBeenCalledWith(0x42)
           },
         )
         it.each(aluArithmeticOpcodeFamilies)(
@@ -755,7 +771,7 @@ describe('Emulator', () => {
 
             expect(result).toBe(Z80_CYCLES.aluN)
             expect(cpu8.fetch).toHaveBeenCalledOnce()
-            expect(alu[operation]).toHaveBeenCalledWith(0x42, carry)
+            expect(cpuAlu[operation]).toHaveBeenCalledWith(0x42, carry)
           },
         )
         it.each(aluLogicOpcodeFamilies)(
@@ -767,7 +783,7 @@ describe('Emulator', () => {
 
             expect(result).toBe(Z80_CYCLES.aluN)
             expect(cpu8.fetch).toHaveBeenCalledOnce()
-            expect(alu[operation]).toHaveBeenCalledWith(0x42)
+            expect(cpuAlu[operation]).toHaveBeenCalledWith(0x42)
           },
         )
       })

@@ -43,6 +43,20 @@ describe('Emulator', () => {
       expect(core.state.a).toBe(0x03)
       expect(core.state.halted).toBe(true)
     })
+    it('should execute a CB-prefixed instruction as part of a complete program', () => {
+      const core = makeZ80Core({ memory: [0x06, 0x81, 0xcb, 0x00, 0x76] })
+      const runner = makeZ80Runner({
+        cpu: core.cpu,
+        traceCreate: Z80TraceEntry.create,
+      })
+
+      const trace = runner.runInstructions(10)
+
+      expect(trace.map((entry) => entry.pc)).toEqual([0x0000, 0x0002, 0x0004])
+      expect(core.state.b).toBe(0x03)
+      expect(core.state.f).toBe(Z80_FLAG.parityOverflow | Z80_FLAG.carry)
+      expect(core.state.halted).toBe(true)
+    })
     it('should push and restore the return address while executing CALL and RET', () => {
       const core = makeZ80Core({
         createCPU: Z80CPU.create,

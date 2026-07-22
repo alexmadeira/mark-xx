@@ -3,6 +3,7 @@ import { Z80Core } from '_EMU/core/z80'
 import { Z80CPUAluMock } from '_TEST/utils/stubs/emulator/z80/fake-alu'
 import { Z80ByteMock } from '_TEST/utils/stubs/emulator/z80/fake-byte'
 import { Z80ByteMemoryMock } from '_TEST/utils/stubs/emulator/z80/fake-byte-memory'
+import { Z80CBInstructionMock } from '_TEST/utils/stubs/emulator/z80/fake-cb-instruction'
 import { Z80CPUMock } from '_TEST/utils/stubs/emulator/z80/fake-cpu'
 import { Z80CPUExecutorMock } from '_TEST/utils/stubs/emulator/z80/fake-cpu-executor'
 import { Z80CPURegisterMock } from '_TEST/utils/stubs/emulator/z80/fake-cpu-register'
@@ -14,14 +15,15 @@ import { Z80StateMock } from '_TEST/utils/stubs/emulator/z80/fake-state'
 
 let cpu: Z80CPUMock
 let alu: Z80CPUAluMock
+let flag: Z80FlagMock
+let byte: Z80ByteMock
 let cpu8: Z80CPU8Mock
 let cpu16: Z80CPU16Mock
+let state: Z80StateMock
 let register: Z80CPURegisterMock
 let executor: Z80CPUExecutorMock
-let byte: Z80ByteMock
-let flag: Z80FlagMock
-let state: Z80StateMock
 let memoryBus: Z80MemoryBusMock
+let cbInstruction: Z80CBInstructionMock
 
 let sut: Z80Core
 
@@ -34,6 +36,7 @@ describe('Emulator', () => {
     flag = new Z80FlagMock()
     state = new Z80StateMock()
     memoryBus = new Z80MemoryBusMock()
+    cbInstruction = new Z80CBInstructionMock()
     cpu = new Z80CPUMock(state)
     cpu8 = new Z80CPU8Mock(state, memoryBus)
     cpu16 = new Z80CPU16Mock(cpu8, state)
@@ -47,6 +50,7 @@ describe('Emulator', () => {
     Z80StateMock.create.mockReturnValue(state)
     Z80CPU16Mock.create.mockReturnValue(cpu16)
     Z80CPUAluMock.create.mockReturnValue(alu)
+    Z80CBInstructionMock.create.mockReturnValue(cbInstruction)
     Z80MemoryBusMock.create.mockReturnValue(memoryBus)
     Z80CPURegisterMock.create.mockReturnValue(register)
     Z80CPUExecutorMock.create.mockReturnValue(executor)
@@ -54,6 +58,7 @@ describe('Emulator', () => {
     sut = new Z80Core(
       Z80CPUMock.create,
       Z80CPUAluMock.create,
+      Z80CBInstructionMock.create,
       Z80CPU8Mock.create,
       Z80CPU16Mock.create,
       Z80CPURegisterMock.create,
@@ -84,6 +89,7 @@ describe('Emulator', () => {
           expect(Z80StateMock.create).toHaveBeenCalledWith({ byte })
           expect(Z80CPU16Mock.create).toHaveBeenCalledWith({ byte, cpu8, state })
           expect(Z80CPUAluMock.create).toHaveBeenCalledWith({ byte, flag, state })
+          expect(Z80CBInstructionMock.create).toHaveBeenCalledWith({ byte, cpu8, flag, state })
           expect(Z80MemoryBusMock.create).toHaveBeenCalledWith({
             byte,
             seed: 0x10000,
@@ -93,6 +99,7 @@ describe('Emulator', () => {
           expect(Z80CPUExecutorMock.create).toHaveBeenCalledWith({
             alu,
             byte,
+            cbInstruction,
             cpu8,
             flag,
             cpu16,
@@ -108,6 +115,7 @@ describe('Emulator', () => {
           new Z80Core(
             Z80CPUMock.create,
             Z80CPUAluMock.create,
+            Z80CBInstructionMock.create,
             Z80CPU8Mock.create,
             Z80CPU16Mock.create,
             Z80CPURegisterMock.create,

@@ -1,5 +1,6 @@
 import type { IZ80Byte } from '@/emulator/core/z80/byte'
 import type { IZ80CPUAlu } from '@/emulator/core/z80/cpu/alu'
+import type { IZ80CBInstruction } from '@/emulator/core/z80/cpu/cb-instruction'
 import type { IZ80CPU16 } from '@/emulator/core/z80/cpu/cpu16'
 import type { IZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
 import type {
@@ -38,6 +39,7 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
   constructor(
     private readonly alu: IZ80CPUAlu,
     private readonly byte: IZ80Byte,
+    private readonly cbInstruction: IZ80CBInstruction,
     private readonly flag: IZ80Flag,
     private readonly cpu8: IZ80CPU8,
     private readonly cpu16: IZ80CPU16,
@@ -48,7 +50,16 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
   }
 
   static create(props: TZ80CPUExecutorCreateProps) {
-    return new Z80CPUExecutor(props.alu, props.byte, props.flag, props.cpu8, props.cpu16, props.state, props.register)
+    return new Z80CPUExecutor(
+      props.alu,
+      props.byte,
+      props.cbInstruction,
+      props.flag,
+      props.cpu8,
+      props.cpu16,
+      props.state,
+      props.register,
+    )
   }
 
   private aluHL(...[operation, carry = false]: TZ80CPUExecutorAluHLProps) {
@@ -78,6 +89,12 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
   private halt() {
     this.state.halted = true
     return Z80_CYCLES.halt
+  }
+  private executeCBInstruction() {
+    const opcodePc = this.state.pc
+    const opcode = this.cpu8.fetch()
+
+    return this.cbInstruction.executeOpcode(opcode, opcodePc)
   }
   private disableInterrupts() {
     this.state.iff1 = false
@@ -431,6 +448,7 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     const handlers: TZ80CPUExecutorHandlers = {
       0x00: () => this.nop(),
       0x76: () => this.halt(),
+      0xcb: () => this.executeCBInstruction(),
       0xf3: () => this.disableInterrupts(),
       0xfb: () => this.enableInterrupts(),
 
@@ -649,10 +667,10 @@ export class Z80CPUExecutor implements IZ80CPUExecutor {
     return handlers
   }
 
-  public executeOpcode(...[opcode, opcodePc = this.state.pc]: TZ80CPUExecutorExecuteOpcodeProps) {
+  public executeOpcode(...[opcode, opcodePc]: TZ80CPUExecutorExecuteOpcodeProps) {
     const handler = this.handlers[opcode]
 
-    if (!handler) throw new Z80OpcodeNotImplementedError(opcode, opcodePc)
+    if (!handler) throw new Z80OpcodeNotImplementedError(opcode, opcodePc || this.state.pc)
 
     return handler()
   }

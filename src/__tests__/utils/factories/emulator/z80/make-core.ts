@@ -3,6 +3,7 @@ import type { TZ80ByteCreate } from '@/emulator/core/z80/byte'
 import type { TZ80CoreProps } from '@/emulator/core/z80/core'
 import type { TZ80CPUCreate } from '@/emulator/core/z80/cpu'
 import type { TZ80CPUAluCreate } from '@/emulator/core/z80/cpu/alu'
+import type { TZ80CBInstructionCreate } from '@/emulator/core/z80/cpu/cb-instruction'
 import type { TZ80CPU16Create } from '@/emulator/core/z80/cpu/cpu16'
 import type { TZ80CPU8Create } from '@/emulator/core/z80/cpu/cpu8'
 import type { TZ80CPUExecutorCreate } from '@/emulator/core/z80/cpu/executor'
@@ -16,6 +17,7 @@ import { Z80Core } from '_EMU/core/z80'
 import { Z80Byte } from '_EMU/core/z80/byte'
 import { Z80CPU } from '_EMU/core/z80/cpu'
 import { Z80CPUAlu } from '_EMU/core/z80/cpu/alu'
+import { Z80CBInstruction } from '_EMU/core/z80/cpu/cb-instruction'
 import { Z80CPU16 } from '_EMU/core/z80/cpu/cpu16'
 import { Z80CPU8 } from '_EMU/core/z80/cpu/cpu8'
 import { Z80CPUExecutor } from '_EMU/core/z80/cpu/executor'
@@ -27,6 +29,7 @@ import { Z80State } from '_EMU/core/z80/state'
 type TZ80CoreOverrides = {
   createCPU: TZ80CPUCreate
   createAlu: TZ80CPUAluCreate
+  createCBInstruction: TZ80CBInstructionCreate
   createCPU8: TZ80CPU8Create
   createCPU16: TZ80CPU16Create
   createRegister: TZ80CPURegisterCreate
@@ -41,6 +44,7 @@ export function makeZ80Core(overrides: Partial<TZ80CoreOverrides> = {}) {
   const props: TZ80CoreOverrides = {
     createCPU: Z80CPU.create,
     createAlu: Z80CPUAlu.create,
+    createCBInstruction: Z80CBInstruction.create,
     createCPU8: Z80CPU8.create,
     createCPU16: Z80CPU16.create,
     createRegister: Z80CPURegister.create,
@@ -57,6 +61,7 @@ export function makeZ80Core(overrides: Partial<TZ80CoreOverrides> = {}) {
   return new Z80Core(
     props.createCPU,
     props.createAlu,
+    props.createCBInstruction,
     props.createCPU8,
     props.createCPU16,
     props.createRegister,

@@ -3,6 +3,7 @@ import type { IZ80Byte, TZ80ByteCreate } from '@/emulator/core/z80/byte'
 import type { IZ80Core, TZ80CoreProps } from '@/emulator/core/z80/core'
 import type { IZ80CPU, TZ80CPUCreate } from '@/emulator/core/z80/cpu'
 import type { IZ80CPUAlu, TZ80CPUAluCreate } from '@/emulator/core/z80/cpu/alu'
+import type { IZ80CBInstruction, TZ80CBInstructionCreate } from '@/emulator/core/z80/cpu/cb-instruction'
 import type { IZ80CPU16, TZ80CPU16Create } from '@/emulator/core/z80/cpu/cpu16'
 import type { IZ80CPU8, TZ80CPU8Create } from '@/emulator/core/z80/cpu/cpu8'
 import type { IZ80CPUExecutor, TZ80CPUExecutorCreate } from '@/emulator/core/z80/cpu/executor'
@@ -19,6 +20,7 @@ export class Z80Core implements IZ80Core {
   public readonly memoryBus: IZ80MemoryBus
 
   private readonly alu: IZ80CPUAlu
+  private readonly cbInstruction: IZ80CBInstruction
   private readonly cpu8: IZ80CPU8
   private readonly cpu16: IZ80CPU16
   private readonly register: IZ80CPURegister
@@ -27,6 +29,7 @@ export class Z80Core implements IZ80Core {
   constructor(
     private readonly createCPU: TZ80CPUCreate,
     private readonly createAlu: TZ80CPUAluCreate,
+    private readonly createCBInstruction: TZ80CBInstructionCreate,
     private readonly createCPU8: TZ80CPU8Create,
     private readonly createCPU16: TZ80CPU16Create,
     private readonly createRegister: TZ80CPURegisterCreate,
@@ -50,10 +53,17 @@ export class Z80Core implements IZ80Core {
     this.alu = this.createAlu({ byte: this.byte, flag: this.flag, state: this.state })
     this.cpu8 = this.createCPU8({ byte: this.byte, state: this.state, memoryBus: this.memoryBus })
     this.cpu16 = this.createCPU16({ byte: this.byte, cpu8: this.cpu8, state: this.state })
+    this.cbInstruction = this.createCBInstruction({
+      byte: this.byte,
+      cpu8: this.cpu8,
+      flag: this.flag,
+      state: this.state,
+    })
     this.register = this.createRegister({ byte: this.byte, flag: this.flag, state: this.state })
     this.executor = this.createExecutor({
       alu: this.alu,
       byte: this.byte,
+      cbInstruction: this.cbInstruction,
       cpu8: this.cpu8,
       flag: this.flag,
       cpu16: this.cpu16,

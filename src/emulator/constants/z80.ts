@@ -13,6 +13,7 @@ export const Z80_FLAG = {
 
 export const Z80_CPU = {
   operands8: ['b', 'c', 'd', 'e', 'h', 'l', null, 'a'],
+  rotateOperations: ['rlc', 'rrc', 'rl', 'rr', 'sla', 'sra', null, 'srl'],
 } as const
 
 export const Z80_CYCLES = {
@@ -20,6 +21,9 @@ export const Z80_CYCLES = {
   aluR: 4,
   aluHL: 7,
   addHLRegisterPair: 11,
+  cbBitHL: 12,
+  cbModifyHL: 15,
+  cbRegister: 8,
   callNN: 17,
   callConditionalNotTaken: 10,
   callConditionalTaken: 17,

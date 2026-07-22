@@ -2,6 +2,7 @@ import { z } from 'zod/v4'
 
 import { ZZ80Byte } from '@/emulator/core/z80/byte'
 import { ZZ80CPUAlu } from '@/emulator/core/z80/cpu/alu'
+import { ZZ80CBInstruction } from '@/emulator/core/z80/cpu/cb-instruction'
 import { ZZ80CPU16 } from '@/emulator/core/z80/cpu/cpu16'
 import { ZZ80CPU8 } from '@/emulator/core/z80/cpu/cpu8'
 import { ZZ80CPURegister } from '@/emulator/core/z80/cpu/register'
@@ -23,6 +24,7 @@ export const ZZ80CPUExecutorHandlers = z.partialRecord(z.number(), ZZ80CPUExecut
 export const ZZ80CPUExecutorCreateProps = z.object({
   alu: ZZ80CPUAlu,
   byte: ZZ80Byte,
+  cbInstruction: ZZ80CBInstruction,
   flag: ZZ80Flag,
   cpu8: ZZ80CPU8,
   cpu16: ZZ80CPU16,
@@ -54,7 +56,7 @@ export const ZZ80CPUExecutorAddHLProps = z.tuple([ZEZ80CPURegister16])
 export const ZZ80CPUExecutorPushProps = z.tuple([ZEZ80CPUStackRegister])
 export const ZZ80CPUExecutorPopProps = z.tuple([ZEZ80CPUStackRegister])
 
-export const ZZ80CPUExecutorExecuteOpcodeProps = z.tuple([z.number(), z.number().optional()])
+export const ZZ80CPUExecutorExecuteOpcodeProps = z.union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
 
 export const ZZ80CPUExecutorExecuteOpcode =
   z.custom<(...props: z.infer<typeof ZZ80CPUExecutorExecuteOpcodeProps>) => number>()

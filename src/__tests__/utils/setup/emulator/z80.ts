@@ -132,6 +132,36 @@ export const accumulatorRotationCases = [
   },
 ] as const
 
+export const cbRotationShiftCases = [
+  {
+    name: 'RRC',
+    opcode: 0x08,
+    value: 0x01,
+    carryIn: false,
+    expected: 0x80,
+    flags: Z80_FLAG.sign | Z80_FLAG.carry,
+  },
+  { name: 'RL', opcode: 0x10, value: 0x80, carryIn: true, expected: 0x01, flags: Z80_FLAG.carry },
+  { name: 'RR', opcode: 0x18, value: 0x01, carryIn: true, expected: 0x80, flags: Z80_FLAG.sign | Z80_FLAG.carry },
+  { name: 'SLA', opcode: 0x20, value: 0x81, carryIn: false, expected: 0x02, flags: Z80_FLAG.carry },
+  {
+    name: 'SRA',
+    opcode: 0x28,
+    value: 0x81,
+    carryIn: false,
+    expected: 0xc0,
+    flags: Z80_FLAG.sign | Z80_FLAG.parityOverflow | Z80_FLAG.carry,
+  },
+  {
+    name: 'SRL',
+    opcode: 0x38,
+    value: 0x01,
+    carryIn: false,
+    expected: 0x00,
+    flags: Z80_FLAG.zero | Z80_FLAG.parityOverflow | Z80_FLAG.carry,
+  },
+] as const
+
 export const decimalAdjustAccumulatorCases = [
   {
     name: 'addition with 0x06 correction',
