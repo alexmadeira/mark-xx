@@ -9,12 +9,11 @@ import { Z80CPU8Mock } from '_TEST/utils/stubs/emulator/z80/fake-cpu8'
 import { Z80MemoryBusMock } from '_TEST/utils/stubs/emulator/z80/fake-memory-bus'
 import { Z80StateMock } from '_TEST/utils/stubs/emulator/z80/fake-state'
 
-let state: Z80StateMock
-let memoryBus: Z80MemoryBusMock
-
 let cpu8: Z80CPU8Mock
 let cpu16: IZ80CPU16
+let state: Z80StateMock
 let executor: Z80CPUExecutorMock
+let memoryBus: Z80MemoryBusMock
 
 let sut: Z80CPU
 

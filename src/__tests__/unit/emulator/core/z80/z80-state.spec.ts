@@ -4,6 +4,7 @@ import { accessorCases, wordRegisterCases } from '_TEST/utils/setup/emulator/z80
 import { Z80ByteMock } from '_TEST/utils/stubs/emulator/z80/fake-byte'
 
 let byte: Z80ByteMock
+
 let sut: Z80State
 
 describe('Emulator', () => {
