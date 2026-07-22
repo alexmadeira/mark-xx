@@ -35,7 +35,7 @@ export default defineConfig({
           exclude: [
             './integration/**/*.{test,spec}.?(c|m)[jt]s?(x)',
             './unit/services/**/*.{test,spec}.?(c|m)[jt]s?(x)',
-            './unit/emulator/core/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+            './unit/emulator/**/*.{test,spec}.?(c|m)[jt]s?(x)',
           ],
         },
       },
