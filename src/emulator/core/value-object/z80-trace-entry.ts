@@ -5,6 +5,8 @@ import type {
   TZ80TraceEntryProps,
 } from '@/emulator/core/value-object/z80-trace-entry'
 
+import _ from 'lodash'
+
 export class Z80TraceEntry implements IZ80TraceEntry {
   constructor(private readonly props: TZ80TraceEntryProps) {}
 
@@ -13,8 +15,9 @@ export class Z80TraceEntry implements IZ80TraceEntry {
   }
 
   public isSame(...[traceEntry]: TZ80TraceEntryIsSameProps) {
-    if (traceEntry instanceof Z80TraceEntry) return traceEntry.toJSON() === this.toJSON()
-    return traceEntry === this.toJSON()
+    if (traceEntry instanceof Z80TraceEntry) return _.isEqual(traceEntry.toJSON(), this.toJSON())
+
+    return _.isEqual(traceEntry, this.toJSON())
   }
 
   public toJSON() {
