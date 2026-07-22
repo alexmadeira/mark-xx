@@ -7,11 +7,9 @@ import type {
 } from '@/emulator/rom/z80/rom-loader'
 
 export class Z80RomLoader implements IZ80RomLoader {
-  private readonly memorySize: TZ80RomLoaderMemorySize
-
   constructor(
     private readonly memoryBus: IZ80MemoryBus,
-    memorySize: TZ80RomLoaderMemorySize,
+    private readonly memorySize: TZ80RomLoaderMemorySize,
   ) {
     this.memorySize = Number.isFinite(memorySize) ? Math.max(0, Math.trunc(memorySize)) : 0
   }
