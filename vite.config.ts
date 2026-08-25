@@ -60,7 +60,7 @@ export default defineConfig({
           },
           {
             urlPattern: /^https:\/\/mark-xx\.cdn\.prismic\.io\/.*/i,
-            handler: 'CacheFirst',
+            handler: 'NetworkFirst',
             options: {
               cacheName: 'mark-xx-api-cache',
               cacheableResponse: {
